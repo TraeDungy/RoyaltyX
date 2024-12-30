@@ -1,0 +1,17 @@
+.main-admin-container {
+    padding: 1.5rem;
+    padding-top: .4rem !important;
+    min-height: 80vh;
+    width: 100%;
+}
+.main-admin-content-wrapper {
+    width: 100%;
+    overflow: auto;
+    padding-left: var(--sidebar-width);
+}
+
+.admin-content-wrapper {
+    width: 100%;
+    overflow: auto;
+    padding-left: var(--sidebar-width);
+}
