@@ -7,11 +7,11 @@
   --color-body-background: #fff;
   --color-light-gray: #F2F2F2;
   --color-light-contrast: #e3e3e3;
+  --color-power-contrast: #f0f0f0;
   --color-darker-gray: #D9D9D9;
   --color-danger: #FF3FFF;
   --color-success: #20c996aa !important;
   --toastify-color-success: #20c996aa !important;
-  --scrollbar-background-color: #c6c6c6;
   --sidebar-background: #F2F2F2;
   --sidebar-width: 295px;
 }
@@ -23,7 +23,7 @@
   --color-body-background: #212224;
   --sidebar-background: #1f2127;
   --color-light-contrast: #36383a;
-  --scrollbar-background-color: #5f5f5f;
+  --color-power-contrast: #191b1d;
 }
 
 #sidebar.active {
@@ -69,12 +69,14 @@ body {
   width: 100%;
   overflow: auto;
   padding-left: var(--sidebar-width);
+  min-height: 90vh;
 }
 
 .main-container {
   min-height: 100vh;
   margin: auto;
   width: 100%;
+  padding-top: 2rem;
 }
 
 .navbar-expand .navbar-nav .nav-link {
@@ -173,10 +175,6 @@ body {
   color: var(--color-text-lighter) !important;
 }
 
-.main-content-wrapper {
-  min-height: 90vh;
-}
-
 input[type="search"]::-webkit-search-decoration,
 input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-results-button,
@@ -222,19 +220,6 @@ p.two-words::after {
 
 .hover-lg:hover {
   background-color: #00000011 !important;
-}
-
-::-webkit-scrollbar {
-  height: 6px;
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background-color: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: var(--scrollbar-background-color);
 }
 
 #sidebar {
@@ -382,6 +367,10 @@ p {
 
 .card {
   background-color: var(--color-light-contrast) !important;
+}
+
+.card.power-contrast{
+  background-color: var(--color-power-contrast) !important;
 }
 
 .card * {

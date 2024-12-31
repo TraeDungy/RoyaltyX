@@ -8,7 +8,7 @@ import { AuthProvider, useAuth } from './modules/common/contexts/AuthContext';
 import AdminLayout from './modules/admin_panel/layout/AdminLayout';
 import React from 'react';
 import { ThemeProvider } from './modules/common/contexts/ThemeContext';
-import homeRoutes from './modules/home';
+import dashboardRoutes from './modules/dashboard';
 
 const PrivateRoutes = () => {
   const { authenticated, loading } = useAuth();
@@ -28,7 +28,7 @@ const routes = [
       {
         path: '/',
         element: <AppLayout />,
-        children: [...homeRoutes],
+        children: [...dashboardRoutes],
       },
     ],
   },
