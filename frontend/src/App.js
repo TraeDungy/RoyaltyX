@@ -9,6 +9,7 @@ import AdminLayout from './modules/admin_panel/layout/AdminLayout';
 import React from 'react';
 import { ThemeProvider } from './modules/common/contexts/ThemeContext';
 import dashboardRoutes from './modules/dashboard';
+import projectRoutes from './modules/projects';
 
 const PrivateRoutes = () => {
   const { authenticated, loading } = useAuth();
@@ -28,7 +29,10 @@ const routes = [
       {
         path: '/',
         element: <AppLayout />,
-        children: [...dashboardRoutes],
+        children: [
+          ...projectRoutes,
+          ...dashboardRoutes
+        ],
       },
     ],
   },
@@ -46,7 +50,6 @@ const routes = [
       },
     ],
   },
-  ...authRoutes,
   {
     path: '*',
     element: <PageNotFound />,
