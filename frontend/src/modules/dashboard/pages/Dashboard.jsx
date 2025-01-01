@@ -191,7 +191,9 @@ function Dashboard() {
 
     return (
         <div className="container px-5">
-            <h2 className='mb-3 ps-1 bold'>Dashboard</h2>
+            <div className='mb-3 ps-1'>
+                <h2 className='bold'>Dashboard</h2>
+            </div>
 
             <div className="row">
                 <div className="col-md-8 p-3">

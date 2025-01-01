@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
-import { PersonCircle, UiChecksGrid, QuestionCircle, Chat, Stripe, People, Wallet2, ArrowLeft, List, ChevronDown, Gear } from 'react-bootstrap-icons';
+import { PersonCircle, UiChecksGrid, QuestionCircle, Chat, Stripe, People, Wallet2, ArrowLeft, List, ChevronDown, Gear, Speedometer } from 'react-bootstrap-icons';
 import SettingsModal from '../../components/Settings/SettingsModal';
 
 
@@ -90,10 +90,21 @@ function Sidebar() {
                                 <span className='ps-3 medium'>Dashboard</span>
                             </Link>
                         </li>
-                        <li className={`nav-item px-2 rounded ${currentPage === '/deposits' ? 'active' : ''}`}>
-                            <Link to="/deposits" className='nav-link' onClick={() => handlePageChange('/deposits')}>
-                                <People />
-                                <span className='ps-3 medium'>Deposits</span>
+                        <li className={`nav-item px-2 rounded ${currentPage === '/analytics' ? 'active' : ''}`}>
+                            <Link to="/analytics" className='nav-link' onClick={() => handlePageChange('/analytics')}>
+                                <Speedometer />
+                                <span className='ps-3 medium'>Analytics</span>
+                            </Link>
+                        </li>
+                       
+                    </div>
+
+                    <div className='sidebar-link-group'>
+                        <span className='txt-lighter small ps-2'>PRIVATE</span>
+                        <li className={`nav-item px-2 rounded ${currentPage === '/account' ? 'active' : ''}`}>
+                            <Link to="/account" className='nav-link' onClick={() => handlePageChange('/account')}>
+                                <PersonCircle />
+                                <span className='ps-3 medium'>My Account</span>
                             </Link>
                         </li>
                         <li className="nav-item px-2 rounded">
@@ -105,6 +116,7 @@ function Sidebar() {
                     </div>
 
                 </ul>
+
 
             </nav>
 
