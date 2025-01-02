@@ -4,9 +4,9 @@ export const getMyProjects = async () => {
 
     try {
 
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('accessToken');
 
-        const response = await fetch(apiUrl + '/my-projects', {
+        const response = await fetch(apiUrl + '/projects/my-projects', {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -32,7 +32,7 @@ export const getProjectMembers = async () => {
 
     try {
 
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('accessToken');
 
         const response = await fetch(apiUrl + '/project/members', {
             method: 'GET',
@@ -59,7 +59,7 @@ export const getProjectInfo = async () => {
 
     try {
 
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('accessToken');
 
         const response = await fetch(apiUrl + '/project-info', {
             method: 'GET',
@@ -86,7 +86,7 @@ export const switchProject = async (project_id) => {
 
     try {
 
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('accessToken');
 
         const data = {
             "project_id": project_id
@@ -116,7 +116,7 @@ export const updateProjectInfo = async (name, description) => {
 
     try {
 
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('accessToken');
 
         const data = {
             "name": name,
@@ -145,9 +145,9 @@ export const updateProjectInfo = async (name, description) => {
 
 export const saveProject = async (project) => {
     try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('accessToken');
 
-        const response = await fetch(apiUrl + '/projects', {
+        const response = await fetch(apiUrl + '/projects/', {
             method: 'POST',
             headers: {
                 'Authorization': 'Bearer ' + token
@@ -170,7 +170,7 @@ export const saveProject = async (project) => {
 
 export const updateProject = async (project) => {
     try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('accessToken');
 
         const response = await fetch(apiUrl + '/projects/update', {
             method: 'POST',

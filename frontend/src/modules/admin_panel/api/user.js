@@ -33,7 +33,7 @@ export const deleteUser = async (user_id) => {
 
     try {
 
-        const token = localStorage.getItem('token'); 
+        const token = localStorage.getItem('accessToken'); 
 
         const response = await fetch(apiUrl + '/users/' + user_id, {
             method: 'DELETE',

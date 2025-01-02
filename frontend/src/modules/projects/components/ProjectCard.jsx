@@ -6,7 +6,7 @@ function ProjectCard({ project, handleSwitchProject }) {
     return (
         <div className="col-12 col-md-6 col-lg-3 col-sm-6 col-xs-6 px-3 mb-5">
             <div className="rounded-sm h-100 px-4 pt-4 pb-2 card 
-                bg-white hover pointer w-100 d-flex shadow-sm"
+                hover pointer w-100 d-flex shadow-sm"
                 onClick={() => { handleSwitchProject(project.id) }}
             >
 
@@ -40,13 +40,13 @@ function ProjectCard({ project, handleSwitchProject }) {
                     </div>
                 </div>
 
-                <span className='text-muted small mt-3' id='projectDescription'>{project.description}</span>
+                <span className='txt-lighter small mt-3' id='projectDescription'>{project.description}</span>
 
 
                 <div className='row d-flex align-items-end pt-3 h-100'>
                     <div className="col-6">
                         <span className='bold'>{project?.users?.length}</span>
-                        <p className='small text-muted'>Members</p>
+                        <p className='small txt-lighter'>Members</p>
                     </div>
                     <div className="col-6">
                         <span className='badge badge-primary w-fit p-2 mb-3 bg-warning small'>{project.status}</span>

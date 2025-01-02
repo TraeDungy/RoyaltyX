@@ -10,6 +10,7 @@ import React from 'react';
 import { ThemeProvider } from './modules/common/contexts/ThemeContext';
 import dashboardRoutes from './modules/dashboard';
 import projectRoutes from './modules/projects';
+import Layout from './modules/projects/layout/Layout';
 
 const PrivateRoutes = () => {
   const { authenticated, loading } = useAuth();
@@ -30,8 +31,14 @@ const routes = [
         path: '/',
         element: <AppLayout />,
         children: [
-          ...projectRoutes,
           ...dashboardRoutes
+        ],
+      },
+      {
+        path: '/',
+        element: <Layout />,
+        children: [
+          ...projectRoutes,
         ],
       },
     ],

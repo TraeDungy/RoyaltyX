@@ -44,7 +44,7 @@ function MyProjects() {
             <div className='d-flex justify-content-between align-items-center mt-5 px-2 mb-4'>
                 <div>
                     <h4 className='bold'>Projects</h4>
-                    <p className='text-muted'>Find all your personal and shared projects</p>
+                    <p className='txt-lighter'>Find all your personal and shared projects</p>
                 </div>
                 <button onClick={() => {navigate('/projects/create')}} className='btn btn-primary px-4 py-2'><Plus className='me-1 h4 mb-0' /> Create</button>
             </div>
