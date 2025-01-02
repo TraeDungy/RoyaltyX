@@ -78,3 +78,24 @@ class MyProjectsView(APIView):
         projects = Project.objects.filter(project_users__user=request.user)
         serializer = ProjectSerializer(projects, many=True)
         return Response(serializer.data)
+
+
+class SwitchProjectView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        project_id = request.data.get('project_id')
+
+        if not project_id:
+            return Response({"error": "Project ID is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            project = Project.objects.get(id=project_id)
+        except Project.DoesNotExist:
+            return Response({"error": "Project not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        user = request.user
+        user.currently_selected_project = project
+        user.save()
+
+        return Response({"message": f"Switched to project {project.name}."}, status=status.HTTP_200_OK)

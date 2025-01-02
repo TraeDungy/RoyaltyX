@@ -148,6 +148,10 @@ body {
   background-color: var(--color-primary) !important;
 }
 
+.bgc-light-contrast{
+  background-color: var(--color-light-contrast) !important;
+}
+
 .rounded-lg {
   border-radius: 1.4rem !important;
 }
@@ -235,14 +239,6 @@ p.two-words::after {
   padding-bottom: 1.3rem;
   padding-left: 1rem;
   padding-right: 1rem;
-}
-
-#toggleSidebarButton {
-  width: 35px;
-  height: 35px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .nav-item.active,
@@ -384,4 +380,12 @@ td {
 
 .table>:not(caption)>*>* {
   border-color: var(--color-light-contrast) !important;
+}
+
+.dropdown-menu{
+  background-color: var(--color-body-background) !important;
+}
+
+.dropdown-item{
+  color: var(--color-text) !important;
 }

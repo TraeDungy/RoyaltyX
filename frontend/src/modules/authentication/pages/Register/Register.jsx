@@ -3,9 +3,10 @@ import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../../common/contexts/AuthContext';
 import Button from '../../../common/components/Button';
-import styles from './Login.module.css'
+import styles from './Register.module.css'
+import { register } from '../../api/auth';
 
-export default function Login() {
+export default function Register() {
 
     const [error, setError] = useState('');
     const { login } = useAuth();
@@ -20,9 +21,10 @@ export default function Login() {
         const data = new FormData(e.target)
         const user = Object.fromEntries(data.entries())
 
-        const response = await login(user);
+        const response = await register(user);
         if (response.success) {
-            toast.success('Successfully logged in!');
+            toast.success('Successfully created an account!');
+            navigate('/login')
         } else {
             setError(response.message);
         }
@@ -33,15 +35,20 @@ export default function Login() {
 
 
     return (
-        <div className={styles.loginPageWrapper}>
+        <div className={styles.registerPageWrapper}>
 
             <div style={{ maxWidth: 470 }} className='w-100'>
 
-                <h2 className='mb-4 bold'>Log in</h2>
+                <h2 className='bold'>Sign up</h2>
+                <p className='mb-4 txt-lighter'>Welcome! Please enter your details.</p>
 
                 {error && <span className='text-danger small'>{error}</span>} { }
 
                 <form onSubmit={handleSubmit}>
+                    <div className='py-2'>
+                        <label className='mb-1'>Name</label>
+                        <input type="text" name='name' className='form-control py-3' placeholder='Enter your name' />
+                    </div>
                     <div className='py-2'>
                         <label className='mb-1'>Email</label>
                         <input type="text" name='email' className='form-control py-3' placeholder='Enter your email' />
@@ -53,13 +60,13 @@ export default function Login() {
 
                     <div className='py-2 mt-3'>
                         <Button variant="primary" size="lg" type="submit" loading={loading} >
-                            Log In
+                            Sign Up
                         </Button>
                     </div>
 
                     <div className='d-flex justify-content-center py-4'>
-                        <span className='px-1 txt-lighter'>Don't have an account?</span>
-                        <Link to="/register" className='px-1 fw-500 text-decoration-none'>Sign Up</Link>
+                        <span className='px-1 txt-lighter'>Already have an account?</span>
+                        <Link to="/login" className='px-1 fw-500 text-decoration-none'>Log In</Link>
                     </div>
 
                 </form>

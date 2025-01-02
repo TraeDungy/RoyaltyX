@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
             setEmail(email);
             setToken(response.access);
             localStorage.setItem('accessToken', response.access);
-            navigate('/');
+            navigate('/my-projects');
             return { success: true };
         } else {
             return { success: false, message: response.message || 'Login failed' };

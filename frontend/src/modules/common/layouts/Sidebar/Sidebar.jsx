@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
-import { PersonCircle, UiChecksGrid, QuestionCircle, Chat, Stripe, People, Wallet2, ArrowLeft, List, ChevronDown, Gear, Speedometer } from 'react-bootstrap-icons';
+import { PersonCircle, UiChecksGrid, QuestionCircle, Chat, Stripe, People, Wallet2, ArrowLeft, List, ChevronDown, Gear, Speedometer, Folder } from 'react-bootstrap-icons';
 import SettingsModal from '../../components/Settings/SettingsModal';
+import { getUserInfo } from '../../../account/api/user';
+import { getMyProjects, switchProject } from '../../../projects/api/project';
 
 
 function Sidebar() {
@@ -10,6 +12,7 @@ function Sidebar() {
     const [currentPage, setCurrentPage] = useState(window.location.pathname);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [userInfo, setUserInfo] = useState(null);
+    const [myProjects, setMyProjects] = useState([]);
     const [showSettingsModal, setShowSettingsModal] = useState(false);
 
     useEffect(() => {
@@ -33,6 +36,27 @@ function Sidebar() {
 
     }, []);
 
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+            try {
+                const fetchedUserInfo = await getUserInfo();
+                setUserInfo(fetchedUserInfo);
+            } catch (error) {
+                console.error('Error fetching :', error);
+            }
+
+            try {
+                const fetchedMyProjects = await getMyProjects();
+                setMyProjects(fetchedMyProjects);
+            } catch (error) {
+                console.error('Error fetching :', error);
+            }
+
+        };
+
+        fetchUserInfo();
+
+    }, []);
 
     const toggleModal = () => {
         const sidebar = document.getElementById('sidebar');
@@ -63,31 +87,73 @@ function Sidebar() {
         }
     };
 
+    const handleSwitchProject = async (project_id) => {
+        try {
+            await switchProject(project_id);
+            window.location.reload();
+
+        } catch (error) {
+            console.error('Error fetching :', error);
+        }
+    }
+
     return (
 
         <>
 
             <nav id="sidebar" className={!sidebarActive ? 'active' : ''}>
-
-                <ul className="list-unstyled py-2">
+                <ul className="list-unstyled">
 
                     <div className='sidebar-link-group'>
-                        <li className={`d-flex justify-content-between align-items-center rounded`}>
-                            <a href='/' className='px-2'>
-                                <h5 className='bold mb-0'>Royalty X</h5>
-                            </a>
-                            <div className='w-fit pointer hover-lg rounded-lg' id='toggleSidebarButton' onClick={toggleSidebar}>
-                                <List className='h5 mb-0' />
+
+                        <div className='d-flex justify-content-between align-items-center'>
+                            <div className="dropdown show">
+                                <div className="dropdown-toggle rounded-lg p-1 pe-2 bgc-light-contrast hover-lg d-flex align-items-center" type="button" id="projectsDropdown" onClick={toggleDropdown}
+                                    aria-haspopup="true" aria-expanded={isDropdownOpen ? "true" : "false"}>
+                                    <div className='d-flex justify-content-center align-items-center px-1'>
+                                        <Folder className='me-2' /> <span className='fw-500'>{userInfo?.project?.name}</span>
+                                        <p className='m-0 pe-2'>{userInfo?.currently_selected_project?.name}</p>
+                                    </div>
+                                    <ChevronDown className='ms-auto' />
+                                </div>
+                                <div className={"dropdown-menu border-0 shadow pt-2 pb-3" + (isDropdownOpen ? " show" : "")}
+                                    aria-labelledby="projectsDropdown"
+                                    style={{ width: 230 }}
+                                >
+                                    {myProjects.map(myProject => (
+                                        <span className="dropdown-item py-2 pointer" key={myProject.id} onClick={() => { handleSwitchProject(myProject.id) }}>
+                                            {myProject?.name}
+                                        </span>
+                                    ))}
+                                    <hr />
+                                    <Link to="/my-projects" className="dropdown-item medium txt-primary pointer">
+                                        View all
+                                    </Link>
+                                </div>
                             </div>
-                        </li>
+
+                            <span className={`d-flex justify-content-end align-items-center rounded`}>
+                                <div className='w-fit pointer hover-lg rounded-lg' onClick={toggleSidebar}>
+                                    <List className='h5 mb-0' />
+                                </div>
+                            </span>
+                        </div>
+
+
                     </div>
 
                     <div className='sidebar-link-group'>
-
+                        <span className='txt-lighter small ps-2'>PROJECT</span>
                         <li className={`nav-item px-2 rounded ${currentPage === '/dashboard' ? 'active' : ''}`}>
                             <Link to="/dashboard" className='nav-link' onClick={() => handlePageChange('/dashboard')}>
                                 <UiChecksGrid />
                                 <span className='ps-3 medium'>Dashboard</span>
+                            </Link>
+                        </li>
+                        <li className={`nav-item px-2 rounded ${currentPage === '/dashboard' ? 'active' : ''}`}>
+                            <Link to="/dashboard" className='nav-link' onClick={() => handlePageChange('/dashboard')}>
+                                <People />
+                                <span className='ps-3 medium'>Members</span>
                             </Link>
                         </li>
                         <li className={`nav-item px-2 rounded ${currentPage === '/analytics' ? 'active' : ''}`}>
@@ -96,7 +162,7 @@ function Sidebar() {
                                 <span className='ps-3 medium'>Analytics</span>
                             </Link>
                         </li>
-                       
+
                     </div>
 
                     <div className='sidebar-link-group'>
@@ -105,6 +171,12 @@ function Sidebar() {
                             <Link to="/account" className='nav-link' onClick={() => handlePageChange('/account')}>
                                 <PersonCircle />
                                 <span className='ps-3 medium'>My Account</span>
+                            </Link>
+                        </li>
+                        <li className={`nav-item px-2 rounded ${currentPage === '/my-projects' ? 'active' : ''}`}>
+                            <Link to="/my-projects" className='nav-link' onClick={() => handlePageChange('/my-projects')}>
+                                <Folder />
+                                <span className='ps-3 medium'>My Projects</span>
                             </Link>
                         </li>
                         <li className="nav-item px-2 rounded">

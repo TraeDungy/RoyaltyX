@@ -92,7 +92,7 @@ export const switchProject = async (project_id) => {
             "project_id": project_id
         }
 
-        const response = await fetch(apiUrl + '/switch-project', {
+        const response = await fetch(apiUrl + '/projects/switch-project/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

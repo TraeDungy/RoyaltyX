@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Dropdown } from 'react-bootstrap';
-import { BoxArrowRight, PersonCircle, UiChecksGrid } from 'react-bootstrap-icons';
+import { BoxArrowRight, File, Folder, PersonCircle, UiChecksGrid } from 'react-bootstrap-icons';
 import placeholderProfileImage from '../../assets/img/profile.svg';
 
 function UserDropdown() {
@@ -34,6 +34,9 @@ function UserDropdown() {
                 </Dropdown.Item>
                 <Dropdown.Item className='rounded' as={Link} to="/account">
                     <PersonCircle /> <span className='ps-3 medium'>My Account</span>
+                </Dropdown.Item>
+                <Dropdown.Item className='rounded' as={Link} to="/my-projects">
+                    <Folder /> <span className='ps-3 medium'>My Projects</span>
                 </Dropdown.Item>
 
                 <Dropdown.Divider />

@@ -56,7 +56,7 @@ function Sidebar() {
                             <ArrowLeft className='me-2' />
                             <span className='ps-2 medium muted'>home</span>
                         </Link>
-                        <div className='w-fit pointer hover-lg rounded-lg' id='toggleSidebarButton' onClick={toggleSidebar}>
+                        <div className='w-fit pointer hover-lg rounded-lg' onClick={toggleSidebar}>
                             <List className='h5 mb-0' />
                         </div>
                     </li>

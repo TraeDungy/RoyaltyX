@@ -3,7 +3,8 @@ from .views import (
     ProjectListCreateView, 
     ProjectDetailView, 
     ProjectUserListCreateView, 
-    MyProjectsView
+    MyProjectsView,
+    SwitchProjectView
 )
 
 urlpatterns = [
@@ -11,4 +12,5 @@ urlpatterns = [
     path('<int:pk>/', ProjectDetailView.as_view(), name='project-detail'),  # Retrieve, update, or delete a project
     path('users/', ProjectUserListCreateView.as_view(), name='project-user-list-create'),  # List/create project users
     path('my-projects/', MyProjectsView.as_view(), name='my-projects'),  # List projects owned by the current user
+    path('switch-project/', SwitchProjectView.as_view(), name='switch-project'),  # Endpoint for switching projects
 ]
