@@ -6,8 +6,12 @@ export const ThemeProvider = ({ children }) => {
 
   const [darkMode, setDarkMode] = useState(() => {
     const savedThemePreference = localStorage.getItem('themePreference');
-    return savedThemePreference === 'dark';
+    if (savedThemePreference !== null) {
+      return savedThemePreference === 'dark';
+    }
+    return true;
   });
+  
 
   useEffect(() => {
     localStorage.setItem('themePreference', darkMode ? 'dark' : 'light');
