@@ -30,11 +30,11 @@ INSTALLED_APPS = [
     'common',
     'apps.user',
     'apps.authentication',
+    'apps.project',
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders'
-
 ]
 
 MIDDLEWARE = [
