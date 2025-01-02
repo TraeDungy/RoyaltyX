@@ -6,7 +6,7 @@
   --color-text-lighter: #5d5e5f;
   --color-body-background: #fff;
   --color-light-gray: #F2F2F2;
-  --color-light-contrast: #e3e3e3;
+  --color-light-contrast: #f3f3f3;
   --color-power-contrast: #f0f0f0;
   --color-darker-gray: #D9D9D9;
   --color-danger: #FF3FFF;
@@ -362,6 +362,7 @@ p {
 
 .card {
   background-color: var(--color-light-contrast) !important;
+  border: none !important;
 }
 
 .card.power-contrast{

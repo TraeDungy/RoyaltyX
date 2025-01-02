@@ -133,7 +133,7 @@ function Sidebar() {
                             </div>
 
                             <span className={`d-flex justify-content-end align-items-center rounded`}>
-                                <div className='w-fit pointer hover-lg rounded-lg' onClick={toggleSidebar}>
+                                <div className='w-fit pointer rounded-lg' onClick={toggleSidebar}>
                                     <List className='h5 mb-0' />
                                 </div>
                             </span>
