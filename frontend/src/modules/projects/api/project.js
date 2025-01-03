@@ -6,7 +6,7 @@ export const getMyProjects = async () => {
 
         const token = localStorage.getItem('accessToken');
 
-        const response = await fetch(apiUrl + '/projects/my-projects', {
+        const response = await fetch(apiUrl + '/projects/my-projects/', {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
