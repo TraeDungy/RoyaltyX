@@ -13,6 +13,7 @@ import projectRoutes from './modules/projects';
 import Layout from './modules/projects/layout/Layout';
 import memberRoutes from './modules/members';
 import reportRoutes from './modules/report';
+import accountRoutes from './modules/account';
 
 const PrivateRoutes = () => {
   const { authenticated, loading } = useAuth();
@@ -36,6 +37,7 @@ const routes = [
           ...dashboardRoutes,
           ...memberRoutes,
           ...reportRoutes,
+          ...accountRoutes,
         ],
       },
       {
