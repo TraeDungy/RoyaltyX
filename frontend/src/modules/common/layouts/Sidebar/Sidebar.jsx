@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
-import { PersonCircle, UiChecksGrid, QuestionCircle, Chat, Stripe, People, Wallet2, ArrowLeft, List, ChevronDown, Gear, Speedometer, Folder } from 'react-bootstrap-icons';
+import { PersonCircle, UiChecksGrid, QuestionCircle, Chat, Stripe, People, Wallet2, ArrowLeft, List, ChevronDown, Gear, Speedometer, Folder, Files, FileEarmarkPdf, Journals } from 'react-bootstrap-icons';
 import SettingsModal from '../../components/Settings/SettingsModal';
 import { getUserInfo } from '../../../account/api/user';
 import { getMyProjects, switchProject } from '../../../projects/api/project';
-
 
 function Sidebar() {
 
@@ -144,42 +143,53 @@ function Sidebar() {
 
                     <div className='sidebar-link-group'>
                         <span className='txt-lighter small ps-2'>PROJECT</span>
-                        <li className={`nav-item px-2 rounded ${currentPage === '/dashboard' ? 'active' : ''}`}>
+                        <li className={`nav-item px-2 rounded my-1 ${currentPage === '/dashboard' ? 'active' : ''}`}>
                             <Link to="/dashboard" className='nav-link' onClick={() => handlePageChange('/dashboard')}>
                                 <UiChecksGrid />
                                 <span className='ps-3 medium'>Dashboard</span>
                             </Link>
                         </li>
-                        <li className={`nav-item px-2 rounded ${currentPage === '/dashboard' ? 'active' : ''}`}>
+                        <li className={`nav-item px-2 rounded my-1 ${currentPage === '/dashboard' ? 'active' : ''}`}>
                             <Link to="/dashboard" className='nav-link' onClick={() => handlePageChange('/dashboard')}>
                                 <People />
                                 <span className='ps-3 medium'>Members</span>
                             </Link>
                         </li>
-                        <li className={`nav-item px-2 rounded ${currentPage === '/analytics' ? 'active' : ''}`}>
+                        <li className={`nav-item px-2 rounded my-1 ${currentPage === '/analytics' ? 'active' : ''}`}>
                             <Link to="/analytics" className='nav-link' onClick={() => handlePageChange('/analytics')}>
                                 <Speedometer />
                                 <span className='ps-3 medium'>Analytics</span>
                             </Link>
                         </li>
-
+                        <li className={`nav-item px-2 rounded my-1 ${currentPage === '/content-management' ? 'active' : ''}`}>
+                            <Link to="/content-management" className='nav-link' onClick={() => handlePageChange('/content-management')}>
+                                <Journals />
+                                <span className='ps-3 medium'>Content</span>
+                            </Link>
+                        </li>
+                        <li className={`nav-item px-2 rounded my-1 ${currentPage === '/reports' ? 'active' : ''}`}>
+                            <Link to="/reports" className='nav-link' onClick={() => handlePageChange('/reports')}>
+                                <FileEarmarkPdf />
+                                <span className='ps-3 medium'>Reports</span>
+                            </Link>
+                        </li>
                     </div>
 
                     <div className='sidebar-link-group'>
                         <span className='txt-lighter small ps-2'>PRIVATE</span>
-                        <li className={`nav-item px-2 rounded ${currentPage === '/account' ? 'active' : ''}`}>
+                        <li className={`nav-item px-2 rounded my-1 ${currentPage === '/account' ? 'active' : ''}`}>
                             <Link to="/account" className='nav-link' onClick={() => handlePageChange('/account')}>
                                 <PersonCircle />
                                 <span className='ps-3 medium'>My Account</span>
                             </Link>
                         </li>
-                        <li className={`nav-item px-2 rounded ${currentPage === '/my-projects' ? 'active' : ''}`}>
+                        <li className={`nav-item px-2 rounded my-1 ${currentPage === '/my-projects' ? 'active' : ''}`}>
                             <Link to="/my-projects" className='nav-link' onClick={() => handlePageChange('/my-projects')}>
                                 <Folder />
                                 <span className='ps-3 medium'>My Projects</span>
                             </Link>
                         </li>
-                        <li className="nav-item px-2 rounded">
+                        <li className="nav-item px-2 rounded my-1">
                             <Link onClick={() => { setShowSettingsModal(true) }} className='nav-link d-flex align-items-center'>
                                 <Gear />
                                 <span className='ps-3 medium'>Settings</span>

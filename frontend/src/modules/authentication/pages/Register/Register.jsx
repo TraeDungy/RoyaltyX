@@ -5,6 +5,7 @@ import { useAuth } from '../../../common/contexts/AuthContext';
 import Button from '../../../common/components/Button';
 import styles from './Register.module.css'
 import { register } from '../../api/auth';
+import icon from '../../../common/assets/img/brand/icon.webp'
 
 export default function Register() {
 
@@ -38,6 +39,8 @@ export default function Register() {
         <div className={styles.registerPageWrapper}>
 
             <div style={{ maxWidth: 470 }} className='w-100'>
+
+                <img src={icon} style={{ maxWidth: 60 }} className='mb-4' alt="" />
 
                 <h2 className='bold'>Sign up</h2>
                 <p className='mb-4 txt-lighter'>Welcome! Please enter your details.</p>

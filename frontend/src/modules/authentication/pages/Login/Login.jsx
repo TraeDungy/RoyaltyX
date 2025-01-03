@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { useAuth } from '../../../common/contexts/AuthContext';
 import Button from '../../../common/components/Button';
 import styles from './Login.module.css'
+import icon from '../../../common/assets/img/brand/icon.webp'
 
 export default function Login() {
 
@@ -36,6 +37,8 @@ export default function Login() {
         <div className={styles.loginPageWrapper}>
 
             <div style={{ maxWidth: 470 }} className='w-100'>
+
+                <img src={icon} style={{ maxWidth: 60 }} className='mb-4' alt="" />
 
                 <h2 className='mb-4 bold'>Log in</h2>
 

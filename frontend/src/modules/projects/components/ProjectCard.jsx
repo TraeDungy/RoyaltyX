@@ -17,7 +17,7 @@ function ProjectCard({ project, handleSwitchProject }) {
                         </div>
                     </div>
                     <div className="col-md-9">
-                        <h5 className='fw-500 medium'>
+                        <h5 className='fw-500 medium mb-0'>
                             {project.name}
                         </h5>
 

@@ -197,7 +197,7 @@ function Dashboard() {
 
             <div className="row">
                 <div className="col-md-8 p-3">
-                    <div className="card power-contrast shadow p-3 rounded d-flex justify-content-center flex-column w-100 h-100 border-0">
+                    <div className="card power-contrast p-3 rounded d-flex justify-content-center flex-column w-100 h-100 border-0">
                         <h5 className="mb-3">Monthly Earnings</h5>
                         <div className="m-auto w-100 h-100 d-flex justify-content-center text-center">
                             <Line data={lineChartData} options={lineChartOptions} style={{ height: 280 }} />
@@ -205,7 +205,7 @@ function Dashboard() {
                     </div>
                 </div>
                 <div className="col-md-4 p-3">
-                    <div className="card power-contrast shadow p-3 rounded d-flex justify-content-center flex-column w-100 h-100 border-0">
+                    <div className="card power-contrast p-3 rounded d-flex justify-content-center flex-column w-100 h-100 border-0">
                         <h5 className="mb-3">Monthly Revenue</h5>
                         <h5 className='txt-lighter'>14,426$</h5>
                         <br />
@@ -218,7 +218,7 @@ function Dashboard() {
 
             <div className="row">
                 <div className="col-md-4 p-3">
-                    <div className="card power-contrast shadow p-3 rounded d-flex justify-content-center flex-column w-100 h-100 border-0">
+                    <div className="card power-contrast p-3 rounded d-flex justify-content-center flex-column w-100 h-100 border-0">
                         <h5 className="mb-5">Contact Management</h5>
                         <div className="m-auto px-4 pb-3" style={{ maxWidth: 250 }}>
                             <Doughnut data={contactData} options={contactOptions} plugins={[doughnutContactPlugin]} style={{ height: 200 }} />
@@ -226,7 +226,7 @@ function Dashboard() {
                     </div>
                 </div>
                 <div className="col-md-4 p-3">
-                    <div className="card power-contrast shadow p-3 rounded d-flex justify-content-center flex-column w-100 h-100 border-0">
+                    <div className="card power-contrast p-3 rounded d-flex justify-content-center flex-column w-100 h-100 border-0">
                         <h5 className="mb-5">Task Management</h5>
                         <div className="m-auto px-4 pb-3" style={{ maxWidth: 250 }}>
                             <Doughnut data={taskCompletionData} options={taskOptions} plugins={[doughnutTaskPlugin]} style={{ height: 200 }} />
@@ -234,7 +234,7 @@ function Dashboard() {
                     </div>
                 </div>
                 <div className="col-md-4 p-3">
-                    <div className="card power-contrast shadow p-3 rounded d-flex justify-content-center flex-column w-100 h-100 border-0">
+                    <div className="card power-contrast p-3 rounded d-flex justify-content-center flex-column w-100 h-100 border-0">
                         <h5 className="mb-5">Task Management</h5>
                         <div className="m-auto px-4 pb-3" style={{ maxWidth: 250 }}>
                             <Doughnut data={taskCompletionData} options={taskOptions} plugins={[doughnutTaskPlugin]} style={{ height: 200 }} />
