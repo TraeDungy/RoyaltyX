@@ -11,6 +11,8 @@ import { ThemeProvider } from './modules/common/contexts/ThemeContext';
 import dashboardRoutes from './modules/dashboard';
 import projectRoutes from './modules/projects';
 import Layout from './modules/projects/layout/Layout';
+import memberRoutes from './modules/members';
+import reportRoutes from './modules/report';
 
 const PrivateRoutes = () => {
   const { authenticated, loading } = useAuth();
@@ -31,7 +33,9 @@ const routes = [
         path: '/',
         element: <AppLayout />,
         children: [
-          ...dashboardRoutes
+          ...dashboardRoutes,
+          ...memberRoutes,
+          ...reportRoutes,
         ],
       },
       {

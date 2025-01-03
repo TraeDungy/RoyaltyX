@@ -143,14 +143,14 @@ function Sidebar() {
 
                     <div className='sidebar-link-group'>
                         <span className='txt-lighter small ps-2'>PROJECT</span>
-                        <li className={`nav-item px-2 rounded my-1 ${currentPage === '/dashboard' ? 'active' : ''}`}>
-                            <Link to="/dashboard" className='nav-link' onClick={() => handlePageChange('/dashboard')}>
+                        <li className={`nav-item px-2 rounded my-1 ${currentPage === '/' ? 'active' : ''}`}>
+                            <Link to="/" className='nav-link' onClick={() => handlePageChange('/')}>
                                 <UiChecksGrid />
                                 <span className='ps-3 medium'>Dashboard</span>
                             </Link>
                         </li>
-                        <li className={`nav-item px-2 rounded my-1 ${currentPage === '/dashboard' ? 'active' : ''}`}>
-                            <Link to="/dashboard" className='nav-link' onClick={() => handlePageChange('/dashboard')}>
+                        <li className={`nav-item px-2 rounded my-1 ${currentPage === '/members' ? 'active' : ''}`}>
+                            <Link to="/members" className='nav-link' onClick={() => handlePageChange('/members')}>
                                 <People />
                                 <span className='ps-3 medium'>Members</span>
                             </Link>
