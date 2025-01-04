@@ -24,16 +24,16 @@ function Account() {
 
             <h2 className='bold mb-4'>Account</h2>
 
-            <p className="text-muted">Name: {userInfo.name}</p>
-            <p className="text-muted">Email: {userInfo.email}</p>
-            <p className="text-muted">
+            <p className="txt-lighter">Name: {userInfo.name}</p>
+            <p className="txt-lighter">Email: {userInfo.email}</p>
+            <p className="txt-lighter">
                 Profile Created At: {userInfo.created_at}
             </p>
-            <p className="text-muted">
+            <p className="txt-lighter">
                 Email Verified:{" "}
                 <span className="badge bagde-primary bg-danger">No</span>
             </p>
-            <p className="text-muted m-0">
+            <p className="txt-lighter m-0">
                 Role:{" "}
                 <span className="badge bagde-primary bgc-success">
                     {userInfo.role ? userInfo.role.name : ""}

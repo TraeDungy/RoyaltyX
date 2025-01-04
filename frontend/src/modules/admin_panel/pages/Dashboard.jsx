@@ -69,7 +69,7 @@ function Dashboard() {
                 <div className="col-md-4 p-3">
                     <div className="card p-3 rounded">
                         <div className='d-flex align-items-center justify-content-between pb-2'>
-                            <span className="medium fw-500">Users</span>
+                            <span className="medium fw-500">Total users</span>
                             <Person className='txt-lighter' />
                         </div>
                         <div className="d-flex align-items-center">
@@ -84,7 +84,7 @@ function Dashboard() {
                 <div className="col-md-4 p-3">
                     <div className="card p-3 rounded">
                         <div className='d-flex align-items-center justify-content-between pb-2'>
-                            <span className="medium fw-500">Revenue</span>
+                            <span className="medium fw-500">Active users</span>
                             <CurrencyDollar className='txt-lighter' />
                         </div>
                         <div className="d-flex align-items-center">
@@ -99,7 +99,7 @@ function Dashboard() {
                 <div className="col-md-4 p-3">
                     <div className="card p-3 rounded">
                         <div className='d-flex align-items-center justify-content-between pb-2'>
-                            <span className="medium fw-500">Prompts</span>
+                            <span className="medium fw-500">Subscriptions</span>
                             <Stripe className='txt-lighter' />
                         </div>
                         <div className="d-flex align-items-center">

@@ -161,8 +161,8 @@ function Sidebar() {
                                 <span className='ps-3 medium'>Analytics</span>
                             </Link>
                         </li>
-                        <li className={`nav-item px-2 rounded my-1 ${currentPage === '/content-management' ? 'active' : ''}`}>
-                            <Link to="/content-management" className='nav-link' onClick={() => handlePageChange('/content-management')}>
+                        <li className={`nav-item px-2 rounded my-1 ${currentPage === '/content' ? 'active' : ''}`}>
+                            <Link to="/content" className='nav-link' onClick={() => handlePageChange('/content')}>
                                 <Journals />
                                 <span className='ps-3 medium'>Content</span>
                             </Link>

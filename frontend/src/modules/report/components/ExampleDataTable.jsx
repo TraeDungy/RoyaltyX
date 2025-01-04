@@ -34,7 +34,7 @@ const ExampleDataTable = () => {
                             <th className="py-2">Payment Window</th>
                             <th className="py-2">Active</th>
                             <th className="py-2">Price Must Exceed MFG Cost</th>
-                            <th className="py-2">Date Added/Updated</th>
+                            <th className="py-2">Date Updated</th>
                             <th className="py-2">Updated By</th>
                         </tr>
                     </thead>

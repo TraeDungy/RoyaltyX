@@ -14,6 +14,8 @@ import Layout from './modules/projects/layout/Layout';
 import memberRoutes from './modules/members';
 import reportRoutes from './modules/report';
 import accountRoutes from './modules/account';
+import contentRoutes from './modules/content';
+import analyticsRoutes from './modules/analytics';
 
 const PrivateRoutes = () => {
   const { authenticated, loading } = useAuth();
@@ -35,9 +37,11 @@ const routes = [
         element: <AppLayout />,
         children: [
           ...dashboardRoutes,
+          ...analyticsRoutes,
           ...memberRoutes,
           ...reportRoutes,
           ...accountRoutes,
+          ...contentRoutes,
         ],
       },
       {
