@@ -63,7 +63,7 @@ function Dashboard() {
 
         <div className="container">
 
-            <h3 className='mt-4 mb-3 ps-2'>Dashboard</h3>
+            <h3 className='mt-4 mb-3 ps-2 bold'>Dashboard</h3>
 
             <div className="row">
                 <div className="col-md-4 p-3">
@@ -113,10 +113,73 @@ function Dashboard() {
                 </div>
             </div>
 
-            <div className='d-flex justify-content-center mt-5 pt-5'>
-                <span>A place for other statistics to be placed</span>
+            <div className="row">
+                <div className="col-md-8">
+
+                    <h5 className='mt-4 mb-3'>Top Performing Content</h5>
+
+                    <div className="card bg-body shadow-sm">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover mb-0">
+                                <tbody>
+                                    <tr>
+                                        <th>Rank</th>
+                                        <th>Title</th>
+                                        <th>Views</th>
+                                        <th>Revenue</th>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Summer Vibes</td>
+                                        <td>1,500,000</td>
+                                        <td>$65,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Summer Vibes</td>
+                                        <td>1,500,000</td>
+                                        <td>$65,000</td>
+                                    </tr><tr>
+                                        <td>1</td>
+                                        <td>Summer Vibes</td>
+                                        <td>1,500,000</td>
+                                        <td>$65,000</td>
+                                    </tr><tr>
+                                        <td>1</td>
+                                        <td>Summer Vibes</td>
+                                        <td>1,500,000</td>
+                                        <td>$65,000</td>
+                                    </tr><tr>
+                                        <td>1</td>
+                                        <td>Summer Vibes</td>
+                                        <td>1,500,000</td>
+                                        <td>$65,000</td>
+                                    </tr><tr>
+                                        <td>1</td>
+                                        <td>Summer Vibes</td>
+                                        <td>1,500,000</td>
+                                        <td>$65,000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div className='col-md-4'>
+                    <h5 className='mt-4 mb-3'>Producers</h5>
+
+                    <div className="card shadow-sm p-3">
+                        <p className='fw-500 py-2'>John Doe</p>
+                        <p className='fw-500 py-2'>Bett Jane</p>
+                        <p className='fw-500 py-2'>James Earl</p>
+                        <p className='fw-500 py-2'>Mary Doe</p>
+                        <p className='fw-500 py-2'>Carl Ray</p>
+                        <p className='fw-500 py-2'>June Data</p>
+                        <p className='fw-500 py-2'>jane Smith</p>
+                    </div>
+                </div>
             </div>
-            
+
         </div>
 
     );

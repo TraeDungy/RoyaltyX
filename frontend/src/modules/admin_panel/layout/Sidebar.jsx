@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
-import { PersonCircle, UiChecksGrid, QuestionCircle, Chat, Stripe, People, Wallet2, ArrowLeft, List } from 'react-bootstrap-icons';
+import { PersonCircle, UiChecksGrid, QuestionCircle, Chat, Stripe, People, Wallet2, ArrowLeft, List, Shield, Grid1x2, Journal, Bank, Gear, Flag, BarChart, Receipt, LayoutTextWindow, Motherboard } from 'react-bootstrap-icons';
 
 
 function Sidebar() {
@@ -70,10 +70,86 @@ function Sidebar() {
                             <span className='ps-3 medium'>Dashboard</span>
                         </Link>
                     </li>
+                    <li className={`nav-item px-2 rounded ${currentPage === '/admin/producers' ? 'active' : ''}`}>
+                        <Link to="/admin/producers" className='nav-link' onClick={() => handlePageChange('/admin/producers')}>
+                            <People />
+                            <span className='ps-3 medium'>Producers</span>
+                        </Link>
+                    </li>
+                    <li className={`nav-item px-2 rounded ${currentPage === '/admin/users' ? 'active' : ''}`}>
+                        <Link to="/admin/users" className='nav-link' onClick={() => handlePageChange('/admin/users')}>
+                            <LayoutTextWindow />
+                            <span className='ps-3 medium'>Content</span>
+                        </Link>
+                    </li>
+                    <li className={`nav-item px-2 rounded ${currentPage === '/admin/users' ? 'active' : ''}`}>
+                        <Link to="/admin/users" className='nav-link' onClick={() => handlePageChange('/admin/users')}>
+                            <BarChart />
+                            <span className='ps-3 medium'>Analytics</span>
+                        </Link>
+                    </li>
+                    <li className={`nav-item px-2 rounded ${currentPage === '/admin/users' ? 'active' : ''}`}>
+                        <Link to="/admin/users" className='nav-link' onClick={() => handlePageChange('/admin/users')}>
+                            <Flag />
+                            <span className='ps-3 medium'>Reports</span>
+                        </Link>
+                    </li>
+                    <li className={`nav-item px-2 rounded ${currentPage === '/admin/users' ? 'active' : ''}`}>
+                        <Link to="/admin/users" className='nav-link' onClick={() => handlePageChange('/admin/users')}>
+                            <Receipt />
+                            <span className='ps-3 medium'>Invoices</span>
+                        </Link>
+                    </li>
+                    <li className={`nav-item px-2 rounded ${currentPage === '/admin/users' ? 'active' : ''}`}>
+                        <Link to="/admin/users" className='nav-link' onClick={() => handlePageChange('/admin/users')}>
+                            <Chat />
+                            <span className='ps-3 medium'>Messages</span>
+                        </Link>
+                    </li>
+                
+                </div>
+
+                <div className='sidebar-link-group'>
+                    <li className={`nav-item px-2 rounded ${currentPage === '/admin/users' ? 'active' : ''}`}>
+                        <Link to="/admin/users" className='nav-link' onClick={() => handlePageChange('/admin/users')}>
+                            <Shield />
+                            <span className='ps-3 medium'>Admin</span>
+                        </Link>
+                    </li>
                     <li className={`nav-item px-2 rounded ${currentPage === '/admin/users' ? 'active' : ''}`}>
                         <Link to="/admin/users" className='nav-link' onClick={() => handlePageChange('/admin/users')}>
                             <People />
                             <span className='ps-3 medium'>Users</span>
+                        </Link>
+                    </li>
+                    <li className={`nav-item px-2 rounded ${currentPage === '/admin/users' ? 'active' : ''}`}>
+                        <Link to="/admin/users" className='nav-link' onClick={() => handlePageChange('/admin/users')}>
+                            <Motherboard />
+                            <span className='ps-3 medium'>System</span>
+                        </Link>
+                    </li>
+                    <li className={`nav-item px-2 rounded ${currentPage === '/admin/users' ? 'active' : ''}`}>
+                        <Link to="/admin/users" className='nav-link' onClick={() => handlePageChange('/admin/users')}>
+                            <Grid1x2 />
+                            <span className='ps-3 medium'>Layouts</span>
+                        </Link>
+                    </li>
+                    <li className={`nav-item px-2 rounded ${currentPage === '/admin/users' ? 'active' : ''}`}>
+                        <Link to="/admin/users" className='nav-link' onClick={() => handlePageChange('/admin/users')}>
+                            <Journal />
+                            <span className='ps-3 medium'>Catalogue</span>
+                        </Link>
+                    </li>
+                    <li className={`nav-item px-2 rounded ${currentPage === '/admin/users' ? 'active' : ''}`}>
+                        <Link to="/admin/users" className='nav-link' onClick={() => handlePageChange('/admin/users')}>
+                            <Bank />
+                            <span className='ps-3 medium'>Banking</span>
+                        </Link>
+                    </li>
+                    <li className={`nav-item px-2 rounded ${currentPage === '/admin/users' ? 'active' : ''}`}>
+                        <Link to="/admin/users" className='nav-link' onClick={() => handlePageChange('/admin/users')}>
+                            <Gear />
+                            <span className='ps-3 medium'>Settings</span>
                         </Link>
                     </li>
                 </div>
