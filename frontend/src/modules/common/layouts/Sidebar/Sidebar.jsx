@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
-import { PersonCircle, UiChecksGrid, QuestionCircle, Chat, Stripe, People, Wallet2, ArrowLeft, List, ChevronDown, Gear, Speedometer, Folder, Files, FileEarmarkPdf, Journals } from 'react-bootstrap-icons';
+import { PersonCircle, UiChecksGrid, QuestionCircle, Chat, Stripe, People, Wallet2, ArrowLeft, List, ChevronDown, Gear, Speedometer, Folder, Files, FileEarmarkPdf, Journals, Bank } from 'react-bootstrap-icons';
 import SettingsModal from '../../components/Settings/SettingsModal';
 import { getUserInfo } from '../../../account/api/user';
 import { getMyProjects, switchProject } from '../../../projects/api/project';
@@ -155,16 +155,16 @@ function Sidebar() {
                                 <span className='ps-3 medium'>Members</span>
                             </Link>
                         </li>
-                        <li className={`nav-item px-2 rounded my-1 ${currentPage === '/analytics' ? 'active' : ''}`}>
-                            <Link to="/analytics" className='nav-link' onClick={() => handlePageChange('/analytics')}>
-                                <Speedometer />
-                                <span className='ps-3 medium'>Analytics</span>
-                            </Link>
-                        </li>
                         <li className={`nav-item px-2 rounded my-1 ${currentPage === '/content' ? 'active' : ''}`}>
                             <Link to="/content" className='nav-link' onClick={() => handlePageChange('/content')}>
                                 <Journals />
                                 <span className='ps-3 medium'>Content</span>
+                            </Link>
+                        </li>
+                        <li className={`nav-item px-2 rounded my-1 ${currentPage === '/analytics' ? 'active' : ''}`}>
+                            <Link to="/analytics" className='nav-link' onClick={() => handlePageChange('/analytics')}>
+                                <Speedometer />
+                                <span className='ps-3 medium'>Analytics</span>
                             </Link>
                         </li>
                         <li className={`nav-item px-2 rounded my-1 ${currentPage === '/reports' ? 'active' : ''}`}>
@@ -186,7 +186,13 @@ function Sidebar() {
                         <li className={`nav-item px-2 rounded my-1 ${currentPage === '/my-projects' ? 'active' : ''}`}>
                             <Link to="/my-projects" className='nav-link' onClick={() => handlePageChange('/my-projects')}>
                                 <Folder />
-                                <span className='ps-3 medium'>My Projects</span>
+                                <span className='ps-3 medium'>Projects</span>
+                            </Link>
+                        </li>
+                        <li className={`nav-item px-2 rounded my-1 ${currentPage === '/my-projects' ? 'active' : ''}`}>
+                            <Link to="/my-projects" className='nav-link' onClick={() => handlePageChange('/my-projects')}>
+                                <Bank />
+                                <span className='ps-3 medium'>Banking</span>
                             </Link>
                         </li>
                         <li className="nav-item px-2 rounded my-1">

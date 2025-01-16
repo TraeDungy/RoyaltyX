@@ -196,6 +196,87 @@ function Dashboard() {
             </div>
 
             <div className="row">
+                <div className="col-md-3 pb-4">
+                    <div className="card">
+                        <div className='card-body d-flex flex-column justify-content-between'>
+                            <div className='pb-4'>
+                                <h5>Smart search</h5>
+                                <p className='medium'>Use advanced algorithms to find specific information.</p>
+                            </div>
+                            <div>
+                                <span className='bold pointer'>Learn more</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-md-3 pb-4">
+                    <div className="card">
+                        <div className='card-body d-flex flex-column justify-content-between'>
+                            <div className='pb-4'>
+                                <h5>Updated reporting</h5>
+                                <p className='medium'>Keep track of versions to ensure data integrity.</p>
+                            </div>
+                            <div>
+                                <span className='bold pointer'>Learn more</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-md-3 pb-4">
+                    <div className="card">
+                        <div className='card-body d-flex flex-column justify-content-between'>
+                            <div className='pb-4'>
+                                <h5>Custom analytics</h5>
+                                <p className='medium'>Access your notes across all your work apps.</p>
+                            </div>
+                            <div>
+                                <span className='bold pointer'>Learn more</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-md-3 pb-4">
+                    <div className="card">
+                        <div className='card-body d-flex flex-column justify-content-between'>
+                            <div className='pb-4'>
+                                <h5>Email and share reports</h5>
+                                <p className='medium'>Embed images, links and files to create more dynamic notes.</p>
+                            </div>
+                            <div>
+                                <span className='bold pointer'>Learn more</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-md-6 pb-4">
+                    <div className="card">
+                        <div className='card-body d-flex flex-column justify-content-between'>
+                            <div className='pb-4'>
+                                <h5>Reminders & alerts</h5>
+                                <p className='medium'>Sets reminders and alerts for upcoming deadlines or tasks.</p>
+                            </div>
+                            <div>
+                                <span className='bold pointer'>Learn more</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-md-6 pb-4">
+                    <div className="card">
+                        <div className='card-body d-flex flex-column justify-content-between'>
+                            <div className='pb-4'>
+                                <h5>Encryption</h5>
+                                <p className='medium'>Implements end-to-end encryption for robust security.</p>
+                            </div>
+                            <div>
+                                <span className='bold pointer'>Learn more</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="row">
                 <div className="col-md-8 p-3">
                     <div className="card power-contrast p-3 rounded d-flex justify-content-center flex-column w-100 h-100 border-0">
                         <h5 className="mb-3">Monthly Earnings</h5>
