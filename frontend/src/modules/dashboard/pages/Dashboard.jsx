@@ -1,328 +1,121 @@
 import React, { useState } from 'react';
-import { CurrencyDollar, Person, Stripe } from 'react-bootstrap-icons';
-import { Doughnut, Line, Bar } from 'react-chartjs-2';
-import { Chart } from 'chart.js/auto';
+import { Bell, Envelope, File, Git, GraphUpArrow, Search, ShieldCheck } from 'react-bootstrap-icons';
 
 function Dashboard() {
-    const [stats] = useState({
-        contactCount: Math.floor(Math.random() * 100),
-        leadCount: Math.floor(Math.random() * 100),
-        taskCount: Math.floor(Math.random() * 100),
-        todoTasksCount: Math.floor(Math.random() * 100),
-        inProgressTasksCount: Math.floor(Math.random() * 100),
-        doneTasksCount: Math.floor(Math.random() * 100),
-    });
-
-    const contactData = {
-        labels: ['Completed', 'Uncompleted'],
-        datasets: [
-            {
-                label: '',
-                data: [75, 25],
-                backgroundColor: ['#e9a33c', '#E0E0E0'],
-                hoverBackgroundColor: ['#e9a33c', '#E0E0E0'],
-                borderColor: ['#e9a33c', '#E0E0E0'],
-                borderWidth: 0,
-            },
-        ],
-    };
-
-    const taskCompletionData = {
-        labels: ['Completed', 'Uncompleted'],
-        datasets: [
-            {
-                label: '',
-                data: [60, 40], // Example percentage
-                backgroundColor: ['#6581e9', '#E0E0E0'],
-                hoverBackgroundColor: ['#6581e9', '#E0E0E0'],
-                borderColor: ['#6581e9', '#E0E0E0'],
-                borderWidth: 0, // Removes borders
-            },
-        ],
-    };
-
-    const lineChartData = {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-        datasets: [
-            {
-                label: 'Monthly Earnings',
-                data: [10, 20, 15, 30, 25, 35, 40, 45, 50, 60, 70, 80],
-                fill: true,
-                backgroundColor: '#dba92022',
-                borderColor: '#dba920',
-                tension: 0.4,
-            },
-        ],
-    };
-
-    const lineChartOptions = {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                display: false,
-            },
-        },
-        scales: {
-            x: {
-                grid: {
-                    display: false,
-                },
-            },
-            y: {
-                beginAtZero: true,
-                grid: {
-                    display: false,
-                },
-            },
-        },
-    };
-
-
-    const barChartData = {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-        datasets: [
-            {
-                label: 'Monthly Revenue',
-                data: [55, 85, 125, 50, 30, 70],
-                backgroundColor: ['#cf004c', '#4D81F1', '#20c997', '#ff9f00', '#6f42c1', '#17a2b8'],
-                borderRadius: 10,
-                barThickness: 10,
-            },
-        ],
-    };
-
-    const barChartOptions = {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                display: false,
-            },
-        },
-        scales: {
-            x: {
-                grid: {
-                    display: false,
-                },
-            },
-            y: {
-                beginAtZero: true,
-                grid: {
-                    display: false,
-                },
-            },
-        },
-    };
-
-    const doughnutOptions = {
-        responsive: true,
-        cutout: '85%',
-        plugins: {
-            tooltip: {
-                enabled: false,
-            },
-            legend: {
-                display: false,
-            },
-        },
-    };
-
-    const doughnutContactPlugin = {
-        id: 'centerTextContact',
-        beforeDraw: (chart) => {
-            const { width, height, ctx } = chart;
-            const dataset = chart.data.datasets[0];
-            const percentage = dataset.data[0];
-
-            ctx.restore();
-            const fontSize = (height / 5).toFixed(2);
-            ctx.font = `${fontSize}px Arial`;
-            ctx.textBaseline = 'middle';
-            ctx.fillStyle = '#fff';
-
-            const text = `${percentage}%`;
-            const textX = Math.round((width - ctx.measureText(text).width) / 2);
-            const textY = height / 2;
-
-            ctx.fillText(text, textX, textY);
-            ctx.save();
-        },
-    };
-
-    const doughnutTaskPlugin = {
-        id: 'centerTextTask',
-        beforeDraw: (chart) => {
-            const { width, height, ctx } = chart;
-            const dataset = chart.data.datasets[0];
-            const percentage = dataset.data[0];
-
-            ctx.restore();
-            const fontSize = (height / 5).toFixed(2);
-            ctx.font = `${fontSize}px Arial`;
-            ctx.textBaseline = 'middle';
-            ctx.fillStyle = '#fff';
-
-            const text = `${percentage}%`;
-            const textX = Math.round((width - ctx.measureText(text).width) / 2);
-            const textY = height / 2;
-
-            ctx.fillText(text, textX, textY);
-            ctx.save();
-        },
-    };
-
-    const contactOptions = {
-        ...doughnutOptions,
-        plugins: {
-            ...doughnutOptions.plugins,
-            centerTextContact: doughnutContactPlugin,
-        },
-    };
-
-    const taskOptions = {
-        ...doughnutOptions,
-        plugins: {
-            ...doughnutOptions.plugins,
-            centerTextTask: doughnutTaskPlugin,
-        },
-    };
-
 
     return (
         <div className="container px-5">
+
+
             <div className='mb-3 ps-1'>
-                <h2 className='bold'>Hi, Trae</h2>
+                <h3 className='bold'>Explore Features</h3>
             </div>
 
             <div className="row">
                 <div className="col-md-3 pb-4">
-                    <div className="card">
+                    <div className="card" style={{ background: "linear-gradient(135deg,rgba(107, 17, 203, 0.50),rgba(37, 116, 252, 0.5))", color: "#fff" }}>
                         <div className='card-body d-flex flex-column justify-content-between'>
-                            <div className='pb-4'>
-                                <h5>Smart search</h5>
+                            <div className=''>
+                                <Search className='h3 mb-3' />
+                                <h6>Smart search</h6>
                                 <p className='medium'>Use advanced algorithms to find specific information.</p>
                             </div>
-                            <div>
-                                <span className='bold pointer'>Learn more</span>
-                            </div>
                         </div>
                     </div>
                 </div>
                 <div className="col-md-3 pb-4">
-                    <div className="card">
+                    <div className="card" style={{ background: "linear-gradient(135deg,rgba(255, 126, 180, 0.5),rgba(255, 117, 140, 0.5))", color: "#fff" }}>
                         <div className='card-body d-flex flex-column justify-content-between'>
-                            <div className='pb-4'>
-                                <h5>Updated reporting</h5>
+                            <div className=''>
+                                <Git className='h3 mb-3' />
+                                <h6>Updated reporting</h6>
                                 <p className='medium'>Keep track of versions to ensure data integrity.</p>
                             </div>
-                            <div>
-                                <span className='bold pointer'>Learn more</span>
-                            </div>
                         </div>
                     </div>
                 </div>
                 <div className="col-md-3 pb-4">
-                    <div className="card">
+                    <div className="card" style={{ background: "linear-gradient(135deg,rgba(17, 153, 142, 0.5),rgba(56, 239, 126, 0.5))", color: "#fff" }}>
                         <div className='card-body d-flex flex-column justify-content-between'>
-                            <div className='pb-4'>
-                                <h5>Custom analytics</h5>
+                            <div className=''>
+                                <GraphUpArrow className='h3 mb-3' />
+                                <h6>Custom analytics</h6>
                                 <p className='medium'>Access your notes across all your work apps.</p>
                             </div>
-                            <div>
-                                <span className='bold pointer'>Learn more</span>
-                            </div>
                         </div>
                     </div>
                 </div>
                 <div className="col-md-3 pb-4">
-                    <div className="card">
+                    <div className="card" style={{ background: "linear-gradient(135deg,rgba(255, 65, 109, 0.5),rgba(255, 75, 43, 0.5))", color: "#fff" }}>
                         <div className='card-body d-flex flex-column justify-content-between'>
-                            <div className='pb-4'>
-                                <h5>Email and share reports</h5>
+                            <div className=''>
+                                <Envelope className='h3 mb-3' />
+                                <h6>Email and share reports</h6>
                                 <p className='medium'>Embed images, links and files to create more dynamic notes.</p>
                             </div>
-                            <div>
-                                <span className='bold pointer'>Learn more</span>
-                            </div>
                         </div>
                     </div>
                 </div>
                 <div className="col-md-6 pb-4">
-                    <div className="card">
+                    <div className="card" style={{ background: "linear-gradient(135deg,rgba(252, 75, 26, 0.5),rgba(247, 182, 51, 0.5))", color: "#fff" }}>
                         <div className='card-body d-flex flex-column justify-content-between'>
-                            <div className='pb-4'>
-                                <h5>Reminders & alerts</h5>
+                            <div className=''>
+                                <Bell className='h3 mb-3' />
+                                <h6>Reminders & alerts</h6>
                                 <p className='medium'>Sets reminders and alerts for upcoming deadlines or tasks.</p>
                             </div>
-                            <div>
-                                <span className='bold pointer'>Learn more</span>
-                            </div>
                         </div>
                     </div>
                 </div>
                 <div className="col-md-6 pb-4">
-                    <div className="card">
+                    <div className="card" style={{ background: "linear-gradient(135deg,rgba(5, 118, 230, 0.5),rgba(0, 242, 97, 0.5))", color: "#fff" }}>
                         <div className='card-body d-flex flex-column justify-content-between'>
-                            <div className='pb-4'>
-                                <h5>Encryption</h5>
+                            <div className=''>
+                                <ShieldCheck className='h3 mb-3' />
+                                <h6>Encryption</h6>
                                 <p className='medium'>Implements end-to-end encryption for robust security.</p>
                             </div>
-                            <div>
-                                <span className='bold pointer'>Learn more</span>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
+
+
+            <div className='my-3 ps-1'>
+                <h3 className='bold'>Products</h3>
+            </div>
+
             <div className="row">
-                <div className="col-md-8 p-3">
-                    <div className="card power-contrast p-3 rounded d-flex justify-content-center flex-column w-100 h-100 border-0">
-                        <h5 className="mb-3">Monthly Earnings</h5>
-                        <div className="m-auto w-100 h-100 d-flex justify-content-center text-center">
-                            <Line data={lineChartData} options={lineChartOptions} style={{ height: 280 }} />
+                <div className="col-md-4 pb-4">
+                    <div className="card bg-transparent">
+                        <img className='img-fluid rounded w-100' style={{ height: 200, objectFit: 'cover' }} src='https://vhx.imgix.net/filmplug/assets/eb2f9876-a8d7-498c-8ea8-79be97d7b423.png?auto=format%2Ccompress&fit=crop&h=720&w=1280' />
+                        <div className="py-3">
+                            <h5>Philly Uncut I</h5>
+                            <p className='txt-lighter medium'>Lorem ipsum dolor sit amet consect...</p>
                         </div>
                     </div>
                 </div>
-                <div className="col-md-4 p-3">
-                    <div className="card power-contrast p-3 rounded d-flex justify-content-center flex-column w-100 h-100 border-0">
-                        <h5 className="mb-3">Monthly Revenue</h5>
-                        <h5 className='txt-lighter'>14,426$</h5>
-                        <br />
-                        <div className="m-auto w-100 d-flex justify-content-center text-center">
-                            <Bar data={barChartData} options={barChartOptions} style={{ height: 280 }} />
+                <div className="col-md-4 pb-4">
+                    <div className="card bg-transparent">
+                        <img className='img-fluid rounded w-100' style={{ height: 200, objectFit: 'cover' }} src='https://vhx.imgix.net/filmplug/assets/25c180d8-da4b-4266-915e-d9c5200e8354?auto=format%2Ccompress&fit=crop&h=360&w=640' />
+                        <div className="py-3">
+                            <h5>PHILLY UNCUT 2 TRAILER</h5>
+                            <p className='txt-lighter medium'>Lorem ipsum dolor sit amet consect...</p>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-md-4 pb-4">
+                    <div className="card bg-transparent">
+                        <img className='img-fluid rounded w-100' style={{ height: 200, objectFit: 'cover' }} src='https://vhx.imgix.net/filmplug/assets/e9c16300-0e8b-4276-9011-92bc42bf215a?auto=format%2Ccompress&fit=crop&h=360&w=640' />
+                        <div className="py-3">
+                            <h5>Philly UNCUT 2</h5>
+                            <p className='txt-lighter medium'>Lorem ipsum dolor sit amet consect...</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div className="row">
-                <div className="col-md-4 p-3">
-                    <div className="card power-contrast p-3 rounded d-flex justify-content-center flex-column w-100 h-100 border-0">
-                        <h5 className="mb-5">Contact Management</h5>
-                        <div className="m-auto px-4 pb-3" style={{ maxWidth: 250 }}>
-                            <Doughnut data={contactData} options={contactOptions} plugins={[doughnutContactPlugin]} style={{ height: 200 }} />
-                        </div>
-                    </div>
-                </div>
-                <div className="col-md-4 p-3">
-                    <div className="card power-contrast p-3 rounded d-flex justify-content-center flex-column w-100 h-100 border-0">
-                        <h5 className="mb-5">Task Management</h5>
-                        <div className="m-auto px-4 pb-3" style={{ maxWidth: 250 }}>
-                            <Doughnut data={taskCompletionData} options={taskOptions} plugins={[doughnutTaskPlugin]} style={{ height: 200 }} />
-                        </div>
-                    </div>
-                </div>
-                <div className="col-md-4 p-3">
-                    <div className="card power-contrast p-3 rounded d-flex justify-content-center flex-column w-100 h-100 border-0">
-                        <h5 className="mb-5">Task Management</h5>
-                        <div className="m-auto px-4 pb-3" style={{ maxWidth: 250 }}>
-                            <Doughnut data={taskCompletionData} options={taskOptions} plugins={[doughnutTaskPlugin]} style={{ height: 200 }} />
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     );
 }

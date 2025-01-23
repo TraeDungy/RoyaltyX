@@ -4,14 +4,6 @@ import { Doughnut, Line, Bar } from 'react-chartjs-2';
 import { Chart } from 'chart.js/auto';
 
 function Analytics() {
-    const [stats] = useState({
-        contactCount: Math.floor(Math.random() * 100),
-        leadCount: Math.floor(Math.random() * 100),
-        taskCount: Math.floor(Math.random() * 100),
-        todoTasksCount: Math.floor(Math.random() * 100),
-        inProgressTasksCount: Math.floor(Math.random() * 100),
-        doneTasksCount: Math.floor(Math.random() * 100),
-    });
 
     const contactData = {
         labels: ['Completed', 'Uncompleted'],
@@ -32,11 +24,11 @@ function Analytics() {
         datasets: [
             {
                 label: '',
-                data: [60, 40], // Example percentage
+                data: [60, 40],
                 backgroundColor: ['#6581e9', '#E0E0E0'],
                 hoverBackgroundColor: ['#6581e9', '#E0E0E0'],
                 borderColor: ['#6581e9', '#E0E0E0'],
-                borderWidth: 0, // Removes borders
+                borderWidth: 0,
             },
         ],
     };
@@ -60,7 +52,7 @@ function Analytics() {
         maintainAspectRatio: false,
         plugins: {
             legend: {
-                display: false,
+                display: true,
             },
         },
         scales: {
@@ -97,7 +89,7 @@ function Analytics() {
         maintainAspectRatio: false,
         plugins: {
             legend: {
-                display: false,
+                display: true,
             },
         },
         scales: {
@@ -123,69 +115,17 @@ function Analytics() {
                 enabled: false,
             },
             legend: {
-                display: false,
+                display: true,
             },
-        },
-    };
-
-    const doughnutContactPlugin = {
-        id: 'centerTextContact',
-        beforeDraw: (chart) => {
-            const { width, height, ctx } = chart;
-            const dataset = chart.data.datasets[0];
-            const percentage = dataset.data[0];
-
-            ctx.restore();
-            const fontSize = (height / 5).toFixed(2);
-            ctx.font = `${fontSize}px Arial`;
-            ctx.textBaseline = 'middle';
-            ctx.fillStyle = '#fff';
-
-            const text = `${percentage}%`;
-            const textX = Math.round((width - ctx.measureText(text).width) / 2);
-            const textY = height / 2;
-
-            ctx.fillText(text, textX, textY);
-            ctx.save();
-        },
-    };
-
-    const doughnutTaskPlugin = {
-        id: 'centerTextTask',
-        beforeDraw: (chart) => {
-            const { width, height, ctx } = chart;
-            const dataset = chart.data.datasets[0];
-            const percentage = dataset.data[0];
-
-            ctx.restore();
-            const fontSize = (height / 5).toFixed(2);
-            ctx.font = `${fontSize}px Arial`;
-            ctx.textBaseline = 'middle';
-            ctx.fillStyle = '#fff';
-
-            const text = `${percentage}%`;
-            const textX = Math.round((width - ctx.measureText(text).width) / 2);
-            const textY = height / 2;
-
-            ctx.fillText(text, textX, textY);
-            ctx.save();
         },
     };
 
     const contactOptions = {
         ...doughnutOptions,
-        plugins: {
-            ...doughnutOptions.plugins,
-            centerTextContact: doughnutContactPlugin,
-        },
     };
 
     const taskOptions = {
         ...doughnutOptions,
-        plugins: {
-            ...doughnutOptions.plugins,
-            centerTextTask: doughnutTaskPlugin,
-        },
     };
 
 
@@ -195,48 +135,9 @@ function Analytics() {
                 <h4 className='bold'>Analytics</h4>
             </div>
 
-            <div class="card shadow-sm">
-                <div class="card-body p-4">
-                    <h4 class="mb-4">Select Date Range</h4>
-                    <div class="row g-4">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="startDate" class="form-label">Start Date</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control datepicker" id="startDate" placeholder="Select start date" aria-label="Start Date" />
-                                    <span class="input-group-text"><i class="bi bi-calendar"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="endDate" class="form-label">End Date</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control datepicker" id="endDate" placeholder="Select end date" aria-label="End Date" />
-                                    <span class="input-group-text"><i class="bi bi-calendar"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-4">
-                        <h6 class="mb-3">Quick Select</h6>
-                        <div class="d-flex gap-2 flex-wrap">
-                            <button class="btn btn-outline-primary" type="button" id="last7Days">Last 7 Days</button>
-                            <button class="btn btn-outline-primary" type="button" id="thisMonth">This Month</button>
-                            <button class="btn btn-outline-primary" type="button" id="lastMonth">Last Month</button>
-                            <button class="btn btn-outline-primary" type="button" id="last30Days">Last 30 Days</button>
-                        </div>
-                    </div>
-                    <div class="mt-4 pt-3 border-top">
-                        <button class="btn btn-primary px-4" type="button" id="applyRange">Apply Range</button>
-                        <button class="btn btn-light ms-2" type="button" id="clearRange">Clear</button>
-                    </div>
-                </div>
-            </div>
-
             <div className="row">
                 <div className="col-md-8 p-3">
-                    <div className="card power-contrast p-3 rounded d-flex justify-content-center flex-column w-100 h-100 border-0">
+                    <div className="card bg-body shadow p-3 rounded d-flex justify-content-center flex-column w-100 h-100 border-0">
                         <h5 className="mb-3">Monthly Earnings</h5>
                         <div className="m-auto w-100 h-100 d-flex justify-content-center text-center">
                             <Line data={lineChartData} options={lineChartOptions} style={{ height: 280 }} />
@@ -244,7 +145,7 @@ function Analytics() {
                     </div>
                 </div>
                 <div className="col-md-4 p-3">
-                    <div className="card power-contrast p-3 rounded d-flex justify-content-center flex-column w-100 h-100 border-0">
+                    <div className="card bg-body shadow p-3 rounded d-flex justify-content-center flex-column w-100 h-100 border-0">
                         <h5 className="mb-3">Monthly Revenue</h5>
                         <h5 className='txt-lighter'>14,426$</h5>
                         <br />
@@ -257,26 +158,26 @@ function Analytics() {
 
             <div className="row">
                 <div className="col-md-4 p-3">
-                    <div className="card power-contrast p-3 rounded d-flex justify-content-center flex-column w-100 h-100 border-0">
+                    <div className="card bg-body shadow p-3 rounded d-flex justify-content-center flex-column w-100 h-100 border-0">
                         <h5 className="mb-5">Contact Management</h5>
                         <div className="m-auto px-4 pb-3" style={{ maxWidth: 250 }}>
-                            <Doughnut data={contactData} options={contactOptions} plugins={[doughnutContactPlugin]} style={{ height: 200 }} />
+                            <Doughnut data={contactData} options={contactOptions} style={{ height: 200 }} />
                         </div>
                     </div>
                 </div>
                 <div className="col-md-4 p-3">
-                    <div className="card power-contrast p-3 rounded d-flex justify-content-center flex-column w-100 h-100 border-0">
+                    <div className="card bg-body shadow p-3 rounded d-flex justify-content-center flex-column w-100 h-100 border-0">
                         <h5 className="mb-5">Task Management</h5>
                         <div className="m-auto px-4 pb-3" style={{ maxWidth: 250 }}>
-                            <Doughnut data={taskCompletionData} options={taskOptions} plugins={[doughnutTaskPlugin]} style={{ height: 200 }} />
+                            <Doughnut data={taskCompletionData} options={taskOptions} style={{ height: 200 }} />
                         </div>
                     </div>
                 </div>
                 <div className="col-md-4 p-3">
-                    <div className="card power-contrast p-3 rounded d-flex justify-content-center flex-column w-100 h-100 border-0">
+                    <div className="card bg-body shadow p-3 rounded d-flex justify-content-center flex-column w-100 h-100 border-0">
                         <h5 className="mb-5">Task Management</h5>
                         <div className="m-auto px-4 pb-3" style={{ maxWidth: 250 }}>
-                            <Doughnut data={taskCompletionData} options={taskOptions} plugins={[doughnutTaskPlugin]} style={{ height: 200 }} />
+                            <Doughnut data={taskCompletionData} options={taskOptions} style={{ height: 200 }} />
                         </div>
                     </div>
                 </div>

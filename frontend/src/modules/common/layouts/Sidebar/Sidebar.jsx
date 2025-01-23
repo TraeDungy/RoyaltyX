@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
-import { PersonCircle, UiChecksGrid, QuestionCircle, Chat, Stripe, People, Wallet2, ArrowLeft, List, ChevronDown, Gear, Speedometer, Folder, Files, FileEarmarkPdf, Journals, Bank } from 'react-bootstrap-icons';
-import SettingsModal from '../../components/Settings/SettingsModal';
+import { PersonCircle, UiChecksGrid, QuestionCircle, Chat, Stripe, People, Wallet2, ArrowLeft, List, ChevronDown, Gear, Speedometer, Folder, Files, FileEarmarkPdf, Journals, Bank, ChevronRight, Plus, FilePdf } from 'react-bootstrap-icons';
 import { getUserInfo } from '../../../account/api/user';
 import { getMyProjects, switchProject } from '../../../projects/api/project';
 
@@ -12,7 +11,7 @@ function Sidebar() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [userInfo, setUserInfo] = useState(null);
     const [myProjects, setMyProjects] = useState([]);
-    const [showSettingsModal, setShowSettingsModal] = useState(false);
+    const [activeMenu, setActiveMenu] = useState(null);
 
     useEffect(() => {
 
@@ -96,6 +95,10 @@ function Sidebar() {
         }
     }
 
+    const toggleSubMenu = (menu) => {
+        setActiveMenu(activeMenu === menu ? null : menu);
+    };
+
     return (
 
         <>
@@ -142,6 +145,22 @@ function Sidebar() {
                     </div>
 
                     <div className='sidebar-link-group'>
+                        <span className='txt-lighter small ps-2'>MANAGEMENT</span>
+                        <li className={`nav-item px-2 rounded my-1 ${currentPage === '/management/data/import' ? 'active' : ''}`}>
+                            <Link to="/management/data/import" className='nav-link' onClick={() => handlePageChange('/management/data/import')}>
+                                <FilePdf />
+                                <span className='ps-3 medium'>Data import</span>
+                            </Link>
+                        </li>
+                        <li className={`nav-item px-2 rounded my-1 ${currentPage === '/management/settings' ? 'active' : ''}`}>
+                            <Link to="/management/settings" className='nav-link' onClick={() => handlePageChange('/management/settings')}>
+                                <Gear />
+                                <span className='ps-3 medium'>Project Settings</span>
+                            </Link>
+                        </li>
+                    </div>
+
+                    <div className='sidebar-link-group'>
                         <span className='txt-lighter small ps-2'>PROJECT</span>
                         <li className={`nav-item px-2 rounded my-1 ${currentPage === '/' ? 'active' : ''}`}>
                             <Link to="/" className='nav-link' onClick={() => handlePageChange('/')}>
@@ -153,12 +172,6 @@ function Sidebar() {
                             <Link to="/members" className='nav-link' onClick={() => handlePageChange('/members')}>
                                 <People />
                                 <span className='ps-3 medium'>Members</span>
-                            </Link>
-                        </li>
-                        <li className={`nav-item px-2 rounded my-1 ${currentPage === '/content' ? 'active' : ''}`}>
-                            <Link to="/content" className='nav-link' onClick={() => handlePageChange('/content')}>
-                                <Journals />
-                                <span className='ps-3 medium'>Content</span>
                             </Link>
                         </li>
                         <li className={`nav-item px-2 rounded my-1 ${currentPage === '/analytics' ? 'active' : ''}`}>
@@ -176,30 +189,118 @@ function Sidebar() {
                     </div>
 
                     <div className='sidebar-link-group'>
-                        <span className='txt-lighter small ps-2'>PRIVATE</span>
-                        <li className={`nav-item px-2 rounded my-1 ${currentPage === '/account' ? 'active' : ''}`}>
-                            <Link to="/account" className='nav-link' onClick={() => handlePageChange('/account')}>
-                                <PersonCircle />
-                                <span className='ps-3 medium'>My Account</span>
+                        <span className='txt-lighter small ps-2'>PRODUCTS</span>
+
+                        <li
+                            className={`nav-item px-2 rounded my-1`}
+                            onClick={() => toggleSubMenu('1')}
+                        >
+                            <Link className="nav-link d-flex">
+                                <img
+                                    className="img-fluid rounded"
+                                    width="35"
+                                    src="https://vhx.imgix.net/filmplug/assets/eb2f9876-a8d7-498c-8ea8-79be97d7b423.png?auto=format%2Ccompress&fit=crop&h=720&w=1280"
+                                    alt="Philly Uncut"
+                                />
+                                <div className='d-flex justify-content-between align-items-center w-100'>
+                                    <span className="ps-3 medium">Philly Uncut</span>
+                                    {activeMenu === '1' ? <ChevronDown className='ms-1' /> : <ChevronRight className='ms-1' />}
+                                </div>
                             </Link>
+                            {activeMenu === '1' && (
+                                <ul className="submenu ps-5">
+                                    <li className="nav-item ps-2">
+                                        <Link to="/content" className="nav-link">
+                                            Content
+                                        </Link>
+                                    </li>
+                                    <li className="nav-item ps-2">
+                                        <Link to="/reports" className="nav-link">
+                                            Reports
+                                        </Link>
+                                    </li>
+                                    <li className="nav-item ps-2">
+                                        <Link to="/analytics" className="nav-link">
+                                            Analytics
+                                        </Link>
+                                    </li>
+                                </ul>
+                            )}
                         </li>
-                        <li className={`nav-item px-2 rounded my-1 ${currentPage === '/my-projects' ? 'active' : ''}`}>
-                            <Link to="/my-projects" className='nav-link' onClick={() => handlePageChange('/my-projects')}>
-                                <Folder />
-                                <span className='ps-3 medium'>Projects</span>
+
+                        <li
+                            className={`nav-item px-2 rounded my-1`}
+                            onClick={() => toggleSubMenu('2')}
+                        >
+                            <Link className="nav-link d-flex">
+                                <img
+                                    className="img-fluid rounded"
+                                    width="35"
+                                    src="https://vhx.imgix.net/filmplug/assets/25c180d8-da4b-4266-915e-d9c5200e8354?auto=format%2Ccompress&fit=crop&h=360&w=640"
+                                    alt="Philly Uncut 2 Trailer"
+                                />
+                                <div className='d-flex justify-content-between align-items-center w-100'>
+                                    <span className="ps-3 medium">PHILLY UNCUT 2...</span>
+                                    {activeMenu === '2' ? <ChevronDown className='ms-1' /> : <ChevronRight className='ms-1' />}
+                                </div>
+
                             </Link>
+                            {activeMenu === '2' && (
+                                <ul className="submenu ps-5">
+                                    <li className="nav-item ps-2">
+                                        <Link to="/content" className="nav-link">
+                                            Content
+                                        </Link>
+                                    </li>
+                                    <li className="nav-item ps-2">
+                                        <Link to="/reports" className="nav-link">
+                                            Reports
+                                        </Link>
+                                    </li>
+                                    <li className="nav-item ps-2">
+                                        <Link to="/analytics" className="nav-link">
+                                            Analytics
+                                        </Link>
+                                    </li>
+                                </ul>
+                            )}
                         </li>
-                        <li className={`nav-item px-2 rounded my-1 ${currentPage === '/my-projects' ? 'active' : ''}`}>
-                            <Link to="/my-projects" className='nav-link' onClick={() => handlePageChange('/my-projects')}>
-                                <Bank />
-                                <span className='ps-3 medium'>Banking</span>
+
+                        <li
+                            className={`nav-item px-2 rounded my-1`}
+                            onClick={() => toggleSubMenu('3')}
+                        >
+                            <Link className="nav-link d-flex">
+                                <img
+                                    className="img-fluid rounded"
+                                    width="35"
+                                    src="https://vhx.imgix.net/filmplug/assets/e9c16300-0e8b-4276-9011-92bc42bf215a?auto=format%2Ccompress&fit=crop&h=360&w=640"
+                                    alt="Philly Uncut 2"
+                                />
+                                <div className='d-flex justify-content-between align-items-center w-100'>
+                                    <span className="ps-3 medium">Philly Uncut 2</span>
+                                    {activeMenu === '3' ? <ChevronDown className='ms-1' /> : <ChevronRight className='ms-1' />}
+                                </div>
                             </Link>
-                        </li>
-                        <li className="nav-item px-2 rounded my-1">
-                            <Link onClick={() => { setShowSettingsModal(true) }} className='nav-link d-flex align-items-center'>
-                                <Gear />
-                                <span className='ps-3 medium'>Settings</span>
-                            </Link>
+                            {activeMenu === '3' && (
+                                <ul className="submenu ps-5">
+                                    <li className="nav-item ps-2">
+                                        <Link to="/content" className="nav-link">
+                                            Content
+                                        </Link>
+                                    </li>
+                                    <li className="nav-item ps-2">
+                                        <Link to="/reports" className="nav-link">
+                                            Reports
+                                        </Link>
+                                    </li>
+                                    <li className="nav-item ps-2">
+                                        <Link to="/analytics" className="nav-link">
+                                            Analytics
+                                        </Link>
+                                    </li>
+                                </ul>
+                            )}
                         </li>
                     </div>
 
@@ -208,10 +309,6 @@ function Sidebar() {
 
             </nav>
 
-            <SettingsModal
-                showSettingsModal={showSettingsModal}
-                setShowSettingsModal={setShowSettingsModal}
-            />
         </>
     )
 }

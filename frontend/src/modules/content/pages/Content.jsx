@@ -12,49 +12,10 @@ const Content = () => {
 
     return (
         <div className="container px-5">
-            <h4 className="bold mb-5">Content</h4>
-            <Form>
-                <Form.Group controlId="formFile" className="mb-4">
-                    <Form.Label>Upload CSV File</Form.Label>
-                    <Form.Control type="file" accept=".csv" className='px-3' />
-                </Form.Group>
-                <Button variant="primary" disabled>
-                    Upload
-                </Button>
-            </Form>
+            <h2 className="bold mb-5">Content</h2>
+            
+            <p>This is a page where you will be able to see content specific to this product/asset</p>
 
-            {/* Table Section */}
-            <Table striped bordered hover responsive className="mt-5">
-                <thead>
-                    <tr>
-                        <th className='text-center'>#</th>
-                        <th>File Name</th>
-                        <th>Upload Date</th>
-                        <th>Status</th>
-                        <th className='text-center'>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {mockData.map((data) => (
-                        <tr key={data.id}>
-                            <td className='text-center'>{data.id}</td>
-                            <td>{data.name}</td>
-                            <td>{data.date}</td>
-                            <td>{data.status}</td>
-                            <td className='text-center'>
-                                <div className='d-flex justify-content-center'>
-                                    <div className='px-1'>
-                                        <Download className='text-danger pointer' />
-                                    </div>
-                                    <div className='px-1'>
-                                        <FilePdf className='text-danger pointer' />
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </Table>
         </div>
     );
 };

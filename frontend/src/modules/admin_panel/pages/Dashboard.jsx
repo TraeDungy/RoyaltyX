@@ -11,53 +11,6 @@ function Dashboard() {
         number_of_pro_subscribed_users: 0,
     });
 
-    const [lineChartData, setLineChartData] = useState({
-        labels: [],
-        datasets: [
-            {
-                label: 'Monthly Earnings',
-                data: [],
-                fill: true,
-                backgroundColor: '#791f9055',
-                borderColor: '#791f90',
-                tension: 0.4,
-            },
-        ],
-    });
-
-    const subscriptionData = {
-        labels: ['Standard Plan', 'Pro Enterprise'],
-        datasets: [
-            {
-                label: '',
-                data: [
-                    Math.floor(stats.number_of_standard_subscribed_users * 100),
-                    Math.floor(stats.number_of_pro_subscribed_users * 100),
-                ],
-                backgroundColor: ['#cf004c', '#4D81F1'],
-                borderColor: ['#cf004c', '#4D81F1'],
-                backgroundColor: ['#791f9055', '#ffc10755'],
-                borderColor: ['#791f90', '#ffc107'],
-                borderWidth: 1,
-            },
-        ],
-    };
-
-
-    function generateSmoothData(base, variation) {
-        return Array.from({ length: 12 }, (_, i) => base + (Math.sin(i) * variation));
-    }
-
-    const options = {
-        scales: {
-            x: {
-                grid: {
-                    display: false,
-                },
-            },
-        },
-        maintainAspectRatio: false,
-    };
 
     return (
 
