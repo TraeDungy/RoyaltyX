@@ -218,18 +218,6 @@ img.shadow {
   background-image: url(https://user-images.githubusercontent.com/35243461/168796899-499f66ce-ed05-404d-8f37-063165788b31.svg);
 }
 
-::-webkit-input-placeholder {
-  font-size: .8rem
-}
-
-::-moz-placeholder {
-  font-size: .8rem
-}
-
-:-ms-input-placeholder {
-  font-size: .8rem
-}
-
 .shadow-line {
   box-shadow: rgba(62, 57, 107, 0.07) 0px 1px 15px 1px;
   border-width: 1px;
