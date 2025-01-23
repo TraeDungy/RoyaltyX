@@ -28,7 +28,7 @@ function Header() {
                                 fontSize: 9,
                             }}
                         >
-                            7
+                            3
                         </span>
                     </Link>
                     <NotificationsDropdown />
