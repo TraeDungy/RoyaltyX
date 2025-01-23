@@ -9,8 +9,8 @@ export const ThemeProvider = ({ children }) => {
     if (savedThemePreference !== null) {
       return savedThemePreference === 'dark';
     }
-    return true;
-  });
+    return false;
+  });  
   
 
   useEffect(() => {

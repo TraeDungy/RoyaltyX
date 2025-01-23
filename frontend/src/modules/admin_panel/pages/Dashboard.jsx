@@ -71,7 +71,7 @@ function Dashboard() {
 
                     <h5 className='mt-4 mb-3'>Top Performing Content</h5>
 
-                    <div className="card bg-body shadow-sm">
+                    <div className="card bgc-body shadow-sm">
                         <div class="table-responsive">
                             <table class="table table-striped table-hover mb-0">
                                 <tbody>

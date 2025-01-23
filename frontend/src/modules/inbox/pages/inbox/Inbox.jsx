@@ -8,7 +8,7 @@ function Inbox() {
             <div class="page-content">
                 <div class="row m-0">
                     <div class="col-md-4 col-12 card-stacked">
-                        <div class="card bg-body shadow-line chat px-0">
+                        <div class="bgc-body shadow-line chat px-0">
                             <div class="chat-user-detail">
                                 <div class="p-3 chat-user-info">
                                     <div class="card-body text-center">
@@ -39,12 +39,12 @@ function Inbox() {
                                             <div class="d-flex pl-0">
                                                 <img class="rounded-circle shadow avatar-sm mr-3" src="https://user-images.githubusercontent.com/35243461/168796884-ee3aafb6-8083-48ec-9cfb-51b95eae08fe.jpg" />
                                                 <div className='ps-2'>
-                                                    <p class="margin-auto fw-400 text-dark-75">Emily Woods</p>
+                                                    <p class="margin-auto fw-400">Emily Woods</p>
                                                     <div class="d-flex flex-row mt-1">
                                                         <span>
                                                             <div class="svg15 double-check"></div>
                                                         </span>
-                                                        <span class="message-shortcut margin-auto text-lighter fs-13 ml-1 mr-4">I'm looking forward to it</span>
+                                                        <span class="message-shortcut margin-auto txt-lighter fs-13 ml-1 mr-4">I'm looking forward to it</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -66,12 +66,12 @@ function Inbox() {
                                             <div class="d-flex pl-0">
                                                 <img class="rounded-circle shadow avatar-sm mr-3" src="https://user-images.githubusercontent.com/35243461/168796872-7251e655-cdf0-4031-a253-bf0db09cdf0f.jpg" />
                                                 <div className='ps-2'>
-                                                    <p class="margin-auto fw-400 text-dark-75">Trae Dungy</p>
+                                                    <p class="margin-auto fw-400">Trae Dungy</p>
                                                     <div class="d-flex flex-row mt-1">
                                                         <span>
                                                             <div class="svg15 double-check"></div>
                                                         </span>
-                                                        <span class="message-shortcut margin-auto fw-400 fs-13 ml-1 mr-4">Hey Quan, If you are free now we can meet tonight ?</span>
+                                                        <span class="message-shortcut margin-auto txt-lighter fw-400 fs-13 ml-1 mr-4">Hey Quan, If you are free now we can meet tonight ?</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -79,7 +79,6 @@ function Inbox() {
                                         <div class="flex-shrink-0 margin-auto pl-2 pr-3">
                                             <div class="d-flex flex-column">
                                                 <p class="text-lighter text-right fs-13 mb-2">08:21</p>
-                                                <span class="round badge badge-light-success margin-auto">2</span>
                                             </div>
                                         </div>
                                     </div>
@@ -88,12 +87,12 @@ function Inbox() {
                                             <div class="d-flex pl-0">
                                                 <img class="rounded-circle shadow avatar-sm mr-3" src="https://user-images.githubusercontent.com/35243461/168796879-f8c5e585-15c0-49ff-94de-c70539ae434c.jpg" />
                                                 <div className='ps-2'>
-                                                    <p class="margin-auto fw-400 text-dark-75">Tessa Nau</p>
+                                                    <p class="margin-auto fw-400">Tessa Nau</p>
                                                     <div class="d-flex flex-row mt-1">
                                                         <span>
                                                             <div class="svg15 single-check"></div>
                                                         </span>
-                                                        <span class="message-shortcut margin-auto text-lighter fs-13 ml-1 mr-4">No that's everyhing, thanks again! </span>
+                                                        <span class="message-shortcut margin-auto txt-lighter fs-13 ml-1 mr-4">No that's everyhing, thanks again! </span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -109,12 +108,12 @@ function Inbox() {
                                             <div class="d-flex pl-0">
                                                 <img class="rounded-circle shadow avatar-sm mr-3" src="https://user-images.githubusercontent.com/35243461/168796872-7251e655-cdf0-4031-a253-bf0db09cdf0f.jpg" />
                                                 <div className='ps-2'>
-                                                    <p class="margin-auto fw-400 text-dark-75">Eric Campos</p>
+                                                    <p class="margin-auto fw-400">Eric Campos</p>
                                                     <div class="d-flex flex-row mt-1">
                                                         <span>
                                                             <div class="svg15 double-check-blue"></div>
                                                         </span>
-                                                        <span class="message-shortcut margin-auto text-lighter fs-13 ml-1 mr-4">So cool, I'll let you know if anything else is needed </span>
+                                                        <span class="message-shortcut margin-auto txt-lighter fs-13 ml-1 mr-4">So cool, I'll let you know if anything else is needed </span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -130,13 +129,13 @@ function Inbox() {
                                             <div class="d-flex pl-0">
                                                 <img class="rounded-circle avatar-sm mr-3" src="https://user-images.githubusercontent.com/35243461/168796904-de09be7a-511c-4ae6-8312-4e81b8721555.svg" />
                                                 <div className='ps-2'>
-                                                    <p class="margin-auto fw-400 text-dark-75">Lone Rangers</p>
+                                                    <p class="margin-auto fw-400">Lone Rangers</p>
                                                     <div class="d-flex flex-row mt-1">
                                                         <span>
                                                             <div class="svg15 double-check-blue"></div>
                                                         </span>
-                                                        <span class="message-shortcut margin-auto text-lighter fs-13 ml-1 mr-4">
-                                                            <div class="d-flex flex-row text-lighter">
+                                                        <span class="message-shortcut margin-auto txt-lighter fs-13 ml-1 mr-4">
+                                                            <div class="d-flex flex-row txt-lighter">
                                                                 <span>Diego</span>:
                                                                 <span class="message-shortcut margin-auto fs-13 ml-1 mr-4">So cool, I'll let you know if anything else is needed </span>
                                                             </div>
@@ -156,12 +155,12 @@ function Inbox() {
                                             <div class="d-flex pl-0">
                                                 <img class="rounded-circle shadow avatar-sm mr-3" src="https://user-images.githubusercontent.com/35243461/168796882-28875c5c-424a-40d4-8f69-cfb7f18ccd14.jpg" />
                                                 <div className='ps-2'>
-                                                    <p class="margin-auto fw-400 text-dark-75">Luis Hamilton</p>
+                                                    <p class="margin-auto fw-400">Luis Hamilton</p>
                                                     <div class="d-flex flex-row mt-1">
                                                         <span>
                                                             <div class="svg15 double-check"></div>
                                                         </span>
-                                                        <span class="message-shortcut margin-auto text-lighter fs-13 ml-1 mr-4">no problem</span>
+                                                        <span class="message-shortcut margin-auto txt-lighter fs-13 ml-1 mr-4">no problem</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -177,12 +176,12 @@ function Inbox() {
                                             <div class="d-flex pl-0">
                                                 <img class="rounded-circle avatar-sm mr-3" src="https://user-images.githubusercontent.com/35243461/168796906-ab4fc0f3-551c-4036-b455-be2dfedb9680.svg" />
                                                 <div className='ps-2'>
-                                                    <p class="margin-auto fw-400 text-dark-75">Joel Lehtinen</p>
+                                                    <p class="margin-auto fw-400">Joel Lehtinen</p>
                                                     <div class="d-flex flex-row mt-1">
                                                         <span>
                                                             <div class="svg15 double-check"></div>
                                                         </span>
-                                                        <span class="message-shortcut margin-auto text-lighter fs-13 ml-1 mr-4">find it hard to believe you don't know</span>
+                                                        <span class="message-shortcut margin-auto txt-lighter fs-13 ml-1 mr-4">find it hard to believe you don't know</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -198,12 +197,12 @@ function Inbox() {
                                             <div class="d-flex pl-0">
                                                 <img class="rounded-circle shadow avatar-sm mr-3" src="https://user-images.githubusercontent.com/35243461/168796881-383d6cc9-a4cc-402f-b730-e9edc4e1e9b7.jpg" />
                                                 <div className='ps-2'>
-                                                    <p class="margin-auto fw-400 text-dark-75">James Tolonen</p>
+                                                    <p class="margin-auto fw-400">James Tolonen</p>
                                                     <div class="d-flex flex-row mt-1">
                                                         <span>
                                                             <div class="svg15 single-check"></div>
                                                         </span>
-                                                        <span class="message-shortcut margin-auto text-lighter fs-13 ml-1 mr-4">All your life</span>
+                                                        <span class="message-shortcut margin-auto txt-lighter fs-13 ml-1 mr-4">All your life</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -219,12 +218,12 @@ function Inbox() {
                                             <div class="d-flex pl-0">
                                                 <img class="rounded-circle avatar-sm mr-3" src="https://user-images.githubusercontent.com/35243461/168796906-ab4fc0f3-551c-4036-b455-be2dfedb9680.svg" />
                                                 <div className='ps-2'>
-                                                    <p class="margin-auto fw-400 text-dark-75">Cory Bryant</p>
+                                                    <p class="margin-auto fw-400">Cory Bryant</p>
                                                     <div class="d-flex flex-row mt-1">
                                                         <span>
                                                             <div class="svg15 double-check-blue"></div>
                                                         </span>
-                                                        <span class="message-shortcut margin-auto text-lighter fs-13 ml-1 mr-4">12-year journey to visit more asteroids than any other</span>
+                                                        <span class="message-shortcut margin-auto txt-lighter fs-13 ml-1 mr-4">12-year journey to visit more asteroids than any other</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -240,33 +239,33 @@ function Inbox() {
                         </div>
                     </div>
                     <div class="col-md-8 col-12 card-stacked">
-                        <div class="card bg-body shadow-line chat chat-panel w-100">
+                        <div class="bgc-body shadow-line chat chat-panel w-100">
                             <div class="p-3 chat-header">
                                 <div class="d-flex">
                                     <div class="w-100 d-flex pl-0">
                                         <img class="rounded-circle shadow avatar-sm mr-3 chat-profile-picture" src="https://user-images.githubusercontent.com/35243461/168796872-7251e655-cdf0-4031-a253-bf0db09cdf0f.jpg" />
                                         <div class="mr-3 ps-2">
                                             <a href="!#">
-                                                <p class="fw-400 mb-0 text-dark-75">Trae Dungy</p>
+                                                <p class="fw-400 mb-0">Trae Dungy</p>
                                             </a>
                                             <p class="sub-caption text-lighter text-small mb-0"><i class="la la-clock mr-1"></i>last seen today at 09:15 PM</p>
                                         </div>
                                     </div>
                                     <div class="flex-shrink-0 margin-auto">
-                                        <a href="#" class="btn btn-sm btn-icon btn-light active text-dark ml-2">
+                                        <a href="#" class="btn btn-sm btn-icon btn-basic active ml-2">
                                             <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="feather">
                                                 <circle cx="12" cy="12" r="10"></circle>
                                                 <line x1="12" y1="16" x2="12" y2="12"></line>
                                                 <line x1="12" y1="8" x2="12.01" y2="8"></line>
                                             </svg>
                                         </a>
-                                        <a href="#" class="btn btn-sm btn-icon btn-light active text-dark ml-2">
+                                        <a href="#" class="btn btn-sm btn-icon btn-basic active ml-2">
                                             <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="feather">
                                                 <circle cx="11" cy="11" r="8"></circle>
                                                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                                             </svg>
                                         </a>
-                                        <a href="#" class="btn btn-sm btn-icon btn-light active text-dark ml-2">
+                                        <a href="#" class="btn btn-sm btn-icon btn-basic active ml-2">
                                             <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="feather">
                                                 <circle cx="12" cy="12" r="1"></circle>
                                                 <circle cx="12" cy="5" r="1"></circle>

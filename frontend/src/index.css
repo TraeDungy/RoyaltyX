@@ -149,6 +149,10 @@ body {
   background-color: var(--color-primary) !important;
 }
 
+.bgc-body{
+  background-color: var(--color-body-background) !important;
+}
+
 .bgc-light-contrast {
   background-color: var(--color-light-contrast) !important;
 }
