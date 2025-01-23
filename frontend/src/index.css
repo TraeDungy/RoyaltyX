@@ -75,7 +75,6 @@ body {
 }
 
 .main-container {
-  min-height: 100vh;
   margin: auto;
   width: 100%;
 }
