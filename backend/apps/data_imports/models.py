@@ -3,5 +3,11 @@ from common.models import BaseModel
 from apps.project.models import Project
 
 class File(BaseModel):
-    name = models.CharField(max_length=255, blank=False, null=False)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, null=False, blank=False)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True, blank=True)
+    file = models.FileField(upload_to='uploads/', null=True)
+    name = models.CharField(max_length=255, blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.name and self.file:
+            self.name = self.file.name
+        super().save(*args, **kwargs)
