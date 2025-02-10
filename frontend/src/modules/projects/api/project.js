@@ -61,7 +61,7 @@ export const getProjectInfo = async () => {
 
         const token = localStorage.getItem('accessToken');
 
-        const response = await fetch(apiUrl + '/project-info', {
+        const response = await fetch(apiUrl + '/projects/info/', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -112,18 +112,13 @@ export const switchProject = async (project_id) => {
 
 }
 
-export const updateProjectInfo = async (name, description) => {
+export const updateProjectInfo = async (data) => {
 
     try {
 
         const token = localStorage.getItem('accessToken');
 
-        const data = {
-            "name": name,
-            "description": description
-        }
-
-        const response = await fetch(apiUrl + '/project', {
+        const response = await fetch(apiUrl + '/projects/update/', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
