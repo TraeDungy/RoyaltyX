@@ -34,7 +34,7 @@ export const getProjectMembers = async () => {
 
         const token = localStorage.getItem('accessToken');
 
-        const response = await fetch(apiUrl + '/project/members', {
+        const response = await fetch(apiUrl + '/projects/users', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

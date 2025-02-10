@@ -13,7 +13,7 @@
   --color-success: #0bb050 !important;
   --toastify-color-success: #0bb050 !important;
   --sidebar-background: #F2F2F2;
-  --dropdown-menu-color: #fff;
+  --content-over-widget-color: #fff;
   --sidebar-width: 275px;
 }
 
@@ -25,7 +25,7 @@
   --sidebar-background: #202123;
   --color-light-contrast: #333435;
   --color-power-contrast: #2a2c2e;
-  --dropdown-menu-color: #333435;
+  --content-over-widget-color: #333435;
 }
 
 #sidebar.active {
@@ -331,7 +331,7 @@ li.disabled,
 
 .modal-content {
   border: none !important;
-  background-color: var(--color-light-contrast) !important;
+  background-color: var(--content-over-widget-color) !important;
 }
 
 .status-badge {
@@ -396,7 +396,7 @@ p {
 .list-group-item {
   color: var(--color-text) !important;
   border: none !important;
-  background-color: var(--dropdown-menu-color) !important;
+  background-color: var(--content-over-widget-color) !important;
 }
 
 .list-group-item:hover{
