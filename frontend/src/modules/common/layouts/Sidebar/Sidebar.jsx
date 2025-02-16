@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { PersonCircle, UiChecksGrid, QuestionCircle, Chat, Stripe, People, Wallet2, ArrowLeft, List, ChevronDown, Gear, Speedometer, Folder, Files, FileEarmarkPdf, Journals, Bank, ChevronRight, Plus, FilePdf } from 'react-bootstrap-icons';
 import { getUserInfo } from '../../../account/api/user';
 import { getMyProjects, switchProject } from '../../../projects/api/project';
+import AddProductModal from '../../../products/components/AddProductModal';
 
 function Sidebar() {
 
@@ -302,6 +303,9 @@ function Sidebar() {
                                 </ul>
                             )}
                         </li>
+
+                        <AddProductModal />
+
                     </div>
 
                 </ul>

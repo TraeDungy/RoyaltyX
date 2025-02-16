@@ -18,6 +18,7 @@ import contentRoutes from './modules/content';
 import analyticsRoutes from './modules/analytics';
 import inboxRoutes from './modules/inbox';
 import managementRoutes from './modules/management';
+import productRoutes from './modules/products';
 
 const PrivateRoutes = () => {
   const { authenticated, loading } = useAuth();
@@ -45,7 +46,8 @@ const routes = [
           ...accountRoutes,
           ...contentRoutes,
           ...inboxRoutes,
-          ...managementRoutes
+          ...managementRoutes,
+          ...productRoutes
         ],
       },
       {

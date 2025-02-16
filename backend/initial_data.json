@@ -23,7 +23,7 @@
         "model": "user.user",
         "pk": 2,
         "fields": {
-            "password": "pbkdf2_sha256$720000$VIrJK7YjhSyNnuzUKKmcHf$Q6t006n38UlEiZbQStpku2ki/4wguCdfx4SKjzCQex4=",
+            "password": "pbkdf2_sha256$720000$iQ7u2FMHJccl9m7YqFQaaR$PWCNIuZ82/ci4cPr39kKx/xVM0N1BMS/n4hnITnQHDE=",
             "email": "test@royaltyx.com",
             "username": "test@royaltyx.com",
             "name": "Test User",

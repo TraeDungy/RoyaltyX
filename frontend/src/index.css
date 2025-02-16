@@ -120,6 +120,10 @@ body {
   color: transparent;
 }
 
+.txt-regular {
+  color: var(--color-text) !important;
+}
+
 .txt-lighter {
   color: var(--color-text-lighter) !important;
 }
@@ -313,7 +317,12 @@ p.two-words::after {
 }
 
 .btn-basic:hover {
-  background-color: var(--color-darker-gray) !important;
+  background-color: var(--color-power-contrast) !important;
+}
+
+.btn-hover:hover {
+  background-color: var(--color-power-contrast) !important;
+  border-radius: .6rem;
 }
 
 .pointer {

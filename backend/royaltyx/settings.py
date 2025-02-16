@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'apps.user',
     'apps.authentication',
     'apps.project',
+    'apps.product',
     'apps.data_imports',
     'rest_framework',
     'rest_framework_simplejwt',
@@ -172,3 +173,4 @@ CSRF_COOKIE_SECURE = True
 CORS_ALLOW_ALL_ORIGINS = True
 
 TESTS_IN_REAL_DB = True
+TEST_DISCOVER_PATTERN = "apps/*/tests/*.py"

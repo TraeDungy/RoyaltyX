@@ -11,6 +11,7 @@ class AuthenticationTests(TestCase):
     def test_login(self):
         url = reverse('token_obtain_pair')
         data = {
+            'namee': 'Test User',
             'email': 'test@royaltyx.com',
             'password': 'Testaccount1_'
         }
