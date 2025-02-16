@@ -40,8 +40,8 @@ function AddMemberModal({ showAddMemberModal, setShowAddMemberModal, projectMemb
 
     return (
         <>
-            <Modal centered show={showAddMemberModal} onHide={handleCloseAddMemberModal}>
-                <Modal.Header closeButton>
+            <Modal centered show={showAddMemberModal} size='lg' onHide={handleCloseAddMemberModal}>
+                <Modal.Header className='border-0'>
                     <Modal.Title className='h5'>Add project member</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -54,7 +54,7 @@ function AddMemberModal({ showAddMemberModal, setShowAddMemberModal, projectMemb
                                         <td className='medium'>{user.email}</td>
                                         <td className='text-center'>
                                             <button className='btn btn-basic medium bg-gray shadow-sm' onClick={() => { handleAddMember(user) }}>
-                                                <Plus />
+                                                Add <Plus className='ms-2' />
                                             </button>
                                         </td>
                                     </tr>

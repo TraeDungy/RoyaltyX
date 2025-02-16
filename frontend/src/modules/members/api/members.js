@@ -10,7 +10,7 @@ export const addProjectMember = async (user_id) => {
             "user_id": user_id
         }
 
-        const response = await fetch(apiUrl + '/projects/users', {
+        const response = await fetch(apiUrl + '/projects/users/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ export const removeProjectMember = async (user_id) => {
             "user_id": user_id
         }
 
-        const response = await fetch(apiUrl + '/projects/users', {
+        const response = await fetch(apiUrl + '/projects/users/', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

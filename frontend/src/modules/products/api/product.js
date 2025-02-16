@@ -1,6 +1,6 @@
 import { apiUrl } from "../../common/api/config";
 
-export const getMyProducts = async () => {
+export const getProducts = async () => {
 
     try {
 
