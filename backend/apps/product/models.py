@@ -4,12 +4,12 @@ from apps.project.models import Project
 class Product(models.Model):
     project = models.ForeignKey(Project, null=True, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
-    statement_frequency = models.CharField(max_length=50, choices=[
+    statement_frequency = models.CharField(max_length=50, null=True, choices=[
         ("Monthly", "Monthly"),
         ("Quarterly", "Quarterly"),
         ("Annually", "Annually"),
     ])
-    first_statement_end_date = models.DateField()
+    first_statement_end_date = models.DateField(null=True)
     payment_threshold = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     payment_window = models.IntegerField(help_text="Number of days before payment is processed", blank=True, null=True)
     is_active = models.BooleanField(default=True)

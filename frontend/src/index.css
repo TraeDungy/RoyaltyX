@@ -1,7 +1,7 @@
 :root {
-  --color-primary: #dba920;
-  --color-primary-lighter: #dba92040;
-  --color-primary-hover: #dba920d3;
+  --color-primary: #627fea;
+  --color-primary-lighter: #627fea40;
+  --color-primary-hover: #627fead3;
   --color-text: #1e1f21;
   --color-text-lighter: #5d5e5f;
   --color-body-background: #fff;
@@ -23,8 +23,8 @@
   --color-text-lighter: #a5b0b9;
   --color-body-background: #202123;
   --sidebar-background: #202123;
-  --color-light-contrast: #333435;
-  --color-power-contrast: #2a2c2e;
+  --color-light-contrast: #292a2b;
+  --color-power-contrast: #1e2021;
   --content-over-widget-color: #333435;
 }
 

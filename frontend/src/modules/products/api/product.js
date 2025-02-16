@@ -61,9 +61,10 @@ export const createProduct = async (product) => {
         const response = await fetch(apiUrl + '/products/', {
             method: 'POST',
             headers: {
-                'Authorization': 'Bearer ' + token
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
             },
-            body: product
+            body: JSON.stringify(product)
         });
 
         const responseData = await response.json();

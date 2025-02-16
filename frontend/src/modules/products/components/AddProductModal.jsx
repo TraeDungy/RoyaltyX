@@ -7,36 +7,34 @@ import Button from '../../common/components/Button';
 import { createProduct } from '../api/product';
 
 function AddProductModal() {
+
     const [show, setShow] = useState(false);
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
 
-    const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
-
-    const [loading, setLoading] = useState(false);
-
-    const navigate = useNavigate();
-
     const handleSubmit = async () => {
         setLoading(true);
 
         const product = {
-            "name": name,
-            "description": description
+            title: title,
+            description: description
         }
 
         try {
             await createProduct(product);
 
-            setName('');
+            setTitle('');
             setDescription('');
 
             navigate("/");
             toast.success("Successfully added a new product!");
-
+            handleClose();
 
         } catch (error) {
             toast.error(error.message);
@@ -62,7 +60,7 @@ function AddProductModal() {
                             <h4 className="bold">
                                 Add Product
                             </h4>
-                            <button className='btn btn-hover txt-regular'><X className='h3 mb-0' /></button>
+                            <button className='btn btn-hover txt-regular' onClick={handleClose}><X className='h3 mb-0' /></button>
                         </div>
 
                         <span className='txt-lighter medium'>Empower your projects with ease. Streamline creation and management effortlessly.</span>
@@ -70,8 +68,8 @@ function AddProductModal() {
 
                         <label className='pb-2 mt-4'>Name</label>
                         <input type="text" className='form-control medium bg-gray-light py-3'
-                            placeholder='Name' value={name} autoComplete="new-password"
-                            onChange={(e) => setName(e.target.value)} />
+                            placeholder='Name' value={title} autoComplete="new-password"
+                            onChange={(e) => setTitle(e.target.value)} />
 
                         <label className='mt-4 mb-2'>Description</label>
                         <textarea type="text" className='form-control bg-gray-light py-2 medium'
