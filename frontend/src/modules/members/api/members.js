@@ -1,61 +1,53 @@
 import { apiUrl } from "../../common/api/config";
 
 export const addProjectMember = async (user_id) => {
+  try {
+    const token = localStorage.getItem("accessToken");
 
-    try {
+    const data = {
+      user_id: user_id,
+    };
 
-        const token = localStorage.getItem('accessToken');
+    const response = await fetch(apiUrl + "/projects/users/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify(data),
+    });
 
-        const data = {
-            "user_id": user_id
-        }
+    const responseData = await response.json();
 
-        const response = await fetch(apiUrl + '/projects/users/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': 'Bearer ' + token
-            },
-            body: JSON.stringify(data)
-        });
-
-        const responseData = await response.json();
-
-        return responseData;
-
-    } catch (error) {
-        return error;
-    }
-
-}
+    return responseData;
+  } catch (error) {
+    return error;
+  }
+};
 
 export const removeProjectMember = async (user_id) => {
+  try {
+    const token = localStorage.getItem("accessToken");
 
-    try {
+    const data = {
+      user_id: user_id,
+    };
 
-        const token = localStorage.getItem('accessToken');
+    const response = await fetch(apiUrl + "/projects/users/", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify(data),
+    });
 
-        const data = {
-            "user_id": user_id
-        }
+    const responseData = await response.json();
 
-        const response = await fetch(apiUrl + '/projects/users/', {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': 'Bearer ' + token
-            },
-            body: JSON.stringify(data)
-        });
-
-        const responseData = await response.json();
-
-        return responseData;
-
-    } catch (error) {
-        return error;
-    }
-
-}
+    return responseData;
+  } catch (error) {
+    return error;
+  }
+};

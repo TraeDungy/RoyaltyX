@@ -1,26 +1,25 @@
 import { apiUrl } from "../../common/api/config";
 
 export const getUserInfo = async () => {
+  const token = localStorage.getItem("accessToken");
 
-    const token = localStorage.getItem('accessToken');
+  try {
+    const response = await fetch(apiUrl + "/users/get-my-info/", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    });
 
-    try {
-        const response = await fetch(apiUrl+'/users/get-my-info/', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token
-            },
-        });
+    const responseData = await response.json();
 
-        const responseData = await response.json();
-
-        if (response.ok) {
-            return responseData;
-        } else {
-            throw new Error(responseData.errors);
-        }
-    } catch (error) {
-        throw new Error(error);
+    if (response.ok) {
+      return responseData;
+    } else {
+      throw new Error(responseData.errors);
     }
+  } catch (error) {
+    throw new Error(error);
+  }
 };
