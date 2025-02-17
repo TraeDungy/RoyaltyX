@@ -1,0 +1,38 @@
+name: Backend Ruff Check
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  ruff-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.11.11'
+
+      - name: Install dependencies
+        run: |
+          cd backend
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Install Ruff
+        run: |
+          cd backend
+          pip install ruff
+
+      - name: Run Ruff check
+        run: |
+          cd backend
+          ruff check .
