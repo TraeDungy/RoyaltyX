@@ -3,11 +3,11 @@ import Settings from "./pages/Settings";
 
 const managementRoutes = [
   {
-    path: '/management/data/import',
+    path: "/management/data/import",
     element: <Import />,
   },
   {
-    path: '/management/settings',
+    path: "/management/settings",
     element: <Settings />,
   },
 ];

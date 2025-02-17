@@ -3,11 +3,11 @@ import CreateNewProject from "./pages/CreateNewProject";
 
 const projectRoutes = [
   {
-    path: 'my-projects',
+    path: "my-projects",
     element: <MyProjects />,
   },
   {
-    path: 'projects/create',
+    path: "projects/create",
     element: <CreateNewProject />,
   },
 ];

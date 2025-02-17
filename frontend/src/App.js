@@ -1,24 +1,29 @@
-import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+  Outlet,
+} from "react-router-dom";
 import AppLayout from "./modules/common/layouts/AppLayout";
-import ScrollToTop from './modules/common/components/ScrollToTop';
-import PageNotFound from './modules/common/pages/PageNotFound';
-import authRoutes from './modules/authentication';
-import adminRoutes from './modules/admin_panel';
-import { AuthProvider, useAuth } from './modules/common/contexts/AuthContext';
-import AdminLayout from './modules/admin_panel/layout/AdminLayout';
-import React from 'react';
-import { ThemeProvider } from './modules/common/contexts/ThemeContext';
-import dashboardRoutes from './modules/dashboard';
-import projectRoutes from './modules/projects';
-import Layout from './modules/projects/layout/Layout';
-import memberRoutes from './modules/members';
-import reportRoutes from './modules/report';
-import accountRoutes from './modules/account';
-import contentRoutes from './modules/content';
-import analyticsRoutes from './modules/analytics';
-import inboxRoutes from './modules/inbox';
-import managementRoutes from './modules/management';
-import productRoutes from './modules/products';
+import ScrollToTop from "./modules/common/components/ScrollToTop";
+import PageNotFound from "./modules/common/pages/PageNotFound";
+import authRoutes from "./modules/authentication";
+import adminRoutes from "./modules/admin_panel";
+import { AuthProvider, useAuth } from "./modules/common/contexts/AuthContext";
+import AdminLayout from "./modules/admin_panel/layout/AdminLayout";
+import { ThemeProvider } from "./modules/common/contexts/ThemeContext";
+import dashboardRoutes from "./modules/dashboard";
+import projectRoutes from "./modules/projects";
+import Layout from "./modules/projects/layout/Layout";
+import memberRoutes from "./modules/members";
+import reportRoutes from "./modules/report";
+import accountRoutes from "./modules/account";
+import contentRoutes from "./modules/content";
+import analyticsRoutes from "./modules/analytics";
+import inboxRoutes from "./modules/inbox";
+import managementRoutes from "./modules/management";
+import productRoutes from "./modules/products";
 
 const PrivateRoutes = () => {
   const { authenticated, loading } = useAuth();
@@ -32,11 +37,11 @@ const PrivateRoutes = () => {
 
 const routes = [
   {
-    path: '/',
+    path: "/",
     element: <PrivateRoutes />,
     children: [
       {
-        path: '/',
+        path: "/",
         element: <AppLayout />,
         children: [
           ...dashboardRoutes,
@@ -47,38 +52,33 @@ const routes = [
           ...contentRoutes,
           ...inboxRoutes,
           ...managementRoutes,
-          ...productRoutes
+          ...productRoutes,
         ],
       },
       {
-        path: '/',
+        path: "/",
         element: <Layout />,
-        children: [
-          ...projectRoutes,
-        ],
+        children: [...projectRoutes],
       },
     ],
   },
   ...authRoutes,
   {
-    path: '/admin',
+    path: "/admin",
     element: <PrivateRoutes />,
     children: [
       {
-        path: '/admin',
+        path: "/admin",
         element: <AdminLayout />,
-        children: [
-          ...adminRoutes,
-        ],
+        children: [...adminRoutes],
       },
     ],
   },
   {
-    path: '*',
+    path: "*",
     element: <PageNotFound />,
   },
 ];
-
 
 const renderRoutes = (routes) => {
   return routes.map((route, index) => {
@@ -89,7 +89,14 @@ const renderRoutes = (routes) => {
         </Route>
       );
     } else {
-      return <Route key={index} path={route.path} element={route.element} index={route.index} />;
+      return (
+        <Route
+          key={index}
+          path={route.path}
+          element={route.element}
+          index={route.index}
+        />
+      );
     }
   });
 };

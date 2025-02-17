@@ -1,8 +1,8 @@
-import Account from './pages/Account';
+import Account from "./pages/Account";
 
 const accountRoutes = [
   {
-    path: 'account',
+    path: "account",
     element: <Account />,
   },
 ];

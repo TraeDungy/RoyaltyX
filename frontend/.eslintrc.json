@@ -1,26 +1,25 @@
 {
-    "root": true,
-    "env": {
-      "browser": true,
-      "es2021": true,
-      "node": true
-    },
-    "parser": "@babel/eslint-parser",
-    "parserOptions": {
-      "ecmaVersion": "latest",
-      "sourceType": "module",
-      "requireConfigFile": false
-    },
-    "extends": [
-      "eslint:recommended",
-      "plugin:react/recommended",
-      "plugin:prettier/recommended"
-    ],
-    "plugins": ["react", "prettier", "unused-imports"],
+    "extends": ["react-app", "plugin:prettier/recommended"],
+    "plugins": ["react", "jsx-a11y", "unused-imports"],
     "rules": {
       "unused-imports/no-unused-imports": "error",
-      "no-unused-vars": "warn",
-      "prettier/prettier": "warn"
-    }
+      "unused-imports/no-unused-vars": [
+        "error",
+        { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
+      ],
+      "react/jsx-uses-react": "off",
+      "react/react-in-jsx-scope": "off",
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn"
+    },
+    "overrides": [
+      {
+        "files": ["*.js", "*.jsx"],
+        "parserOptions": {
+          "ecmaVersion": 2021,
+          "sourceType": "module"
+        }
+      }
+    ]
   }
   

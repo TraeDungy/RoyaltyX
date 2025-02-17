@@ -2,7 +2,7 @@ import Inbox from "./pages/inbox/Inbox";
 
 const inboxRoutes = [
   {
-    path: 'inbox',
+    path: "inbox",
     element: <Inbox />,
   },
 ];
