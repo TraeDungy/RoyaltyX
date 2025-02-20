@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../../../common/contexts/AuthContext";
 import Button from "../../../common/components/Button";
@@ -9,7 +9,6 @@ import icon from "../../../common/assets/img/brand/icon.webp";
 export default function Login() {
   const [error, setError] = useState("");
   const { login } = useAuth();
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {

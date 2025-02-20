@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Button from "../../common/components/Button";
-import { updateProjectInfo, getProjectInfo } from "../../projects/api/project";
+import { updateProjectInfo } from "../../projects/api/project";
 import { toast } from "react-toastify";
 
 const Settings = () => {
@@ -9,23 +9,6 @@ const Settings = () => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
-  const [project, setProject] = useState([]);
-
-  useEffect(() => {
-    const fetchProject = async () => {
-      try {
-        const response = await getProjectInfo();
-        setProject(response);
-        setName(response.name);
-        setDescription(response.description);
-      } catch (error) {
-        console.error("Error fetching project info:", error);
-      }
-    };
-
-    fetchProject();
-  }, []);
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -37,8 +20,7 @@ const Settings = () => {
     };
 
     try {
-      const response = await updateProjectInfo(data);
-      setProject(response);
+      await updateProjectInfo(data);
       toast.success("Successfully updated!");
     } catch (error) {
       toast.error(error.message);

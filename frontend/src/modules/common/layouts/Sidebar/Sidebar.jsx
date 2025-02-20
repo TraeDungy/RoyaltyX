@@ -17,7 +17,7 @@ import AddProductModal from "../../../products/components/AddProductModal";
 import ProductsList from "./ProductsList";
 
 function Sidebar() {
-  const [sidebarActive, setSidebarActive] = useState(true);
+  const [sidebarActive] = useState(true);
   const [currentPage, setCurrentPage] = useState(window.location.pathname);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
@@ -61,15 +61,15 @@ function Sidebar() {
     fetchUserInfo();
   }, []);
 
-  const toggleModal = () => {
-    const sidebar = document.getElementById("sidebar");
-    sidebar.classList.toggle("active");
-    if (sidebar.classList.contains("active")) {
-      document.documentElement.style.setProperty("--sidebar-width", "0");
-    } else {
-      document.documentElement.style.setProperty("--sidebar-width", "236px");
-    }
-  };
+  // const toggleModal = () => {
+  //   const sidebar = document.getElementById("sidebar");
+  //   sidebar.classList.toggle("active");
+  //   if (sidebar.classList.contains("active")) {
+  //     document.documentElement.style.setProperty("--sidebar-width", "0");
+  //   } else {
+  //     document.documentElement.style.setProperty("--sidebar-width", "236px");
+  //   }
+  // };
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);

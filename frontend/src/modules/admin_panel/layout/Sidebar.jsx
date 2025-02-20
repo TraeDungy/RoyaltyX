@@ -19,7 +19,7 @@ import {
 } from "react-bootstrap-icons";
 
 function Sidebar() {
-  const [sidebarActive, setSidebarActive] = useState(true);
+  const [sidebarActive] = useState(true);
   const [currentPage, setCurrentPage] = useState(window.location.pathname);
 
   useEffect(() => {

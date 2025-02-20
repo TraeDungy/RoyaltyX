@@ -2,7 +2,7 @@ import { useState } from "react";
 import { CurrencyDollar, Person, Stripe } from "react-bootstrap-icons";
 
 function Dashboard() {
-  const [stats, setStats] = useState({
+  const [stats] = useState({
     total_number_of_users: 0,
     total_earnings: 0,
     number_of_subscribed_users: 0,

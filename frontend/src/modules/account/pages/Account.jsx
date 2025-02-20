@@ -1,9 +1,8 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { getUserInfo } from "../api/user";
 
 function Account() {
   const [userInfo, setUserInfo] = useState([]);
-  const inputRef = useRef(null);
 
   useEffect(() => {
     const fetchUserInfo = async () => {

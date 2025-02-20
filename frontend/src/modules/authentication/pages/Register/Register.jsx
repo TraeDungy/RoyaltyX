@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useAuth } from "../../../common/contexts/AuthContext";
 import Button from "../../../common/components/Button";
 import styles from "./Register.module.css";
 import { register } from "../../api/auth";
@@ -9,7 +8,6 @@ import icon from "../../../common/assets/img/brand/icon.webp";
 
 export default function Register() {
   const [error, setError] = useState("");
-  const { login } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 

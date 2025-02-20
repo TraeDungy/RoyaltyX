@@ -1,16 +1,4 @@
 const Content = () => {
-  // Mock data for uploaded content
-  const mockData = [
-    { id: 1, name: "January Expenses", date: "2025-01-01", status: "Uploaded" },
-    {
-      id: 2,
-      name: "February Payments",
-      date: "2025-02-01",
-      status: "Uploaded",
-    },
-    { id: 3, name: "March Expenses", date: "2025-03-01", status: "Uploaded" },
-  ];
-
   return (
     <div className="container px-5">
       <h2 className="bold mb-5">Content</h2>

@@ -1,31 +1,16 @@
 import { useState, useEffect } from "react";
-import { getProjectInfo, getProjectMembers } from "../../projects/api/project";
+import { getProjectMembers } from "../../projects/api/project";
 import AddMemberModal from "../components/AddMemberModal";
 import { removeProjectMember } from "../api/members";
 import { toast } from "react-toastify";
 import { TrashFill } from "react-bootstrap-icons";
 
 function Members() {
-  const [project, setProject] = useState([]);
   const [projectMembers, setProjectMembers] = useState([]);
-
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-
   const [showAddMemberModal, setShowAddMemberModal] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const fetchedProjectInfo = await getProjectInfo();
-        setProject(fetchedProjectInfo);
-
-        setName(fetchedProjectInfo.name);
-        setDescription(fetchedProjectInfo.description);
-      } catch (error) {
-        console.error("Error fetching :", error);
-      }
-
       try {
         const fetchedProjectMembers = await getProjectMembers();
         setProjectMembers(fetchedProjectMembers);
