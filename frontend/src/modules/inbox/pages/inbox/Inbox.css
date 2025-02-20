@@ -1,4 +1,4 @@
-.page-content{
+.page-content {
   overflow: hidden;
 }
 .card-stacked {
@@ -33,8 +33,8 @@
 .btn.btn-light-light:not(:disabled):not(.disabled):active,
 .btn.btn-light:not(:disabled):not(.disabled).active,
 .btn.btn-light:not(:disabled):not(.disabled):active,
-.show>.btn.btn-light-light.dropdown-toggle,
-.show>.btn.btn-light.dropdown-toggle {
+.show > .btn.btn-light-light.dropdown-toggle,
+.show > .btn.btn-light.dropdown-toggle {
   color: rgb(126, 130, 153);
   background-color: rgb(238, 240, 249);
   border-color: rgb(238, 240, 249);
@@ -51,7 +51,8 @@
 }
 
 .animate4 {
-  animation: 3s cubic-bezier(0.1, 0.82, 0.25, 1) 0s 1 normal none running animate4;
+  animation: 3s cubic-bezier(0.1, 0.82, 0.25, 1) 0s 1 normal none running
+    animate4;
 }
 
 .fw-300 {
@@ -100,12 +101,14 @@ button.btn i {
   font-size: 17px !important;
 }
 
-.input-group>.input-group-append>.btn,
-.input-group>.input-group-append>.input-group-text,
-.input-group>.input-group-prepend:first-child>.btn:not(:first-child),
-.input-group>.input-group-prepend:first-child>.input-group-text:not(:first-child),
-.input-group>.input-group-prepend:not(:first-child)>.btn,
-.input-group>.input-group-prepend:not(:first-child)>.input-group-text {
+.input-group > .input-group-append > .btn,
+.input-group > .input-group-append > .input-group-text,
+.input-group > .input-group-prepend:first-child > .btn:not(:first-child),
+.input-group
+  > .input-group-prepend:first-child
+  > .input-group-text:not(:first-child),
+.input-group > .input-group-prepend:not(:first-child) > .btn,
+.input-group > .input-group-prepend:not(:first-child) > .input-group-text {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
@@ -174,7 +177,9 @@ button.btn i {
 }
 
 img.shadow {
-  box-shadow: 0 15px 35px rgba(50, 50, 93, .15), 0 5px 15px rgba(0, 0, 0, .15) !important;
+  box-shadow:
+    0 15px 35px rgba(50, 50, 93, 0.15),
+    0 5px 15px rgba(0, 0, 0, 0.15) !important;
 }
 
 .double-check {
@@ -341,15 +346,15 @@ img.shadow {
 }
 
 .chat.chat-panel .chat-upload.active {
-  -webkit-transition: all .25s ease 0s;
-  transition: all .25s ease 0s;
+  -webkit-transition: all 0.25s ease 0s;
+  transition: all 0.25s ease 0s;
   transform: scale(1);
   bottom: 50px;
 }
 
 .chat.chat-panel .chat-upload {
-  -webkit-transition: all .25s ease 0s;
-  transition: all .25s ease 0s;
+  -webkit-transition: all 0.25s ease 0s;
+  transition: all 0.25s ease 0s;
   transform: scale(0);
   position: absolute;
   left: -5px;
@@ -388,8 +393,8 @@ img.shadow {
 }
 
 .chat-search .input-group-text i {
-  -webkit-transition: all .25s ease 0s;
-  transition: all .25s ease 0s;
+  -webkit-transition: all 0.25s ease 0s;
+  transition: all 0.25s ease 0s;
   cursor: pointer;
 }
 
@@ -399,8 +404,8 @@ img.shadow {
 
 .chat.chat-panel .left-chat-message,
 .chat.chat-panel .right-chat-message {
-  padding: .5rem 1rem;
-  max-width: 47%
+  padding: 0.5rem 1rem;
+  max-width: 47%;
 }
 
 .chat .chat-user-detail {
@@ -412,8 +417,8 @@ img.shadow {
 }
 
 .chat .chat-user-detail.active {
-  -webkit-transition: all .25s ease 0s;
-  transition: all .4s cubic-bezier(1, .04, 0, .93) 0s;
+  -webkit-transition: all 0.25s ease 0s;
+  transition: all 0.4s cubic-bezier(1, 0.04, 0, 0.93) 0s;
   height: 100%;
   width: 100%;
   background: #f1f2fa;
@@ -458,51 +463,50 @@ img.shadow {
   -ms-touch-action: none;
   touch-action: none;
   overflow: hidden !important;
-  -ms-overflow-style: none
+  -ms-overflow-style: none;
 }
 
-@supports (-ms-overflow-style:none) {
+@supports (-ms-overflow-style: none) {
   .ps-container {
-    overflow: auto !important
+    overflow: auto !important;
   }
 }
 
-@media screen and (-ms-high-contrast:active),
-(-ms-high-contrast:none) {
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
   .ps-container {
-    overflow: auto !important
+    overflow: auto !important;
   }
 }
 
-.ps-container.ps-active-x>.ps-scrollbar-x-rail,
-.ps-container.ps-active-y>.ps-scrollbar-y-rail {
+.ps-container.ps-active-x > .ps-scrollbar-x-rail,
+.ps-container.ps-active-y > .ps-scrollbar-y-rail {
   display: block;
-  background-color: transparent
+  background-color: transparent;
 }
 
 .ps-container.ps-in-scrolling {
-  pointer-events: none
+  pointer-events: none;
 }
 
-.ps-container.ps-in-scrolling.ps-x>.ps-scrollbar-x-rail {
+.ps-container.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail {
   background-color: #eee;
-  opacity: .9
+  opacity: 0.9;
 }
 
-.ps-container.ps-in-scrolling.ps-x>.ps-scrollbar-x-rail>.ps-scrollbar-x {
-  background-color: #999
+.ps-container.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail > .ps-scrollbar-x {
+  background-color: #999;
 }
 
-.ps-container.ps-in-scrolling.ps-y>.ps-scrollbar-y-rail {
+.ps-container.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail {
   background-color: #eee;
-  opacity: .9
+  opacity: 0.9;
 }
 
-.ps-container.ps-in-scrolling.ps-y>.ps-scrollbar-y-rail>.ps-scrollbar-y {
-  background-color: #999
+.ps-container.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail > .ps-scrollbar-y {
+  background-color: #999;
 }
 
-.ps-container>.ps-scrollbar-x-rail {
+.ps-container > .ps-scrollbar-x-rail {
   display: none;
   position: absolute;
   -webkit-border-radius: 4px;
@@ -510,20 +514,20 @@ img.shadow {
   border-radius: 4px;
   opacity: 0;
   bottom: 3px;
-  height: 8px
+  height: 8px;
 }
 
-.ps-container>.ps-scrollbar-x-rail>.ps-scrollbar-x {
+.ps-container > .ps-scrollbar-x-rail > .ps-scrollbar-x {
   position: absolute;
   background-color: #aaa;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
   bottom: 0;
-  height: 4px
+  height: 4px;
 }
 
-.ps-container>.ps-scrollbar-y-rail {
+.ps-container > .ps-scrollbar-y-rail {
   display: none;
   position: absolute;
   -webkit-border-radius: 4px;
@@ -531,60 +535,64 @@ img.shadow {
   border-radius: 4px;
   opacity: 0;
   right: 3px;
-  width: 4px
+  width: 4px;
 }
 
-.ps-container>.ps-scrollbar-y-rail>.ps-scrollbar-y {
+.ps-container > .ps-scrollbar-y-rail > .ps-scrollbar-y {
   position: absolute;
   background-color: #a2adb7;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
   right: 0;
-  width: 4px
+  width: 4px;
 }
 
 .ps-container:hover.ps-in-scrolling {
-  pointer-events: none
+  pointer-events: none;
 }
 
-.ps-container:hover.ps-in-scrolling.ps-x>.ps-scrollbar-x-rail {
+.ps-container:hover.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail {
   background-color: #eee;
-  opacity: .9
+  opacity: 0.9;
 }
 
-.ps-container:hover.ps-in-scrolling.ps-x>.ps-scrollbar-x-rail>.ps-scrollbar-x {
-  background-color: #a2adb7
+.ps-container:hover.ps-in-scrolling.ps-x
+  > .ps-scrollbar-x-rail
+  > .ps-scrollbar-x {
+  background-color: #a2adb7;
 }
 
-.ps-container:hover.ps-in-scrolling.ps-y>.ps-scrollbar-y-rail {
+.ps-container:hover.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail {
   background-color: #eee;
-  opacity: .9
+  opacity: 0.9;
 }
 
-.ps-container:hover.ps-in-scrolling.ps-y>.ps-scrollbar-y-rail>.ps-scrollbar-y {
-  background-color: #a2adb7
+.ps-container:hover.ps-in-scrolling.ps-y
+  > .ps-scrollbar-y-rail
+  > .ps-scrollbar-y {
+  background-color: #a2adb7;
 }
 
-.ps-container:hover>.ps-scrollbar-x-rail,
-.ps-container:hover>.ps-scrollbar-y-rail {
-  opacity: .6
+.ps-container:hover > .ps-scrollbar-x-rail,
+.ps-container:hover > .ps-scrollbar-y-rail {
+  opacity: 0.6;
 }
 
-.ps-container:hover>.ps-scrollbar-x-rail:hover {
+.ps-container:hover > .ps-scrollbar-x-rail:hover {
   background-color: #eee;
-  opacity: .9
+  opacity: 0.9;
 }
 
-.ps-container:hover>.ps-scrollbar-x-rail:hover>.ps-scrollbar-x {
-  background-color: #a2adb7
+.ps-container:hover > .ps-scrollbar-x-rail:hover > .ps-scrollbar-x {
+  background-color: #a2adb7;
 }
 
-.ps-container:hover>.ps-scrollbar-y-rail:hover {
+.ps-container:hover > .ps-scrollbar-y-rail:hover {
   background-color: #eee;
-  opacity: .9
+  opacity: 0.9;
 }
 
-.ps-container:hover>.ps-scrollbar-y-rail:hover>.ps-scrollbar-y {
-  background-color: #a2adb7
+.ps-container:hover > .ps-scrollbar-y-rail:hover > .ps-scrollbar-y {
+  background-color: #a2adb7;
 }

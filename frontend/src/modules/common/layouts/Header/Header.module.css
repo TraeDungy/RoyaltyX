@@ -1,6 +1,6 @@
-.navbar{
-    padding: .8rem 2.7rem;
-    width: 100%;
-    background-color: var(--color-body-background);
-    display: flex;
+.navbar {
+  padding: 0.8rem 2.7rem;
+  width: 100%;
+  background-color: var(--color-body-background);
+  display: flex;
 }
