@@ -2,7 +2,7 @@ from django.db import models
 from apps.project.models import Project
 
 class Product(models.Model):
-    project = models.ForeignKey(Project, null=True, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     statement_frequency = models.CharField(max_length=50, null=True, choices=[
         ("Monthly", "Monthly"),

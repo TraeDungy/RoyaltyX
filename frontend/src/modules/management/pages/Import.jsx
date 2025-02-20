@@ -26,9 +26,12 @@ const Import = () => {
     setUploading(true);
 
     try {
-      const uploadedFile = await uploadFile(file);
-      setFiles((prevFiles) => [uploadedFile, ...prevFiles]);
-      toast.success("File uploaded successfully!");
+      const response = await uploadFile(file);
+      if (response.status == "success") {
+        toast.success(response.message);
+      } else {
+        toast.error(response.message);
+      }
     } catch (error) {
       toast.error("Error: " + error.message);
     } finally {

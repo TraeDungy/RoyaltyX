@@ -1,25 +1,48 @@
-from rest_framework import viewsets, status
+from rest_framework import status
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated
+from django.shortcuts import get_object_or_404
 from .models import File
 from .serializers import FileSerializer
+from .utils.report_processing import process_report
 
-class FileViewSet(viewsets.ModelViewSet):
-    queryset = File.objects.all()
-    serializer_class = FileSerializer
+class FileListCreateView(APIView):
     permission_classes = [IsAuthenticated]
     parser_classes = [MultiPartParser, FormParser]
 
-    def create(self, request, *args, **kwargs):
+    def get(self, request):
+        files = File.objects.all()
+        serializer = FileSerializer(files, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
         user = request.user
+        uploaded_file = request.FILES.get('file')
         project_id = getattr(user, 'currently_selected_project_id', None)
+        
+        response = process_report(uploaded_file)
 
         data = request.data.copy()
         data['project'] = project_id
 
-        serializer = self.get_serializer(data=data)
+        serializer = FileSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(response)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class FileDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        file = get_object_or_404(File, pk=pk)
+        serializer = FileSerializer(file)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self, request, pk):
+        file = get_object_or_404(File, pk=pk)
+        file.delete()
+        return Response({"message": "File deleted successfully"}, status=status.HTTP_204_NO_CONTENT)

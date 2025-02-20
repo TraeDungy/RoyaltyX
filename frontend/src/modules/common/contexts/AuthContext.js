@@ -14,6 +14,10 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [authenticated, setAuthenticated] = useState(false);
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+
+  const [currentlySelectedProjectId, setCurrentlySelectedProjectId] =
+    useState(null);
   const [token, setToken] = useState("");
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -22,9 +26,14 @@ export const AuthProvider = ({ children }) => {
   const handleLogin = async (user) => {
     const response = await login(user);
     if (response.access) {
+      const decodedToken = jwtDecode(response.access);
+
       setAuthenticated(true);
-      setEmail(email);
+      setEmail(decodedToken.email);
+      setName(decodedToken.name);
+      setCurrentlySelectedProjectId(decodedToken.currently_selected_project_id);
       setToken(response.access);
+
       localStorage.setItem("accessToken", response.access);
       navigate("/my-projects");
       return { success: true };
@@ -36,6 +45,8 @@ export const AuthProvider = ({ children }) => {
   const handleLogout = () => {
     setAuthenticated(false);
     setEmail("");
+    setName("");
+    setCurrentlySelectedProjectId(null);
     setToken("");
     localStorage.removeItem("accessToken");
     navigate("/");
@@ -52,9 +63,13 @@ export const AuthProvider = ({ children }) => {
     const storedToken = localStorage.getItem("accessToken");
     if (storedToken) {
       checkTokenExpiration(storedToken);
+      const decodedToken = jwtDecode(storedToken);
+
       setAuthenticated(true);
       setToken(storedToken);
-      setEmail(jwtDecode(storedToken).email);
+      setEmail(decodedToken.email);
+      setName(decodedToken.name);
+      setCurrentlySelectedProjectId(decodedToken.currently_selected_project_id);
     }
     setLoading(false);
   }, []);
@@ -62,6 +77,8 @@ export const AuthProvider = ({ children }) => {
   const value = {
     authenticated,
     email,
+    name,
+    currentlySelectedProjectId,
     token,
     login: handleLogin,
     logout: handleLogout,

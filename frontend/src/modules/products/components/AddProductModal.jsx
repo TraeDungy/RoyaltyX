@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import Button from "../../common/components/Button";
 import { createProduct } from "../api/product";
+import { useAuth } from "../../common/contexts/AuthContext";
 
 function AddProductModal() {
   const [show, setShow] = useState(false);
@@ -12,6 +13,7 @@ function AddProductModal() {
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { currentlySelectedProjectId } = useAuth();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -22,6 +24,7 @@ function AddProductModal() {
     const product = {
       title: title,
       description: description,
+      project: currentlySelectedProjectId,
     };
 
     try {
