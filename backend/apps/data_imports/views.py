@@ -22,7 +22,7 @@ class FileListCreateView(APIView):
         uploaded_file = request.FILES.get('file')
         project_id = getattr(user, 'currently_selected_project_id', None)
         
-        response = process_report(uploaded_file)
+        response = process_report(uploaded_file, project_id)
 
         data = request.data.copy()
         data['project'] = project_id

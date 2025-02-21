@@ -47,10 +47,9 @@ class ProjectUserListCreateView(APIView):
     def post(self, request):
         serializer = ProjectUserSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            project_user = serializer.save()
+            return Response(ProjectUserSerializer(project_user).data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 class MyProjectsView(APIView):
     permission_classes = [IsAuthenticated]

@@ -4,6 +4,7 @@ import { addProjectMember } from "../api/members";
 import { toast } from "react-toastify";
 import { Plus } from "react-bootstrap-icons";
 import Modal from "react-bootstrap/Modal";
+import { useAuth } from "../../common/contexts/AuthContext";
 
 function AddMemberModal({
   showAddMemberModal,
@@ -12,6 +13,7 @@ function AddMemberModal({
   setProjectMembers,
 }) {
   const [users, setUsers] = useState([]);
+  const { currentlySelectedProjectId } = useAuth();
 
   useEffect(() => {
     const fetchContacts = async () => {
@@ -31,8 +33,13 @@ function AddMemberModal({
   };
 
   const handleAddMember = async (user) => {
+    const data = {
+      user: user.id,
+      project: currentlySelectedProjectId,
+    };
+
     try {
-      const newMember = await addProjectMember(user.id);
+      const newMember = await addProjectMember(data);
       const updatedMembers = [newMember, ...projectMembers];
       setProjectMembers(updatedMembers);
       setShowAddMemberModal(false);

@@ -56,14 +56,18 @@ function Members() {
             <tbody>
               {projectMembers.map((projectMember) => (
                 <tr key={projectMember.id}>
-                  <td className="medium">{projectMember?.user?.name}</td>
-                  <td className="medium">{projectMember?.user?.email}</td>
+                  <td className="medium">
+                    {projectMember?.user_details?.name}
+                  </td>
+                  <td className="medium">
+                    {projectMember?.user_details?.email}
+                  </td>
                   <td className="medium">{projectMember?.role}</td>
                   <td className="text-center">
                     <TrashFill
                       className="text-danger pointer"
                       onClick={() => {
-                        handleRemoveProjectMember(projectMember?.user);
+                        handleRemoveProjectMember(projectMember?.user_details);
                       }}
                     />
                   </td>

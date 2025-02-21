@@ -1,12 +1,8 @@
 import { apiUrl } from "../../common/api/config";
 
-export const addProjectMember = async (user_id) => {
+export const addProjectMember = async (data) => {
   try {
     const token = localStorage.getItem("accessToken");
-
-    const data = {
-      user_id: user_id,
-    };
 
     const response = await fetch(apiUrl + "/projects/users/", {
       method: "POST",
