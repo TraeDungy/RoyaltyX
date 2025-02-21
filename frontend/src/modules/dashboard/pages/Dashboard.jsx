@@ -6,8 +6,26 @@ import {
   Search,
   ShieldCheck,
 } from "react-bootstrap-icons";
+import { getProducts } from "../../products/api/product";
+import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 function Dashboard() {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const fetchedProducts = await getProducts();
+        setProducts(fetchedProducts);
+      } catch (error) {
+        toast.error(error.message || "Failed to fetch products");
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
   return (
     <div className="container px-5">
       <div className="mb-3 ps-1">
@@ -142,51 +160,21 @@ function Dashboard() {
       </div>
 
       <div className="row">
-        <div className="col-md-4 pb-4">
-          <div className="card bg-transparent">
-            <img
-              className="img-fluid rounded w-100"
-              style={{ height: 200, objectFit: "cover" }}
-              src="https://vhx.imgix.net/filmplug/assets/eb2f9876-a8d7-498c-8ea8-79be97d7b423.png?auto=format%2Ccompress&fit=crop&h=720&w=1280"
-            />
-            <div className="py-3">
-              <h5>Philly Uncut I</h5>
-              <p className="txt-lighter medium">
-                Lorem ipsum dolor sit amet consect...
-              </p>
+        {products.map((product) => (
+          <div className="col-md-4 pb-4">
+            <div className="card bg-transparent">
+              <img
+                className="img-fluid rounded w-100"
+                style={{ height: 200, objectFit: "cover" }}
+                src="https://vhx.imgix.net/filmplug/assets/eb2f9876-a8d7-498c-8ea8-79be97d7b423.png?auto=format%2Ccompress&fit=crop&h=720&w=1280"
+              />
+              <div className="py-3">
+                <h5>{product.title}</h5>
+                <p className="txt-lighter medium">{product.description}</p>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="col-md-4 pb-4">
-          <div className="card bg-transparent">
-            <img
-              className="img-fluid rounded w-100"
-              style={{ height: 200, objectFit: "cover" }}
-              src="https://vhx.imgix.net/filmplug/assets/25c180d8-da4b-4266-915e-d9c5200e8354?auto=format%2Ccompress&fit=crop&h=360&w=640"
-            />
-            <div className="py-3">
-              <h5>PHILLY UNCUT 2 TRAILER</h5>
-              <p className="txt-lighter medium">
-                Lorem ipsum dolor sit amet consect...
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-4 pb-4">
-          <div className="card bg-transparent">
-            <img
-              className="img-fluid rounded w-100"
-              style={{ height: 200, objectFit: "cover" }}
-              src="https://vhx.imgix.net/filmplug/assets/e9c16300-0e8b-4276-9011-92bc42bf215a?auto=format%2Ccompress&fit=crop&h=360&w=640"
-            />
-            <div className="py-3">
-              <h5>Philly UNCUT 2</h5>
-              <p className="txt-lighter medium">
-                Lorem ipsum dolor sit amet consect...
-              </p>
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );
