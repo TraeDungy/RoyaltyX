@@ -159,23 +159,32 @@ function Dashboard() {
         <h3 className="bold">Products</h3>
       </div>
 
-      <div className="row">
-        {products.map((product) => (
-          <div className="col-md-4 pb-4">
-            <div className="card bg-transparent">
-              <img
-                className="img-fluid rounded w-100"
-                style={{ height: 200, objectFit: "cover" }}
-                src="https://vhx.imgix.net/filmplug/assets/eb2f9876-a8d7-498c-8ea8-79be97d7b423.png?auto=format%2Ccompress&fit=crop&h=720&w=1280"
-              />
-              <div className="py-3">
-                <h5>{product.title}</h5>
-                <p className="txt-lighter medium">{product.description}</p>
+      {products.length > 0 ? (
+        <div className="row">
+          {products.map((product) => (
+            <div className="col-md-4 pb-4" key={product.id}>
+              <div className="card bg-transparent">
+                <img
+                  className="img-fluid rounded w-100"
+                  style={{ height: 200, objectFit: "cover" }}
+                  src="https://vhx.imgix.net/filmplug/assets/eb2f9876-a8d7-498c-8ea8-79be97d7b423.png?auto=format%2Ccompress&fit=crop&h=720&w=1280"
+                  alt={product.title}
+                />
+                <div className="py-3">
+                  <h5>{product.title}</h5>
+                  <p className="txt-lighter medium">{product.description}</p>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <div className="text-center py-5">
+          <p className="txt-lighter medium">
+            No products available at the moment.
+          </p>
+        </div>
+      )}
     </div>
   );
 }

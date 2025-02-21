@@ -25,6 +25,31 @@ export const getProducts = async () => {
   }
 };
 
+export const getProduct = async (id) => {
+  try {
+    const token = localStorage.getItem("accessToken");
+
+    const response = await fetch(apiUrl + "/products/"+id, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    });
+
+    const responseData = await response.json();
+
+    if (response.ok) {
+      return responseData;
+    } else {
+      throw new Error(responseData.errors);
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
 export const updateProduct = async (product, productId) => {
   try {
     const token = localStorage.getItem("accessToken");

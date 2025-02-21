@@ -23,16 +23,23 @@ function Members() {
   }, []);
 
   const handleRemoveProjectMember = async (user) => {
+    setProjectMembers((prevProjectMembers) =>
+      prevProjectMembers.filter((member) => member?.id !== user.id)
+    );
+
     try {
       await removeProjectMember(user.id);
       toast.success("Successfully removed a project member!");
-      setProjectMembers((prevProjectMembers) =>
-        prevProjectMembers.filter((member) => member?.user?.id !== user.id),
-      );
     } catch (error) {
       toast.error("Error while trying to remove a member!");
+
+      setProjectMembers((prevProjectMembers) => [
+        ...prevProjectMembers,
+        user
+      ]);
     }
   };
+
 
   const handleOpenMembersModal = () => {
     setShowAddMemberModal(true);
@@ -67,7 +74,7 @@ function Members() {
                     <TrashFill
                       className="text-danger pointer"
                       onClick={() => {
-                        handleRemoveProjectMember(projectMember?.user_details);
+                        handleRemoveProjectMember(projectMember);
                       }}
                     />
                   </td>

@@ -1,6 +1,6 @@
 {
-  "extends": ["react-app", "plugin:prettier/recommended"],
-  "plugins": ["react", "jsx-a11y", "unused-imports"],
+  "extends": ["react-app"],
+  "plugins": ["react", "unused-imports"],
   "rules": {
     "unused-imports/no-unused-imports": "error",
     "unused-imports/no-unused-vars": [

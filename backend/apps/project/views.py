@@ -5,6 +5,7 @@ from rest_framework import status
 from .models import Project, ProjectUser
 from .serializers import ProjectSerializer, ProjectUserSerializer
 from rest_framework.decorators import api_view
+from django.shortcuts import get_object_or_404
 
 class ProjectListCreateView(APIView):
     permission_classes = [IsAuthenticated]
@@ -36,7 +37,7 @@ class ProjectDetailView(APIView):
         serializer = ProjectSerializer(project)
         return Response(serializer.data)
 
-class ProjectUserListCreateView(APIView):
+class ProjectUserListView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -50,6 +51,21 @@ class ProjectUserListCreateView(APIView):
             project_user = serializer.save()
             return Response(ProjectUserSerializer(project_user).data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class ProjectUserView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, id):
+        """Retrieve a single ProjectUser by ID."""
+        project_user = get_object_or_404(ProjectUser, id=id)
+        serializer = ProjectUserSerializer(project_user)
+        return Response(serializer.data)
+
+    def delete(self, request, id):
+        """Delete a ProjectUser by ID."""
+        project_user = get_object_or_404(ProjectUser, id=id)
+        project_user.delete()
+        return Response({"message": "ProjectUser deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
 
 class MyProjectsView(APIView):
     permission_classes = [IsAuthenticated]

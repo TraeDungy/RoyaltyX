@@ -54,6 +54,14 @@ const ProductsList = () => {
             <ul className="submenu ps-5">
               <li className="nav-item ps-2">
                 <Link
+                  to={`/products/${product.id}`}
+                  className="nav-link"
+                >
+                  View
+                </Link>
+              </li>
+              <li className="nav-item ps-2">
+                <Link
                   to={`/products/${product.id}/content`}
                   className="nav-link"
                 >
