@@ -7,8 +7,12 @@ import {
   UiChecksGrid,
 } from "react-bootstrap-icons";
 import placeholderProfileImage from "../../assets/img/profile.svg";
+import { useAuth } from "../../contexts/AuthContext";
 
 function UserDropdown() {
+
+  const { name, email } = useAuth();
+
   return (
     <Dropdown className="d-flex align-items-center">
       <Dropdown.Toggle
@@ -43,9 +47,9 @@ function UserDropdown() {
               className="medium fw-500"
               style={{ color: "var(--color-text)" }}
             >
-              Trae Dungy
+              {name}
             </span>
-            <span className="small txt-lighter">trae.dungy@gmail.com</span>
+            <span className="small txt-lighter">{email}</span>
           </div>
         </div>
 

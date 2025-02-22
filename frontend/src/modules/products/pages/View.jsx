@@ -42,7 +42,6 @@ const View = () => {
             <ListGroup.Item><strong>Payment Window:</strong> {product.payment_window}</ListGroup.Item>
             <ListGroup.Item><strong>Active:</strong> {product.is_active ? "Yes" : "No"}</ListGroup.Item>
             <ListGroup.Item><strong>Series Code:</strong> {product.series_code}</ListGroup.Item>
-            <ListGroup.Item><strong>Net Price Must Exceed MFG Cost:</strong> {product.net_price_must_exceed_mfg_cost}</ListGroup.Item>
             <ListGroup.Item><strong>Notes:</strong> {product.notes || "N/A"}</ListGroup.Item>
             <ListGroup.Item><strong>Passthrough Fees:</strong> {product.passthrough_fees}</ListGroup.Item>
           </ListGroup>

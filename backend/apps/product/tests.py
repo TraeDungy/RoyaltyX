@@ -19,7 +19,6 @@ class ProductAPITestCase(APITestCase):
             payment_window=10,
             is_active=True,
             series_code="ABC123",
-            net_price_must_exceed_mfg_cost=False,
             notes="Test notes",
             passthrough_fees=True
         )
@@ -37,7 +36,6 @@ class ProductAPITestCase(APITestCase):
             "payment_window": 15,
             "is_active": True,
             "series_code": "XYZ789",
-            "net_price_must_exceed_mfg_cost": True,
             "notes": "New product notes",
             "passthrough_fees": False
         }
@@ -67,7 +65,6 @@ class ProductAPITestCase(APITestCase):
             "payment_window": 20,
             "is_active": False,
             "series_code": "UPDATED123",
-            "net_price_must_exceed_mfg_cost": True,
             "notes": "Updated notes",
             "passthrough_fees": True
         }

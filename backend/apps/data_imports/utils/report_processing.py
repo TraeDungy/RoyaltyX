@@ -1,8 +1,10 @@
 import csv
 import io
-from typing import List, Dict, BinaryIO
-from apps.product.models import Product
-from apps.project.models import Project
+from decimal import Decimal
+from typing import BinaryIO, Dict, List, Any
+
+from apps.product.models import Product, ProductSale
+
 
 def validate_csv(file: BinaryIO) -> bool:
     """Validates if the uploaded file is a valid CSV."""
@@ -33,23 +35,28 @@ def update_products(data: List[Dict[str, str]], project_id: int) -> Dict[str, in
     not_found_count = 0
 
     for row in data:
-        title = row.get('Title')
+        title = row.get('Title') or row.get('program_name') or row.get('Title Name')
         if not title:
             continue
 
         product = Product.objects.filter(title=title).first()
         if not product:
             product = Product.objects.create(title=title, project_id=project_id)
+
+        product.impressions = row.get('impressions')
         product.statement_frequency = row.get('Statement Frequency')
         product.first_statement_end_date = row.get('First Statement End Date')
         product.payment_threshold = row.get('Payment Threshold')
         product.payment_window = row.get('Payment Window')
         product.is_active = row.get('Active') == 'true'
         product.series_code = row.get('Series Code')
-        product.net_price_must_exceed_mfg_cost = row.get('Net Price Must Exceed MFG Cost') == 'true'
         product.notes = row.get('Notes')
         product.passthrough_fees = row.get('Passthrough Fees') == 'true'
         product.save()
+
+        if row.get('Unit Price'):
+            storeProductSales(row, product)
+
 
         updated_count += 1
     else:
@@ -72,3 +79,18 @@ def process_report(file: BinaryIO, project_id: int) -> Dict[str, str]:
         }
     except Exception as e:
         return {"status": "error", "message": str(e)}
+
+
+def storeProductSales(row: Dict[str, Any], product: Product) -> None:
+    ProductSale.objects.create(
+        product = product,
+        type = row.get('Consumption Type'),
+        unit_price = Decimal(row.get('Unit Price')),
+        unit_price_currency = row.get('Unit Price Currency'),
+        quantity = Decimal(row.get('Quantity')),
+        is_refund = row.get('Is Refund') == "Yes",
+        royalty_amount = Decimal(row.get('Royalty Amount')),
+        royalty_currency = row.get('Royalty Currency'),
+        period_start = row.get('Period Start'),
+        period_end = row.get('Period End'),
+    )
