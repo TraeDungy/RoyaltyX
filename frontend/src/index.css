@@ -383,8 +383,8 @@ p {
 }
 
 .card {
-  background-color: var(--color-light-contrast) !important;
-  border: none !important;
+  border-radius: 1.4rem !important;
+  border: 1.5px solid var(--color-light-gray) !important;
 }
 
 .card.power-contrast {
