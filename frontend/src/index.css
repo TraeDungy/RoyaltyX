@@ -101,6 +101,18 @@ body {
   border-color: var(--color-primary-hover) !important;
 }
 
+.border-custom-primary {
+  border: 1px solid var(--color-primary) !important;
+}
+
+.border-custom-regular {
+  border: 1px solid var(--color-light-gray) !important;
+}
+
+.bgc-primary-transparent {
+  background-color: #6280ea14 !important;
+}
+
 .medium {
   font-size: 10.8pt !important;
 }

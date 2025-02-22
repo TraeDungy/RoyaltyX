@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
-import { toast } from "react-toastify";
-import { getUploadedFiles, uploadFile } from "../api/import";
+import { getUploadedFiles } from "../api/import";
+import FileUploadInput from "../components/FileUploadInput";
 
 const Import = () => {
-  const [uploading, setUploading] = useState(false);
   const [files, setFiles] = useState([]);
 
   useEffect(() => {
@@ -19,57 +18,28 @@ const Import = () => {
     fetchFiles();
   }, []);
 
-  const handleFileChange = async (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    setUploading(true);
-
-    try {
-      const response = await uploadFile(file);
-      if (response.status == "success") {
-        toast.success(response.message);
-      } else {
-        toast.error(response.message);
-      }
-    } catch (error) {
-      toast.error("Error: " + error.message);
-    } finally {
-      setUploading(false);
-    }
-  };
-
   return (
     <div className="py-3">
       <h4 className="bold mb-3">Data Import</h4>
-      <p>
-        This is a page where you will be able to import the data for analysis
-        and creation of reports for multiple products and also a general
-        overview of all the products in a project.
+      <p className="mb-4">
+        Manage your data sources and reports from different platforms all in one place.
       </p>
 
-      <input
-        type="file"
-        className="form-control mt-3"
-        onChange={handleFileChange}
-        disabled={uploading}
-      />
+      <FileUploadInput />
 
       {files.length > 0 && (
-        <div className="mt-4">
-          <h5>Uploaded Files</h5>
+        <div className="mt-5">
+          <h5 className="pb-3">Uploaded Files</h5>
           <table className="table table-bordered">
             <thead>
               <tr>
-                <th>#</th>
                 <th>File Name</th>
                 <th>Uploaded At</th>
               </tr>
             </thead>
             <tbody>
-              {files.map((file, index) => (
+              {files.map((file) => (
                 <tr key={file.id}>
-                  <td>{index + 1}</td>
                   <td>{file.name}</td>
                   <td>{new Date(file.created_at).toLocaleString()}</td>
                 </tr>
