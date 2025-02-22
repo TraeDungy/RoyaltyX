@@ -18,7 +18,7 @@ function Account() {
   }, []);
 
   return (
-    <div className="container p-5">
+    <div className="py-5">
       <h2 className="bold mb-4">Account</h2>
 
       <p className="txt-lighter">Name: {userInfo.name}</p>

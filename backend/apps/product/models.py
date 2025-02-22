@@ -17,18 +17,13 @@ class Product(BaseModel):
     payment_window = models.IntegerField(help_text="Days before payment is processed"
                                          , blank=True, null=True)
     is_active = models.BooleanField(default=True)
-    series_code = models.CharField(max_length=50, blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
-    passthrough_fees = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
 
 
 class ProductSale(BaseModel):
-
-    RENTAL_TYPE = 'rental'
-    PURCHASE_TYPE = 'purchase'
 
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     type = models.CharField(max_length=30)
@@ -40,3 +35,8 @@ class ProductSale(BaseModel):
     royalty_currency = models.CharField(max_length=10)
     period_start = models.DateField()
     period_end = models.DateField()
+
+
+class ProductImpressions(BaseModel):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    impressions = models.IntegerField(null=True)

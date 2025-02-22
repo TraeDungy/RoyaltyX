@@ -30,7 +30,7 @@ const View = () => {
   }
 
   return (
-    <Container className="mt-3 px-5">
+    <div className="mt-3">
           <h1 className="bold mb-4">{product.title}</h1>
           <p className='txt-lighter mb-5'>
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aliquid dolor voluptate blanditiis minima repellendus voluptatem, sapiente ex. Quo, id hic! Cumque provident similique quod accusantium possimus, accusamus ad exercitationem itaque?
@@ -41,11 +41,9 @@ const View = () => {
             <ListGroup.Item><strong>Payment Threshold:</strong> {product.payment_threshold}</ListGroup.Item>
             <ListGroup.Item><strong>Payment Window:</strong> {product.payment_window}</ListGroup.Item>
             <ListGroup.Item><strong>Active:</strong> {product.is_active ? "Yes" : "No"}</ListGroup.Item>
-            <ListGroup.Item><strong>Series Code:</strong> {product.series_code}</ListGroup.Item>
-            <ListGroup.Item><strong>Notes:</strong> {product.notes || "N/A"}</ListGroup.Item>
-            <ListGroup.Item><strong>Passthrough Fees:</strong> {product.passthrough_fees}</ListGroup.Item>
+            <ListGroup.Item><strong>Notes:</strong> {product.notes || ""}</ListGroup.Item>
           </ListGroup>
-    </Container>
+    </div>
   );
 };
 

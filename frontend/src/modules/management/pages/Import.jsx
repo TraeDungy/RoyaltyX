@@ -40,7 +40,7 @@ const Import = () => {
   };
 
   return (
-    <div className="container px-5 py-3">
+    <div className="py-3">
       <h4 className="bold mb-3">Data Import</h4>
       <p>
         This is a page where you will be able to import the data for analysis

@@ -9,7 +9,9 @@ function AppLayout() {
       <div className="main-content-wrapper">
         <Header />
         <div className="main-container">
-          <Outlet />
+          <div className="container px-5">
+            <Outlet />
+          </div>
         </div>
       </div>
     </div>

@@ -62,14 +62,6 @@ const ProductsList = () => {
               </li>
               <li className="nav-item ps-2">
                 <Link
-                  to={`/products/${product.id}/content`}
-                  className="nav-link"
-                >
-                  Content
-                </Link>
-              </li>
-              <li className="nav-item ps-2">
-                <Link
                   to={`/products/${product.id}/reports`}
                   className="nav-link"
                 >

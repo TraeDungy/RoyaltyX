@@ -18,9 +18,7 @@ class ProductAPITestCase(APITestCase):
             payment_threshold=100.00,
             payment_window=10,
             is_active=True,
-            series_code="ABC123",
             notes="Test notes",
-            passthrough_fees=True
         )
 
         self.product_url = f"/products/{self.product.id}/"
@@ -35,9 +33,7 @@ class ProductAPITestCase(APITestCase):
             "payment_threshold": 200.00,
             "payment_window": 15,
             "is_active": True,
-            "series_code": "XYZ789",
             "notes": "New product notes",
-            "passthrough_fees": False
         }
         response = self.client.post(self.list_create_url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -64,9 +60,7 @@ class ProductAPITestCase(APITestCase):
             "payment_threshold": 500.00,
             "payment_window": 20,
             "is_active": False,
-            "series_code": "UPDATED123",
             "notes": "Updated notes",
-            "passthrough_fees": True
         }
         response = self.client.put(self.product_url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)

@@ -1,6 +1,6 @@
 const Content = () => {
   return (
-    <div className="container px-5">
+    <div>
       <h2 className="bold mb-5">Content</h2>
 
       <p>

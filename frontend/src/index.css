@@ -114,12 +114,10 @@ body {
 }
 
 .txt-primary-gradient {
-  background: linear-gradient(
-    90deg,
-    var(--color-primary),
-    var(--color-text),
-    var(--color-primary)
-  );
+  background: linear-gradient(90deg,
+      var(--color-primary),
+      var(--color-text),
+      var(--color-primary));
   -webkit-background-clip: text;
   color: transparent;
 }
@@ -303,7 +301,7 @@ p.two-words::after {
   font-weight: 500 !important;
 }
 
-.table-bordered > :not(caption) > * {
+.table-bordered> :not(caption)>* {
   border-color: var(--color-light-gray) !important;
 }
 
@@ -383,7 +381,7 @@ p {
 }
 
 .card {
-  border-radius: 1.4rem !important;
+  border-radius: 1.2rem !important;
   border: 1.5px solid var(--color-light-gray) !important;
 }
 
@@ -395,7 +393,24 @@ p {
   color: var(--color-text);
 }
 
-.table > :not(caption) > * > * {
+.card .card-img-top {
+  max-height: 200px !important;
+  overflow: hidden !important;
+  border-radius: 1.2rem !important;
+}
+
+.card .card-img-top img {
+  border-radius: 1.2rem !important;
+  width: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease-in-out;
+}
+
+.card .card-img-top img:hover {
+  transform: scale(1.1);
+}
+
+.table> :not(caption)>*>* {
   border: 1px solid var(--color-light-contrast) !important;
   background-color: var(--color-body-background) !important;
   color: var(--color-text) !important;
@@ -420,33 +435,33 @@ p {
   border: none !important;
 }
 
-table.dataTable thead > tr > th.dt-orderable-asc span.dt-column-order:before,
-table.dataTable thead > tr > th.dt-orderable-asc span.dt-column-order:after,
-table.dataTable thead > tr > th.dt-orderable-desc span.dt-column-order:before,
-table.dataTable thead > tr > th.dt-orderable-desc span.dt-column-order:after,
-table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:before,
-table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:after,
-table.dataTable thead > tr > th.dt-ordering-desc span.dt-column-order:before,
-table.dataTable thead > tr > th.dt-ordering-desc span.dt-column-order:after,
-table.dataTable thead > tr > td.dt-orderable-asc span.dt-column-order:before,
-table.dataTable thead > tr > td.dt-orderable-asc span.dt-column-order:after,
-table.dataTable thead > tr > td.dt-orderable-desc span.dt-column-order:before,
-table.dataTable thead > tr > td.dt-orderable-desc span.dt-column-order:after,
-table.dataTable thead > tr > td.dt-ordering-asc span.dt-column-order:before,
-table.dataTable thead > tr > td.dt-ordering-asc span.dt-column-order:after,
-table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order:before,
-table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order:after {
+table.dataTable thead>tr>th.dt-orderable-asc span.dt-column-order:before,
+table.dataTable thead>tr>th.dt-orderable-asc span.dt-column-order:after,
+table.dataTable thead>tr>th.dt-orderable-desc span.dt-column-order:before,
+table.dataTable thead>tr>th.dt-orderable-desc span.dt-column-order:after,
+table.dataTable thead>tr>th.dt-ordering-asc span.dt-column-order:before,
+table.dataTable thead>tr>th.dt-ordering-asc span.dt-column-order:after,
+table.dataTable thead>tr>th.dt-ordering-desc span.dt-column-order:before,
+table.dataTable thead>tr>th.dt-ordering-desc span.dt-column-order:after,
+table.dataTable thead>tr>td.dt-orderable-asc span.dt-column-order:before,
+table.dataTable thead>tr>td.dt-orderable-asc span.dt-column-order:after,
+table.dataTable thead>tr>td.dt-orderable-desc span.dt-column-order:before,
+table.dataTable thead>tr>td.dt-orderable-desc span.dt-column-order:after,
+table.dataTable thead>tr>td.dt-ordering-asc span.dt-column-order:before,
+table.dataTable thead>tr>td.dt-ordering-asc span.dt-column-order:after,
+table.dataTable thead>tr>td.dt-ordering-desc span.dt-column-order:before,
+table.dataTable thead>tr>td.dt-ordering-desc span.dt-column-order:after {
   opacity: 0.5 !important;
 }
 
-table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:before,
-table.dataTable thead > tr > th.dt-ordering-desc span.dt-column-order:after,
-table.dataTable thead > tr > td.dt-ordering-asc span.dt-column-order:before,
-table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order:after {
+table.dataTable thead>tr>th.dt-ordering-asc span.dt-column-order:before,
+table.dataTable thead>tr>th.dt-ordering-desc span.dt-column-order:after,
+table.dataTable thead>tr>td.dt-ordering-asc span.dt-column-order:before,
+table.dataTable thead>tr>td.dt-ordering-desc span.dt-column-order:after {
   opacity: 1 !important;
 }
 
-table.table.dataTable > :not(caption) > * > * {
+table.table.dataTable> :not(caption)>*>* {
   background-color: var(--color-body-background) !important;
 }
 

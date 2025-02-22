@@ -22,7 +22,22 @@ function Analytics() {
         fetchProduct();
     }, [id]);
 
-    const totalRoyaltyRevenue = product?.sales.reduce((sum, sale) => sum + (parseFloat(sale.royalty_amount)), 0);
+    const totalRoyaltyRevenue = product?.sales.reduce((sum, sale) => sum + (parseFloat(sale.royalty_amount) * parseFloat(sale.quantity)), 0);
+    const totalImpressions = product?.impressions.reduce((sum, impression) => sum + (parseFloat(impression.impressions)), 0);
+
+    const rentalCount = product?.sales?.filter(sale => sale.type === "Rental").length;
+    const purchaseCount = product?.sales?.filter(sale => sale.type === "Purchase").length;
+
+    const totalUnitsPurchased = product?.sales?.reduce((sum, sale) =>
+        sale.type === "Purchase" ? sum + parseInt(sale.quantity || 0) : sum, 0);
+    const totalUnitsRented = product?.sales?.reduce((sum, sale) =>
+        sale.type === "Rental" ? sum + parseInt(sale.quantity || 0) : sum, 0);
+
+    const rentalEarnings = product?.sales?.filter(sale => sale.type === "Rental")
+        .reduce((sum, sale) => sum + (parseFloat(sale.royalty_amount || 0) * parseFloat(sale.quantity)), 0);
+
+    const purchaseEarnings = product?.sales?.filter(sale => sale.type === "Purchase")
+        .reduce((sum, sale) => sum + (parseFloat(sale.royalty_amount || 0) * parseFloat(sale.quantity)), 0);
 
     if (!product) {
         return (
@@ -33,78 +48,77 @@ function Analytics() {
     }
 
     return (
-        <div className="container px-5">
+        <>
             <div className="mb-3 ps-1">
                 <h2 className="bold">Analytics</h2>
             </div>
 
-
             <div className="row">
                 <div className="col-md-4 p-3">
-                    <div className="card p-3 d-flex justify-content-center flex-column w-100 h-100">
+                    <div className="card d-flex justify-content-center flex-column w-100 h-100">
                         <div className="card-body">
-                            <h5 className="mb-3">Total Impressions</h5>
-                            <h2 className="bold txt-primary">{product.impressions ?? '0'}</h2>
+                            <h6 className="mb-2">Total Impressions</h6>
+                            <h3 className="bold txt-primary">{totalImpressions}</h3>
                         </div>
                     </div>
                 </div>
                 <div className="col-md-4 p-3">
-                    <div className="card p-3 d-flex justify-content-center flex-column w-100 h-100">
+                    <div className="card d-flex justify-content-center flex-column w-100 h-100">
                         <div className="card-body">
-                            <h5 className="mb-3">Total Sales</h5>
-                            <h2 className="bold txt-primary">{product.sales.length}</h2>
+                            <h6 className="mb-2">Total Sales</h6>
+                            <h3 className="bold txt-primary">{product.sales.length}</h3>
                         </div>
                     </div>
                 </div>
                 <div className="col-md-4 p-3">
-                    <div className="card p-3 d-flex justify-content-center flex-column w-100 h-100">
+                    <div className="card d-flex justify-content-center flex-column w-100 h-100">
                         <div className="card-body">
-                            <h5 className="mb-3">Total Royalty Revenue</h5>
-                            <h2 className="bold txt-primary">{totalRoyaltyRevenue} $</h2>
+                            <h6 className="mb-2">Total Royalty Revenue</h6>
+                            <h3 className="bold txt-primary">{totalRoyaltyRevenue.toLocaleString()} $</h3>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div className="row">
-                <div className="col-md-6">
-                    <h4 className='bold mt-4 mb-4'>General stats</h4>
-                    <table className="table table-bordered table-hover">
-                        <tbody>
-                            <tr>
-                                <th>Total Royalty Revenue</th>
-                                <th>{totalRoyaltyRevenue} $</th>
-                            </tr>
-                            <tr>
-                                <th>Total Royalty Revenue</th>
-                                <th>{totalRoyaltyRevenue} $</th>
-                            </tr>                        <tr>
-                                <th>Total Royalty Revenue</th>
-                                <th>{totalRoyaltyRevenue} $</th>
-                            </tr>                        <tr>
-                                <th>Total Royalty Revenue</th>
-                                <th>{totalRoyaltyRevenue} $</th>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
                 <div className="col-md-6">
                     <h4 className='bold mt-4 mb-4'>Sales stats</h4>
                     <table className="table table-bordered table-hover">
                         <tbody>
                             <tr>
-                                <th>Total Royalty Revenue</th>
-                                <th>{totalRoyaltyRevenue} $</th>
+                                <th>Number of rentals</th>
+                                <td>{rentalCount}</td>
                             </tr>
                             <tr>
-                                <th>Total Royalty Revenue</th>
-                                <th>{totalRoyaltyRevenue} $</th>
-                            </tr>                        <tr>
-                                <th>Total Royalty Revenue</th>
-                                <th>{totalRoyaltyRevenue} $</th>
-                            </tr>                        <tr>
-                                <th>Total Royalty Revenue</th>
-                                <th>{totalRoyaltyRevenue} $</th>
+                                <th>Number of purchases</th>
+                                <td>{purchaseCount}</td>
+                            </tr>
+                            <tr>
+                                <th>Earnings from rentals</th>
+                                <td>{rentalEarnings}$</td>
+                            </tr>
+                            <tr>
+                                <th>Earnings from purchases</th>
+                                <td>{purchaseEarnings}$</td>
+                            </tr>
+                            <tr>
+                                <th>Total units purchased</th>
+                                <td>{totalUnitsPurchased}</td>
+                            </tr>
+                            <tr>
+                                <th>Total units rented</th>
+                                <td>{totalUnitsRented}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div className="col-md-6">
+                    <h4 className='bold mt-4 mb-4'>General stats</h4>
+                    <table className="table table-bordered table-hover">
+                        <tbody>
+                            <tr>
+                                <th>Impressions</th>
+                                <td>{totalImpressions}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -129,21 +143,20 @@ function Analytics() {
                 <tbody>
                     {product?.sales.map((sale, index) => (
                         <tr key={index}>
-                            <th>{sale.type}</th>
-                            <th>{sale.unit_price}</th>
-                            <th>{sale.unit_price_currency}</th>
-                            <th>{sale.quantity}</th>
-                            <th>{String(sale.is_refund)}</th>
-                            <th>{sale.royalty_amount}</th>
-                            <th>{sale.royalty_currency}</th>
+                            <td>{sale.type}</td>
+                            <td>{sale.unit_price}</td>
+                            <td>{sale.unit_price_currency}</td>
+                            <td>{sale.quantity}</td>
+                            <td>{String(sale.is_refund)}</td>
+                            <td>{sale.royalty_amount}</td>
+                            <td>{sale.royalty_currency}</td>
                             <td>{new Date(sale.period_start).toLocaleString()}</td>
                             <td>{new Date(sale.period_end).toLocaleString()}</td>
                         </tr>
                     ))}
                 </tbody>
             </table>
-
-        </div>
+        </>
     );
 }
 

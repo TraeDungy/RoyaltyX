@@ -3,7 +3,7 @@ import "datatables.net-bs5";
 
 const Reports = () => {
   return (
-    <div className="container px-5 py-3">
+    <div className="py-3">
       <h4 className="bold mb-3">Reports</h4>
 
       <p>

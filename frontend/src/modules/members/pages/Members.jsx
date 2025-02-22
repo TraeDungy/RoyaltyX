@@ -47,9 +47,9 @@ function Members() {
 
   return (
     <>
-      <div className="px-4">
+      <div>
         <div className="d-flex justify-content-between align-items-center mt-4 w-100">
-          <h5 className="bold mb-0">Project Members</h5>
+          <h4 className="bold mb-0">Project Members</h4>
           <button
             className="btn btn-primary rounded medium"
             onClick={() => handleOpenMembersModal()}
