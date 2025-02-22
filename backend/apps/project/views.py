@@ -32,7 +32,8 @@ class ProjectDetailView(APIView):
         try:
             project = Project.objects.get(pk=pk)
         except Project.DoesNotExist:
-            return Response({"error": "Project not found"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"error": "Project not found"}, 
+                            status=status.HTTP_404_NOT_FOUND)
 
         serializer = ProjectSerializer(project)
         return Response(serializer.data)
@@ -49,7 +50,8 @@ class ProjectUserListView(APIView):
         serializer = ProjectUserSerializer(data=request.data)
         if serializer.is_valid():
             project_user = serializer.save()
-            return Response(ProjectUserSerializer(project_user).data, status=status.HTTP_201_CREATED)
+            return Response(ProjectUserSerializer(project_user).data, 
+                            status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class ProjectUserView(APIView):
@@ -65,7 +67,8 @@ class ProjectUserView(APIView):
         """Delete a ProjectUser by ID."""
         project_user = get_object_or_404(ProjectUser, id=id)
         project_user.delete()
-        return Response({"message": "ProjectUser deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+        return Response({"message": "ProjectUser deleted successfully"}, 
+                        status=status.HTTP_204_NO_CONTENT)
 
 class MyProjectsView(APIView):
     permission_classes = [IsAuthenticated]
@@ -83,7 +86,8 @@ class SwitchProjectView(APIView):
         project_id = request.data.get('project_id')
 
         if not project_id:
-            return Response({"error": "Project ID is required."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "Project ID is required."}, 
+                            status=status.HTTP_400_BAD_REQUEST)
 
         try:
             project = Project.objects.get(id=project_id)

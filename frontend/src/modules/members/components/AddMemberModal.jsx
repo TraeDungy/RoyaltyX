@@ -9,8 +9,6 @@ import { useAuth } from "../../common/contexts/AuthContext";
 function AddMemberModal({
   showAddMemberModal,
   setShowAddMemberModal,
-  projectMembers,
-  setProjectMembers,
 }) {
   const [users, setUsers] = useState([]);
   const { currentlySelectedProjectId } = useAuth();
@@ -39,9 +37,7 @@ function AddMemberModal({
     };
 
     try {
-      const newMember = await addProjectMember(data);
-      const updatedMembers = [newMember, ...projectMembers];
-      setProjectMembers(updatedMembers);
+      await addProjectMember(data);
       setShowAddMemberModal(false);
       toast.success("Successfully added a new project member!");
     } catch (error) {

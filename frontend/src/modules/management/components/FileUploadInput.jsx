@@ -54,7 +54,7 @@ const FileUploadInput = () => {
                         <p className="fw-bold txt-lighter">
                             {isDragActive ? "Drop the file here..." : "Drag & Drop a file here or click to upload"}
                         </p>
-                        <p className="small text-muted">Supported formats: CSV, XLS, XLSX</p>
+                        <p className="small txt-lighter">Supported formats: CSV, XLS, XLSX</p>
                     </div>
                 )}
             </div>

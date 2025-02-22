@@ -15,6 +15,9 @@ import { getUserInfo } from "../../../account/api/user";
 import { getMyProjects, switchProject } from "../../../projects/api/project";
 import AddProductModal from "../../../products/components/AddProductModal";
 import ProductsList from "./ProductsList";
+import { useProject } from "../../contexts/ProjectContext";
+import { useAuth } from "../../contexts/AuthContext";
+
 
 function Sidebar() {
   const [sidebarActive] = useState(true);
@@ -22,6 +25,9 @@ function Sidebar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
   const [myProjects, setMyProjects] = useState([]);
+  const { project } = useProject();
+  const { email } = useAuth();
+  const projectUser = project?.users?.find(user => user.user_details.email === email);
 
   useEffect(() => {
     function handleResize() {
@@ -164,33 +170,36 @@ function Sidebar() {
             </div>
           </div>
 
-          <div className="sidebar-link-group">
-            <span className="txt-lighter small ps-2">MANAGEMENT</span>
-            <li
-              className={`nav-item px-2 rounded my-1 ${currentPage === "/management/data/import" ? "active" : ""}`}
-            >
-              <Link
-                to="/management/data/import"
-                className="nav-link"
-                onClick={() => handlePageChange("/management/data/import")}
+          {projectUser?.role == 'owner' && (
+            <div className="sidebar-link-group">
+              <span className="txt-lighter small ps-2">MANAGEMENT</span>
+              <li
+                className={`nav-item px-2 rounded my-1 ${currentPage === "/management/data/import" ? "active" : ""}`}
               >
-                <FilePdf />
-                <span className="ps-3 medium">Data import</span>
-              </Link>
-            </li>
-            <li
-              className={`nav-item px-2 rounded my-1 ${currentPage === "/management/settings" ? "active" : ""}`}
-            >
-              <Link
-                to="/management/settings"
-                className="nav-link"
-                onClick={() => handlePageChange("/management/settings")}
+                <Link
+                  to="/management/data/import"
+                  className="nav-link"
+                  onClick={() => handlePageChange("/management/data/import")}
+                >
+                  <FilePdf />
+                  <span className="ps-3 medium">Data import</span>
+                </Link>
+              </li>
+              <li
+                className={`nav-item px-2 rounded my-1 ${currentPage === "/management/settings" ? "active" : ""}`}
               >
-                <Gear />
-                <span className="ps-3 medium">Project Settings</span>
-              </Link>
-            </li>
-          </div>
+                <Link
+                  to="/management/settings"
+                  className="nav-link"
+                  onClick={() => handlePageChange("/management/settings")}
+                >
+                  <Gear />
+                  <span className="ps-3 medium">Project Settings</span>
+                </Link>
+              </li>
+            </div>
+          )}
+
 
           <div className="sidebar-link-group">
             <span className="txt-lighter small ps-2">PROJECT</span>

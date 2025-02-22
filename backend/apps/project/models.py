@@ -15,9 +15,15 @@ class Project(models.Model):
 
 
 class ProjectUser(models.Model):
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='project_users')
-    user = models.ForeignKey('user.User', on_delete=models.CASCADE, related_name='user_projects')
-    role = models.CharField(max_length=50, choices=[('owner', 'Owner'), ('producer', 'Producer')], default='producer')
+    project = models.ForeignKey(Project, 
+                                on_delete=models.CASCADE, 
+                                related_name='project_users')
+    user = models.ForeignKey('user.User', 
+                             on_delete=models.CASCADE)
+    role = models.CharField(max_length=50, 
+                            choices=[('owner', 'Owner'), 
+                                     ('producer', 'Producer')], 
+                                     default='producer')
 
     def __str__(self):
         return f"{self.user.username} - {self.project.name} ({self.role})"

@@ -16,7 +16,7 @@ const ThemeSettings = () => {
       <div className="py-4 d-flex gap-3">
         <div
           onClick={() => handleThemeChange("light")}
-          className={`theme-option card p-3 ${!darkMode ? "selected" : ""}`}
+          className={`theme-option card bg-transparent p-3 ${!darkMode ? "selected" : ""}`}
           style={{
             cursor: "pointer",
             border: !darkMode
@@ -33,7 +33,7 @@ const ThemeSettings = () => {
         </div>
         <div
           onClick={() => handleThemeChange("dark")}
-          className={`theme-option card p-3 ${darkMode ? "selected" : ""}`}
+          className={`theme-option card bg-transparent p-3 ${darkMode ? "selected" : ""}`}
           style={{
             cursor: "pointer",
             border: darkMode

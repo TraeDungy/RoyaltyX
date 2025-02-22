@@ -1,42 +1,22 @@
-import { useState, useEffect } from "react";
-import { getProjectMembers } from "../../projects/api/project";
+import { useState } from "react";
 import AddMemberModal from "../components/AddMemberModal";
 import { removeProjectMember } from "../api/members";
 import { toast } from "react-toastify";
 import { TrashFill } from "react-bootstrap-icons";
+import { useProject } from "../../common/contexts/ProjectContext";
 
 function Members() {
-  const [projectMembers, setProjectMembers] = useState([]);
+
+  const { project } = useProject();
+
   const [showAddMemberModal, setShowAddMemberModal] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const fetchedProjectMembers = await getProjectMembers();
-        setProjectMembers(fetchedProjectMembers);
-      } catch (error) {
-        console.error("Error fetching :", error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
   const handleRemoveProjectMember = async (user) => {
-    setProjectMembers((prevProjectMembers) =>
-      prevProjectMembers.filter((member) => member?.id !== user.id)
-    );
-
     try {
       await removeProjectMember(user.id);
       toast.success("Successfully removed a project member!");
     } catch (error) {
       toast.error("Error while trying to remove a member!");
-
-      setProjectMembers((prevProjectMembers) => [
-        ...prevProjectMembers,
-        user
-      ]);
     }
   };
 
@@ -61,20 +41,20 @@ function Members() {
         <div className="table-responsive pt-4">
           <table className="table table-hover table-bordered">
             <tbody>
-              {projectMembers.map((projectMember) => (
-                <tr key={projectMember.id}>
+              {project?.users?.map((user) => (
+                <tr key={user.id}>
                   <td className="medium">
-                    {projectMember?.user_details?.name}
+                    {user?.user_details?.name}
                   </td>
                   <td className="medium">
-                    {projectMember?.user_details?.email}
+                    {user?.user_details?.email}
                   </td>
-                  <td className="medium">{projectMember?.role}</td>
+                  <td className="medium">{user?.role}</td>
                   <td className="text-center">
                     <TrashFill
                       className="text-danger pointer"
                       onClick={() => {
-                        handleRemoveProjectMember(projectMember);
+                        handleRemoveProjectMember(user);
                       }}
                     />
                   </td>
@@ -88,8 +68,6 @@ function Members() {
       <AddMemberModal
         showAddMemberModal={showAddMemberModal}
         setShowAddMemberModal={setShowAddMemberModal}
-        projectMembers={projectMembers}
-        setProjectMembers={setProjectMembers}
       />
     </>
   );
