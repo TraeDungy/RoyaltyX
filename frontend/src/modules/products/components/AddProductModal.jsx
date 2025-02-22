@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import Button from "../../common/components/Button";
 import { createProduct } from "../api/product";
 import { useAuth } from "../../common/contexts/AuthContext";
+import { useProducts } from "../../common/contexts/ProductsContext";
 
 function AddProductModal() {
   const [show, setShow] = useState(false);
@@ -14,34 +15,38 @@ function AddProductModal() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { currentlySelectedProjectId } = useAuth();
+  const { setProducts } = useProducts();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const handleSubmit = async () => {
     setLoading(true);
-
+  
     const product = {
       title: title,
       description: description,
       project: currentlySelectedProjectId,
     };
-
+  
     try {
-      await createProduct(product);
-
+      const newProduct = await createProduct(product);
+  
+      setProducts((prevProducts) => [...prevProducts, newProduct]);
+  
       setTitle("");
       setDescription("");
-
+  
       navigate("/");
       toast.success("Successfully added a new product!");
       handleClose();
     } catch (error) {
       toast.error(error.message);
     }
-
+  
     setLoading(false);
   };
+  
 
   return (
     <>

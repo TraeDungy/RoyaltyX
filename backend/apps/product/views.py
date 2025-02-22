@@ -7,13 +7,16 @@ from .models import Product
 from .serializers import ProductSerializer
 
 
-# List all products or create a new product
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])
 def product_list_create(request):
+    user = request.user
+    currently_selected_project_id = user.currently_selected_project_id
+    
     if request.method == 'GET':
-        products = Product.objects.all()
+        products = Product.objects.filter(project_id=currently_selected_project_id)
         serializer = ProductSerializer(products, many=True)
+        
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     elif request.method == 'POST':
@@ -22,8 +25,8 @@ def product_list_create(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 
-# Retrieve, update, or delete a product
 @api_view(['GET', 'PUT', 'DELETE'])
 @permission_classes([IsAuthenticated])
 def product_detail(request, product_id):

@@ -25,6 +25,7 @@ import inboxRoutes from "./modules/inbox";
 import managementRoutes from "./modules/management";
 import productRoutes from "./modules/products";
 import { ProjectProvider } from "./modules/common/contexts/ProjectContext";
+import { ProductsProvider } from "./modules/common/contexts/ProductsContext";
 
 const PrivateRoutes = () => {
   const { authenticated, loading } = useAuth();
@@ -108,8 +109,10 @@ function App() {
       <AuthProvider>
         <ThemeProvider>
           <ProjectProvider>
-            <ScrollToTop />
-            <Routes>{renderRoutes(routes)}</Routes>
+            <ProductsProvider>
+              <ScrollToTop />
+              <Routes>{renderRoutes(routes)}</Routes>
+            </ProductsProvider>
           </ProjectProvider>
         </ThemeProvider>
       </AuthProvider>

@@ -6,7 +6,7 @@ function ProjectCard({ project, handleSwitchProject }) {
     <div className="col-12 col-md-6 col-lg-3 col-sm-6 col-xs-6 px-3 mb-5">
       <div
         className="rounded-sm h-100 px-4 pt-4 pb-2 card 
-                hover pointer w-100 d-flex shadow-sm"
+                hover pointer w-100 d-flex shadow-sm bgc-light-contrast"
         onClick={() => {
           handleSwitchProject(project.id);
         }}
@@ -18,17 +18,17 @@ function ProjectCard({ project, handleSwitchProject }) {
             </div>
           </div>
           <div className="col-md-9">
-            <h5 className="fw-500 medium mb-0">{project.name}</h5>
+            <h5 className="fw-500 medium mb-2">{project.name}</h5>
 
             {project?.users?.map((user) => {
               return (
                 <img
                   src={user?.avatar ?? profileImagePlaceholder}
                   key={user?.id}
-                  className="rounded-circle mx-1"
+                  className="rounded-circle me-2"
                   alt=""
                   style={{
-                    maxHeight: 26,
+                    maxHeight: 22,
                     aspectRatio: 1,
                     objectFit: "cover",
                     height: "100%",

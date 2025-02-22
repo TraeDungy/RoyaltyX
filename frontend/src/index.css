@@ -179,7 +179,7 @@ body {
 }
 
 .form-control {
-  border: 1.35px solid var(--bs-secondary) !important;
+  border: 1.35px solid var(--color-darker-gray) !important;
   background: transparent !important;
   transition: border-color 0.3s ease;
   padding-top: 0.6rem !important;

@@ -6,29 +6,15 @@ import {
   Search,
   ShieldCheck,
 } from "react-bootstrap-icons";
-import { getProducts } from "../../products/api/product";
-import { useState, useEffect } from "react";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useProducts } from "../../common/contexts/ProductsContext";
+import { Spinner } from "react-bootstrap";
 
 function Dashboard() {
 
   const navigate = useNavigate();
 
-  const [products, setProducts] = useState([]);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const fetchedProducts = await getProducts();
-        setProducts(fetchedProducts);
-      } catch (error) {
-        toast.error(error.message || "Failed to fetch products");
-      }
-    };
-
-    fetchProducts();
-  }, []);
+  const { products, loading } = useProducts();
 
   return (
     <>
@@ -163,7 +149,11 @@ function Dashboard() {
         <h3 className="bold">Products</h3>
       </div>
 
-      {products.length > 0 ? (
+      {loading ? (
+        <div className="d-flex justify-content-center py-5">
+          <Spinner animation="border" />
+        </div>
+      ) : products?.length > 0 ? (
         <div className="row">
           {products.map((product) => (
             <div className="col-md-4 pb-4" key={product.id}>
