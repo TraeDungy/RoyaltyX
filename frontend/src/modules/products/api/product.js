@@ -50,18 +50,16 @@ export const getProduct = async (id) => {
   }
 };
 
-export const updateProduct = async (product, productId) => {
+export const updateProduct = async (formData, productId) => {
   try {
     const token = localStorage.getItem("accessToken");
 
-    const response = await fetch(apiUrl + "/products/" + productId, {
+    const response = await fetch(apiUrl + "/products/" + productId + "/", {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: "Bearer " + token,
+        "Authorization": "Bearer " + token,
       },
-      body: JSON.stringify(product),
+      body: formData,
     });
 
     const responseData = await response.json();

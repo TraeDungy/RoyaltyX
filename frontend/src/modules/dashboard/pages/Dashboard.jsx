@@ -9,6 +9,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useProducts } from "../../common/contexts/ProductsContext";
 import { Spinner } from "react-bootstrap";
+import { apiUrl } from "../../common/api/config";
 
 function Dashboard() {
 
@@ -160,8 +161,9 @@ function Dashboard() {
               <div className="card pointer bg-transparent border-0" onClick={() => { navigate('/products/' + product.id) }}>
                 <div className="card-img-top">
                   <img
-                    src="https://vhx.imgix.net/filmplug/assets/eb2f9876-a8d7-498c-8ea8-79be97d7b423.png?auto=format%2Ccompress&fit=crop&h=720&w=1280"
+                    src={product.thumbnail ? apiUrl + product.thumbnail : "https://www.shutterstock.com/image-vector/no-photo-thumbnail-graphic-element-600nw-2311073121.jpg"}
                     alt={product.title}
+                    className="img-fluid"
                   />
                 </div>
                 <div className="py-3">

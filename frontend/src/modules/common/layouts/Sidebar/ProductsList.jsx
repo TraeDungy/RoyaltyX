@@ -3,6 +3,7 @@ import { ChevronDown, ChevronRight } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
 import { useProducts } from "../../contexts/ProductsContext";
+import { apiUrl } from "../../api/config";
 
 const ProductsList = () => {
 
@@ -33,7 +34,7 @@ const ProductsList = () => {
               <img
                 className="img-fluid rounded"
                 width="35"
-                src="https://vhx.imgix.net/filmplug/assets/eb2f9876-a8d7-498c-8ea8-79be97d7b423.png?auto=format%2Ccompress&fit=crop&h=720&w=1280"
+                src={product.thumbnail ? apiUrl+product.thumbnail : "https://www.shutterstock.com/image-vector/no-photo-thumbnail-graphic-element-600nw-2311073121.jpg"}
                 alt={product.title}
               />
               <div className="d-flex justify-content-between align-items-center w-100">

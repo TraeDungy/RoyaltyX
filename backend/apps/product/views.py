@@ -42,11 +42,12 @@ def product_detail(request, product_id):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     elif request.method == "PUT":
-        serializer = ProductSerializer(product, data=request.data)
+        serializer = ProductSerializer(product, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
     elif request.method == "DELETE":
         product.delete()
