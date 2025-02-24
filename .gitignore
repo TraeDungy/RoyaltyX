@@ -28,3 +28,4 @@ yarn-error.log*
 /playwright/.cache/
 *.pyc
 backend/uploads/
+backend/media/uploads/
