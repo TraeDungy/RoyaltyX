@@ -26,5 +26,5 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd RoyaltyX/
-            git pull origin main
+            git pull
             docker-compose -f production.yml up -d --build

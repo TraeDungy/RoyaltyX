@@ -10,6 +10,7 @@ import {
   Folder,
   FileEarmarkPdf,
   FilePdf,
+  Box2Heart,
 } from "react-bootstrap-icons";
 import { getUserInfo } from "../../../account/api/user";
 import { getMyProjects, switchProject } from "../../../projects/api/project";
@@ -195,6 +196,18 @@ function Sidebar() {
                 >
                   <Gear />
                   <span className="ps-3 medium">Project Settings</span>
+                </Link>
+              </li>
+              <li
+                className={`nav-item px-2 rounded my-1 ${currentPage === "/management/settings" ? "active" : ""}`}
+              >
+                <Link
+                  to="/management/products"
+                  className="nav-link"
+                  onClick={() => handlePageChange("/management/products")}
+                >
+                  <Box2Heart />
+                  <span className="ps-3 medium">Products</span>
                 </Link>
               </li>
             </div>
