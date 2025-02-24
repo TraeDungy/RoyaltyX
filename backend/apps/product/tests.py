@@ -3,11 +3,15 @@ from rest_framework import status
 from apps.user.models import User
 from apps.product.models import Product
 
-class ProductAPITestCase(APITestCase):
 
+class ProductAPITestCase(APITestCase):
     def setUp(self):
         # Create a test user and authenticate
-        self.user = User.objects.create_user(name="Test User", email='testuser@test.com', password='SomeRandomStrongPass132_')
+        self.user = User.objects.create_user(
+            name="Test User",
+            email="testuser@test.com",
+            password="SomeRandomStrongPass132_",
+        )
         self.client.force_authenticate(user=self.user)
 
         # Create a sample product

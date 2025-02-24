@@ -5,51 +5,64 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('product', '0004_alter_product_payment_threshold'),
+        ("product", "0004_alter_product_payment_threshold"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='product',
-            name='net_price_must_exceed_mfg_cost',
+            model_name="product",
+            name="net_price_must_exceed_mfg_cost",
         ),
         migrations.AddField(
-            model_name='product',
-            name='created_at',
+            model_name="product",
+            name="created_at",
             field=models.DateTimeField(auto_now=True),
         ),
         migrations.AddField(
-            model_name='product',
-            name='is_deleted',
+            model_name="product",
+            name="is_deleted",
             field=models.BooleanField(default=False),
         ),
         migrations.AddField(
-            model_name='product',
-            name='updated_at',
+            model_name="product",
+            name="updated_at",
             field=models.DateTimeField(auto_now=True),
         ),
         migrations.CreateModel(
-            name='ProductSale',
+            name="ProductSale",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('is_deleted', models.BooleanField(default=False)),
-                ('type', models.CharField(max_length=30)),
-                ('unit_price', models.IntegerField()),
-                ('unit_price_currency', models.CharField(max_length=10)),
-                ('quantity', models.IntegerField()),
-                ('is_refund', models.BooleanField(default=False)),
-                ('royalty_amount', models.IntegerField()),
-                ('royalty_currency', models.CharField(max_length=10)),
-                ('period_start', models.DateField()),
-                ('period_end', models.DateField()),
-                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='product.product')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("is_deleted", models.BooleanField(default=False)),
+                ("type", models.CharField(max_length=30)),
+                ("unit_price", models.IntegerField()),
+                ("unit_price_currency", models.CharField(max_length=10)),
+                ("quantity", models.IntegerField()),
+                ("is_refund", models.BooleanField(default=False)),
+                ("royalty_amount", models.IntegerField()),
+                ("royalty_currency", models.CharField(max_length=10)),
+                ("period_start", models.DateField()),
+                ("period_end", models.DateField()),
+                (
+                    "product",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="product.product",
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
     ]

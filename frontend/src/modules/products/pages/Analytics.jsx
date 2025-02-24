@@ -87,27 +87,27 @@ function Analytics() {
                         <tbody>
                             <tr>
                                 <th>Number of rentals</th>
-                                <td>{rentalCount}</td>
+                                <td className='text-end'>{rentalCount}</td>
                             </tr>
                             <tr>
                                 <th>Number of purchases</th>
-                                <td>{purchaseCount}</td>
+                                <td className='text-end'>{purchaseCount}</td>
                             </tr>
                             <tr>
                                 <th>Earnings from rentals</th>
-                                <td>{rentalEarnings}$</td>
+                                <td className='text-end'>{rentalEarnings}$</td>
                             </tr>
                             <tr>
                                 <th>Earnings from purchases</th>
-                                <td>{purchaseEarnings}$</td>
+                                <td className='text-end'>{purchaseEarnings}$</td>
                             </tr>
                             <tr>
                                 <th>Total units purchased</th>
-                                <td>{totalUnitsPurchased}</td>
+                                <td className='text-end'>{totalUnitsPurchased}</td>
                             </tr>
                             <tr>
                                 <th>Total units rented</th>
-                                <td>{totalUnitsRented}</td>
+                                <td className='text-end'>{totalUnitsRented}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -118,7 +118,7 @@ function Analytics() {
                         <tbody>
                             <tr>
                                 <th>Impressions</th>
-                                <td>{totalImpressions}</td>
+                                <td className='text-end'>{totalImpressions}</td>
                             </tr>
                         </tbody>
                     </table>

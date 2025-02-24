@@ -5,27 +5,32 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('product', '0002_alter_product_first_statement_end_date_and_more'),
-        ('project', '0005_alter_projectuser_project_alter_projectuser_role_and_more'),
+        ("product", "0002_alter_product_first_statement_end_date_and_more"),
+        ("project", "0005_alter_projectuser_project_alter_projectuser_role_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='product',
-            name='impressions',
+            model_name="product",
+            name="impressions",
             field=models.IntegerField(null=True),
         ),
         migrations.AlterField(
-            model_name='product',
-            name='payment_window',
-            field=models.IntegerField(blank=True, help_text='Days before payment is processed', null=True),
+            model_name="product",
+            name="payment_window",
+            field=models.IntegerField(
+                blank=True, help_text="Days before payment is processed", null=True
+            ),
         ),
         migrations.AlterField(
-            model_name='product',
-            name='project',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='project.project'),
+            model_name="product",
+            name="project",
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="project.project",
+            ),
             preserve_default=False,
         ),
     ]

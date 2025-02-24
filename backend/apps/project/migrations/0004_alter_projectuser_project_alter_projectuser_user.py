@@ -6,21 +6,30 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('project', '0003_alter_project_table_alter_projectuser_table'),
+        ("project", "0003_alter_project_table_alter_projectuser_table"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='projectuser',
-            name='project',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='project_users', to='project.project'),
+            model_name="projectuser",
+            name="project",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="project_users",
+                to="project.project",
+            ),
         ),
         migrations.AlterField(
-            model_name='projectuser',
-            name='user',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='user_projects', to=settings.AUTH_USER_MODEL),
+            model_name="projectuser",
+            name="user",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="user_projects",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
     ]

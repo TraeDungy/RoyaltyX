@@ -6,27 +6,39 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('project', '0004_alter_projectuser_project_alter_projectuser_user'),
+        ("project", "0004_alter_projectuser_project_alter_projectuser_user"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='projectuser',
-            name='project',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, related_name='project_users', to='project.project'),
+            model_name="projectuser",
+            name="project",
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="project_users",
+                to="project.project",
+            ),
             preserve_default=False,
         ),
         migrations.AlterField(
-            model_name='projectuser',
-            name='role',
-            field=models.CharField(choices=[('owner', 'Owner'), ('producer', 'Producer')], default='producer', max_length=50),
+            model_name="projectuser",
+            name="role",
+            field=models.CharField(
+                choices=[("owner", "Owner"), ("producer", "Producer")],
+                default="producer",
+                max_length=50,
+            ),
         ),
         migrations.AlterField(
-            model_name='projectuser',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='user_projects', to=settings.AUTH_USER_MODEL),
+            model_name="projectuser",
+            name="user",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="user_projects",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
     ]

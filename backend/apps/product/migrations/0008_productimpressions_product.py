@@ -5,16 +5,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('product', '0007_productimpressions_remove_product_passthrough_fees_and_more'),
+        ("product", "0007_productimpressions_remove_product_passthrough_fees_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='productimpressions',
-            name='product',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='product.product'),
+            model_name="productimpressions",
+            name="product",
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="product.product",
+            ),
             preserve_default=False,
         ),
     ]

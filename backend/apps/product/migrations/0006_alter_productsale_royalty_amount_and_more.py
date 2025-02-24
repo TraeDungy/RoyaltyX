@@ -4,20 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('product', '0005_remove_product_net_price_must_exceed_mfg_cost_and_more'),
+        ("product", "0005_remove_product_net_price_must_exceed_mfg_cost_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='productsale',
-            name='royalty_amount',
+            model_name="productsale",
+            name="royalty_amount",
             field=models.DecimalField(decimal_places=2, max_digits=40),
         ),
         migrations.AlterField(
-            model_name='productsale',
-            name='unit_price',
+            model_name="productsale",
+            name="unit_price",
             field=models.DecimalField(decimal_places=2, max_digits=40),
         ),
     ]

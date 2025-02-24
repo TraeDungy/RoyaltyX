@@ -4,31 +4,38 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('product', '0006_alter_productsale_royalty_amount_and_more'),
+        ("product", "0006_alter_productsale_royalty_amount_and_more"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='ProductImpressions',
+            name="ProductImpressions",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('is_deleted', models.BooleanField(default=False)),
-                ('impressions', models.IntegerField(null=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("is_deleted", models.BooleanField(default=False)),
+                ("impressions", models.IntegerField(null=True)),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.RemoveField(
-            model_name='product',
-            name='passthrough_fees',
+            model_name="product",
+            name="passthrough_fees",
         ),
         migrations.RemoveField(
-            model_name='product',
-            name='series_code',
+            model_name="product",
+            name="series_code",
         ),
     ]

@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from apps.project.models import Project
 
+
 class MyUserManager(BaseUserManager):
     def create_user(self, email, name, password):
         if not email:
@@ -11,10 +12,9 @@ class MyUserManager(BaseUserManager):
         if not name:
             raise ValueError("Users must have a name.")
         user = self.model(
-
             email=self.normalize_email(email),
             username=email,
-            name = name,
+            name=name,
         )
         user.set_password(password)
         user.save(using=self._db)
@@ -22,16 +22,16 @@ class MyUserManager(BaseUserManager):
 
     def create_superuser(self, email, name, password):
         user = self.create_user(
-            email = self.normalize_email(email),
+            email=self.normalize_email(email),
             name=name,
-            password = password,
+            password=password,
         )
         user.is_staff = True
         user.is_superuser = True
         return user
 
-class User(AbstractBaseUser):
 
+class User(AbstractBaseUser):
     email = models.EmailField(max_length=60, unique=True, null=False)
     username = models.CharField(max_length=50, unique=True, null=False)
     name = models.CharField(max_length=30)
@@ -44,16 +44,18 @@ class User(AbstractBaseUser):
     is_deleted = models.BooleanField(default=False)
     is_email_verified = models.BooleanField(default=False)
     verification_code = models.CharField(max_length=30, null=True)
-    currently_selected_project = models.ForeignKey(Project, null=True, default=None, on_delete=models.CASCADE)
+    currently_selected_project = models.ForeignKey(
+        Project, null=True, default=None, on_delete=models.CASCADE
+    )
 
     objects = MyUserManager()
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["username"]
 
     def has_module_perms(self, app_label):
         return True
-    
+
     def has_perm(self, app_label):
         return True
 

@@ -8,6 +8,7 @@ from .models import File
 from .serializers import FileSerializer
 from .utils.report_processing import process_report
 
+
 class FileListCreateView(APIView):
     permission_classes = [IsAuthenticated]
     parser_classes = [MultiPartParser, FormParser]
@@ -19,13 +20,13 @@ class FileListCreateView(APIView):
 
     def post(self, request):
         user = request.user
-        uploaded_file = request.FILES.get('file')
-        project_id = getattr(user, 'currently_selected_project_id', None)
-        
+        uploaded_file = request.FILES.get("file")
+        project_id = getattr(user, "currently_selected_project_id", None)
+
         response = process_report(uploaded_file, project_id)
 
         data = request.data.copy()
-        data['project'] = project_id
+        data["project"] = project_id
 
         serializer = FileSerializer(data=data)
         if serializer.is_valid():
@@ -45,4 +46,6 @@ class FileDetailView(APIView):
     def delete(self, request, pk):
         file = get_object_or_404(File, pk=pk)
         file.delete()
-        return Response({"message": "File deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+        return Response(
+            {"message": "File deleted successfully"}, status=status.HTTP_204_NO_CONTENT
+        )

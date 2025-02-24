@@ -8,16 +8,16 @@ from .serializers import UserSerializer
 from rest_framework import status
 
 
-@api_view(['GET'])
+@api_view(["GET"])
 def get_users(request):
     users = User.objects.all()
     serializer = UserSerializer(users, many=True)
     return Response(serializer.data)
 
-@api_view(['GET'])
-def getMyUserInfo(request):
 
+@api_view(["GET"])
+def getMyUserInfo(request):
     user = request.user
-    serializer = UserSerializer(user, many=False, context={'request': request})
+    serializer = UserSerializer(user, many=False, context={"request": request})
 
     return Response(serializer.data)
