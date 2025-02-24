@@ -37,51 +37,6 @@ const PrivateRoutes = () => {
   return authenticated ? <Outlet /> : <Navigate to="/login" />;
 };
 
-const routes = [
-  {
-    path: "/",
-    element: <PrivateRoutes />,
-    children: [
-      {
-        path: "/",
-        element: <AppLayout />,
-        children: [
-          ...dashboardRoutes,
-          ...analyticsRoutes,
-          ...memberRoutes,
-          ...reportRoutes,
-          ...accountRoutes,
-          ...contentRoutes,
-          ...inboxRoutes,
-          ...managementRoutes,
-          ...productRoutes,
-        ],
-      },
-      {
-        path: "/",
-        element: <Layout />,
-        children: [...projectRoutes],
-      },
-    ],
-  },
-  ...authRoutes,
-  {
-    path: "/admin",
-    element: <PrivateRoutes />,
-    children: [
-      {
-        path: "/admin",
-        element: <AdminLayout />,
-        children: [...adminRoutes],
-      },
-    ],
-  },
-  {
-    path: "*",
-    element: <PageNotFound />,
-  },
-];
-
 const renderRoutes = (routes) => {
   return routes.map((route, index) => {
     if (route.children) {
@@ -108,12 +63,56 @@ function App() {
     <Router>
       <AuthProvider>
         <ThemeProvider>
-          <ProjectProvider>
-            <ProductsProvider>
-              <ScrollToTop />
-              <Routes>{renderRoutes(routes)}</Routes>
-            </ProductsProvider>
-          </ProjectProvider>
+          <ScrollToTop />
+          <Routes>
+            <Route path="/" element={<PrivateRoutes />}>
+              <Route
+                path="/"
+                element={
+                  <ProjectProvider>
+                    <ProductsProvider>
+                      <AppLayout />
+                    </ProductsProvider>
+                  </ProjectProvider>
+                }
+              >
+                {renderRoutes([
+                  ...dashboardRoutes,
+                  ...analyticsRoutes,
+                  ...memberRoutes,
+                  ...reportRoutes,
+                  ...accountRoutes,
+                  ...contentRoutes,
+                  ...inboxRoutes,
+                  ...managementRoutes,
+                  ...productRoutes,
+                ])}
+              </Route>
+
+              <Route
+                path="/"
+                element={
+                  <ProjectProvider>
+                    <ProductsProvider>
+                      <Layout />
+                    </ProductsProvider>
+                  </ProjectProvider>
+                }
+              >
+                {renderRoutes([...projectRoutes])}
+              </Route>
+            </Route>
+
+            <Route path="/admin" element={<PrivateRoutes />}>
+              <Route path="/admin" element={<AdminLayout />}>
+                {renderRoutes([...adminRoutes])}
+              </Route>
+            </Route>
+
+            {renderRoutes([...authRoutes])}
+
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
         </ThemeProvider>
       </AuthProvider>
     </Router>
