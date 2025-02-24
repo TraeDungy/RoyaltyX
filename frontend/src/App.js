@@ -92,11 +92,7 @@ function App() {
               <Route
                 path="/"
                 element={
-                  <ProjectProvider>
-                    <ProductsProvider>
-                      <Layout />
-                    </ProductsProvider>
-                  </ProjectProvider>
+                  <Layout />
                 }
               >
                 {renderRoutes([...projectRoutes])}

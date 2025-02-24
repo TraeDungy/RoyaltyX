@@ -24,6 +24,8 @@ class ProjectListCreateView(APIView):
             project = serializer.save()
             # Add the creator as the owner
             ProjectUser.objects.create(project=project, user=request.user, role="owner")
+            request.user.currently_selected_project_id = project.id
+            request.user.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
