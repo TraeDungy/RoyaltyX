@@ -7,6 +7,7 @@ from rest_framework.views import APIView
 
 from .models import Project, ProjectUser
 from .serializers import ProjectSerializer, ProjectUserSerializer
+from .utils import calculateProjectAnalytics
 
 
 class ProjectListCreateView(APIView):
@@ -131,3 +132,10 @@ def updateProject(request):
         serializer.save()
         return Response(serializer.data)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(http_method_names=["GET"])
+def getProjectAnalytics(request):
+    data = calculateProjectAnalytics(request.user.currently_selected_project_id)
+
+    return Response(data, status=status.HTTP_200_OK)

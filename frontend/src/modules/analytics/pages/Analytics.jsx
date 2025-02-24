@@ -1,5 +1,33 @@
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import { Container, Spinner } from 'react-bootstrap';
+import { getProjectAnalytics } from '../api/analytics';
 
 function Analytics() {
+
+    const [analytics, setAnalytics] = useState(null);
+
+    useEffect(() => {
+        const fetchAnalytics = async () => {
+            try {
+                const fetchedAnalytics = await getProjectAnalytics();
+                setAnalytics(fetchedAnalytics);
+            } catch (error) {
+                toast.error(error.message || "Failed to fetch analytics");
+            }
+        };
+
+        fetchAnalytics();
+    }, []);
+
+    if (!analytics) {
+        return (
+            <Container className="d-flex justify-content-center mt-5">
+                <Spinner animation="border" />
+            </Container>
+        );
+    }
+
     return (
         <>
             <div className="mb-3 ps-1">
@@ -7,11 +35,19 @@ function Analytics() {
             </div>
 
             <div className="row">
+            <div className="col-md-4 p-3">
+                    <div className="card d-flex justify-content-center flex-column w-100 h-100">
+                        <div className="card-body">
+                            <h6 className="mb-2">Products</h6>
+                            <h3 className="bold txt-primary">{analytics.product_count}</h3>
+                        </div>
+                    </div>
+                </div>
                 <div className="col-md-4 p-3">
                     <div className="card d-flex justify-content-center flex-column w-100 h-100">
                         <div className="card-body">
                             <h6 className="mb-2">Total Impressions</h6>
-                            <h3 className="bold txt-primary">34634</h3>
+                            <h3 className="bold txt-primary">{analytics.total_impressions.toLocaleString()}</h3>
                         </div>
                     </div>
                 </div>
@@ -19,7 +55,7 @@ function Analytics() {
                     <div className="card d-flex justify-content-center flex-column w-100 h-100">
                         <div className="card-body">
                             <h6 className="mb-2">Total Sales</h6>
-                            <h3 className="bold txt-primary">23737</h3>
+                            <h3 className="bold txt-primary">{analytics.total_sales_count}</h3>
                         </div>
                     </div>
                 </div>
@@ -27,7 +63,7 @@ function Analytics() {
                     <div className="card d-flex justify-content-center flex-column w-100 h-100">
                         <div className="card-body">
                             <h6 className="mb-2">Total Royalty Revenue</h6>
-                            <h3 className="bold txt-primary">234643 $</h3>
+                            <h3 className="bold txt-primary">{analytics.total_royalty_revenue.toLocaleString()} $</h3>
                         </div>
                     </div>
                 </div>
