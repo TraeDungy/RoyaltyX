@@ -1,7 +1,8 @@
-from rest_framework.test import APITestCase
 from rest_framework import status
-from apps.user.models import User
+from rest_framework.test import APITestCase
+
 from apps.product.models import Product
+from apps.user.models import User
 
 
 class ProductAPITestCase(APITestCase):

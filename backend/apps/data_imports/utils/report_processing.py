@@ -1,9 +1,9 @@
 import csv
 import io
 from decimal import Decimal
-from typing import BinaryIO, Dict, List, Any
+from typing import Any, BinaryIO, Dict, List
 
-from apps.product.models import Product, ProductSale, ProductImpressions
+from apps.product.models import Product, ProductImpressions, ProductSale
 
 
 def validate_csv(file: BinaryIO) -> bool:
@@ -77,7 +77,8 @@ def process_report(file: BinaryIO, project_id: int) -> Dict[str, str]:
 
         return {
             "status": "success",
-            "message": f"Updated {result['updated']} products, {result['not_found']} not found",
+            "message": 
+               f"Updated {result['updated']} products, {result['not_found']} not found",
         }
     except Exception as e:
         return {"status": "error", "message": str(e)}

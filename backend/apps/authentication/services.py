@@ -1,5 +1,6 @@
-from apps.user.models import User
 from django.core.exceptions import ValidationError
+
+from apps.user.models import User
 
 
 def register_user(data):

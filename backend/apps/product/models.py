@@ -1,4 +1,5 @@
 from django.db import models
+
 from apps.project.models import Project
 from common.models import BaseModel
 

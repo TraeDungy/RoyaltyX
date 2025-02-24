@@ -1,6 +1,7 @@
 from django.db import models
-from common.models import BaseModel
+
 from apps.project.models import Project
+from common.models import BaseModel
 
 
 class File(BaseModel):

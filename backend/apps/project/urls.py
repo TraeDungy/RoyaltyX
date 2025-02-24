@@ -1,10 +1,11 @@
 from django.urls import path
+
 from .views import (
-    ProjectListCreateView,
+    MyProjectsView,
     ProjectDetailView,
+    ProjectListCreateView,
     ProjectUserListView,
     ProjectUserView,
-    MyProjectsView,
     SwitchProjectView,
     updateProject,
 )

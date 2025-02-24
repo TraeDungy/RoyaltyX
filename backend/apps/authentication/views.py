@@ -1,16 +1,12 @@
-from django.shortcuts import render, redirect
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework import generics
-from rest_framework import status
-from django.core.exceptions import ValidationError
-from .services import register_user
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
 from django.contrib.auth.hashers import check_password
-from apps.user.models import User
+from django.core.exceptions import ValidationError
+from rest_framework import generics, status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
+from .services import register_user
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
