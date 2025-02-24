@@ -5,35 +5,49 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('project', '0001_initial'),
+        ("project", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='User',
+            name="User",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('password', models.CharField(max_length=128, verbose_name='password')),
-                ('email', models.EmailField(max_length=60, unique=True)),
-                ('username', models.CharField(max_length=50, unique=True)),
-                ('name', models.CharField(max_length=30)),
-                ('last_login', models.DateTimeField(auto_now=True)),
-                ('is_active', models.BooleanField(default=True)),
-                ('is_superuser', models.BooleanField(default=False)),
-                ('is_staff', models.BooleanField(default=False)),
-                ('is_admin', models.BooleanField(default=False)),
-                ('date_joined', models.DateTimeField(auto_now=True)),
-                ('is_deleted', models.BooleanField(default=False)),
-                ('is_email_verified', models.BooleanField(default=False)),
-                ('verification_code', models.CharField(max_length=30, null=True)),
-                ('currently_selected_project', models.ForeignKey(default=None, on_delete=django.db.models.deletion.CASCADE, to='project.project')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("password", models.CharField(max_length=128, verbose_name="password")),
+                ("email", models.EmailField(max_length=60, unique=True)),
+                ("username", models.CharField(max_length=50, unique=True)),
+                ("name", models.CharField(max_length=30)),
+                ("last_login", models.DateTimeField(auto_now=True)),
+                ("is_active", models.BooleanField(default=True)),
+                ("is_superuser", models.BooleanField(default=False)),
+                ("is_staff", models.BooleanField(default=False)),
+                ("is_admin", models.BooleanField(default=False)),
+                ("date_joined", models.DateTimeField(auto_now=True)),
+                ("is_deleted", models.BooleanField(default=False)),
+                ("is_email_verified", models.BooleanField(default=False)),
+                ("verification_code", models.CharField(max_length=30, null=True)),
+                (
+                    "currently_selected_project",
+                    models.ForeignKey(
+                        default=None,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="project.project",
+                    ),
+                ),
             ],
             options={
-                'db_table': 'user',
+                "db_table": "user",
             },
         ),
     ]

@@ -5,26 +5,30 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('data_imports', '0001_initial'),
-        ('project', '0003_alter_project_table_alter_projectuser_table'),
+        ("data_imports", "0001_initial"),
+        ("project", "0003_alter_project_table_alter_projectuser_table"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='file',
-            name='file',
-            field=models.FileField(null=True, upload_to='uploads/'),
+            model_name="file",
+            name="file",
+            field=models.FileField(null=True, upload_to="uploads/"),
         ),
         migrations.AlterField(
-            model_name='file',
-            name='name',
+            model_name="file",
+            name="name",
             field=models.CharField(blank=True, max_length=255),
         ),
         migrations.AlterField(
-            model_name='file',
-            name='project',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='project.project'),
+            model_name="file",
+            name="project",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="project.project",
+            ),
         ),
     ]

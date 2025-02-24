@@ -2,7 +2,7 @@ import Analytics from "./pages/Analytics";
 
 const analyticsRoutes = [
   {
-    path: 'analytics',
+    path: "analytics",
     element: <Analytics />,
   },
 ];

@@ -5,29 +5,63 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('project', '0003_alter_project_table_alter_projectuser_table'),
+        ("project", "0003_alter_project_table_alter_projectuser_table"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Product',
+            name="Product",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=255)),
-                ('statement_frequency', models.CharField(choices=[('Monthly', 'Monthly'), ('Quarterly', 'Quarterly'), ('Annually', 'Annually')], max_length=50)),
-                ('first_statement_end_date', models.DateField()),
-                ('payment_threshold', models.DecimalField(decimal_places=2, default=0.0, max_digits=10)),
-                ('payment_window', models.IntegerField(blank=True, help_text='Number of days before payment is processed', null=True)),
-                ('is_active', models.BooleanField(default=True)),
-                ('series_code', models.CharField(blank=True, max_length=50, null=True)),
-                ('net_price_must_exceed_mfg_cost', models.BooleanField(default=False)),
-                ('notes', models.TextField(blank=True, null=True)),
-                ('passthrough_fees', models.BooleanField(default=False)),
-                ('project', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='project.project')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=255)),
+                (
+                    "statement_frequency",
+                    models.CharField(
+                        choices=[
+                            ("Monthly", "Monthly"),
+                            ("Quarterly", "Quarterly"),
+                            ("Annually", "Annually"),
+                        ],
+                        max_length=50,
+                    ),
+                ),
+                ("first_statement_end_date", models.DateField()),
+                (
+                    "payment_threshold",
+                    models.DecimalField(decimal_places=2, default=0.0, max_digits=10),
+                ),
+                (
+                    "payment_window",
+                    models.IntegerField(
+                        blank=True,
+                        help_text="Number of days before payment is processed",
+                        null=True,
+                    ),
+                ),
+                ("is_active", models.BooleanField(default=True)),
+                ("series_code", models.CharField(blank=True, max_length=50, null=True)),
+                ("net_price_must_exceed_mfg_cost", models.BooleanField(default=False)),
+                ("notes", models.TextField(blank=True, null=True)),
+                ("passthrough_fees", models.BooleanField(default=False)),
+                (
+                    "project",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="project.project",
+                    ),
+                ),
             ],
         ),
     ]

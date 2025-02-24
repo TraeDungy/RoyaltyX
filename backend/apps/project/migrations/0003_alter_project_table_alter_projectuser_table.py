@@ -4,18 +4,17 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('project', '0002_initial'),
+        ("project", "0002_initial"),
     ]
 
     operations = [
         migrations.AlterModelTable(
-            name='project',
-            table='project',
+            name="project",
+            table="project",
         ),
         migrations.AlterModelTable(
-            name='projectuser',
-            table='project_user',
+            name="projectuser",
+            table="project_user",
         ),
     ]

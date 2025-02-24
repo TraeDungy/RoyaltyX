@@ -1,5 +1,5 @@
 {
-  "name": "daseen",
+  "name": "RoyaltyX",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -26,6 +26,7 @@
     "react-chartjs-2": "^5.2.0",
     "react-custom-checkbox": "^3.2.0",
     "react-dom": "^18.3.1",
+    "react-dropzone": "^14.3.5",
     "react-i18next": "^15.0.2",
     "react-img-zoom": "^0.1.0",
     "react-medium-image-zoom": "^5.2.10",
@@ -42,7 +43,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint . --fix",
+    "format": "prettier --write .",
+    "lint:fix": "eslint . --fix && prettier --write ."
   },
   "eslintConfig": {
     "extends": [
@@ -63,6 +67,15 @@
     ]
   },
   "devDependencies": {
-    "@types/node": "^22.7.9"
+    "@babel/eslint-parser": "^7.26.8",
+    "@types/node": "^22.7.9",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-prettier": "^5.2.3",
+    "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-unused-imports": "^4.1.4",
+    "prettier": "^3.5.1"
   }
 }

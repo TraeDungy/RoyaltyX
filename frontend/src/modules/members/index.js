@@ -1,9 +1,8 @@
 import Members from "./pages/Members";
 
-
 const memberRoutes = [
   {
-    path: 'members',
+    path: "members",
     element: <Members />,
   },
 ];

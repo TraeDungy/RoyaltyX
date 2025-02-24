@@ -2,7 +2,7 @@ import Content from "./pages/Content";
 
 const contentRoutes = [
   {
-    path: 'content',
+    path: "content",
     element: <Content />,
   },
 ];
