@@ -23,6 +23,7 @@ const ProducerUploadInput = () => {
             toast.error("Error: " + error.message);
         } finally {
             setUploading(false);
+            window.location.reload();
         }
     };
 

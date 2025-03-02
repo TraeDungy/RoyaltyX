@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { useProducts } from "../../common/contexts/ProductsContext";
 import { Spinner } from "react-bootstrap";
 import { apiUrl } from "../../common/api/config";
+import { ReactComponent as ProductThumbnailPlaceholder } from '../../common/assets/img/vectors/product-thumbnail-placeholder-lg.svg'
 
 function Dashboard() {
 
@@ -159,13 +160,19 @@ function Dashboard() {
           {products.map((product) => (
             <div className="col-md-4 pb-4" key={product.id}>
               <div className="card pointer bg-transparent border-0" onClick={() => { navigate('/products/' + product.id) }}>
-                <div className="card-img-top">
-                  <img
-                    src={product.thumbnail ? apiUrl + product.thumbnail : "https://www.shutterstock.com/image-vector/no-photo-thumbnail-graphic-element-600nw-2311073121.jpg"}
-                    alt={product.title}
-                    className="img-fluid"
-                  />
-                </div>
+                {product.thumbnail ? (
+                  <div className="card-img-top">
+                    <img
+                      className="rounded"
+                      src={apiUrl + product.thumbnail}
+                      alt={product.title}
+                    />
+                  </div>
+                ) : (
+                  <div className="card-img-top text-center">
+                    <ProductThumbnailPlaceholder />
+                  </div>
+                )}
                 <div className="py-3">
                   <h5>{product.title}</h5>
                   <p className="txt-lighter medium">{product.description}</p>
