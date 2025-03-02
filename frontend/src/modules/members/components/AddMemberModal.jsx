@@ -7,6 +7,8 @@ import Modal from "react-bootstrap/Modal";
 import { useAuth } from "../../common/contexts/AuthContext";
 
 function AddMemberModal({
+  project,
+  setProject,
   showAddMemberModal,
   setShowAddMemberModal,
 }) {
@@ -37,7 +39,13 @@ function AddMemberModal({
     };
 
     try {
-      await addProjectMember(data);
+      const createdProjectUser = await addProjectMember(data);
+      
+      setProject({
+        ...project,
+        users: [...project.users, createdProjectUser],
+      });
+
       setShowAddMemberModal(false);
       toast.success("Successfully added a new project member!");
     } catch (error) {

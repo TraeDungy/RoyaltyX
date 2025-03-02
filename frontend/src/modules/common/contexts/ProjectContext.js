@@ -21,7 +21,7 @@ export const ProjectProvider = ({ children }) => {
     }, []);
 
     return (
-        <ProjectContext.Provider value={{ project }}>
+        <ProjectContext.Provider value={{ project, setProject }}>
             {children}
         </ProjectContext.Provider>
     );
