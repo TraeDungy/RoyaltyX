@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { Container, Spinner, Button, Form, Image } from 'react-bootstrap';
 import { getProduct, updateProduct } from '../../../products/api/product';
 import { apiUrl } from '../../../common/api/config';
+import { ReactComponent as ProductThumbnailPlaceholder } from '../../../common/assets/img/vectors/product-thumbnail-placeholder-lg.svg'
 
 const EditProduct = () => {
     const [product, setProduct] = useState(null);
@@ -67,52 +68,66 @@ const EditProduct = () => {
 
     return (
         <div className="mt-3">
-            <h1 className="bold mb-4">Edit Product</h1>
-            {/* Image Preview */}
-            <div className="mb-4">
-                <Image
-                    src={previewImage ? previewImage: thumbnail ? `${apiUrl}${thumbnail}` : 'https://vhx.imgix.net/filmplug/assets/eb2f9876-a8d7-498c-8ea8-79be97d7b423.png?auto=format%2Ccompress&fit=crop&h=720&w=1280'}
-                    alt="Product Thumbnail"
-                    rounded
-                    fluid
-                />
-                <Form.Group controlId="formProductThumbnail" className="mt-3">
-                    <Form.Label>Upload New Thumbnail</Form.Label>
-                    <Form.Control
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImageChange}
-                    />
-                </Form.Group>
+            <h2 className="bold mb-4">Edit Product</h2>
+            <div className="row">
+                <div className='col-md-7'>
+                    <Form className='pe-5'>
+                        <Form.Group controlId="formProductTitle" className="mb-3">
+                            <Form.Label>Title</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="Enter product title"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                            />
+                        </Form.Group>
+
+                        <Form.Group controlId="formProductDescription" className="mb-4">
+                            <Form.Label>Description</Form.Label>
+                            <Form.Control
+                                as="textarea"
+                                rows={4}
+                                placeholder="Enter product description"
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                            />
+                        </Form.Group>
+
+                        <Button variant="primary" onClick={handleSave}>
+                            Save Changes
+                        </Button>
+                    </Form>
+                </div>
+                <div className="col-md-5 pt-4">
+                    {previewImage ? (
+                        <Image
+                            src={previewImage}
+                            alt="Product Thumbnail"
+                            rounded
+                            fluid
+                        />
+                    ) : thumbnail ? (
+                        <Image
+                            src={`${apiUrl}${thumbnail}`}
+                            alt="Product Thumbnail"
+                            rounded
+                            fluid
+                        />
+                    ) : <div className="card card-img-top text-center">
+                        <ProductThumbnailPlaceholder />
+                    </div>}
+                    
+                    <Form.Group controlId="formProductThumbnail" className="mt-3">
+                        <Form.Label>Upload New Thumbnail</Form.Label>
+                        <Form.Control
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageChange}
+                        />
+                    </Form.Group>
+                </div>
             </div>
 
-            {/* Form for Title and Description */}
-            <Form>
-                <Form.Group controlId="formProductTitle" className="mb-3">
-                    <Form.Label>Title</Form.Label>
-                    <Form.Control
-                        type="text"
-                        placeholder="Enter product title"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                    />
-                </Form.Group>
-
-                <Form.Group controlId="formProductDescription" className="mb-4">
-                    <Form.Label>Description</Form.Label>
-                    <Form.Control
-                        as="textarea"
-                        rows={4}
-                        placeholder="Enter product description"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                    />
-                </Form.Group>
-
-                <Button variant="primary" onClick={handleSave}>
-                    Save Changes
-                </Button>
-            </Form>
         </div>
     );
 };

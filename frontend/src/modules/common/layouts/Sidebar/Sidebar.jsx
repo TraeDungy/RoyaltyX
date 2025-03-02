@@ -199,7 +199,7 @@ function Sidebar() {
                 </Link>
               </li>
               <li
-                className={`nav-item px-2 rounded my-1 ${currentPage === "/management/settings" ? "active" : ""}`}
+                className={`nav-item px-2 rounded my-1 ${currentPage === "/management/products" ? "active" : ""}`}
               >
                 <Link
                   to="/management/products"

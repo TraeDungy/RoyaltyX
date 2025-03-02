@@ -409,6 +409,7 @@ p {
 .card .card-img-top {
   max-height: 200px !important;
   overflow: hidden !important;
+  background-color: var(--color-light-gray);
   border-radius: 1.2rem !important;
 }
 

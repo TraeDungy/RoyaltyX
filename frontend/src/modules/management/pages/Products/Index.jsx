@@ -10,7 +10,7 @@ const Products = () => {
     return (
         <div>
             <div className="my-3 ps-1">
-                <h3 className="bold">Products</h3>
+                <h4 className="bold mb-4">Products</h4>
             </div>
 
             {loading ? (
