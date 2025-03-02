@@ -37,7 +37,9 @@ def update_product_users(data: List[Dict[str, str]], project_id: int):
     for row in data:
         title = row.get("title")
         email = row.get("email")
-        producer_fee = row.get("producer_fee")
+        producer_fee = row.get("producer fee")
+
+        print(title + email)
 
         user = User.objects.filter(email=email).first()
 
@@ -50,13 +52,15 @@ def update_product_users(data: List[Dict[str, str]], project_id: int):
 
         productUser = ProductUser.objects.filter(user=user).first()
         if not productUser:
+            print("creating new product user")
             ProductUser.objects.create(product=product, user=user, 
                                        producer_fee=int(producer_fee))
 
+        print(productUser)
     return {"message": "success"}
 
 
-def process_report(file: BinaryIO, project_id: int) -> Dict[str, str]:
+def process_producers(file: BinaryIO, project_id: int) -> Dict[str, str]:
     """Processes CSV file with list of producers and updates products."""
     try:
         if not validate_csv(file):
@@ -67,8 +71,7 @@ def process_report(file: BinaryIO, project_id: int) -> Dict[str, str]:
 
         return {
             "status": "success",
-            "message": 
-               f"Updated {result['updated']} products, {result['not_found']} not found",
+            "message": result,
         }
     except Exception as e:
         return {"status": "error", "message": str(e)}

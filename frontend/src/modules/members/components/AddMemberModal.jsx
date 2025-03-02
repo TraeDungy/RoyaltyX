@@ -40,7 +40,7 @@ function AddMemberModal({
 
     try {
       const createdProjectUser = await addProjectMember(data);
-      
+
       setProject({
         ...project,
         users: [...project.users, createdProjectUser],
@@ -74,12 +74,12 @@ function AddMemberModal({
                     <td className="medium">{user.email}</td>
                     <td className="text-center">
                       <button
-                        className="btn btn-basic medium bg-gray shadow-sm"
+                        className="btn btn-primary medium"
                         onClick={() => {
                           handleAddMember(user);
                         }}
                       >
-                        Add <Plus className="ms-2" />
+                        <Plus className="h4 mb-0 me-1" /> Add
                       </button>
                     </td>
                   </tr>

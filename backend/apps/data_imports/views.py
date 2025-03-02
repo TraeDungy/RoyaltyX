@@ -7,6 +7,7 @@ from rest_framework.views import APIView
 
 from .models import File
 from .serializers import FileSerializer
+from .utils.producer_processing import process_producers
 from .utils.report_processing import process_report
 
 
@@ -63,13 +64,6 @@ class ProducerListCreateView(APIView):
         uploaded_file = request.FILES.get("file")
         project_id = getattr(user, "currently_selected_project_id", None)
 
-        response = process_report(uploaded_file, project_id)
+        response = process_producers(uploaded_file, project_id)
 
-        data = request.data.copy()
-        data["project"] = project_id
-
-        serializer = FileSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(response)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(response)
