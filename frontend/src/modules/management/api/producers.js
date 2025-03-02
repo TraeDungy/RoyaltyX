@@ -6,7 +6,7 @@ export const uploadProducers = async (file) => {
   formData.append("file", file);
 
   try {
-    const response = await fetch(apiUrl + "/producers/", {
+    const response = await fetch(apiUrl + "/data_imports/producers/", {
       method: "POST",
       body: formData,
       headers: {
