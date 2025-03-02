@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { uploadFile } from "../api/import";
+import { uploadProducers } from "../api/producers";
 import { useDropzone } from "react-dropzone";
 import { Spinner } from "react-bootstrap";
 
-const FileUploadInput = () => {
+const ProducerUploadInput = () => {
     const [uploading, setUploading] = useState(false);
 
     const onDrop = async (acceptedFiles) => {
@@ -13,7 +13,7 @@ const FileUploadInput = () => {
 
         setUploading(true);
         try {
-            const response = await uploadFile(file);
+            const response = await uploadProducers(file);
             if (response.status === "success") {
                 toast.success(response.message);
             } else {
@@ -45,7 +45,7 @@ const FileUploadInput = () => {
                 {uploading ? (
                     <div>
                         <Spinner animation="border" variant="primary" />
-                        <p className="mt-2 txt-primary fw-bold">Processing reports...</p>
+                        <p className="mt-2 txt-primary fw-bold">Processing producers...</p>
                     </div>
                 ) : (
                     <div>
@@ -60,4 +60,4 @@ const FileUploadInput = () => {
     );
 };
 
-export default FileUploadInput;
+export default ProducerUploadInput;

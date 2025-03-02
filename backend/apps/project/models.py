@@ -29,4 +29,5 @@ class ProjectUser(models.Model):
         return f"{self.user.username} - {self.project.name} ({self.role})"
 
     class Meta:
+        unique_together = ("project", "user")
         db_table = "project_user"
