@@ -1,6 +1,20 @@
 from rest_framework import serializers
 
-from .models import Product, ProductImpressions, ProductSale
+from apps.user.models import User
+from apps.user.serializers import UserSerializer
+
+from .models import Product, ProductImpressions, ProductSale, ProductUser
+
+
+class ProductUserSerializer(serializers.ModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(
+        queryset=User.objects.all(), write_only=True
+    )
+    user_details = UserSerializer(source="user", read_only=True)
+
+    class Meta:
+        model = ProductUser
+        fields = ["id", "product", "user", "user_details", "producer_fee"]
 
 
 class ProductSaleSerializer(serializers.ModelSerializer):
@@ -17,6 +31,7 @@ class ProductImpressionsSerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     sales = ProductSaleSerializer(many=True, read_only=True, source="productsale_set")
+    users = ProductUserSerializer(many=True, read_only=True, source="productuser_set")
     impressions = ProductImpressionsSerializer(
         many=True, read_only=True, source="productimpressions_set"
     )

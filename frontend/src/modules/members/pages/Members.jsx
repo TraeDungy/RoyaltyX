@@ -7,7 +7,7 @@ import { useProject } from "../../common/contexts/ProjectContext";
 
 function Members() {
 
-  const { project } = useProject();
+  const { project, setProject } = useProject();
 
   const [showAddMemberModal, setShowAddMemberModal] = useState(false);
 
@@ -15,6 +15,10 @@ function Members() {
     try {
       await removeProjectMember(user.id);
       toast.success("Successfully removed a project member!");
+      setProject({
+        ...project,
+        users: project.users.filter((u) => u.id !== user.id),
+      });
     } catch (error) {
       toast.error("Error while trying to remove a member!");
     }
@@ -66,6 +70,8 @@ function Members() {
       </div>
 
       <AddMemberModal
+        project={project}
+        setProject={setProject}
         showAddMemberModal={showAddMemberModal}
         setShowAddMemberModal={setShowAddMemberModal}
       />

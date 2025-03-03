@@ -7,6 +7,8 @@ import Modal from "react-bootstrap/Modal";
 import { useAuth } from "../../common/contexts/AuthContext";
 
 function AddMemberModal({
+  project,
+  setProject,
   showAddMemberModal,
   setShowAddMemberModal,
 }) {
@@ -37,7 +39,13 @@ function AddMemberModal({
     };
 
     try {
-      await addProjectMember(data);
+      const createdProjectUser = await addProjectMember(data);
+
+      setProject({
+        ...project,
+        users: [...project.users, createdProjectUser],
+      });
+
       setShowAddMemberModal(false);
       toast.success("Successfully added a new project member!");
     } catch (error) {
@@ -66,12 +74,12 @@ function AddMemberModal({
                     <td className="medium">{user.email}</td>
                     <td className="text-center">
                       <button
-                        className="btn btn-basic medium bg-gray shadow-sm"
+                        className="btn btn-primary medium"
                         onClick={() => {
                           handleAddMember(user);
                         }}
                       >
-                        Add <Plus className="ms-2" />
+                        <Plus className="h4 mb-0 me-1" /> Add
                       </button>
                     </td>
                   </tr>

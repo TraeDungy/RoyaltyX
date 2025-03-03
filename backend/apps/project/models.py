@@ -15,13 +15,16 @@ class Project(models.Model):
 
 
 class ProjectUser(models.Model):
+
+    PROJECT_USER_ROLE_OWNER = "owner"
+    PROJECT_USER_ROLE_PRODUCER = "producer"
+
     project = models.ForeignKey(
         Project, on_delete=models.CASCADE, related_name="project_users"
     )
     user = models.ForeignKey("user.User", on_delete=models.CASCADE)
     role = models.CharField(
         max_length=50,
-        choices=[("owner", "Owner"), ("producer", "Producer")],
         default="producer",
     )
 
@@ -29,4 +32,5 @@ class ProjectUser(models.Model):
         return f"{self.user.username} - {self.project.name} ({self.role})"
 
     class Meta:
+        unique_together = ("project", "user")
         db_table = "project_user"

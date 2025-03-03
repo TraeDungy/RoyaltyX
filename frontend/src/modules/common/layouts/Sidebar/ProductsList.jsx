@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
 import { useProducts } from "../../contexts/ProductsContext";
 import { apiUrl } from "../../api/config";
+import { ReactComponent as ProductThumbnailPlaceholder } from '../../assets/img/vectors/product-thumbnail-placeholder.svg'
 
 const ProductsList = () => {
 
@@ -27,16 +28,21 @@ const ProductsList = () => {
         products.map((product) => (
           <li
             key={product.id}
-            className="nav-item px-2 rounded my-1"
+            className={`nav-item px-2 rounded my-1 ${activeMenu === product.id ? 'menu-active' : ''}`}
             onClick={() => toggleSubMenu(product.id)}
           >
             <Link className="nav-link d-flex">
-              <img
-                className="img-fluid rounded"
-                width="35"
-                src={product.thumbnail ? apiUrl+product.thumbnail : "https://www.shutterstock.com/image-vector/no-photo-thumbnail-graphic-element-600nw-2311073121.jpg"}
-                alt={product.title}
-              />
+              {product.thumbnail ? (
+                <img
+                  className="img-fluid rounded"
+                  width="35"
+                  src={apiUrl + product.thumbnail}
+                  alt={product.title}
+                />
+              ) : (
+                <ProductThumbnailPlaceholder style={{ width: 35, height: 30 }} />
+              )}
+
               <div className="d-flex justify-content-between align-items-center w-100">
                 <span className="ps-3 medium">{product.title}</span>
                 {activeMenu === product.id ? (
@@ -61,6 +67,11 @@ const ProductsList = () => {
                 <li className="nav-item ps-2">
                   <Link to={`/products/${product.id}/analytics`} className="nav-link">
                     Analytics
+                  </Link>
+                </li>
+                <li className="nav-item ps-2">
+                  <Link to={`/products/${product.id}/producers`} className="nav-link">
+                    Producers
                   </Link>
                 </li>
               </ul>

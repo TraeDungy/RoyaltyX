@@ -30,11 +30,12 @@ class Product(BaseModel):
         upload_to="product_thumbnails/", blank=True, null=True
     )
 
-    def __str__(self):
-        return self.title
+    class Meta:
+        db_table = "product"
 
 
 class ProductSale(BaseModel):
+
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     type = models.CharField(max_length=30)
     unit_price = models.DecimalField(decimal_places=2, max_digits=40)
@@ -46,7 +47,26 @@ class ProductSale(BaseModel):
     period_start = models.DateField()
     period_end = models.DateField()
 
+    class Meta:
+        db_table = "product_sale"
+
+
 
 class ProductImpressions(BaseModel):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     impressions = models.IntegerField(null=True)
+
+    class Meta:
+        db_table = "product_impressions"
+
+
+class ProductUser(BaseModel):
+    """ Model which represents producers for individual products """
+
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user = models.ForeignKey("user.User", on_delete=models.CASCADE)
+    producer_fee = models.IntegerField(choices=((i,i) for i in range(1, 101)))
+
+    class Meta:
+        unique_together = ("product", "user")
+        db_table = "product_user"
