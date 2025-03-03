@@ -1,5 +1,4 @@
 import Analytics from "./pages/Analytics";
-import Read from "./pages/ProductUsers/Read";
 import View from "./pages/View";
 
 const productRoutes = [
@@ -10,12 +9,6 @@ const productRoutes = [
   {
     path: "products/:id/analytics",
     element: <Analytics />,
-  },
-
-  // Product Users, aka Producers
-  {
-    path: "products/:id/producers",
-    element: <Read />,
   },
 ];
 

@@ -12,7 +12,8 @@
   --color-danger: #ff3fff;
   --color-success: #0bb050 !important;
   --toastify-color-success: #0bb050 !important;
-  --sidebar-background: #f2f2f2;
+  --sidebar-background: #f6f6f6;
+  --nav-link-hover-background: #00000011;
   --content-over-widget-color: #fff;
   --sidebar-width: 275px;
 }
@@ -23,6 +24,7 @@
   --color-text-lighter: #a5b0b9;
   --color-body-background: #202123;
   --sidebar-background: #202123;
+  --nav-link-hover-background: #ffffff11;
   --color-light-contrast: #292a2b;
   --color-power-contrast: #1e2021;
   --content-over-widget-color: #333435;
@@ -270,7 +272,7 @@ p.two-words::after {
 
 .nav-item:hover,
 .nav-item.active {
-  background-color: #00000011 !important;
+  background-color: var(--nav-link-hover-background) !important;
 }
 
 .nav-item .nav-link {
@@ -409,7 +411,7 @@ p {
 .card .card-img-top {
   height: 200px;
   overflow: hidden !important;
-  background-color: var(--color-light-gray);
+  background-color: var(--color-light-contrast);
   border-radius: 1.2rem !important;
 }
 
