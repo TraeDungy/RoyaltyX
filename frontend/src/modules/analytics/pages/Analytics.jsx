@@ -2,15 +2,28 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { Container, Spinner } from 'react-bootstrap';
 import { getProjectAnalytics } from '../api/analytics';
+import { useLocation } from 'react-router';
+import DateRangeSelector from '../../common/components/DateRangeSelector';
 
 function Analytics() {
 
     const [analytics, setAnalytics] = useState(null);
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
 
     useEffect(() => {
+
+        const periodStart = params.get("period_start");
+        const periodEnd = params.get("period_end");
+
+        const period_range = {
+            period_start: periodStart,
+            period_end: periodEnd,
+        }
+
         const fetchAnalytics = async () => {
             try {
-                const fetchedAnalytics = await getProjectAnalytics();
+                const fetchedAnalytics = await getProjectAnalytics(period_range);
                 setAnalytics(fetchedAnalytics);
             } catch (error) {
                 toast.error(error.message || "Failed to fetch analytics");
@@ -18,7 +31,7 @@ function Analytics() {
         };
 
         fetchAnalytics();
-    }, []);
+    }, [location.search]);
 
     if (!analytics) {
         return (
@@ -30,12 +43,13 @@ function Analytics() {
 
     return (
         <>
-            <div className="mb-3 ps-1">
+            <div className="d-flex justify-content-between align-items-center mt-4 mb-3 ps-1">
                 <h2 className="bold">Analytics</h2>
+                <DateRangeSelector />
             </div>
 
             <div className="row">
-            <div className="col-md-4 p-3">
+                <div className="col-md-4 p-3">
                     <div className="card d-flex justify-content-center flex-column w-100 h-100">
                         <div className="card-body">
                             <h6 className="mb-2">Products</h6>

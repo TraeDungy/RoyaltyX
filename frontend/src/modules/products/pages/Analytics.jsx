@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { getProduct } from "../api/product";
 import { toast } from 'react-toastify';
 import { Container, Spinner } from 'react-bootstrap';
+import DateRangeSelector from '../../common/components/DateRangeSelector';
 
 function Analytics() {
 
@@ -49,9 +50,11 @@ function Analytics() {
 
     return (
         <>
-            <div className="mb-3 ps-1">
+            <div className="d-flex justify-content-between align-items-center mt-4 mb-3 ps-1">
                 <h2 className="bold">Analytics</h2>
+                <DateRangeSelector />
             </div>
+
 
             <div className="row">
                 <div className="col-md-4 p-3">
