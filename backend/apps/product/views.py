@@ -18,27 +18,24 @@ class ProductListCreateAPIView(APIView):
         currently_selected_project_id = user.currently_selected_project_id
 
         try:
-            project_user = ProjectUser.objects.get(project_id=currently_selected_project_id, user=user)
+            project_user = ProjectUser.objects.get(project_id=
+                                                   currently_selected_project_id, 
+                                                   user=user)
         except ProjectUser.DoesNotExist:
-            return Response({"error": "User is not part of this project."}, status=status.HTTP_403_FORBIDDEN)
+            return Response({"error": "User is not part of this project."}, 
+                            status=status.HTTP_403_FORBIDDEN)
 
         if project_user.role == ProjectUser.PROJECT_USER_ROLE_OWNER:
             products = Product.objects.filter(project_id=currently_selected_project_id)
         elif project_user.role == ProjectUser.PROJECT_USER_ROLE_PRODUCER:
-            products = Product.objects.filter(project_id=currently_selected_project_id, productuser__user=user)
+            products = Product.objects.filter(project_id=currently_selected_project_id, 
+                                              productuser__user=user)
         else:
             products = Product.objects.none()
 
 
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def post(self, request):
-        serializer = ProductSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def post(self, request):
         serializer = ProductSerializer(data=request.data)

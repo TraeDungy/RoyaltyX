@@ -39,8 +39,6 @@ def update_product_users(data: List[Dict[str, str]], project_id: int):
         email = row.get("email")
         producer_fee = row.get("producer fee")
 
-        print(title + email)
-
         user = User.objects.filter(email=email).first()
 
         if not title or not email or not producer_fee or not user:
@@ -52,11 +50,9 @@ def update_product_users(data: List[Dict[str, str]], project_id: int):
 
         productUser = ProductUser.objects.filter(user=user).first()
         if not productUser:
-            print("creating new product user")
             ProductUser.objects.create(product=product, user=user, 
                                        producer_fee=int(producer_fee))
 
-        print(productUser)
     return {"message": "success"}
 
 
