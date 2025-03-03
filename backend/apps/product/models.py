@@ -55,6 +55,8 @@ class ProductSale(BaseModel):
 class ProductImpressions(BaseModel):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     impressions = models.IntegerField(null=True)
+    period_start = models.DateField()
+    period_end = models.DateField()
 
     class Meta:
         db_table = "product_impressions"
