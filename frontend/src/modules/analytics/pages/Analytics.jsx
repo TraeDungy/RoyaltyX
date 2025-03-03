@@ -90,11 +90,11 @@ function Analytics() {
                         <tbody>
                             <tr>
                                 <th>Number of rentals</th>
-                                <td className='text-end'>235234</td>
+                                <td className='text-end'>{analytics.rentals_count.toLocaleString()}</td>
                             </tr>
                             <tr>
                                 <th>Number of purchases</th>
-                                <td className='text-end'>5</td>
+                                <td className='text-end'>{analytics.purchases_count.toLocaleString()}</td>
                             </tr>
                             <tr>
                                 <th>Earnings from rentals</th>

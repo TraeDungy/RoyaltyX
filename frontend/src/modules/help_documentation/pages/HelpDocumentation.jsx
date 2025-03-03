@@ -61,7 +61,7 @@ const HelpDocumentation = () => {
                 <tbody>
                     <tr>
                         <td>Example title</td>
-                        <td>e.g. Rental</td>
+                        <td>rental/purchase</td>
                         <td>e.g. 3.14</td>
                         <td>e.g. USD</td>
                         <td>e.g. 1</td>
