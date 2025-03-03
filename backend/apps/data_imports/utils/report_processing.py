@@ -91,7 +91,7 @@ def storeProductSales(row: Dict[str, Any], product: Product) -> None:
 def storeProductImpressions(row: Dict[str, Any], product: Product) -> None:
     ProductImpressions.objects.create(
         product=product, 
-        impressions=row.get("impressions", 
+        impressions=row.get("impressions"), 
         period_start=row.get("Period Start"), 
-        period_end=row.get("Period End"))
+        period_end=row.get("Period End")
     )
