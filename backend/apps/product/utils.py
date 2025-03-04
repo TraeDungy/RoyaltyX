@@ -1,6 +1,6 @@
 from django.db.models import F, Sum
 
-from apps.product.models import Product, ProductImpressions, ProductSale
+from apps.product.models import ProductImpressions, ProductSale
 
 
 def calculateProductAnalytics(product_id: int, filters: dict):

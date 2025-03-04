@@ -1,6 +1,11 @@
 from django.urls import path
 
-from .views import ProductListCreateAPIView, product_detail, product_user_list_create, getProductAnalytics
+from .views import (
+    ProductListCreateAPIView,
+    getProductAnalytics,
+    product_detail,
+    product_user_list_create,
+)
 
 urlpatterns = [
     path("", ProductListCreateAPIView.as_view(), name="product_list_create"),
