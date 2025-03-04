@@ -16,7 +16,9 @@ class FileListCreateView(APIView):
     parser_classes = [MultiPartParser, FormParser]
 
     def get(self, request):
-        files = File.objects.all()
+        files = File.objects.filter(
+            project_id=request.user.currently_selected_project_id
+        )
         serializer = FileSerializer(files, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -51,8 +53,6 @@ class FileDetailView(APIView):
         return Response(
             {"message": "File deleted successfully"}, status=status.HTTP_204_NO_CONTENT
         )
-
-
 
 
 class ProducerListCreateView(APIView):
