@@ -3,11 +3,12 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
+from datetime import datetime
 from apps.project.models import ProjectUser
 
 from .models import Product
 from .serializers import ProductSerializer, ProductUserSerializer
+from .utils import calculateProductAnalytics
 
 
 class ProductListCreateAPIView(APIView):
@@ -18,21 +19,23 @@ class ProductListCreateAPIView(APIView):
         currently_selected_project_id = user.currently_selected_project_id
 
         try:
-            project_user = ProjectUser.objects.get(project_id=
-                                                   currently_selected_project_id, 
-                                                   user=user)
+            project_user = ProjectUser.objects.get(
+                project_id=currently_selected_project_id, user=user
+            )
         except ProjectUser.DoesNotExist:
-            return Response({"error": "User is not part of this project."}, 
-                            status=status.HTTP_403_FORBIDDEN)
+            return Response(
+                {"error": "User is not part of this project."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
 
         if project_user.role == ProjectUser.PROJECT_USER_ROLE_OWNER:
             products = Product.objects.filter(project_id=currently_selected_project_id)
         elif project_user.role == ProjectUser.PROJECT_USER_ROLE_PRODUCER:
-            products = Product.objects.filter(project_id=currently_selected_project_id, 
-                                              productuser__user=user)
+            products = Product.objects.filter(
+                project_id=currently_selected_project_id, productuser__user=user
+            )
         else:
             products = Product.objects.none()
-
 
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -43,7 +46,6 @@ class ProductListCreateAPIView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 
 @api_view(["GET", "PUT", "DELETE"])
@@ -66,7 +68,6 @@ def product_detail(request, product_id):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
     elif request.method == "DELETE":
         product.delete()
@@ -92,3 +93,26 @@ def product_user_list_create(request, product_id):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(http_method_names=["GET"])
+def getProductAnalytics(request, product_id):
+    period_start = request.query_params.get("period_start")
+    period_end = request.query_params.get("period_end")
+
+    filters = {}
+
+    if period_start and period_end:
+        try:
+            start_date = datetime.strptime(period_start, "%Y-%m-%d")
+            end_date = datetime.strptime(period_end, "%Y-%m-%d")
+            filters["created_at__range"] = (start_date, end_date)
+        except ValueError:
+            return Response(
+                {"error": "Invalid date format. Use YYYY-MM-DD."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+    data = calculateProductAnalytics(product_id, filters)
+
+    return Response(data, status=status.HTTP_200_OK)
