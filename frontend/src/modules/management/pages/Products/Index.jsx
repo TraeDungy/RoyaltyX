@@ -19,7 +19,7 @@ const Products = () => {
                 </div>
             ) : products?.length > 0 ? (
                 <div className="row">
-                    {products.map((product) => (
+                    {products?.map((product) => (
                         <ProductCard product={product} />
                     ))}
                 </div>

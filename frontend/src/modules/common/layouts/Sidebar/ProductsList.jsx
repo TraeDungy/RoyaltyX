@@ -25,7 +25,7 @@ const ProductsList = () => {
           <Spinner animation="border" />
         </div>
       ) : (
-        products.map((product) => (
+        products?.map((product) => (
           <li
             key={product.id}
             className={`nav-item px-2 rounded my-1 ${activeMenu === product.id ? 'menu-active' : ''}`}
@@ -67,11 +67,6 @@ const ProductsList = () => {
                 <li className="nav-item ps-2">
                   <Link to={`/products/${product.id}/analytics`} className="nav-link">
                     Analytics
-                  </Link>
-                </li>
-                <li className="nav-item ps-2">
-                  <Link to={`/products/${product.id}/producers`} className="nav-link">
-                    Producers
                   </Link>
                 </li>
               </ul>

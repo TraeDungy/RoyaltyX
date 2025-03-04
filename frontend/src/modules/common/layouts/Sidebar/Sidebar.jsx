@@ -12,6 +12,7 @@ import {
   FilePdf,
   Box2Heart,
   Person,
+  QuestionCircle,
 } from "react-bootstrap-icons";
 import { getUserInfo } from "../../../account/api/user";
 import { getMyProjects, switchProject } from "../../../projects/api/project";
@@ -221,6 +222,18 @@ function Sidebar() {
                 >
                   <Person />
                   <span className="ps-3 medium">Producers</span>
+                </Link>
+              </li>
+              <li
+                className={`nav-item px-2 rounded my-1 ${currentPage === "/documentation" ? "active" : ""}`}
+              >
+                <Link
+                  to="/documentation"
+                  className="nav-link"
+                  onClick={() => handlePageChange("/documentation")}
+                >
+                  <QuestionCircle />
+                  <span className="ps-3 medium">Help Documentation</span>
                 </Link>
               </li>
             </div>

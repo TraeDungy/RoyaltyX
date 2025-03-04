@@ -34,24 +34,15 @@ def read_csv(file: BinaryIO) -> List[Dict[str, str]]:
 def update_products(data: List[Dict[str, str]], project_id: int) -> Dict[str, int]:
     """Updates products based on CSV data and returns a summary."""
     updated_count = 0
-    not_found_count = 0
 
     for row in data:
         title = row.get("Title") or row.get("program_name") or row.get("Title Name")
         if not title:
             continue
 
-        product = Product.objects.filter(title=title).first()
+        product = Product.objects.filter(title=title, project_id=project_id).first()
         if not product:
             product = Product.objects.create(title=title, project_id=project_id)
-
-        product.statement_frequency = row.get("Statement Frequency")
-        product.first_statement_end_date = row.get("First Statement End Date")
-        product.payment_threshold = row.get("Payment Threshold")
-        product.payment_window = row.get("Payment Window")
-        product.is_active = row.get("Active") == "true"
-        product.notes = row.get("Notes")
-        product.save()
 
         if row.get("Unit Price"):
             storeProductSales(row, product)
@@ -60,10 +51,8 @@ def update_products(data: List[Dict[str, str]], project_id: int) -> Dict[str, in
             storeProductImpressions(row, product)
 
         updated_count += 1
-    else:
-        not_found_count += 1
 
-    return {"updated": updated_count, "not_found": not_found_count}
+    return {"updated": updated_count}
 
 
 def process_report(file: BinaryIO, project_id: int) -> Dict[str, str]:
@@ -78,7 +67,7 @@ def process_report(file: BinaryIO, project_id: int) -> Dict[str, str]:
         return {
             "status": "success",
             "message": 
-               f"Updated {result['updated']} products, {result['not_found']} not found",
+               f"Updated {result['updated']} products",
         }
     except Exception as e:
         return {"status": "error", "message": str(e)}
@@ -87,7 +76,7 @@ def process_report(file: BinaryIO, project_id: int) -> Dict[str, str]:
 def storeProductSales(row: Dict[str, Any], product: Product) -> None:
     ProductSale.objects.create(
         product=product,
-        type=row.get("Consumption Type"),
+        type=row.get("Consumption Type").lower(),
         unit_price=Decimal(row.get("Unit Price")),
         unit_price_currency=row.get("Unit Price Currency"),
         quantity=Decimal(row.get("Quantity")),
@@ -101,5 +90,8 @@ def storeProductSales(row: Dict[str, Any], product: Product) -> None:
 
 def storeProductImpressions(row: Dict[str, Any], product: Product) -> None:
     ProductImpressions.objects.create(
-        product=product, impressions=row.get("impressions")
+        product=product, 
+        impressions=row.get("impressions"), 
+        period_start=row.get("Period Start"), 
+        period_end=row.get("Period End")
     )

@@ -1,13 +1,41 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { getProduct } from "../api/product";
 import { toast } from 'react-toastify';
 import { Container, Spinner } from 'react-bootstrap';
+import DateRangeSelector from '../../common/components/DateRangeSelector';
+import { getProductAnalytics } from '../api/analytics';
 
 function Analytics() {
 
     const [product, setProduct] = useState(null);
     const { id } = useParams();
+
+    const [analytics, setAnalytics] = useState(null);
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+
+    useEffect(() => {
+
+        const periodStart = params.get("period_start");
+        const periodEnd = params.get("period_end");
+
+        const period_range = {
+            period_start: periodStart,
+            period_end: periodEnd,
+        }
+
+        const fetchAnalytics = async () => {
+            try {
+                const fetchedAnalytics = await getProductAnalytics(id, period_range);
+                setAnalytics(fetchedAnalytics);
+            } catch (error) {
+                toast.error(error.message || "Failed to fetch analytics");
+            }
+        };
+
+        fetchAnalytics();
+    }, [location.search]);
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -22,23 +50,6 @@ function Analytics() {
         fetchProduct();
     }, [id]);
 
-    const totalRoyaltyRevenue = product?.sales.reduce((sum, sale) => sum + (parseFloat(sale.royalty_amount) * parseFloat(sale.quantity)), 0);
-    const totalImpressions = product?.impressions.reduce((sum, impression) => sum + (parseFloat(impression.impressions)), 0);
-
-    const rentalCount = product?.sales?.filter(sale => sale.type === "Rental").length;
-    const purchaseCount = product?.sales?.filter(sale => sale.type === "Purchase").length;
-
-    const totalUnitsPurchased = product?.sales?.reduce((sum, sale) =>
-        sale.type === "Purchase" ? sum + parseInt(sale.quantity || 0) : sum, 0);
-    const totalUnitsRented = product?.sales?.reduce((sum, sale) =>
-        sale.type === "Rental" ? sum + parseInt(sale.quantity || 0) : sum, 0);
-
-    const rentalEarnings = product?.sales?.filter(sale => sale.type === "Rental")
-        .reduce((sum, sale) => sum + (parseFloat(sale.royalty_amount || 0) * parseFloat(sale.quantity)), 0);
-
-    const purchaseEarnings = product?.sales?.filter(sale => sale.type === "Purchase")
-        .reduce((sum, sale) => sum + (parseFloat(sale.royalty_amount || 0) * parseFloat(sale.quantity)), 0);
-
     if (!product) {
         return (
             <Container className="d-flex justify-content-center mt-5">
@@ -49,16 +60,18 @@ function Analytics() {
 
     return (
         <>
-            <div className="mb-3 ps-1">
-                <h2 className="bold">Analytics</h2>
+            <div className="d-flex justify-content-between align-items-center mt-4 mb-3 ps-1">
+                <h2 className="bold">Analytics for {product.title}</h2>
+                <DateRangeSelector />
             </div>
+
 
             <div className="row">
                 <div className="col-md-4 p-3">
                     <div className="card d-flex justify-content-center flex-column w-100 h-100">
                         <div className="card-body">
                             <h6 className="mb-2">Total Impressions</h6>
-                            <h3 className="bold txt-primary">{totalImpressions}</h3>
+                            <h3 className="bold txt-primary">{analytics.total_impressions.toLocaleString()}</h3>
                         </div>
                     </div>
                 </div>
@@ -74,7 +87,7 @@ function Analytics() {
                     <div className="card d-flex justify-content-center flex-column w-100 h-100">
                         <div className="card-body">
                             <h6 className="mb-2">Total Royalty Revenue</h6>
-                            <h3 className="bold txt-primary">{totalRoyaltyRevenue.toLocaleString()} $</h3>
+                            <h3 className="bold txt-primary">{analytics.total_royalty_revenue.toLocaleString()} $</h3>
                         </div>
                     </div>
                 </div>
@@ -87,27 +100,19 @@ function Analytics() {
                         <tbody>
                             <tr>
                                 <th>Number of rentals</th>
-                                <td className='text-end'>{rentalCount}</td>
+                                <td className='text-end'>{analytics.rentals_count.toLocaleString()}</td>
                             </tr>
                             <tr>
                                 <th>Number of purchases</th>
-                                <td className='text-end'>{purchaseCount}</td>
+                                <td className='text-end'>{analytics.purchases_count.toLocaleString()}</td>
                             </tr>
                             <tr>
                                 <th>Earnings from rentals</th>
-                                <td className='text-end'>{rentalEarnings}$</td>
+                                <td className='text-end'>{analytics.rentals_revenue.toLocaleString()} $</td>
                             </tr>
                             <tr>
                                 <th>Earnings from purchases</th>
-                                <td className='text-end'>{purchaseEarnings}$</td>
-                            </tr>
-                            <tr>
-                                <th>Total units purchased</th>
-                                <td className='text-end'>{totalUnitsPurchased}</td>
-                            </tr>
-                            <tr>
-                                <th>Total units rented</th>
-                                <td className='text-end'>{totalUnitsRented}</td>
+                                <td className='text-end'>{analytics.purchases_revenue.toLocaleString()} $</td>
                             </tr>
                         </tbody>
                     </table>
@@ -118,7 +123,7 @@ function Analytics() {
                         <tbody>
                             <tr>
                                 <th>Impressions</th>
-                                <td className='text-end'>{totalImpressions}</td>
+                                <td className='text-end'>{analytics.total_impressions.toLocaleString()}</td>
                             </tr>
                         </tbody>
                     </table>

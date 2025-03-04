@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -138,6 +140,21 @@ def updateProject(request):
 
 @api_view(http_method_names=["GET"])
 def getProjectAnalytics(request):
-    data = calculateProjectAnalytics(request.user.currently_selected_project_id)
+    period_start = request.query_params.get("period_start")
+    period_end = request.query_params.get("period_end")
+    
+    filters = {}
+
+    if period_start and period_end:
+        try:
+            start_date = datetime.strptime(period_start, "%Y-%m-%d")
+            end_date = datetime.strptime(period_end, "%Y-%m-%d")
+            filters["created_at__range"] = (start_date, end_date)
+        except ValueError:
+            return Response({"error": "Invalid date format. Use YYYY-MM-DD."}, 
+                            status=status.HTTP_400_BAD_REQUEST)
+
+    data = calculateProjectAnalytics(request.user.currently_selected_project_id, 
+                                     filters)
 
     return Response(data, status=status.HTTP_200_OK)

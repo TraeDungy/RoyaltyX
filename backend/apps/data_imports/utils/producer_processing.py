@@ -44,11 +44,11 @@ def update_product_users(data: List[Dict[str, str]], project_id: int):
         if not title or not email or not producer_fee or not user:
             continue
 
-        product = Product.objects.filter(title=title).first()
+        product = Product.objects.filter(title=title, project_id=project_id).first()
         if not product:
             product = Product.objects.create(title=title, project_id=project_id)
 
-        productUser = ProductUser.objects.filter(user=user).first()
+        productUser = ProductUser.objects.filter(user=user, product=product).first()
         if not productUser:
             ProductUser.objects.create(product=product, user=user, 
                                        producer_fee=int(producer_fee))

@@ -20,7 +20,7 @@ function Dashboard() {
 
   return (
     <>
-      <div className="mb-3 ps-1">
+      <div className="mt-4 mb-3 ps-1">
         <h3 className="bold">Explore Features</h3>
       </div>
 
@@ -157,7 +157,7 @@ function Dashboard() {
         </div>
       ) : products?.length > 0 ? (
         <div className="row">
-          {products.map((product) => (
+          {products?.map((product) => (
             <div className="col-md-4 pb-4" key={product.id}>
               <div className="card pointer bg-transparent border-0" onClick={() => { navigate('/products/' + product.id) }}>
                 {product.thumbnail ? (

@@ -36,6 +36,9 @@ class Product(BaseModel):
 
 class ProductSale(BaseModel):
 
+    TYPE_RENTAL = "rental"
+    TYPE_PURCHASE = "purchase"
+
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     type = models.CharField(max_length=30)
     unit_price = models.DecimalField(decimal_places=2, max_digits=40)
@@ -55,6 +58,8 @@ class ProductSale(BaseModel):
 class ProductImpressions(BaseModel):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     impressions = models.IntegerField(null=True)
+    period_start = models.DateField()
+    period_end = models.DateField()
 
     class Meta:
         db_table = "product_impressions"
