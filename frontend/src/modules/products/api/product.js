@@ -29,7 +29,7 @@ export const getProduct = async (id) => {
   try {
     const token = localStorage.getItem("accessToken");
 
-    const response = await fetch(apiUrl + "/products/"+id, {
+    const response = await fetch(apiUrl + "/products/" + id + '/', {
       method: "GET",
       headers: {
         Accept: "application/json",
