@@ -508,3 +508,15 @@ table.table.dataTable> :not(caption)>*>* {
 .react-datepicker__close-icon{
   display: none !important;
 }
+
+.breadcrumb{
+  margin-bottom: 0 !important;
+}
+
+.breadcrumb-item+.breadcrumb-item::before{
+  color: var(--color-darker-gray) !important;
+}
+
+.breadcrumb-item{
+  font-size: 10pt !important;
+}

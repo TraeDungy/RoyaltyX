@@ -51,7 +51,7 @@ function Analytics() {
     return (
         <>
             <div className="d-flex justify-content-between align-items-center mt-4 mb-3 ps-1">
-                <h2 className="bold">Analytics</h2>
+                <h2 className="bold">Analytics for {product.title}</h2>
                 <DateRangeSelector />
             </div>
 

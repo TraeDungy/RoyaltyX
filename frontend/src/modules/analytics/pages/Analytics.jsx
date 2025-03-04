@@ -98,19 +98,11 @@ function Analytics() {
                             </tr>
                             <tr>
                                 <th>Earnings from rentals</th>
-                                <td className='text-end'>234643 $</td>
+                                <td className='text-end'>{analytics.rentals_revenue.toLocaleString()} $</td>
                             </tr>
                             <tr>
                                 <th>Earnings from purchases</th>
-                                <td className='text-end'>242452 $</td>
-                            </tr>
-                            <tr>
-                                <th>Total units purchased</th>
-                                <td className='text-end'>24525</td>
-                            </tr>
-                            <tr>
-                                <th>Total units rented</th>
-                                <td className='text-end'>24526</td>
+                                <td className='text-end'>{analytics.purchases_revenue.toLocaleString()} $</td>
                             </tr>
                         </tbody>
                     </table>
@@ -121,7 +113,7 @@ function Analytics() {
                         <tbody>
                             <tr>
                                 <th>Impressions</th>
-                                <td className='text-end'>24524542</td>
+                                <td className='text-end'>{analytics.total_impressions.toLocaleString()}</td>
                             </tr>
                         </tbody>
                     </table>

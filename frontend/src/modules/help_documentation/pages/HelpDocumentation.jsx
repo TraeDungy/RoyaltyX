@@ -3,7 +3,7 @@ import TopicsList from "../components/TopicsList";
 
 const HelpDocumentation = () => {
     return (
-        <div className="pb-5">
+        <div className="pt-4 pb-5">
             <h1 className="bold">Help Documentation</h1>
             <div className="alert alert-primary my-5 d-flex align-items-center">
                 <div className="pe-3">
