@@ -12,3 +12,4 @@ psycopg==3.2.4
 ruff==0.9.6
 drf-spectacular==0.28.0
 Pillow
+weasyprint==64.1

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 11pt;
+        }
+
+        .row {
+            display: flex;
+        }
+
+        .col {
+            width: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>{{ project.name }}</h1>
+    <p>Report requested by: {{ user.name }}</p>
+    <p>Generated at: {% now "Y-m-d H:i" %}</p>
+    <br>
+    <p><b>Royalty Period:</b> {{ period_start }} - {{ period_end }}</p>
+    <hr>
+
+    <div>
+        <div class="row">
+            <div class="col">
+                <span><b>Title</b></span>
+            </div>
+            <div class="col">
+                <span><b>Amount Earned</b></span>
+            </div>
+        </div>
+        {% for product in products %}
+        <div class="row">
+            <div class="col">
+                <span>{{ product.title }}</span>
+            </div>
+            <div class="col">
+                <span>33,00 USD</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</body>
+
+</html>

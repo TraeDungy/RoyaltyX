@@ -17,7 +17,7 @@ import dashboardRoutes from "./modules/dashboard";
 import projectRoutes from "./modules/projects";
 import Layout from "./modules/projects/layout/Layout";
 import memberRoutes from "./modules/members";
-import reportRoutes from "./modules/report";
+import reportRoutes from "./modules/reports";
 import accountRoutes from "./modules/account";
 import contentRoutes from "./modules/content";
 import analyticsRoutes from "./modules/analytics";
