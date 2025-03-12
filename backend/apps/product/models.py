@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import F, Sum
 
 from apps.project.models import Project
 from common.models import BaseModel
@@ -32,6 +33,14 @@ class Product(BaseModel):
     class Meta:
         db_table = "product"
 
+    def total_royalty_earnings(self, period_start, period_end):
+        return (
+            self.productsale_set.filter(
+                period_start__gte=period_start, period_end__lte=period_end, is_refund=False
+            )
+            .aggregate(total_royalty=Sum(F("royalty_amount") * F("quantity")))["total_royalty"]
+            or 0
+        )
 
 class ProductSale(BaseModel):
 

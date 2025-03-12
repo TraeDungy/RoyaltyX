@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { getReports } from "../api/reports";
 import { apiUrl } from "../../common/api/config";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Button from "../../common/components/Button";
+import { formatDistanceToNow } from "date-fns";
 
 const Reports = () => {
 
   const [reports, setReports] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchReports = async () => {
@@ -30,7 +33,11 @@ const Reports = () => {
         product
       </p>
 
-      <a href="/reports/create" className="btn btn-primary mb-3">Request a new report</a>
+      <div className="mb-3">
+        <Button variant="primary" onClick={() => navigate("/reports/create")}>
+          Request a new report
+        </Button>
+      </div>
 
       <table className="table table-bordered table-hover my-2">
         <thead>
@@ -50,7 +57,10 @@ const Reports = () => {
               <td>{report.period_start}</td>
               <td>{report.period_end}</td>
               <td>{report.created_by}</td>
-              <td>{new Date(report.created_at).toLocaleString()}</td>
+              <td>
+                {formatDistanceToNow(new Date(report.created_at),
+                  { addSuffix: true })}
+              </td>
               <td>
                 <Link
                   to={apiUrl + report.file}
