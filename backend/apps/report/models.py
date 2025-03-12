@@ -10,8 +10,8 @@ class Report(BaseModel):
     file = models.FileField(upload_to="reports/", null=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     created_by = models.ForeignKey("user.User", on_delete=models.CASCADE)
-    period_start = models.DateField()
-    period_end = models.DateField()
+    period_start = models.DateField(null=True)
+    period_end = models.DateField(null=True)
 
     class Meta:
         db_table = "report"

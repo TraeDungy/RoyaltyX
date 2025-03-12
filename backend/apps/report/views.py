@@ -37,10 +37,17 @@ class ReportsView(APIView):
 
         filters = {}
 
+        start_date = None
+        end_date = None
+
         if period_start and period_end:
             try:
-                start_date = timezone.make_aware(datetime.strptime(period_start, "%Y-%m-%d"))
-                end_date = timezone.make_aware(datetime.strptime(period_end, "%Y-%m-%d"))
+                start_date = timezone.make_aware(
+                    datetime.strptime(period_start, "%Y-%m-%d")
+                )
+                end_date = timezone.make_aware(
+                    datetime.strptime(period_end, "%Y-%m-%d")
+                )
                 filters["created_at__range"] = (start_date, end_date)
             except ValueError:
                 return Response(
@@ -59,9 +66,7 @@ class ReportsView(APIView):
 
         product_data = []
         for product in products:
-            total_royalty = (
-                product.total_royalty_earnings(start_date, end_date)
-            )
+            total_royalty = product.total_royalty_earnings(start_date, end_date)
             product_data.append(
                 {"title": product.title, "total_royalty": total_royalty}
             )
