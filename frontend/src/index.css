@@ -95,6 +95,7 @@ body {
 
 .btn-primary {
   background-color: var(--color-primary) !important;
+  color: #fff !important;
   border-color: var(--color-primary) !important;
 }
 

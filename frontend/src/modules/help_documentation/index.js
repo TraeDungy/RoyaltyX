@@ -2,7 +2,8 @@ import HelpDocumentation from "./pages/HelpDocumentation";
 import Messaging from "./pages/Messaging";
 import ProducerUpload from "./pages/ProducerUpload";
 import ProductsListView from "./pages/ProductsListView";
-import ReportUpload from "./pages/ReportUpload";
+import DataUpload from "./pages/DataUpload";
+import ReportGeneration from "./pages/ReportGeneration";
 
 const helpDocumentationRoutes = [
   {
@@ -10,8 +11,8 @@ const helpDocumentationRoutes = [
     element: <HelpDocumentation />,
   },
   {
-    path: "documentation/report-upload",
-    element: <ReportUpload />,
+    path: "documentation/data-upload",
+    element: <DataUpload />,
   },
   {
     path: "documentation/producer-upload",
@@ -24,6 +25,10 @@ const helpDocumentationRoutes = [
   {
     path: "documentation/messaging",
     element: <Messaging />,
+  },
+  {
+    path: "documentation/report-generation",
+    element: <ReportGeneration />,
   },
 ];
 

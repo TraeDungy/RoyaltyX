@@ -29,3 +29,4 @@ yarn-error.log*
 *.pyc
 backend/uploads/
 backend/media/uploads/
+backend/media/reports/

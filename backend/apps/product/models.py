@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import F, Sum
 
 from apps.project.models import Project
 from common.models import BaseModel
@@ -7,7 +8,6 @@ from common.models import BaseModel
 class Product(BaseModel):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
-    impressions = models.IntegerField(null=True)
     statement_frequency = models.CharField(
         max_length=50,
         null=True,
@@ -33,9 +33,21 @@ class Product(BaseModel):
     class Meta:
         db_table = "product"
 
+    def total_royalty_earnings(self, period_start=None, period_end=None):
+        filters = {"is_refund": False}
+
+        if period_start and period_end:
+            filters["period_start__gte"] = period_start
+            filters["period_end__lte"] = period_end
+
+        return (
+            self.productsale_set.filter(**filters).aggregate(
+                total_royalty=Sum(F("royalty_amount") * F("quantity"))
+            )["total_royalty"]
+            or 0
+        )
 
 class ProductSale(BaseModel):
-
     TYPE_RENTAL = "rental"
     TYPE_PURCHASE = "purchase"
 
@@ -54,7 +66,6 @@ class ProductSale(BaseModel):
         db_table = "product_sale"
 
 
-
 class ProductImpressions(BaseModel):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     impressions = models.IntegerField(null=True)
@@ -66,11 +77,11 @@ class ProductImpressions(BaseModel):
 
 
 class ProductUser(BaseModel):
-    """ Model which represents producers for individual products """
+    """Model which represents producers for individual products"""
 
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     user = models.ForeignKey("user.User", on_delete=models.CASCADE)
-    producer_fee = models.IntegerField(choices=((i,i) for i in range(1, 101)))
+    producer_fee = models.IntegerField(choices=((i, i) for i in range(1, 101)))
 
     class Meta:
         unique_together = ("product", "user")

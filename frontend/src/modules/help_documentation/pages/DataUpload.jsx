@@ -1,7 +1,7 @@
-const ReportUpload = () => {
+const DataUpload = () => {
     return (
         <div>
-            <h4 className="bold mb-3">Report upload</h4>
+            <h4 className="bold mt-5 mb-3">Data upload</h4>
             <p>You can find this feature on the <a className="txt-primary" href="/management/data/import">/management/data/import</a> page. There you will see the file upload widget with drag 'n' drop supported. Every file needs to be properly formatted with the required attributes described in below paragraphs, otherwise some values from the file will not be collected if they don't contain all the required attributes with correct names.</p>
 
             <div className="pt-5">
@@ -67,4 +67,4 @@ const ReportUpload = () => {
     );
 }
 
-export default ReportUpload;
+export default DataUpload;

@@ -22,6 +22,7 @@ const Producers = () => {
                             <tr>
                                 <th>Producer</th>
                                 <th>Product</th>
+                                <th>Producer Fee</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -31,6 +32,7 @@ const Producers = () => {
                                     <tr key={product.id}>
                                         <td>{product?.users?.[0]?.user_details?.email}</td>
                                         <td>{product.title}</td>
+                                        <td>{product?.users?.[0]?.producer_fee}%</td>
                                     </tr>
                                 ))}
                         </tbody>
