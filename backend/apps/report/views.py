@@ -76,10 +76,7 @@ class ReportsView(APIView):
                 {"title": product.title, "total_royalty": total_royalty}
             )
 
-        if start_date and end_date:
-            filename = f"royaltyx_report_{start_date}-{end_date}.pdf"
-        else:
-            filename = f"report_{uuid.uuid4().hex}.pdf"
+        filename = f"rx_report_{uuid.uuid4().hex}.pdf"
 
         context = {
             "project": project,
