@@ -1,14 +1,29 @@
-import { useState } from "react";
-import { Bell, Envelope, EnvelopeOpen, Trash } from "react-bootstrap-icons";
+import { useState, useEffect } from "react";
+import { Bell, EnvelopeOpen, Trash } from "react-bootstrap-icons";
 import icon from "../../assets/img/brand/icon.webp";
 import styles from "./NotificationsDropdown.module.css";
+import { getNotifications } from "../../api/notifications";
 
 const NotificationsDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [notifications, setNotifications] = useState([]);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
+
+  useEffect(() => {
+    const fetchReports = async () => {
+      try {
+        const response = await getNotifications();
+        setNotifications(response);
+      } catch (error) {
+        console.error("Error fetching notifications:", error);
+      }
+    };
+
+    fetchReports();
+  }, []);
 
   return (
     <div className="ps-4 position-relative">
@@ -27,7 +42,7 @@ const NotificationsDropdown = () => {
             fontSize: 9,
           }}
         >
-          7
+          {notifications.length}
         </span>
       </div>
 
@@ -41,76 +56,23 @@ const NotificationsDropdown = () => {
             zIndex: 1050,
           }}
         >
-          <h6 className="px-3 py-2">Notifications (12)</h6>
-          <div className="list-group">
-            <button className="list-group-item list-group-item-action">
-              <div className="d-flex justify-content-between align-items-center">
-                <div className={styles.notificationIconWrapper}>
-                  <img className={styles.notificationIcon} src={icon} alt="" />
-                </div>
-                <h6 className="mb-0">New message received</h6>
-                <div>
-                  <Envelope className="me-1 pointer txt-lighter" />{" "}
-                  <Trash className="me-1 pointer txt-lighter" />{" "}
-                  <EnvelopeOpen className="me-1 pointer txt-lighter" />
-                </div>
-              </div>
-              <span className="small txt-lighter">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                Fugiat, numquam quam.
-              </span>
-            </button>
-            <button className="list-group-item list-group-item-action">
-              <div className="d-flex justify-content-between align-items-center">
-                <div className={styles.notificationIconWrapper}>
-                  <img className={styles.notificationIcon} src={icon} alt="" />
-                </div>
-                <h6 className="mb-0">New message received</h6>
-                <div>
-                  <Envelope className="me-1 pointer txt-lighter" />{" "}
-                  <Trash className="me-1 pointer txt-lighter" />{" "}
-                  <EnvelopeOpen className="me-1 pointer txt-lighter" />
+          <h6 className="px-3 py-2">Notifications ({notifications.length})</h6>
+          <div className="list-group" style={{ minHeight: 270 }}>
+            {notifications.map(notification => (
+              <div className="list-group-item list-group-item-action">
+                <div className="d-flex justify-content-between align-items-center">
+                  <div className={styles.notificationIconWrapper}>
+                    <img className={styles.notificationIcon} src={icon} alt="" />
+                  </div>
+                  <span className="mb-0 ps-3">{notification.title}</span>
+                  <div>
+                    <Trash className="me-1 pointer" />{" "}
+                    <EnvelopeOpen className="me-1 pointer" />
+                  </div>
                 </div>
               </div>
-              <span className="small txt-lighter">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                Fugiat, numquam quam.
-              </span>
-            </button>
-            <button className="list-group-item list-group-item-action">
-              <div className="d-flex justify-content-between align-items-center">
-                <div className={styles.notificationIconWrapper}>
-                  <img className={styles.notificationIcon} src={icon} alt="" />
-                </div>
-                <h6 className="mb-0">New message received</h6>
-                <div>
-                  <Envelope className="me-1 pointer txt-lighter" />{" "}
-                  <Trash className="me-1 pointer txt-lighter" />{" "}
-                  <EnvelopeOpen className="me-1 pointer txt-lighter" />
-                </div>
-              </div>
-              <span className="small txt-lighter">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                Fugiat, numquam quam.
-              </span>
-            </button>
-            <button className="list-group-item list-group-item-action">
-              <div className="d-flex justify-content-between align-items-center">
-                <div className={styles.notificationIconWrapper}>
-                  <img className={styles.notificationIcon} src={icon} alt="" />
-                </div>
-                <h6 className="mb-0">New message received</h6>
-                <div>
-                  <Envelope className="me-1 pointer txt-lighter" />{" "}
-                  <Trash className="me-1 pointer txt-lighter" />{" "}
-                  <EnvelopeOpen className="me-1 pointer txt-lighter" />
-                </div>
-              </div>
-              <span className="small txt-lighter">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                Fugiat, numquam quam.
-              </span>
-            </button>
+            ))}
+
           </div>
           <div className="d-flex justify-content-between pb-2 pt-1">
             <span className="px-3 pointer medium txt-primary d-flex align-items-center">

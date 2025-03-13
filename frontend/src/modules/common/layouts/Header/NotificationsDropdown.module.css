@@ -1,5 +1,7 @@
 .notificationIconWrapper {
   padding: 0.3rem;
+  display: flex;
+  align-items: center;
   border-radius: 5px;
   background-color: #00000011;
 }

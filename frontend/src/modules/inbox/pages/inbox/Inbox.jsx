@@ -7,7 +7,7 @@ function Inbox() {
       <div class="page-content">
         <div class="row m-0">
           <div class="col-md-4 col-12 card-stacked">
-            <div class="bgc-body shadow-line chat px-0">
+            <div class="bgc-body chat px-0">
               <div class="chat-user-detail">
                 <div class="p-3 chat-user-info">
                   <div class="card-body text-center">
@@ -50,7 +50,7 @@ function Inbox() {
                   </div>
                 </div>
               </div>
-              <div class="px-2 pb-3">
+              <div class="px-2 pb-3 pt-3">
                 <input
                   type="text"
                   class="form-control"
@@ -64,7 +64,7 @@ function Inbox() {
                     <div class="w-100">
                       <div class="d-flex pl-0">
                         <img
-                          class="rounded-circle shadow avatar-sm mr-3"
+                          class="rounded-circle avatar-sm mr-3"
                           src="https://user-images.githubusercontent.com/35243461/168796884-ee3aafb6-8083-48ec-9cfb-51b95eae08fe.jpg"
                         />
                         <div className="ps-2">
@@ -96,7 +96,7 @@ function Inbox() {
                     <div class="w-100">
                       <div class="d-flex pl-0">
                         <img
-                          class="rounded-circle shadow avatar-sm mr-3"
+                          class="rounded-circle avatar-sm mr-3"
                           src="https://user-images.githubusercontent.com/35243461/168796872-7251e655-cdf0-4031-a253-bf0db09cdf0f.jpg"
                         />
                         <div className="ps-2">
@@ -123,7 +123,7 @@ function Inbox() {
                     <div class="w-100">
                       <div class="d-flex pl-0">
                         <img
-                          class="rounded-circle shadow avatar-sm mr-3"
+                          class="rounded-circle avatar-sm mr-3"
                           src="https://user-images.githubusercontent.com/35243461/168796879-f8c5e585-15c0-49ff-94de-c70539ae434c.jpg"
                         />
                         <div className="ps-2">
@@ -149,7 +149,7 @@ function Inbox() {
                     <div class="w-100">
                       <div class="d-flex pl-0">
                         <img
-                          class="rounded-circle shadow avatar-sm mr-3"
+                          class="rounded-circle avatar-sm mr-3"
                           src="https://user-images.githubusercontent.com/35243461/168796872-7251e655-cdf0-4031-a253-bf0db09cdf0f.jpg"
                         />
                         <div className="ps-2">
@@ -208,7 +208,7 @@ function Inbox() {
                     <div class="w-100">
                       <div class="d-flex pl-0">
                         <img
-                          class="rounded-circle shadow avatar-sm mr-3"
+                          class="rounded-circle avatar-sm mr-3"
                           src="https://user-images.githubusercontent.com/35243461/168796882-28875c5c-424a-40d4-8f69-cfb7f18ccd14.jpg"
                         />
                         <div className="ps-2">
@@ -264,7 +264,7 @@ function Inbox() {
                     <div class="w-100">
                       <div class="d-flex pl-0">
                         <img
-                          class="rounded-circle shadow avatar-sm mr-3"
+                          class="rounded-circle avatar-sm mr-3"
                           src="https://user-images.githubusercontent.com/35243461/168796881-383d6cc9-a4cc-402f-b730-e9edc4e1e9b7.jpg"
                         />
                         <div className="ps-2">
@@ -322,12 +322,12 @@ function Inbox() {
             </div>
           </div>
           <div class="col-md-8 col-12 card-stacked">
-            <div class="bgc-body shadow-line chat chat-panel w-100">
+            <div class="bgc-body chat chat-panel w-100">
               <div class="p-3 chat-header">
                 <div class="d-flex">
                   <div class="w-100 d-flex pl-0">
                     <img
-                      class="rounded-circle shadow avatar-sm mr-3 chat-profile-picture"
+                      class="rounded-circle avatar-sm mr-3 chat-profile-picture"
                       src="https://user-images.githubusercontent.com/35243461/168796872-7251e655-cdf0-4031-a253-bf0db09cdf0f.jpg"
                     />
                     <div class="mr-3 ps-2">
@@ -343,7 +343,7 @@ function Inbox() {
                   <div class="flex-shrink-0 margin-auto">
                     <a
                       href="#"
-                      class="btn btn-sm btn-icon btn-basic active ml-2"
+                      class="btn ml-2"
                     >
                       <svg
                         viewBox="0 0 24 24"
@@ -363,7 +363,7 @@ function Inbox() {
                     </a>
                     <a
                       href="#"
-                      class="btn btn-sm btn-icon btn-basic active ml-2"
+                      class="btn ml-2"
                     >
                       <svg
                         viewBox="0 0 24 24"
@@ -382,7 +382,7 @@ function Inbox() {
                     </a>
                     <a
                       href="#"
-                      class="btn btn-sm btn-icon btn-basic active ml-2"
+                      class="btn ml-2"
                     >
                       <svg
                         viewBox="0 0 24 24"
@@ -405,10 +405,6 @@ function Inbox() {
               </div>
               <div class="d-flex flex-row navigation-mobile scrollable-chat-panel chat-panel-scroll">
                 <div class="w-100 p-3">
-                  <div class="svg36 loader-animate3 horizontal-margin-auto mb-2"></div>
-                  <div class="text-center letter-space drop-shadow text-uppercase fs-12 w-100 mb-3">
-                    Today
-                  </div>
                   <div class="left-chat-message fs-13 mb-2">
                     <p class="mb-0 mr-3 pe-5">Hi, Quan</p>
                     <div class="message-options">
@@ -658,7 +654,7 @@ function Inbox() {
                   </div>
                 </div>
               </div>
-              <div class="chat-search px-4">
+              <div class="chat-search ps-4">
                 <div class="input-group">
                   <input
                     type="text"
