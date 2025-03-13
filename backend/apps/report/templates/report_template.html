@@ -20,18 +20,19 @@
 
 <body>
     <h1>{{ project.name }}</h1>
-    <p>Report requested by: {{ user.name }}</p>
-    <p>Generated at: {% now "Y-m-d H:i" %}</p>
-    <p><b>Royalty Period:</b> {{ period_start }} - {{ period_end }}</p>
+    <span>Report requested by: {{ user.name }}</span><br>
+    <span>Generated at: {% now "Y-m-d H:i" %}</span><br>
+    <span><b>Royalty Period:</b> {{ period_start }} - {{ period_end }}</span><br>
+
     <br>
 
     <div>
         <div class="row">
             <div class="col">
-                <span><b>Title</b></span>
+                <p><b>Title</b></p>
             </div>
             <div class="col">
-                <span><b>Amount Earned</b></span>
+                <p><b>Amount Earned</b></p>
             </div>
         </div>
         {% for product in products %}
@@ -44,6 +45,19 @@
             </div>
         </div>
         {% endfor %}
+        
+        <br>
+        <hr>
+        <br>
+
+        <div class="row">
+            <div class="col">
+                <span><b>Total Amount</b></span>
+            </div>
+            <div class="col">
+                <span><b>${{ total_royalty_sum }}</b></span>
+            </div>
+        </div>
     </div>
 
 </body>

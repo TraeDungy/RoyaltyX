@@ -61,7 +61,7 @@ function Analytics() {
     return (
         <>
             <div className="d-flex justify-content-between align-items-center mt-4 mb-3 ps-1">
-                <h2 className="bold">Analytics for {product.title}</h2>
+                <h2 className="bold">{product.title}</h2>
                 <DateRangeSelector />
             </div>
 
@@ -71,7 +71,7 @@ function Analytics() {
                     <div className="card d-flex justify-content-center flex-column w-100 h-100">
                         <div className="card-body">
                             <h6 className="mb-2">Total Impressions</h6>
-                            <h3 className="bold txt-primary">{analytics.total_impressions.toLocaleString()}</h3>
+                            <h3 className="bold txt-primary">{analytics?.total_impressions?.toLocaleString()}</h3>
                         </div>
                     </div>
                 </div>
@@ -79,7 +79,7 @@ function Analytics() {
                     <div className="card d-flex justify-content-center flex-column w-100 h-100">
                         <div className="card-body">
                             <h6 className="mb-2">Total Sales</h6>
-                            <h3 className="bold txt-primary">{product.sales.length}</h3>
+                            <h3 className="bold txt-primary">{product?.sales?.length}</h3>
                         </div>
                     </div>
                 </div>
@@ -87,7 +87,7 @@ function Analytics() {
                     <div className="card d-flex justify-content-center flex-column w-100 h-100">
                         <div className="card-body">
                             <h6 className="mb-2">Total Royalty Revenue</h6>
-                            <h3 className="bold txt-primary">{analytics.total_royalty_revenue.toLocaleString()} $</h3>
+                            <h3 className="bold txt-primary">{analytics?.total_royalty_revenue?.toLocaleString()} $</h3>
                         </div>
                     </div>
                 </div>
@@ -100,19 +100,19 @@ function Analytics() {
                         <tbody>
                             <tr>
                                 <th>Number of rentals</th>
-                                <td className='text-end'>{analytics.rentals_count.toLocaleString()}</td>
+                                <td className='text-end'>{analytics?.rentals_count?.toLocaleString()}</td>
                             </tr>
                             <tr>
                                 <th>Number of purchases</th>
-                                <td className='text-end'>{analytics.purchases_count.toLocaleString()}</td>
+                                <td className='text-end'>{analytics?.purchases_count?.toLocaleString()}</td>
                             </tr>
                             <tr>
                                 <th>Earnings from rentals</th>
-                                <td className='text-end'>{analytics.rentals_revenue.toLocaleString()} $</td>
+                                <td className='text-end'>{analytics?.rentals_revenue?.toLocaleString()} $</td>
                             </tr>
                             <tr>
                                 <th>Earnings from purchases</th>
-                                <td className='text-end'>{analytics.purchases_revenue.toLocaleString()} $</td>
+                                <td className='text-end'>{analytics?.purchases_revenue?.toLocaleString()} $</td>
                             </tr>
                         </tbody>
                     </table>
@@ -123,7 +123,7 @@ function Analytics() {
                         <tbody>
                             <tr>
                                 <th>Impressions</th>
-                                <td className='text-end'>{analytics.total_impressions.toLocaleString()}</td>
+                                <td className='text-end'>{analytics?.total_impressions?.toLocaleString()}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -155,8 +155,8 @@ function Analytics() {
                             <td>{String(sale.is_refund)}</td>
                             <td>{sale.royalty_amount}</td>
                             <td>{sale.royalty_currency}</td>
-                            <td>{new Date(sale.period_start).toLocaleString()}</td>
-                            <td>{new Date(sale.period_end).toLocaleString()}</td>
+                            <td>{new Date(sale.period_start)?.toLocaleString()}</td>
+                            <td>{new Date(sale.period_end)?.toLocaleString()}</td>
                         </tr>
                     ))}
                 </tbody>

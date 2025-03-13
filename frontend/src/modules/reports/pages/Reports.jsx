@@ -56,7 +56,7 @@ const Reports = () => {
               <td>{report.filename}</td>
               <td>{report.period_start}</td>
               <td>{report.period_end}</td>
-              <td>{report.created_by}</td>
+              <td>{report?.created_by?.username}</td>
               <td>
                 {formatDistanceToNow(new Date(report.created_at),
                   { addSuffix: true })}

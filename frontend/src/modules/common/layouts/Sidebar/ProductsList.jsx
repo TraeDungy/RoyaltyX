@@ -60,11 +60,6 @@ const ProductsList = () => {
                   </Link>
                 </li>
                 <li className="nav-item ps-2">
-                  <Link to={`/products/${product.id}/reports`} className="nav-link">
-                    Reports
-                  </Link>
-                </li>
-                <li className="nav-item ps-2">
                   <Link to={`/products/${product.id}/analytics`} className="nav-link">
                     Analytics
                   </Link>

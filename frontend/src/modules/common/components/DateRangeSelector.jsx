@@ -38,12 +38,19 @@ const DateRangeSelector = () => {
         const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
     
         setDateRange([firstDay, lastDay]);
-    
-        setTimeout(() => {
-            updateURLParams(firstDay, lastDay);
-        }, 0);
+        setTimeout(() => updateURLParams(firstDay, lastDay), 0);
     };
+
+    const setLastYear = () => {
+        const today = new Date();
+        const lastYear = today.getFullYear() - 1;
+
+        const firstDay = new Date(lastYear, 0, 1);
+        const lastDay = new Date(lastYear, 11, 31);
     
+        setDateRange([firstDay, lastDay]);
+        setTimeout(() => updateURLParams(firstDay, lastDay), 0);
+    };
 
     const clearDates = () => {
         setDateRange([null, null]);
@@ -64,6 +71,10 @@ const DateRangeSelector = () => {
         <div className="d-flex gap-3 align-items-center">
             <button className="btn btn-outline-secondary txt-regular py-2" onClick={setThisMonth}>
                 This Month
+            </button>
+
+            <button className="btn btn-outline-secondary txt-regular py-2" onClick={setLastYear}>
+                Last Year
             </button>
 
             <DatePicker

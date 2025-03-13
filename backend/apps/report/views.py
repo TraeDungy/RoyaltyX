@@ -65,17 +65,25 @@ class ReportsView(APIView):
         products = Product.objects.filter(project=project)
 
         product_data = []
+        total_royalty_sum = 0
+
         for product in products:
             total_royalty = product.total_royalty_earnings(start_date, end_date)
+            total_royalty_sum += total_royalty
+
             product_data.append(
                 {"title": product.title, "total_royalty": total_royalty}
             )
 
-        filename = f"report_{uuid.uuid4().hex}.pdf"
+        if start_date and end_date:
+            filename = f"royaltyx_report_{start_date}-{end_date}.pdf"
+        else:
+            filename = f"report_{uuid.uuid4().hex}.pdf"
 
         context = {
             "project": project,
             "products": product_data,
+            "total_royalty_sum": total_royalty_sum,
             "user": user,
             "analytics": analytics,
             "period_start": period_start,
