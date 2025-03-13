@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getReports } from "../api/reports";
 import { apiUrl } from "../../common/api/config";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Button from "../../common/components/Button";
 import { formatDistanceToNow } from "date-fns";
 
@@ -62,13 +62,13 @@ const Reports = () => {
                   { addSuffix: true })}
               </td>
               <td>
-                <Link
-                  to={apiUrl + report.file}
+                <a
+                  href={apiUrl + report.file}
                   className="btn btn-primary"
                   download
                 >
                   Download
-                </Link>
+                </a>
               </td>
             </tr>
           ))}
