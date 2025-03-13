@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "apps.product",
     "apps.report",
     "apps.notifications",
+    "apps.inbox",
     "rest_framework",
     "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",
