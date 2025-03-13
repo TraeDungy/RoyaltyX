@@ -31,6 +31,8 @@ services:
       - WDS_SOCKET_HOST=127.0.0.1 
       - CHOKIDAR_USEPOLLING=true
       - WATCHPACK_POLLING=true 
+    volumes:
+      - ./media:/backend/media
 
   frontend:
     build:
@@ -50,6 +52,8 @@ services:
       context: ./nginx
     ports:
       - "443:443"
+    volumes:
+      - ./media:/backend/media
 
 volumes:
   postgres_data:
