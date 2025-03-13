@@ -11,6 +11,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from weasyprint import HTML
 
+from apps.notifications.utils import create_notification
 from apps.product.models import Product
 from apps.project.models import Project
 from apps.project.utils import calculateProjectAnalytics
@@ -102,6 +103,10 @@ class ReportsView(APIView):
             period_end=period_end,
         )
         report.file.save(filename, ContentFile(pdf_file))
+
+        create_notification(
+            request.user, "Your requested report was successfully created!"
+        )
 
         serializer = ReportSerializer(report)
         return Response(serializer.data, status=status.HTTP_201_CREATED)

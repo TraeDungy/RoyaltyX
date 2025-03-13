@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router";
 import DateRangeSelector from "../../common/components/DateRangeSelector";
 import { createReport } from "../api/reports";
 import { toast } from "react-toastify";
+import Button from "../../common/components/Button";
 
 const CreateNewReport = () => {
 
@@ -43,11 +44,15 @@ const CreateNewReport = () => {
                 <DateRangeSelector />
             </div>
 
-            <button
-                onClick={() => { handleCreateReport() }}
-                className="btn btn-primary">
-                Submit
-            </button>
+            <p className="mb-4">
+                Before submitting this request, make sure to select the time range for which the details in the report should apply.
+                If you don't select any time range, then the details in the report will be based on data from all time.
+            </p>
+
+            <Button
+                onClick={() => { handleCreateReport() }}>
+                Submit Request
+            </Button>
 
         </>
 
