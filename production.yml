@@ -20,6 +20,7 @@ services:
       dockerfile: Dockerfile.prod
     volumes:
       - "./backend:/backend"
+      - ./media:/backend/media
     ports:
       - "8000:8000"
     depends_on:
@@ -31,8 +32,6 @@ services:
       - WDS_SOCKET_HOST=127.0.0.1 
       - CHOKIDAR_USEPOLLING=true
       - WATCHPACK_POLLING=true 
-    volumes:
-      - ./media:/backend/media
 
   frontend:
     build:
