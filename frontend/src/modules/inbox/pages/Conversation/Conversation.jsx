@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { Send } from "react-bootstrap-icons";
 import { useParams } from "react-router";
-import { getConversation } from "../../api/conversation";
+import { getConversation, getConversationMessages } from "../../api/conversation";
+import Message from "../../components/Message";
 
 const Conversation = () => {
 
     const [conversation, setConversation] = useState([]);
+    const [messages, setMessages] = useState([]);
+
     const { conversation_id } = useParams();
 
     useEffect(() => {
@@ -17,12 +20,21 @@ const Conversation = () => {
                 console.error("Error fetching conversation:", error);
             }
         };
+        const fetchMessages = async () => {
+            try {
+                const response = await getConversationMessages(conversation_id);
+                setMessages(response);
+            } catch (error) {
+                console.error("Error fetching messages:", error);
+            }
+        };
 
         fetchConversation();
+        fetchMessages();
     }, [conversation_id]);
 
     const participantNames = conversation?.participants?.map(user => user.name).join(", ");
-    const firstAvatar = conversation?.participants?.length > 0 ? conversation.participants[0].avatar : "default-avatar.jpg";
+    const firstAvatar = conversation?.participants?.[0].avatar;
 
     return (
         <div className="bgc-body chat chat-panel w-100">
@@ -108,42 +120,12 @@ const Conversation = () => {
             </div>
             <div className="d-flex flex-row navigation-mobile scrollable-chat-panel chat-panel-scroll">
                 <div className="w-100 p-3">
-                    <div className="d-flex flex-row-reverse mb-2">
-                        <div className="right-chat-message fs-13 mb-2">
-                            <div className="mb-0 mr-3 pe-5">
-                                <div className="d-flex flex-row">
-                                    <div className="me-5">Hey, Beate</div>
-                                    <div className="pr-4"></div>
-                                </div>
-                            </div>
-                            <div className="message-options dark">
-                                <div className="message-time">
-                                    <div className="d-flex flex-row">
-                                        <div className="pe-2">06:49</div>
-                                        <div className="svg15 double-check"></div>
-                                    </div>
-                                </div>
-                                <div className="message-arrow">
-                                    <i className="text-lighter la la-angle-down fs-17"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="left-chat-message fs-13 mb-2">
-                        <p className="mb-0 mr-3 pe-5">
-                            Oh hey, I didn’t see you there. Did you already get a
-                            table?
-                        </p>
-                        <div className="message-options">
-                            <div className="message-time">06:52</div>
-                            <div className="message-arrow">
-                                <i className="text-lighter la la-angle-down fs-17"></i>
-                            </div>
-                        </div>
-                    </div>
+                    {messages.map(message => (
+                        <Message message={message} />
+                    ))}
                 </div>
             </div>
-            <div className="chat-search ps-4">
+            <div className="chat-search px-3">
                 <div className="input-group">
                     <input
                         type="text"
