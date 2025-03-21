@@ -4,6 +4,7 @@ from .models import Notification
 
 User = get_user_model()
 
+
 def create_notification(user, title):
     """
     Utility function to create a notification for a specific user.

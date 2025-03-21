@@ -5,7 +5,6 @@ from common.models import BaseModel
 
 
 class Report(BaseModel):
-
     filename = models.CharField(max_length=50)
     file = models.FileField(upload_to="reports/", null=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)

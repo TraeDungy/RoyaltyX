@@ -4,20 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('report', '0002_report_period_end_report_period_start_and_more'),
+        ("report", "0002_report_period_end_report_period_start_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='report',
-            name='period_end',
+            model_name="report",
+            name="period_end",
             field=models.DateField(null=True),
         ),
         migrations.AlterField(
-            model_name='report',
-            name='period_start',
+            model_name="report",
+            name="period_start",
             field=models.DateField(null=True),
         ),
     ]

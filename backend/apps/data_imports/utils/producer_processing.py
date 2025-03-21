@@ -50,8 +50,9 @@ def update_product_users(data: List[Dict[str, str]], project_id: int):
 
         productUser = ProductUser.objects.filter(user=user, product=product).first()
         if not productUser:
-            ProductUser.objects.create(product=product, user=user, 
-                                       producer_fee=int(producer_fee))
+            ProductUser.objects.create(
+                product=product, user=user, producer_fee=int(producer_fee)
+            )
 
     return {"message": "success"}
 
@@ -71,4 +72,3 @@ def process_producers(file: BinaryIO, project_id: int) -> Dict[str, str]:
         }
     except Exception as e:
         return {"status": "error", "message": str(e)}
-    

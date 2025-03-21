@@ -13,8 +13,10 @@ export const useAuth = () => {
 // AuthProvider component to wrap your app and provide the auth state
 export const AuthProvider = ({ children }) => {
   const [authenticated, setAuthenticated] = useState(false);
+  const [id, setId] = useState("");
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
+  const [avatar, setAvatar] = useState("");
 
   const [currentlySelectedProjectId, setCurrentlySelectedProjectId] =
     useState(null);
@@ -29,8 +31,10 @@ export const AuthProvider = ({ children }) => {
       const decodedToken = jwtDecode(response.access);
 
       setAuthenticated(true);
+      setId(decodedToken.id);
       setEmail(decodedToken.email);
       setName(decodedToken.name);
+      setAvatar(decodedToken.avatar);
       setCurrentlySelectedProjectId(decodedToken.currently_selected_project_id);
       setToken(response.access);
 
@@ -44,8 +48,10 @@ export const AuthProvider = ({ children }) => {
 
   const handleLogout = () => {
     setAuthenticated(false);
+    setId("");
     setEmail("");
     setName("");
+    setAvatar("");
     setCurrentlySelectedProjectId(null);
     setToken("");
     localStorage.removeItem("accessToken");
@@ -67,8 +73,10 @@ export const AuthProvider = ({ children }) => {
 
       setAuthenticated(true);
       setToken(storedToken);
+      setId(decodedToken.id);
       setEmail(decodedToken.email);
       setName(decodedToken.name);
+      setAvatar(decodedToken.avatar);
       setCurrentlySelectedProjectId(decodedToken.currently_selected_project_id);
     }
     setLoading(false);
@@ -76,8 +84,10 @@ export const AuthProvider = ({ children }) => {
 
   const value = {
     authenticated,
+    id,
     email,
     name,
+    avatar,
     currentlySelectedProjectId,
     token,
     login: handleLogin,

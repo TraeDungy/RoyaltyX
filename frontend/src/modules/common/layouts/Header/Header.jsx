@@ -37,7 +37,7 @@ function Header() {
                 fontSize: 9,
               }}
             >
-              3
+              0
             </span>
           </Link>
           <NotificationsDropdown />

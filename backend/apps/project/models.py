@@ -15,7 +15,6 @@ class Project(models.Model):
 
 
 class ProjectUser(models.Model):
-
     PROJECT_USER_ROLE_OWNER = "owner"
     PROJECT_USER_ROLE_PRODUCER = "producer"
 

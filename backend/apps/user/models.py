@@ -14,6 +14,7 @@ class MyUserManager(BaseUserManager):
             email=self.normalize_email(email),
             username=email,
             name=name,
+            avatar=self.generate_avatar_url(name),
         )
         user.set_password(password)
         user.save(using=self._db)
@@ -29,6 +30,11 @@ class MyUserManager(BaseUserManager):
         user.is_superuser = True
         return user
 
+    def generate_avatar_url(self, name):
+        """Generate a DiceBear avatar based on the user's name or username."""
+        base_url = "https://api.dicebear.com/7.x/initials/svg"
+        return f"{base_url}?seed={name}&backgroundColor=6b11cb,c0aede,6b11cb"
+
 
 class User(AbstractBaseUser):
     email = models.EmailField(max_length=60, unique=True, null=False)
@@ -43,6 +49,7 @@ class User(AbstractBaseUser):
     is_deleted = models.BooleanField(default=False)
     is_email_verified = models.BooleanField(default=False)
     verification_code = models.CharField(max_length=30, null=True)
+    avatar = models.CharField(null=True)
     currently_selected_project = models.ForeignKey(
         Project, null=True, default=None, on_delete=models.CASCADE
     )

@@ -27,6 +27,7 @@ import productRoutes from "./modules/products";
 import { ProjectProvider } from "./modules/common/contexts/ProjectContext";
 import { ProductsProvider } from "./modules/common/contexts/ProductsContext";
 import helpDocumentationRoutes from "./modules/help_documentation";
+import InboxLayout from "./modules/inbox/layouts/InboxLayout";
 
 const PrivateRoutes = () => {
   const { authenticated, loading } = useAuth();
@@ -84,11 +85,18 @@ function App() {
                   ...reportRoutes,
                   ...accountRoutes,
                   ...contentRoutes,
-                  ...inboxRoutes,
                   ...managementRoutes,
                   ...productRoutes,
                   ...helpDocumentationRoutes,
                 ])}
+                <Route
+                  path="/"
+                  element={
+                    <InboxLayout />
+                  }
+                >
+                  {renderRoutes([...inboxRoutes])}
+                </Route>
               </Route>
 
               <Route

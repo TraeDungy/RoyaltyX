@@ -11,7 +11,7 @@ import { useAuth } from "../../contexts/AuthContext";
 
 function UserDropdown() {
 
-  const { name, email } = useAuth();
+  const { name, email, avatar } = useAuth();
 
   return (
     <Dropdown className="d-flex align-items-center">
@@ -21,7 +21,7 @@ function UserDropdown() {
         className="p-0 border-0 bg-transparent"
       >
         <img
-          src={placeholderProfileImage}
+          src={avatar}
           className="rounded pointer"
           style={{ width: 23, height: 23, objectFit: "cover" }}
           alt="Profile"
