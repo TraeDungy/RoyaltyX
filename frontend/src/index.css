@@ -521,3 +521,15 @@ table.table.dataTable> :not(caption)>*>* {
 .breadcrumb-item{
   font-size: 10pt !important;
 }
+
+.modal-footer{
+  border-top: 0 !important;
+}
+
+.modal-header{
+  border-bottom: 0 !important;
+}
+
+.modal-title{
+  font-size: 15pt !important;
+}

@@ -15,6 +15,7 @@ export const AuthProvider = ({ children }) => {
   const [authenticated, setAuthenticated] = useState(false);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
+  const [avatar, setAvatar] = useState("");
 
   const [currentlySelectedProjectId, setCurrentlySelectedProjectId] =
     useState(null);
@@ -31,6 +32,7 @@ export const AuthProvider = ({ children }) => {
       setAuthenticated(true);
       setEmail(decodedToken.email);
       setName(decodedToken.name);
+      setAvatar(decodedToken.avatar);
       setCurrentlySelectedProjectId(decodedToken.currently_selected_project_id);
       setToken(response.access);
 
@@ -46,6 +48,7 @@ export const AuthProvider = ({ children }) => {
     setAuthenticated(false);
     setEmail("");
     setName("");
+    setAvatar("");
     setCurrentlySelectedProjectId(null);
     setToken("");
     localStorage.removeItem("accessToken");
@@ -69,6 +72,7 @@ export const AuthProvider = ({ children }) => {
       setToken(storedToken);
       setEmail(decodedToken.email);
       setName(decodedToken.name);
+      setAvatar(decodedToken.avatar);
       setCurrentlySelectedProjectId(decodedToken.currently_selected_project_id);
     }
     setLoading(false);
@@ -78,6 +82,7 @@ export const AuthProvider = ({ children }) => {
     authenticated,
     email,
     name,
+    avatar,
     currentlySelectedProjectId,
     token,
     login: handleLogin,

@@ -1,3 +1,5 @@
+import uuid
+
 from django.contrib.auth import get_user_model
 from django.db import models
 
@@ -7,10 +9,8 @@ User = get_user_model()
 
 
 class Conversation(BaseModel):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     participants = models.ManyToManyField(User, related_name="conversations")
-
-    def __str__(self):
-        return f"Conversation {self.id} ({self.participants.count()} participants)"
 
 
 class Message(BaseModel):
@@ -19,6 +19,3 @@ class Message(BaseModel):
     )
     sent_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="messages")
     text = models.TextField()
-
-    def __str__(self):
-        return f"Message {self.id} by {self.sent_by.username}"

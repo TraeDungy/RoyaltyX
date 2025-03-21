@@ -17,6 +17,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token["email"] = user.email
         token["username"] = user.username
         token["name"] = user.name
+        token["avatar"] = user.avatar
         token["currently_selected_project_id"] = user.currently_selected_project_id
 
         return token
