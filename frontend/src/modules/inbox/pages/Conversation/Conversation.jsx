@@ -154,7 +154,7 @@ const Conversation = () => {
                 </div>
             </div>
             <div className="d-flex flex-row navigation-mobile scrollable-chat-panel chat-panel-scroll">
-                <div className="w-100 p-3" style={{ background: 'var(--color-light-gray)' }}>
+                <div className="w-100 p-3" style={{ background: 'var(--color-light-contrast)' }}>
                     {messages.map(message => (
                         <Message message={message} />
                     ))}
