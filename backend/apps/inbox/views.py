@@ -37,6 +37,21 @@ class ConversationListCreateView(APIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
+class ConversationDetailView(APIView):
+    """
+    GET: Retrieve details of a specific conversation
+    """
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, conversation_id):
+        conversation = get_object_or_404(
+            Conversation, id=conversation_id, participants=request.user
+        )
+        serializer = ConversationSerializer(conversation)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 class MessageListCreateView(APIView):
     """
     GET: List messages in a conversation (only for participants)

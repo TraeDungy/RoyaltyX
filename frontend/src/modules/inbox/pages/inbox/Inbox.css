@@ -1,6 +1,7 @@
 .page-content {
   overflow: hidden;
 }
+
 .card-stacked {
   display: flex;
   flex-flow: row wrap;
@@ -33,8 +34,8 @@
 .btn.btn-light-light:not(:disabled):not(.disabled):active,
 .btn.btn-light:not(:disabled):not(.disabled).active,
 .btn.btn-light:not(:disabled):not(.disabled):active,
-.show > .btn.btn-light-light.dropdown-toggle,
-.show > .btn.btn-light.dropdown-toggle {
+.show>.btn.btn-light-light.dropdown-toggle,
+.show>.btn.btn-light.dropdown-toggle {
   color: rgb(126, 130, 153);
   background-color: rgb(238, 240, 249);
   border-color: rgb(238, 240, 249);
@@ -51,8 +52,7 @@
 }
 
 .animate4 {
-  animation: 3s cubic-bezier(0.1, 0.82, 0.25, 1) 0s 1 normal none running
-    animate4;
+  animation: 3s cubic-bezier(0.1, 0.82, 0.25, 1) 0s 1 normal none running animate4;
 }
 
 .fw-300 {
@@ -101,14 +101,12 @@ button.btn i {
   font-size: 17px !important;
 }
 
-.input-group > .input-group-append > .btn,
-.input-group > .input-group-append > .input-group-text,
-.input-group > .input-group-prepend:first-child > .btn:not(:first-child),
-.input-group
-  > .input-group-prepend:first-child
-  > .input-group-text:not(:first-child),
-.input-group > .input-group-prepend:not(:first-child) > .btn,
-.input-group > .input-group-prepend:not(:first-child) > .input-group-text {
+.input-group>.input-group-append>.btn,
+.input-group>.input-group-append>.input-group-text,
+.input-group>.input-group-prepend:first-child>.btn:not(:first-child),
+.input-group>.input-group-prepend:first-child>.input-group-text:not(:first-child),
+.input-group>.input-group-prepend:not(:first-child)>.btn,
+.input-group>.input-group-prepend:not(:first-child)>.input-group-text {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
@@ -208,9 +206,9 @@ img.shadow {
   width: 18px;
 }
 
-.chat .chat-item.active,
-.chat .chat-item:hover {
-  background-color: var(--color-background-contrast);
+.chat-item.active,
+.chat-item:hover {
+  background: var(--color-light-gray) !important;
 }
 
 .single-check {
@@ -462,14 +460,15 @@ img.shadow {
   }
 }
 
-@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+@media screen and (-ms-high-contrast: active),
+(-ms-high-contrast: none) {
   .ps-container {
     overflow: auto !important;
   }
 }
 
-.ps-container.ps-active-x > .ps-scrollbar-x-rail,
-.ps-container.ps-active-y > .ps-scrollbar-y-rail {
+.ps-container.ps-active-x>.ps-scrollbar-x-rail,
+.ps-container.ps-active-y>.ps-scrollbar-y-rail {
   display: block;
   background-color: transparent;
 }
@@ -478,25 +477,25 @@ img.shadow {
   pointer-events: none;
 }
 
-.ps-container.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail {
+.ps-container.ps-in-scrolling.ps-x>.ps-scrollbar-x-rail {
   background-color: #eee;
   opacity: 0.9;
 }
 
-.ps-container.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail > .ps-scrollbar-x {
+.ps-container.ps-in-scrolling.ps-x>.ps-scrollbar-x-rail>.ps-scrollbar-x {
   background-color: #999;
 }
 
-.ps-container.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail {
+.ps-container.ps-in-scrolling.ps-y>.ps-scrollbar-y-rail {
   background-color: #eee;
   opacity: 0.9;
 }
 
-.ps-container.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail > .ps-scrollbar-y {
+.ps-container.ps-in-scrolling.ps-y>.ps-scrollbar-y-rail>.ps-scrollbar-y {
   background-color: #999;
 }
 
-.ps-container > .ps-scrollbar-x-rail {
+.ps-container>.ps-scrollbar-x-rail {
   display: none;
   position: absolute;
   -webkit-border-radius: 4px;
@@ -507,7 +506,7 @@ img.shadow {
   height: 8px;
 }
 
-.ps-container > .ps-scrollbar-x-rail > .ps-scrollbar-x {
+.ps-container>.ps-scrollbar-x-rail>.ps-scrollbar-x {
   position: absolute;
   background-color: #aaa;
   -webkit-border-radius: 4px;
@@ -517,7 +516,7 @@ img.shadow {
   height: 4px;
 }
 
-.ps-container > .ps-scrollbar-y-rail {
+.ps-container>.ps-scrollbar-y-rail {
   display: none;
   position: absolute;
   -webkit-border-radius: 4px;
@@ -528,7 +527,7 @@ img.shadow {
   width: 4px;
 }
 
-.ps-container > .ps-scrollbar-y-rail > .ps-scrollbar-y {
+.ps-container>.ps-scrollbar-y-rail>.ps-scrollbar-y {
   position: absolute;
   background-color: #a2adb7;
   -webkit-border-radius: 4px;
@@ -542,47 +541,43 @@ img.shadow {
   pointer-events: none;
 }
 
-.ps-container:hover.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail {
+.ps-container:hover.ps-in-scrolling.ps-x>.ps-scrollbar-x-rail {
   background-color: #eee;
   opacity: 0.9;
 }
 
-.ps-container:hover.ps-in-scrolling.ps-x
-  > .ps-scrollbar-x-rail
-  > .ps-scrollbar-x {
+.ps-container:hover.ps-in-scrolling.ps-x>.ps-scrollbar-x-rail>.ps-scrollbar-x {
   background-color: #a2adb7;
 }
 
-.ps-container:hover.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail {
+.ps-container:hover.ps-in-scrolling.ps-y>.ps-scrollbar-y-rail {
   background-color: #eee;
   opacity: 0.9;
 }
 
-.ps-container:hover.ps-in-scrolling.ps-y
-  > .ps-scrollbar-y-rail
-  > .ps-scrollbar-y {
+.ps-container:hover.ps-in-scrolling.ps-y>.ps-scrollbar-y-rail>.ps-scrollbar-y {
   background-color: #a2adb7;
 }
 
-.ps-container:hover > .ps-scrollbar-x-rail,
-.ps-container:hover > .ps-scrollbar-y-rail {
+.ps-container:hover>.ps-scrollbar-x-rail,
+.ps-container:hover>.ps-scrollbar-y-rail {
   opacity: 0.6;
 }
 
-.ps-container:hover > .ps-scrollbar-x-rail:hover {
+.ps-container:hover>.ps-scrollbar-x-rail:hover {
   background-color: #eee;
   opacity: 0.9;
 }
 
-.ps-container:hover > .ps-scrollbar-x-rail:hover > .ps-scrollbar-x {
+.ps-container:hover>.ps-scrollbar-x-rail:hover>.ps-scrollbar-x {
   background-color: #a2adb7;
 }
 
-.ps-container:hover > .ps-scrollbar-y-rail:hover {
+.ps-container:hover>.ps-scrollbar-y-rail:hover {
   background-color: #eee;
   opacity: 0.9;
 }
 
-.ps-container:hover > .ps-scrollbar-y-rail:hover > .ps-scrollbar-y {
+.ps-container:hover>.ps-scrollbar-y-rail:hover>.ps-scrollbar-y {
   background-color: #a2adb7;
 }

@@ -4,13 +4,10 @@ from .models import Conversation, Message
 
 
 class ConversationSerializer(serializers.ModelSerializer):
-    participants = serializers.PrimaryKeyRelatedField(
-        many=True, queryset=Conversation.objects.all()
-    )
-
     class Meta:
         model = Conversation
         fields = "__all__"
+        depth = 1
 
 
 class MessageSerializer(serializers.ModelSerializer):
