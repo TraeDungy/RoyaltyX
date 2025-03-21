@@ -18,7 +18,9 @@ const Message = ({ message }) => {
             <div className="message-options dark">
                 <div className="message-time">
                     <div className="d-flex flex-row">
-                        <div className="pe-2">06:49</div>
+                        <div className="pe-2">
+                            {new Date(message.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}
+                        </div>
                         <div className="svg15 double-check"></div>
                     </div>
                 </div>

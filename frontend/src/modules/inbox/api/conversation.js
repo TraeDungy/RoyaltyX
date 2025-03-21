@@ -103,3 +103,29 @@ export const getConversationMessages = async (id) => {
         throw new Error(error);
     }
 };
+
+export const sendConversationMessage = async (id, message) => {
+    try {
+        const token = localStorage.getItem("accessToken");
+
+        const response = await fetch(apiUrl + `/inbox/conversations/${id}/messages/`, {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify(message)
+        });
+
+        const responseData = await response.json();
+
+        if (response.ok) {
+            return responseData;
+        } else {
+            throw new Error(responseData.errors);
+        }
+    } catch (error) {
+        throw new Error(error);
+    }
+};

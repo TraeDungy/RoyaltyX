@@ -80,42 +80,10 @@ class MessageListCreateView(APIView):
 
         data = request.data.copy()
         data["conversation"] = conversation.id
-        data["sent_by"] = request.user.id  # Ensure message is sent by logged-in user
+        data["sent_by"] = request.user.id
 
         serializer = MessageSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class MessageDetailView(APIView):
-    """
-    GET: Retrieve a specific message
-    DELETE: Delete a message (only by sender)
-    """
-
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request, message_id):
-        message = get_object_or_404(Message, id=message_id)
-        if request.user not in message.conversation.participants.all():
-            return Response(
-                {"error": "Not authorized"}, status=status.HTTP_403_FORBIDDEN
-            )
-
-        serializer = MessageSerializer(message)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def delete(self, request, message_id):
-        message = get_object_or_404(Message, id=message_id)
-        if request.user != message.sent_by:
-            return Response(
-                {"error": "You can only delete your own messages"},
-                status=status.HTTP_403_FORBIDDEN,
-            )
-
-        message.delete()
-        return Response(
-            {"message": "Deleted successfully"}, status=status.HTTP_204_NO_CONTENT
-        )
