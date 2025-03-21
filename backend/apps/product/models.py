@@ -47,6 +47,7 @@ class Product(BaseModel):
             or 0
         )
 
+
 class ProductSale(BaseModel):
     TYPE_RENTAL = "rental"
     TYPE_PURCHASE = "purchase"

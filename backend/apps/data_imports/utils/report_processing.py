@@ -66,8 +66,7 @@ def process_report(file: BinaryIO, project_id: int) -> Dict[str, str]:
 
         return {
             "status": "success",
-            "message": 
-               f"Updated {result['updated']} products",
+            "message": f"Updated {result['updated']} products",
         }
     except Exception as e:
         return {"status": "error", "message": str(e)}
@@ -90,8 +89,8 @@ def storeProductSales(row: Dict[str, Any], product: Product) -> None:
 
 def storeProductImpressions(row: Dict[str, Any], product: Product) -> None:
     ProductImpressions.objects.create(
-        product=product, 
-        impressions=row.get("impressions"), 
-        period_start=row.get("Period Start"), 
-        period_end=row.get("Period End")
+        product=product,
+        impressions=row.get("impressions"),
+        period_start=row.get("Period Start"),
+        period_end=row.get("Period End"),
     )

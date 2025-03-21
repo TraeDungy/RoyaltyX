@@ -7,7 +7,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -16,31 +15,66 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Conversation',
+            name="Conversation",
             fields=[
-                ('created_at', models.DateTimeField(auto_now=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('is_deleted', models.BooleanField(default=False)),
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('participants', models.ManyToManyField(related_name='conversations', to=settings.AUTH_USER_MODEL)),
+                ("created_at", models.DateTimeField(auto_now=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("is_deleted", models.BooleanField(default=False)),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                (
+                    "participants",
+                    models.ManyToManyField(
+                        related_name="conversations", to=settings.AUTH_USER_MODEL
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='Message',
+            name="Message",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('is_deleted', models.BooleanField(default=False)),
-                ('text', models.TextField()),
-                ('conversation', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='messages', to='inbox.conversation')),
-                ('sent_by', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='messages', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("is_deleted", models.BooleanField(default=False)),
+                ("text", models.TextField()),
+                (
+                    "conversation",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="messages",
+                        to="inbox.conversation",
+                    ),
+                ),
+                (
+                    "sent_by",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="messages",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
     ]

@@ -5,21 +5,20 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('product', '0010_alter_product_table_alter_productimpressions_table_and_more'),
+        ("product", "0010_alter_product_table_alter_productimpressions_table_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='productimpressions',
-            name='period_end',
+            model_name="productimpressions",
+            name="period_end",
             field=models.DateField(default=django.utils.timezone.now),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='productimpressions',
-            name='period_start',
+            model_name="productimpressions",
+            name="period_start",
             field=models.DateField(default=django.utils.timezone.now),
             preserve_default=False,
         ),

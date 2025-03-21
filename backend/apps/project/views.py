@@ -142,7 +142,7 @@ def updateProject(request):
 def getProjectAnalytics(request):
     period_start = request.query_params.get("period_start")
     period_end = request.query_params.get("period_end")
-    
+
     filters = {}
 
     if period_start and period_end:
@@ -151,10 +151,13 @@ def getProjectAnalytics(request):
             end_date = datetime.strptime(period_end, "%Y-%m-%d")
             filters["created_at__range"] = (start_date, end_date)
         except ValueError:
-            return Response({"error": "Invalid date format. Use YYYY-MM-DD."}, 
-                            status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"error": "Invalid date format. Use YYYY-MM-DD."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
-    data = calculateProjectAnalytics(request.user.currently_selected_project_id, 
-                                     filters)
+    data = calculateProjectAnalytics(
+        request.user.currently_selected_project_id, filters
+    )
 
     return Response(data, status=status.HTTP_200_OK)

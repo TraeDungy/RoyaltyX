@@ -4,7 +4,6 @@ from apps.product.models import ProductImpressions, ProductSale
 
 
 def calculateProductAnalytics(product_id: int, filters: dict):
-
     impressions_qs = ProductImpressions.objects.filter(product_id=product_id)
     if filters:
         impressions_qs = impressions_qs.filter(**filters)

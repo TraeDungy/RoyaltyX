@@ -4,16 +4,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('product', '0008_productimpressions_product'),
+        ("product", "0008_productimpressions_product"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='product',
-            name='thumbnail',
-            field=models.ImageField(blank=True, null=True, 
-                                    upload_to='product_thumbnails/'),
+            model_name="product",
+            name="thumbnail",
+            field=models.ImageField(
+                blank=True, null=True, upload_to="product_thumbnails/"
+            ),
         ),
     ]

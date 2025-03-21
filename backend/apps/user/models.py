@@ -14,7 +14,7 @@ class MyUserManager(BaseUserManager):
             email=self.normalize_email(email),
             username=email,
             name=name,
-            avatar=self.generate_avatar_url(name)
+            avatar=self.generate_avatar_url(name),
         )
         user.set_password(password)
         user.save(using=self._db)
@@ -29,12 +29,11 @@ class MyUserManager(BaseUserManager):
         user.is_staff = True
         user.is_superuser = True
         return user
-    
+
     def generate_avatar_url(self, name):
         """Generate a DiceBear avatar based on the user's name or username."""
         base_url = "https://api.dicebear.com/7.x/initials/svg"
         return f"{base_url}?seed={name}&backgroundColor=6b11cb,c0aede,6b11cb"
-
 
 
 class User(AbstractBaseUser):

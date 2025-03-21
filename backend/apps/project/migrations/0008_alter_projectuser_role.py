@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('project', '0007_alter_projectuser_unique_together'),
+        ("project", "0007_alter_projectuser_unique_together"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='projectuser',
-            name='role',
-            field=models.CharField(default='producer', max_length=50),
+            model_name="projectuser",
+            name="role",
+            field=models.CharField(default="producer", max_length=50),
         ),
     ]
