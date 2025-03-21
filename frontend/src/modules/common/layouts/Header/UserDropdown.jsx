@@ -6,7 +6,6 @@ import {
   PersonCircle,
   UiChecksGrid,
 } from "react-bootstrap-icons";
-import placeholderProfileImage from "../../assets/img/profile.svg";
 import { useAuth } from "../../contexts/AuthContext";
 
 function UserDropdown() {
@@ -36,7 +35,7 @@ function UserDropdown() {
         <div className="d-flex align-items-center pt-1 px-2">
           <div className="position-relative">
             <img
-              src={placeholderProfileImage}
+              src={avatar}
               className="rounded"
               style={{ width: 30, height: 30, objectFit: "cover" }}
               alt=""
