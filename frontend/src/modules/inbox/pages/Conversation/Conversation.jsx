@@ -84,10 +84,10 @@ const Conversation = () => {
                             className="rounded-circle avatar-sm mr-3 chat-profile-picture"
                             src={firstAvatar}
                         />
-                        <div className="mr-3 ps-2">
-                            <a href="!#">
+                        <div className="mr-3 ps-2 d-flex align-items-center">
+                            <div>
                                 <p className="fw-400 mb-0">{participantNames}</p>
-                            </a>
+                            </div>
                         </div>
                     </div>
                     <div className="flex-shrink-0 margin-auto">

@@ -42,14 +42,6 @@ const ConversationsList = () => {
                                     />
                                     <div className="ps-2">
                                         <p className="margin-auto fw-400">{participantNames}</p>
-                                        <div className="d-flex flex-row mt-1">
-                                            <span>
-                                                <div className="svg15 single-check"></div>
-                                            </span>
-                                            <span className="message-shortcut margin-auto txt-lighter fs-13 ml-1 mr-4">
-                                                No that's everyhing, thanks again!{" "}
-                                            </span>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
