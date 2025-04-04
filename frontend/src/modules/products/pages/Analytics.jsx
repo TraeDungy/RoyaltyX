@@ -35,7 +35,7 @@ function Analytics() {
         };
 
         fetchAnalytics();
-    }, [location.search]);
+    }, [location]);
 
     useEffect(() => {
         const fetchProduct = async () => {

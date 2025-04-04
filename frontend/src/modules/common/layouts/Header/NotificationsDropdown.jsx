@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Bell, EnvelopeOpen, Trash } from "react-bootstrap-icons";
+import { Bell, EnvelopeOpen } from "react-bootstrap-icons";
 import icon from "../../assets/img/brand/icon.webp";
 import styles from "./NotificationsDropdown.module.css";
 import { getNotifications } from "../../api/notifications";
@@ -48,11 +48,11 @@ const NotificationsDropdown = () => {
 
       {isOpen && (
         <div
-          className="dropdown-menu rounded-lg shadow show position-absolute"
+          className="dropdown-menu rounded shadow show position-absolute"
           style={{
             top: "100%",
             right: 0,
-            width: "300px",
+            width: "350px",
             zIndex: 1050,
           }}
         >
@@ -65,16 +65,12 @@ const NotificationsDropdown = () => {
                     <img className={styles.notificationIcon} src={icon} alt="" />
                   </div>
                   <span className="mb-0 ps-3">{notification.title}</span>
-                  <div>
-                    <Trash className="me-1 pointer" />{" "}
-                    <EnvelopeOpen className="me-1 pointer" />
-                  </div>
                 </div>
               </div>
             ))}
 
           </div>
-          <div className="d-flex justify-content-between pb-2 pt-1">
+          <div className="d-flex border-top justify-content-between pt-3 pb-2">
             <span className="px-3 pointer medium txt-primary d-flex align-items-center">
               <EnvelopeOpen className="me-1" /> Inbox
             </span>
