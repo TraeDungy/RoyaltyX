@@ -25,6 +25,4 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd RoyaltyX/
-            git pull
-            docker-compose -f production.yml up -d --build
+            ./deploy.sh
