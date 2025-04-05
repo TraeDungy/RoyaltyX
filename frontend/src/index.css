@@ -312,6 +312,23 @@ p.two-words::after {
   border: none !important;
 }
 
+.table-sheet td:not(.text-center),
+.table-sheet th:not(.text-center) {
+  text-align: left !important;
+}
+
+.table-sheet td,
+.table-sheet th {
+  padding: .5rem 0.3rem !important;
+  font-size: 9.4pt !important;
+}
+
+.table-sheet .selected-cell {
+  border: 1.5px solid var(--color-primary) !important;
+  background-color: #6280ea3d !important;
+  position: relative;
+}
+
 .table th {
   font-weight: 500 !important;
 }
@@ -501,35 +518,36 @@ table.table.dataTable> :not(caption)>*>* {
   color: #000;
 }
 
-.menu-active, .menu-active:hover{
+.menu-active,
+.menu-active:hover {
   background-color: var(--color-body-background) !important;
   border: 1px solid var(--color-darker-gray) !important;
 }
 
-.react-datepicker__close-icon{
+.react-datepicker__close-icon {
   display: none !important;
 }
 
-.breadcrumb{
+.breadcrumb {
   margin-bottom: 0 !important;
 }
 
-.breadcrumb-item+.breadcrumb-item::before{
+.breadcrumb-item+.breadcrumb-item::before {
   color: var(--color-darker-gray) !important;
 }
 
-.breadcrumb-item{
+.breadcrumb-item {
   font-size: 10pt !important;
 }
 
-.modal-footer{
+.modal-footer {
   border-top: 0 !important;
 }
 
-.modal-header{
+.modal-header {
   border-bottom: 0 !important;
 }
 
-.modal-title{
+.modal-title {
   font-size: 15pt !important;
 }
