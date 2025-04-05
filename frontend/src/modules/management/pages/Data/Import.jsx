@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
 import Papa from "papaparse";
-import { getUploadedFiles } from "../api/import";
-import FileUploadInput from "../components/FileUploadInput";
-import PageHeader from "../../common/components/PageHeader";
-import { apiUrl } from "../../common/api/config";
-import { Download } from "react-bootstrap-icons";
-import ViewFileModal from "../components/ViewFileModal";
-import { ReactComponent as GoogleSheetsIcon } from '../../common/assets/img/vectors/google_sheets_icon.svg'
+import { getFiles } from "../../api/files";
+import FileUploadInput from "../../components/FileUploadInput";
+import PageHeader from "../../../common/components/PageHeader";
+import { apiUrl } from "../../../common/api/config";
+import { Download, Trash } from "react-bootstrap-icons";
+import ViewFileModal from "../../components/ViewFileModal";
+import { ReactComponent as GoogleSheetsIcon } from '../../../common/assets/img/vectors/google_sheets_icon.svg'
+import { Link } from 'react-router-dom'
 
-const Import = () => {
+const ImportData = () => {
   const [files, setFiles] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [csvData, setCsvData] = useState([]);
@@ -17,7 +18,7 @@ const Import = () => {
   useEffect(() => {
     const fetchFiles = async () => {
       try {
-        const response = await getUploadedFiles();
+        const response = await getFiles();
         setFiles(response);
       } catch (error) {
         console.error("Error fetching files:", error);
@@ -26,33 +27,6 @@ const Import = () => {
 
     fetchFiles();
   }, []);
-
-  const handleFileDownload = async (file) => {
-    try {
-      const response = await fetch(apiUrl + file.file);
-      const blob = await response.blob();
-      const blobUrl = window.URL.createObjectURL(blob);
-
-      // Trigger file download
-      const link = document.createElement("a");
-      link.href = blobUrl;
-      link.download = file.name;
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-
-      // Clean up blob URL
-      setTimeout(() => {
-        window.URL.revokeObjectURL(blobUrl);
-      }, 1000);
-
-      // Open the CSV content in a modal after downloading
-      handleOpenCsvViewer(file);
-    } catch (error) {
-      console.error("Error downloading the file:", error);
-      alert("There was an error downloading the file. Please try again.");
-    }
-  };
 
   const handleOpenCsvViewer = async (file) => {
     try {
@@ -101,7 +75,7 @@ const Import = () => {
                   <td className="d-flex align-items-center">
                     <div className="px-1">
                       <button
-                        onClick={() => handleFileDownload(file)}
+                        onClick={() => handleOpenCsvViewer(file)}
                         className="btn btn-basic"
                       >
                         <GoogleSheetsIcon />
@@ -111,6 +85,11 @@ const Import = () => {
                       <a href={apiUrl + file.file} className="btn btn-basic">
                         <Download />
                       </a>
+                    </div>
+                    <div className="px-1">
+                      <Link to={`/management/data/${file.id}/delete`} className="btn btn-basic">
+                        <Trash className="text-danger" />
+                      </Link>
                     </div>
                   </td>
                 </tr>
@@ -131,4 +110,4 @@ const Import = () => {
   );
 };
 
-export default Import;
+export default ImportData;
