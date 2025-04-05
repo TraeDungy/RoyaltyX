@@ -436,6 +436,7 @@ p {
 .card .card-img-top img {
   border-radius: 1.2rem !important;
   width: 100%;
+  height: 100%;
   object-fit: cover;
   transition: transform 0.3s ease-in-out;
 }

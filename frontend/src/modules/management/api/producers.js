@@ -25,3 +25,31 @@ export const uploadProducers = async (file) => {
     throw error;
   }
 };
+
+
+export const removeProducer = async (product_id, user_id) => {
+  const token = localStorage.getItem("accessToken");
+
+  try {
+    const response = await fetch(apiUrl + `/products/${product_id}/users/${user_id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+
+    if (response.ok && response.status === 204) {
+      return { success: true };
+    }
+
+    const responseData = await response.json();
+
+    if (response.ok) {
+      return responseData;
+    } else {
+      throw new Error(responseData.errors || 'Failed to delete producer');
+    }
+  } catch (error) {
+    throw new Error(error.message || 'Something went wrong');
+  }
+};
