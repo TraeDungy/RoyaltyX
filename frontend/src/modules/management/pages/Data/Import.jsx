@@ -54,7 +54,9 @@ const ImportData = () => {
         description="Manage your data sources and reports from different platforms all in one place."
       />
 
-      <FileUploadInput />
+      <FileUploadInput
+        setFiles={setFiles}
+      />
 
       {files.length > 0 && (
         <div className="mt-5">

@@ -15,3 +15,6 @@ class File(BaseModel):
         if not self.name and self.file:
             self.name = self.file.name
         super().save(*args, **kwargs)
+
+    class Meta:
+        db_table = "file"

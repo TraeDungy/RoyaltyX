@@ -4,7 +4,7 @@ import { uploadFile } from "../api/files";
 import { useDropzone } from "react-dropzone";
 import { Spinner } from "react-bootstrap";
 
-const FileUploadInput = () => {
+const FileUploadInput = ({ setFiles }) => {
     const [uploading, setUploading] = useState(false);
 
     const onDrop = async (acceptedFiles) => {
@@ -14,8 +14,9 @@ const FileUploadInput = () => {
         setUploading(true);
         try {
             const response = await uploadFile(file);
-            if (response.status === "success") {
-                toast.success(response.message);
+            if (response.report.status === "success") {
+                toast.success(response.report.message);
+                setFiles(prevFiles => [response.file, ...prevFiles]);
             } else {
                 toast.error(response.message);
             }
