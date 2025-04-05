@@ -94,3 +94,32 @@ export const createProduct = async (product) => {
     throw error;
   }
 };
+
+export const removeProduct = async (id) => {
+  try {
+    const token = localStorage.getItem("accessToken");
+
+    const response = await fetch(`${apiUrl}/products/${id}/`, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    });
+
+    if (response.ok && response.status === 204) {
+      return { success: true };
+    }
+
+    const responseData = await response.json();
+
+    if (response.ok) {
+      return responseData;
+    } else {
+      throw new Error(responseData.errors || 'Failed to delete product');
+    }
+  } catch (error) {
+    throw new Error(error.message || 'Something went wrong');
+  }
+};

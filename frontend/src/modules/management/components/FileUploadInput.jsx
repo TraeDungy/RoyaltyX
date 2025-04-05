@@ -18,7 +18,7 @@ const FileUploadInput = ({ setFiles }) => {
                 toast.success(response.report.message);
                 setFiles(prevFiles => [response.file, ...prevFiles]);
             } else {
-                toast.error(response.message);
+                toast.error(response.report.message);
             }
         } catch (error) {
             toast.error("Error: " + error.message);

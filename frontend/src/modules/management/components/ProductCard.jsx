@@ -1,23 +1,13 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Dropdown } from "react-bootstrap";
 import { ThreeDotsVertical } from "react-bootstrap-icons";
 import { ReactComponent as ProductThumbnailPlaceholder } from '../../common/assets/img/vectors/product-thumbnail-placeholder-lg.svg'
 import { apiUrl } from "../../common/api/config";
 
-const ProductCard = ({ product }) => {
-    const navigate = useNavigate();
-
-    const handleEdit = () => {
-        navigate(`/management/products/${product.id}/edit`);
-    }
-
-    const handleDelete = () => {
-
-    }
-
+const ProductCard = ({ product, handleEdit, handleDelete }) => {
     return (
         <div className="col-md-4 pb-4" key={product.id}>
-            <div className="card pointer bg-transparent border-0">
+            <div className="card pointer bg-transparent border-0 position-relative">
                 {product.thumbnail ? (
                     <div className="card-img-top">
                         <img
@@ -41,9 +31,9 @@ const ProductCard = ({ product }) => {
                             <ThreeDotsVertical />
                         </Dropdown.Toggle>
 
-                        <Dropdown.Menu>
-                            <Dropdown.Item onClick={handleEdit}>Edit</Dropdown.Item>
-                            <Dropdown.Item onClick={handleDelete}>Delete</Dropdown.Item>
+                        <Dropdown.Menu className="shadow-sm" style={{ right: 0, transform: 'translateX(-50%)' }}>
+                            <Dropdown.Item onClick={() => handleEdit(product.id)}>Edit</Dropdown.Item>
+                            <Dropdown.Item onClick={() => handleDelete(product.id)}>Delete</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                 </div>
