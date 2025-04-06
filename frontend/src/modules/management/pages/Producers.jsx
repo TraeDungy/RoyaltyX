@@ -1,19 +1,47 @@
+import { useState } from "react";
 import { toast } from "react-toastify";
 import PageHeader from "../../common/components/PageHeader";
 import { useProducts } from "../../common/contexts/ProductsContext";
-import { removeProducer } from "../api/producers";
+import { removeProducer, updateProducer } from "../api/producers";
 import ProducerUploadInput from "../components/ProducerUploadInput";
 import { PersonXFill, Wrench } from 'react-bootstrap-icons'
+import ModifyFeeModal from "../components/ModifyFeeModal";
 
 const Producers = () => {
 
     const { products } = useProducts();
+    const [showModifyFeeModal, setShowModifyFeeModal] = useState(false);
+    const [selectedUserId, setSelectedUserId] = useState();
+    const [selectedProductId, setSelectedProductId] = useState();
+
+    const handleOpenModifyFeeModal = (product_id, user_id) => {
+        setSelectedUserId(user_id);
+        setSelectedProductId(product_id);
+        setShowModifyFeeModal(true);
+    }
 
     const handleUnassignProducer = async (product_id, user_id) => {
         await removeProducer(product_id, user_id);
         toast.success("Successfully unassigned producer from the product.");
         window.location.reload();
     }
+
+    const handleSaveFee = async (fee) => {
+        const data = {
+            product: selectedProductId,
+            user: selectedUserId,
+            producer_fee: fee,
+        };
+
+        const response = await updateProducer(data, selectedProductId, selectedUserId);
+        if (!response.success) {
+            toast.error(response.message || "Something went wrong");
+            return;
+        }
+
+        toast.success("Successfully updated producer fee.");
+        window.location.reload();
+    };
 
     return (
         <div className="py-3">
@@ -47,6 +75,7 @@ const Producers = () => {
                                         <td className="d-flex align-items-center">
                                             <div className="px-1">
                                                 <button
+                                                    onClick={() => handleOpenModifyFeeModal(product.id, product?.users?.[0].user_details.id)}
                                                     className="btn btn-basic"
                                                 >
                                                     <Wrench className="me-2" />  Modify fee
@@ -67,6 +96,12 @@ const Producers = () => {
                     </table>
                 </div>
             )}
+
+            <ModifyFeeModal
+                showModifyFeeModal={showModifyFeeModal}
+                handleClose={() => setShowModifyFeeModal(false)}
+                handleSaveFee={handleSaveFee}
+            />
 
         </div>
     );

@@ -26,6 +26,37 @@ export const uploadProducers = async (file) => {
   }
 };
 
+export const updateProducer = async (data, product_id, user_id) => {
+  const token = localStorage.getItem("accessToken");
+
+  try {
+    const response = await fetch(apiUrl + `/products/${product_id}/users/${user_id}/`, {
+      method: "PUT",
+      headers: {
+        "Authorization": "Bearer " + token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    const responseData = await response.json();
+
+    if (!response.ok) {
+      const message =
+        typeof responseData === "object"
+          ? Object.values(responseData).flat().join(" ")
+          : "Something went wrong";
+
+      throw new Error(message);
+    }
+
+    return { success: true, message: responseData };
+  } catch (error) {
+    return { success: false, message: error.message };
+  }
+};
+
+
 
 export const removeProducer = async (product_id, user_id) => {
   const token = localStorage.getItem("accessToken");

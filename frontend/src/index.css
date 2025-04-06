@@ -312,6 +312,13 @@ p.two-words::after {
   border: none !important;
 }
 
+.table td.d-flex,
+.table th.d-flex {
+  border-bottom: none !important;
+  border-top: none !important;
+  border-left: none !important;
+}
+
 .table-sheet td:not(.text-center),
 .table-sheet th:not(.text-center) {
   text-align: left !important;
