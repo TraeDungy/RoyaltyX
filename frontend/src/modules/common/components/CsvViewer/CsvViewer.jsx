@@ -3,9 +3,13 @@ import { useState } from 'react';
 const CsvViewer = ({ data }) => {
     const [selectedCell, setSelectedCell] = useState({ row: null, col: null });
 
-    if (!data || data.length === 0) return <p>No data available.</p>;
+    const filteredData = data?.filter(
+        (row) => Object.values(row).some((val) => val && val.toString().trim() !== "")
+    );
 
-    const columnKeys = Object.keys(data[0]);
+    if (!filteredData || filteredData.length === 0) return <p>No data available.</p>;
+
+    const columnKeys = Object.keys(filteredData[0]);
 
     const getColumnLetter = (colIndex) => {
         let result = '';
@@ -31,7 +35,7 @@ const CsvViewer = ({ data }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map((row, rowIndex) => (
+                    {filteredData.map((row, rowIndex) => (
                         <tr key={rowIndex}>
                             <th className="text-center">{rowIndex + 1}</th>
                             {columnKeys.map((key, colIndex) => (
@@ -42,7 +46,7 @@ const CsvViewer = ({ data }) => {
                                     }
                                     className={
                                         selectedCell.row === rowIndex &&
-                                        selectedCell.col === colIndex
+                                            selectedCell.col === colIndex
                                             ? 'selected-cell'
                                             : ''
                                     }

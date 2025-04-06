@@ -4,7 +4,7 @@ import { ReactComponent as GoogleSheetsIcon } from '../../common/assets/img/vect
 
 const ViewFileModal = ({ csvData, selectedFile, handleCloseModal }) => {
     return (
-        <Modal onHide={handleCloseModal} size="xl" show>
+        <Modal onHide={handleCloseModal} size="xl" centered show>
             <Modal.Header closeButton>
                 <Modal.Title className="h6 d-flex align-items-center"><GoogleSheetsIcon className="me-2" /> {selectedFile?.name}</Modal.Title>
             </Modal.Header>

@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html>
 
@@ -19,6 +21,7 @@
 </head>
 
 <body>
+    <img src="https://royaltyx.co/trial-x-fire-logo.png" style="width: 350px; height: auto" alt="">
     <h1>{{ project.name }}</h1>
     <span>Report requested by: {{ user.name }}</span><br>
     <span>Generated at: {% now "Y-m-d H:i" %}</span><br>
