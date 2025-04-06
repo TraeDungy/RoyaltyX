@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { uploadFile } from "../api/import";
+import { uploadFile } from "../api/files";
 import { useDropzone } from "react-dropzone";
 import { Spinner } from "react-bootstrap";
+import { useProducts } from "../../common/contexts/ProductsContext";
 
-const FileUploadInput = () => {
+const FileUploadInput = ({ setFiles }) => {
     const [uploading, setUploading] = useState(false);
+    const { refetchProducts } = useProducts();
 
     const onDrop = async (acceptedFiles) => {
         if (acceptedFiles.length === 0) return;
@@ -14,10 +16,12 @@ const FileUploadInput = () => {
         setUploading(true);
         try {
             const response = await uploadFile(file);
-            if (response.status === "success") {
-                toast.success(response.message);
+            if (response.report.status === "success") {
+                toast.success(response.report.message);
+                setFiles(prevFiles => [response.file, ...prevFiles]);
+                refetchProducts();
             } else {
-                toast.error(response.message);
+                toast.error(response.report.message);
             }
         } catch (error) {
             toast.error("Error: " + error.message);

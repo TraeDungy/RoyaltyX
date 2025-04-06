@@ -31,7 +31,9 @@ def read_csv(file: BinaryIO) -> List[Dict[str, str]]:
     return data
 
 
-def update_products(data: List[Dict[str, str]], project_id: int) -> Dict[str, int]:
+def update_products(
+    data: List[Dict[str, str]], project_id: int, file_id: int
+) -> Dict[str, int]:
     """Updates products based on CSV data and returns a summary."""
     updated_count = 0
 
@@ -45,24 +47,24 @@ def update_products(data: List[Dict[str, str]], project_id: int) -> Dict[str, in
             product = Product.objects.create(title=title, project_id=project_id)
 
         if row.get("Unit Price"):
-            storeProductSales(row, product)
+            storeProductSales(row, product, file_id)
 
         if row.get("impressions"):
-            storeProductImpressions(row, product)
+            storeProductImpressions(row, product, file_id)
 
         updated_count += 1
 
     return {"updated": updated_count}
 
 
-def process_report(file: BinaryIO, project_id: int) -> Dict[str, str]:
+def process_report(file: BinaryIO, project_id: int, file_id: int) -> Dict[str, str]:
     """Processes CSV report and updates products. Returns success or error message."""
     try:
         if not validate_csv(file):
             return {"status": "error", "message": "Invalid CSV file"}
 
         data = read_csv(file)
-        result = update_products(data, project_id)
+        result = update_products(data, project_id, file_id)
 
         return {
             "status": "success",
@@ -72,7 +74,7 @@ def process_report(file: BinaryIO, project_id: int) -> Dict[str, str]:
         return {"status": "error", "message": str(e)}
 
 
-def storeProductSales(row: Dict[str, Any], product: Product) -> None:
+def storeProductSales(row: Dict[str, Any], product: Product, file_id: int) -> None:
     ProductSale.objects.create(
         product=product,
         type=row.get("Consumption Type").lower(),
@@ -84,13 +86,17 @@ def storeProductSales(row: Dict[str, Any], product: Product) -> None:
         royalty_currency=row.get("Royalty Currency"),
         period_start=row.get("Period Start"),
         period_end=row.get("Period End"),
+        from_file_id=file_id,
     )
 
 
-def storeProductImpressions(row: Dict[str, Any], product: Product) -> None:
+def storeProductImpressions(
+    row: Dict[str, Any], product: Product, file_id: int
+) -> None:
     ProductImpressions.objects.create(
         product=product,
         impressions=row.get("impressions"),
         period_start=row.get("Period Start"),
         period_end=row.get("Period End"),
+        from_file_id=file_id,
     )

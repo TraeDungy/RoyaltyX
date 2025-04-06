@@ -209,7 +209,7 @@ img.shadow {
 
 .chat-item.active,
 .chat-item:hover {
-  background: var(--color-light-gray) !important;
+  background: var(--color-light-contrast) !important;
 }
 
 .single-check {

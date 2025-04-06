@@ -1,14 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../../common/components/Button";
 import { updateProjectInfo } from "../../projects/api/project";
 import { toast } from "react-toastify";
+import PageHeader from "../../common/components/PageHeader";
+import { useProject } from "../../common/contexts/ProjectContext";
 
 const Settings = () => {
+  const { project, setProject } = useProject();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (project) {
+      setName(project.name || "");
+      setDescription(project.description || "");
+    }
+  }, [project]);
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -22,6 +31,12 @@ const Settings = () => {
     try {
       await updateProjectInfo(data);
       toast.success("Successfully updated!");
+
+      setProject({
+        ...project,
+        name: name,
+        description: description,
+      });
     } catch (error) {
       toast.error(error.message);
     }
@@ -31,11 +46,10 @@ const Settings = () => {
 
   return (
     <div className="py-3">
-      <h4 className="bold mb-3">Project Settings</h4>
-      <p>
-        This is a page where you will be able to all of the settings or
-        preferences inside of this project.
-      </p>
+      <PageHeader
+        title="Project Settings"
+        description="This is a page where you will be able to edit all of the settings or preferences inside of this project."
+      />
 
       {error && <span className="text-danger small">{error}</span>}
 

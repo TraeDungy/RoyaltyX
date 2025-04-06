@@ -27,7 +27,7 @@ class ReportsView(APIView):
         user = request.user
         currently_selected_project_id = user.currently_selected_project_id
         reports = Report.objects.filter(
-            project_id=currently_selected_project_id
+            project_id=currently_selected_project_id, created_by=request.user
         ).order_by("-created_at")
         serializer = ReportSerializer(reports, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

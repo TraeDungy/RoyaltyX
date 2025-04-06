@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models import F, Sum
 
+from apps.data_imports.models import File
 from apps.project.models import Project
 from common.models import BaseModel
 
@@ -57,6 +58,7 @@ class ProductSale(BaseModel):
     unit_price = models.DecimalField(decimal_places=2, max_digits=40)
     unit_price_currency = models.CharField(max_length=10)
     quantity = models.IntegerField()
+    from_file = models.ForeignKey(File, on_delete=models.CASCADE, null=True)
     is_refund = models.BooleanField(default=False)
     royalty_amount = models.DecimalField(decimal_places=2, max_digits=40)
     royalty_currency = models.CharField(max_length=10)
@@ -70,6 +72,7 @@ class ProductSale(BaseModel):
 class ProductImpressions(BaseModel):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     impressions = models.IntegerField(null=True)
+    from_file = models.ForeignKey(File, on_delete=models.CASCADE, null=True)
     period_start = models.DateField()
     period_end = models.DateField()
 

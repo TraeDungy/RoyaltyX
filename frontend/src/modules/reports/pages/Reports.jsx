@@ -4,6 +4,7 @@ import { apiUrl } from "../../common/api/config";
 import { useNavigate } from "react-router-dom";
 import Button from "../../common/components/Button";
 import { formatDistanceToNow } from "date-fns";
+import PageHeader from "../../common/components/PageHeader";
 
 const Reports = () => {
 
@@ -26,12 +27,12 @@ const Reports = () => {
 
   return (
     <div className="py-3">
-      <h4 className="bold mb-3">Reports</h4>
 
-      <p className="mb-4">
-        This is a page where you will be able to see reports specific to this
-        product
-      </p>
+      <PageHeader
+        title="Reports"
+        description="This is a page where you will be able to see reports specific to this
+        product."
+      />
 
       <div className="mb-3">
         <Button variant="primary" onClick={() => navigate("/reports/create")}>

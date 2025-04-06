@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 
 from apps.project.models import ProjectUser
 
-from .models import Product
+from .models import Product, ProductUser
 from .serializers import ProductSerializer, ProductUserSerializer
 from .utils import calculateProductAnalytics
 
@@ -95,6 +95,47 @@ def product_user_list_create(request, product_id):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@permission_classes([IsAuthenticated])
+class ProductUserDetail(APIView):
+    def get_object(self, product_id, user_id):
+        try:
+            product = Product.objects.get(id=product_id)
+            product_user = ProductUser.objects.get(product=product, user_id=user_id)
+            return product_user
+        except ProductUser.DoesNotExist:
+            return None
+
+    def get(self, request, product_id, user_id):
+        product_user = self.get_object(product_id, user_id)
+        if product_user is not None:
+            serializer = ProductUserSerializer(product_user)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(
+            {"detail": "ProductUser not found."}, status=status.HTTP_404_NOT_FOUND
+        )
+
+    def put(self, request, product_id, user_id):
+        product_user = self.get_object(product_id, user_id)
+        if product_user is not None:
+            serializer = ProductUserSerializer(product_user, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(
+            {"detail": "ProductUser not found."}, status=status.HTTP_404_NOT_FOUND
+        )
+
+    def delete(self, request, product_id, user_id):
+        product_user = self.get_object(product_id, user_id)
+        if product_user is not None:
+            product_user.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(
+            {"detail": "ProductUser not found."}, status=status.HTTP_404_NOT_FOUND
+        )
 
 
 @api_view(http_method_names=["GET"])

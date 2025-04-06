@@ -7,8 +7,8 @@ from rest_framework.views import APIView
 
 from .models import File
 from .serializers import FileSerializer
+from .services import create_file, delete_file
 from .utils.producer_processing import process_producers
-from .utils.report_processing import process_report
 
 
 class FileListCreateView(APIView):
@@ -18,25 +18,31 @@ class FileListCreateView(APIView):
     def get(self, request):
         files = File.objects.filter(
             project_id=request.user.currently_selected_project_id
-        )
+        ).order_by("-created_at")
+
         serializer = FileSerializer(files, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
         user = request.user
-        uploaded_file = request.FILES.get("file")
+        file = request.FILES.get("file")
         project_id = getattr(user, "currently_selected_project_id", None)
-
-        response = process_report(uploaded_file, project_id)
 
         data = request.data.copy()
         data["project"] = project_id
 
-        serializer = FileSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(response)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            response_data = create_file(file, data)
+            return Response(response_data, status=status.HTTP_201_CREATED)
+
+        except ValueError as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+        except Exception as e:
+            return Response(
+                {"error": "An unexpected error occurred: " + str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
 
 
 class FileDetailView(APIView):
@@ -48,11 +54,8 @@ class FileDetailView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def delete(self, request, pk):
-        file = get_object_or_404(File, pk=pk)
-        file.delete()
-        return Response(
-            {"message": "File deleted successfully"}, status=status.HTTP_204_NO_CONTENT
-        )
+        response_data = delete_file(pk)
+        return Response(response_data, status=status.HTTP_204_NO_CONTENT)
 
 
 class ProducerListCreateView(APIView):

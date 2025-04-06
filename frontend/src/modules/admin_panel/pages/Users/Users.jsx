@@ -49,23 +49,29 @@ function Users() {
           <table className="table table-hover">
             <thead>
               <tr>
-                <th className="medium fw-400">ID</th>
                 <th className="medium fw-400">Name</th>
                 <th className="medium fw-400">Email</th>
                 <th className="medium fw-400">Role</th>
+                <th className="medium fw-400">Date Joined</th>
                 <th className="medium fw-400 text-center">Actions</th>
               </tr>
             </thead>
             <tbody>
               {users.map((user) => (
                 <tr key={user.id}>
-                  <td className="medium">{user.id}</td>
                   <td className="medium">{user.name}</td>
                   <td className="medium">{user.email}</td>
                   <td className="medium">
                     <span className="badge badge-primary bgc-primary">
-                      admin
+                      {user.is_admin ? 'admin' : 'producer'}
                     </span>
+                  </td>
+                  <td className="medium">
+                    {new Date(user?.date_joined).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric"
+                    })}
                   </td>
                   <td className="medium">
                     <div className="h-100 d-flex align-items-center justify-content-center">
