@@ -5,21 +5,28 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('data_imports', '0002_file_file_alter_file_name_alter_file_project'),
-        ('product', '0012_remove_product_impressions'),
+        ("data_imports", "0002_file_file_alter_file_name_alter_file_project"),
+        ("product", "0012_remove_product_impressions"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='productimpressions',
-            name='from_file',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='data_imports.file'),
+            model_name="productimpressions",
+            name="from_file",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="data_imports.file",
+            ),
         ),
         migrations.AddField(
-            model_name='productsale',
-            name='from_file',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='data_imports.file'),
+            model_name="productsale",
+            name="from_file",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="data_imports.file",
+            ),
         ),
     ]

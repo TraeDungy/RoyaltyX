@@ -8,7 +8,6 @@ from .utils.report_processing import process_report
 
 
 def create_file(file, data):
-
     file_name = file.name
     existing_file = File.objects.filter(name=file_name, project=data["project"]).first()
 

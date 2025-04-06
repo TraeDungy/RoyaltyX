@@ -4,14 +4,13 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('data_imports', '0002_file_file_alter_file_name_alter_file_project'),
+        ("data_imports", "0002_file_file_alter_file_name_alter_file_project"),
     ]
 
     operations = [
         migrations.AlterModelTable(
-            name='file',
-            table='file',
+            name="file",
+            table="file",
         ),
     ]

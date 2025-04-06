@@ -86,7 +86,7 @@ def storeProductSales(row: Dict[str, Any], product: Product, file_id: int) -> No
         royalty_currency=row.get("Royalty Currency"),
         period_start=row.get("Period Start"),
         period_end=row.get("Period End"),
-        from_file_id=file_id
+        from_file_id=file_id,
     )
 
 
@@ -98,5 +98,5 @@ def storeProductImpressions(
         impressions=row.get("impressions"),
         period_start=row.get("Period Start"),
         period_end=row.get("Period End"),
-        from_file_id=file_id
+        from_file_id=file_id,
     )
