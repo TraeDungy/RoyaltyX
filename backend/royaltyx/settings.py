@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+sys.path.append(str(BASE_DIR / 'apps'))
 
 SECRET_KEY = "django-insecure--+2w2!&en+qe9092u^p)wuzn5(kj+nyr4*!!(ewh2fq4yha)xl"
 

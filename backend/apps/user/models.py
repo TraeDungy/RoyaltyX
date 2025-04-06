@@ -49,7 +49,7 @@ class User(AbstractBaseUser):
     is_deleted = models.BooleanField(default=False)
     is_email_verified = models.BooleanField(default=False)
     verification_code = models.CharField(max_length=30, null=True)
-    avatar = models.CharField(null=True)
+    avatar = models.CharField(null=True, max_length=300)
     currently_selected_project = models.ForeignKey(
         Project, null=True, default=None, on_delete=models.CASCADE
     )
