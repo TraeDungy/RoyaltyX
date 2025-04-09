@@ -1,4 +1,3 @@
-import profileImagePlaceholder from "../../common/assets/img/icons/profile.svg";
 import { ReactComponent as FolderSVG } from "../../common/assets/img/vectors/folder.svg";
 
 function ProjectCard({ project, handleSwitchProject }) {
@@ -23,9 +22,9 @@ function ProjectCard({ project, handleSwitchProject }) {
             {project?.users?.map((user) => {
               return (
                 <img
-                  src={user?.avatar ?? profileImagePlaceholder}
+                  src={user?.user_details?.avatar}
                   key={user?.id}
-                  className="rounded-circle me-2"
+                  className="rounded me-2"
                   alt=""
                   style={{
                     maxHeight: 22,

@@ -28,10 +28,6 @@ services:
         condition: service_healthy
     env_file:
       - .env
-    environment:
-      - WDS_SOCKET_HOST=127.0.0.1 
-      - CHOKIDAR_USEPOLLING=true
-      - WATCHPACK_POLLING=true 
 
   frontend:
     build:
