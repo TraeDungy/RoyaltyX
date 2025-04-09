@@ -28,10 +28,6 @@ services:
         condition: service_healthy
     env_file:
       - .env
-    environment:
-      - WDS_SOCKET_HOST=127.0.0.1 
-      - CHOKIDAR_USEPOLLING=true
-      - WATCHPACK_POLLING=true 
 
   frontend:
     build:
@@ -42,11 +38,9 @@ services:
       - "/app/node_modules"
     ports:
       - "3000:3000"
-    environment:
-      - WDS_SOCKET_HOST=127.0.0.1 
-      - CHOKIDAR_USEPOLLING=true
-      - WATCHPACK_POLLING=true 
     command: npm run start
+    env_file:
+      - .env
 
 volumes:
   postgres_data:

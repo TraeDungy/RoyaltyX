@@ -2,67 +2,97 @@
 
 <!DOCTYPE html>
 <html>
-
-<head>
+  <head>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            font-size: 11pt;
-        }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        font-size: 11pt;
+      }
 
-        .row {
-            display: flex;
-        }
+      .row {
+        display: flex;
+      }
 
-        .col {
-            width: 50%;
-        }
+      .col {
+        width: 50%;
+      }
     </style>
-</head>
+  </head>
 
-<body>
-    <img src="https://royaltyx.co/trial-x-fire-logo.png" style="width: 350px; height: auto" alt="">
-    <h1>{{ project.name }}</h1>
-    <span>Report requested by: {{ user.name }}</span><br>
-    <span>Generated at: {% now "Y-m-d H:i" %}</span><br>
-    <span><b>Royalty Period:</b> {{ period_start }} - {{ period_end }}</span><br>
+  <body>
+    <div class="header">
+      <img
+        src="https://royaltyx.co/trial-x-fire-logo.png"
+        style="width: 550px; height: auto"
+        alt=""
+      />
+      <div>
+        <span>455 Moreland Ave #5836</span>
+        <br />
+        <span>Atlanta, GA 31107</span>
+      </div>
+    </div>
+    <h2 class="text-center">Summary Royalty Statement</h2>
+    <span>Report requested by: {{ user.name }}</span><br />
+    <span>Generated at: {% now "Y-m-d H:i" %}</span><br />
+    <span><b>Royalty Period:</b> {{ period_start }} - {{ period_end }}</span
+    ><br />
 
-    <br>
+    <br />
 
     <div>
-        <div class="row">
-            <div class="col">
-                <p><b>Title</b></p>
-            </div>
-            <div class="col">
-                <p><b>Amount Earned</b></p>
-            </div>
+      <div class="row">
+        <div class="col">
+          <p><b>Title</b></p>
         </div>
-        {% for product in products %}
-        <div class="row">
-            <div class="col">
-                <span>{{ product.title }}</span>
-            </div>
-            <div class="col">
-                <span>{{ product.total_royalty }} USD</span>
-            </div>
+        <div class="col">
+          <p><b>Amount Earned</b></p>
         </div>
-        {% endfor %}
-        
-        <br>
-        <hr>
-        <br>
+      </div>
+      {% for product in products %}
+      <div class="row">
+        <div class="col">
+          <span>{{ product.title }}</span>
+        </div>
+        <div class="col">
+          <span>{{ product.total_royalty }} USD</span>
+        </div>
+      </div>
+      {% endfor %}
 
-        <div class="row">
-            <div class="col">
-                <span><b>Total Amount</b></span>
-            </div>
-            <div class="col">
-                <span><b>${{ total_royalty_sum }}</b></span>
-            </div>
+      <br />
+      <hr />
+      <br />
+
+      <div class="row">
+        <div class="col">
+          <span><b>Total Amount</b></span>
         </div>
+        <div class="col">
+          <span><b>${{ total_royalty_sum }}</b></span>
+        </div>
+      </div>
+
+      <p>
+        To sign up for paperless statements and to access AuthorPortal, please
+        email accountingsupport@trialxfire.com. AuthorPortal allows you access
+        to your statements, contracts, amendments, and other legal documents.
+        You will be notified by email each quarter when your statement is ready
+        to view. Go Paperless! 
+        <br><br>
+        For royalty related questions, please contact the
+        Contracts & Royalties Manager: accountingsupport@trialxfire.com. Thank
+        you. 
+        <br><br>
+        Your check amount may differ from the statement due to applicable
+        taxes. If amount due is less than $1000.00, it will be carried over and
+        paid out when that threshold is met.
+      </p>
     </div>
-
-</body>
-
+  </body>
 </html>
