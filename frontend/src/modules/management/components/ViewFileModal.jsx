@@ -8,7 +8,7 @@ const ViewFileModal = ({ csvData, selectedFile, handleCloseModal }) => {
             <Modal.Header closeButton>
                 <Modal.Title className="h6 d-flex align-items-center"><GoogleSheetsIcon className="me-2" /> {selectedFile?.name}</Modal.Title>
             </Modal.Header>
-            <Modal.Body className="p-0">
+            <Modal.Body className="p-0" style={{ overflow: 'auto' }}>
                 <CsvViewer data={csvData} />
             </Modal.Body>
         </Modal>
