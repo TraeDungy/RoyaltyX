@@ -17,7 +17,7 @@ def calculateProductAnalytics(product_id: int, filters: dict):
     total_sales_count = sales_qs.count()
 
     total_royalty_revenue = (
-        sales_qs.aggregate(total_revenue=Sum(F("royalty_amount") * F("quantity")))[
+        sales_qs.aggregate(total_revenue=Sum("royalty_amount"))[
             "total_revenue"
         ]
         or 0
@@ -27,7 +27,7 @@ def calculateProductAnalytics(product_id: int, filters: dict):
     rentals_count = rentals_qs.count()
     rentals_revenue = (
         rentals_qs.aggregate(
-            total_rentals_revenue=Sum(F("royalty_amount") * F("quantity"))
+            total_rentals_revenue=Sum("royalty_amount")
         )["total_rentals_revenue"]
         or 0
     )
@@ -36,7 +36,7 @@ def calculateProductAnalytics(product_id: int, filters: dict):
     purchases_count = purchases_qs.count()
     purchases_revenue = (
         purchases_qs.aggregate(
-            total_purchases_revenue=Sum(F("royalty_amount") * F("quantity"))
+            total_purchases_revenue=Sum("royalty_amount")
         )["total_purchases_revenue"]
         or 0
     )

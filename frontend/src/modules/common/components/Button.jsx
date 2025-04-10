@@ -9,7 +9,7 @@ const Button = ({
   type,
   loading,
 }) => {
-  const classNames = `btn fw-500 d-flex hover align-items-center justify-content-center btn-${variant} ${size === "lg" ? "w-100 py-3" : "medium"}`;
+  const classNames = `btn d-flex hover align-items-center justify-content-center btn-${variant} ${size === "lg" ? "w-100 py-3 fw-500" : "medium"}`;
 
   return (
     <button

@@ -3,6 +3,10 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
       .header {
         display: flex;
@@ -10,10 +14,9 @@
         align-items: center;
       }
       body {
-        font-family: Arial, sans-serif;
+        font-family: "Roboto", sans-serif;
         font-size: 11pt;
       }
-
       .row {
         display: flex;
       }
@@ -28,7 +31,7 @@
     <div class="header">
       <img
         src="https://royaltyx.co/trial-x-fire-logo.png"
-        style="width: 550px; height: auto"
+        style="width: 370px; height: auto"
         alt=""
       />
       <div>
@@ -37,13 +40,16 @@
         <span>Atlanta, GA 31107</span>
       </div>
     </div>
-    <h2 style="text-align: center;">Summary Royalty Statement</h2>
+
     <span>Report requested by: {{ user.name }}</span><br />
     <span>Generated at: {% now "Y-m-d H:i" %}</span><br />
-    <span><b>Royalty Period:</b> {{ period_start }} - {{ period_end }}</span
+    <span>Royalty Period: {{ period_start }} - {{ period_end }}</span
     ><br />
-
     <br />
+    <br>
+
+    <h2 style="text-align: center">Summary Royalty Statement</h2>
+    <br /><br />
 
     <div>
       <div class="row">
@@ -78,20 +84,21 @@
         </div>
       </div>
 
+      <br>
+
       <p>
         To sign up for paperless statements and to access AuthorPortal, please
         email accountingsupport@trialxfire.com. AuthorPortal allows you access
         to your statements, contracts, amendments, and other legal documents.
         You will be notified by email each quarter when your statement is ready
-        to view. Go Paperless! 
-        <br><br>
-        For royalty related questions, please contact the
-        Contracts & Royalties Manager: accountingsupport@trialxfire.com. Thank
-        you. 
-        <br><br>
-        Your check amount may differ from the statement due to applicable
-        taxes. If amount due is less than $1000.00, it will be carried over and
-        paid out when that threshold is met.
+        to view. Go Paperless!
+        <br /><br />
+        For royalty related questions, please contact the Contracts & Royalties
+        Manager: accountingsupport@trialxfire.com. Thank you.
+        <br /><br />
+        Your check amount may differ from the statement due to applicable taxes.
+        If amount due is less than $1000.00, it will be carried over and paid
+        out when that threshold is met.
       </p>
     </div>
   </body>

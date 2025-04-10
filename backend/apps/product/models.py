@@ -43,7 +43,7 @@ class Product(BaseModel):
 
         return (
             self.productsale_set.filter(**filters).aggregate(
-                total_royalty=Sum(F("royalty_amount") * F("quantity"))
+                total_royalty=Sum("royalty_amount")
             )["total_royalty"]
             or 0
         )
