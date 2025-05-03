@@ -71,7 +71,7 @@ function Analytics() {
                     <div className="card d-flex justify-content-center flex-column w-100 h-100">
                         <div className="card-body">
                             <h6 className="mb-2">Total Impressions</h6>
-                            <h3 className="bold txt-primary">{analytics?.total_impressions?.toLocaleString()}</h3>
+                            <h3 className="bold txt-primary mb-0">{analytics?.total_impressions?.toLocaleString()}</h3>
                         </div>
                     </div>
                 </div>
@@ -79,7 +79,7 @@ function Analytics() {
                     <div className="card d-flex justify-content-center flex-column w-100 h-100">
                         <div className="card-body">
                             <h6 className="mb-2">Total Sales</h6>
-                            <h3 className="bold txt-primary">{product?.sales?.length}</h3>
+                            <h3 className="bold txt-primary mb-0">{product?.sales?.length}</h3>
                         </div>
                     </div>
                 </div>
@@ -87,7 +87,7 @@ function Analytics() {
                     <div className="card d-flex justify-content-center flex-column w-100 h-100">
                         <div className="card-body">
                             <h6 className="mb-2">Total Royalty Revenue</h6>
-                            <h3 className="bold txt-primary">{analytics?.total_royalty_revenue?.toLocaleString()} $</h3>
+                            <h3 className="bold txt-primary mb-0">{analytics?.total_royalty_revenue?.toLocaleString()} $</h3>
                         </div>
                     </div>
                 </div>

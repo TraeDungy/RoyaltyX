@@ -53,6 +53,8 @@ const NotificationsDropdown = () => {
             top: "100%",
             right: 0,
             width: "350px",
+            maxHeight: "400px",
+            overflowY: "auto",
             zIndex: 1050,
           }}
         >

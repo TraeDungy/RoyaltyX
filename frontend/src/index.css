@@ -435,7 +435,7 @@ p {
 
 .card {
   border-radius: 1.2rem !important;
-  border: 1.5px solid var(--color-light-gray) !important;
+  border: 1.5px solid var(--color-light-contrast) !important;
   background-color: transparent !important;
 }
 
