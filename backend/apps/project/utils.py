@@ -1,6 +1,8 @@
 from datetime import datetime, timedelta
+
 from django.db.models import Count, Sum
 from django.db.models.functions import TruncMonth
+
 from apps.product.models import Product, ProductImpressions, ProductSale
 
 

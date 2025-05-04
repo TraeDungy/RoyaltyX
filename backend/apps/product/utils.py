@@ -1,4 +1,4 @@
-from django.db.models import F, Sum
+from django.db.models import Sum
 
 from apps.product.models import ProductImpressions, ProductSale
 
