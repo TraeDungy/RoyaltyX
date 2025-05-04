@@ -1,8 +1,6 @@
 from datetime import datetime, timedelta
-
 from django.db.models import Count, Sum
 from django.db.models.functions import TruncMonth
-
 from apps.product.models import Product, ProductImpressions, ProductSale
 
 
@@ -27,6 +25,7 @@ def calculateProjectAnalytics(project_id: int, filters: dict):
     )
     if filters:
         sales_qs = sales_qs.filter(**filters)
+
     monthly_sales = (
         sales_qs.annotate(month=TruncMonth("created_at"))
         .values("month")
@@ -34,10 +33,29 @@ def calculateProjectAnalytics(project_id: int, filters: dict):
         .order_by("month")
     )
 
+    monthly_rentals_qs = sales_qs.filter(type=ProductSale.TYPE_RENTAL)
+    monthly_rentals = (
+        monthly_rentals_qs.annotate(month=TruncMonth("created_at"))
+        .values("month")
+        .annotate(count=Count("id"))
+        .order_by("month")
+    )
+
+    monthly_revenue = (
+        sales_qs.annotate(month=TruncMonth("created_at"))
+        .values("month")
+        .annotate(revenue=Sum("royalty_amount"))
+        .order_by("month")
+    )
+
     impressions_map = {
         entry["month"].date(): entry["count"] for entry in monthly_impressions
     }
     sales_map = {entry["month"].date(): entry["count"] for entry in monthly_sales}
+    rentals_map = {entry["month"].date(): entry["count"] for entry in monthly_rentals}
+    revenue_map = {
+        entry["month"].date(): entry["revenue"] or 0 for entry in monthly_revenue
+    }
 
     monthly_stats = []
     for i in range(12):
@@ -48,10 +66,14 @@ def calculateProjectAnalytics(project_id: int, filters: dict):
                 "month": month.strftime("%Y-%m"),
                 "impressions": impressions_map.get(month, 0),
                 "sales": sales_map.get(month, 0),
+                "rentals": rentals_map.get(month, 0),
+                "royalty_revenue": revenue_map.get(month, 0),
             }
         )
 
     monthly_stats.reverse()
+
+    # Overall Stats
     product_count = Product.objects.filter(project_id=project_id).count()
 
     impressions_qs_total = ProductImpressions.objects.filter(

@@ -18,14 +18,14 @@ function SettingsModal({ showSettingsModal, setShowSettingsModal }) {
             <nav className="pe-3">
               <ul className="list-unstyled">
                 <div className="sidebar-link-group">
-                  <div className="pb-2 pt-3">
+                  <div className="pb-4 pt-3">
                     <span className="small bold text-secondary ps-2">
                       SETTINGS
                     </span>
                   </div>
 
                   <li
-                    className={`nav-item px-2 rounded pointer ${selectedTab === "general" ? "active" : ""}`}
+                    className={`nav-item px-2 my-2 rounded pointer ${selectedTab === "general" ? "active" : ""}`}
                     onClick={() => setSelectedTab("general")}
                   >
                     <a className="nav-link">
@@ -35,7 +35,7 @@ function SettingsModal({ showSettingsModal, setShowSettingsModal }) {
                   </li>
 
                   <li
-                    className={`nav-item px-2 rounded pointer ${selectedTab === "theme" ? "active" : ""}`}
+                    className={`nav-item px-2 my-2 rounded pointer ${selectedTab === "theme" ? "active" : ""}`}
                     onClick={() => setSelectedTab("theme")}
                   >
                     <a className="nav-link">
@@ -45,7 +45,7 @@ function SettingsModal({ showSettingsModal, setShowSettingsModal }) {
                   </li>
 
                   <li
-                    className={`nav-item px-2 rounded pointer ${selectedTab === "danger" ? "active" : ""}`}
+                    className={`nav-item px-2 my-2 rounded pointer ${selectedTab === "danger" ? "active" : ""}`}
                     onClick={() => setSelectedTab("danger")}
                   >
                     <a className="nav-link text-danger">
