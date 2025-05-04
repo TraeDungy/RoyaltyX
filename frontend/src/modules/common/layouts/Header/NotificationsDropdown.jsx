@@ -60,17 +60,20 @@ const NotificationsDropdown = () => {
         >
           <h6 className="px-3 py-2">Notifications ({notifications.length})</h6>
           <div className="list-group" style={{ minHeight: 270 }}>
-            {notifications.map(notification => (
+            {notifications.map((notification) => (
               <div className="list-group-item list-group-item-action">
                 <div className="d-flex justify-content-between align-items-center">
                   <div className={styles.notificationIconWrapper}>
-                    <img className={styles.notificationIcon} src={icon} alt="" />
+                    <img
+                      className={styles.notificationIcon}
+                      src={icon}
+                      alt=""
+                    />
                   </div>
                   <span className="mb-0 ps-3">{notification.title}</span>
                 </div>
               </div>
             ))}
-
           </div>
           <div className="d-flex border-top justify-content-between pt-3 pb-2">
             <span className="px-3 pointer medium txt-primary d-flex align-items-center">

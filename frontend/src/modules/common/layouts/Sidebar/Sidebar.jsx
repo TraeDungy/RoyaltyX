@@ -21,7 +21,6 @@ import ProductsList from "./ProductsList";
 import { useProject } from "../../contexts/ProjectContext";
 import { useAuth } from "../../contexts/AuthContext";
 
-
 function Sidebar() {
   const [sidebarActive] = useState(true);
   const [currentPage, setCurrentPage] = useState(window.location.pathname);
@@ -30,7 +29,9 @@ function Sidebar() {
   const [myProjects, setMyProjects] = useState([]);
   const { project } = useProject();
   const { email } = useAuth();
-  const projectUser = project?.users?.find(user => user.user_details.email === email);
+  const projectUser = project?.users?.find(
+    (user) => user.user_details.email === email,
+  );
 
   useEffect(() => {
     function handleResize() {
@@ -173,7 +174,7 @@ function Sidebar() {
             </div>
           </div>
 
-          {projectUser?.role == 'owner' && (
+          {projectUser?.role == "owner" && (
             <div className="sidebar-link-group">
               <span className="txt-lighter small ps-2">MANAGEMENT</span>
               <li
@@ -238,7 +239,6 @@ function Sidebar() {
               </li>
             </div>
           )}
-
 
           <div className="sidebar-link-group">
             <span className="txt-lighter small ps-2">PROJECT</span>

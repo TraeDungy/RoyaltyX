@@ -89,22 +89,12 @@ function App() {
                   ...productRoutes,
                   ...helpDocumentationRoutes,
                 ])}
-                <Route
-                  path="/"
-                  element={
-                    <InboxLayout />
-                  }
-                >
+                <Route path="/" element={<InboxLayout />}>
                   {renderRoutes([...inboxRoutes])}
                 </Route>
               </Route>
 
-              <Route
-                path="/"
-                element={
-                  <Layout />
-                }
-              >
+              <Route path="/" element={<Layout />}>
                 {renderRoutes([...projectRoutes])}
               </Route>
             </Route>

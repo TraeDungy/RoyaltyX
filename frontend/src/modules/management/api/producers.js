@@ -30,14 +30,17 @@ export const updateProducer = async (data, product_id, user_id) => {
   const token = localStorage.getItem("accessToken");
 
   try {
-    const response = await fetch(apiUrl + `/products/${product_id}/users/${user_id}/`, {
-      method: "PUT",
-      headers: {
-        "Authorization": "Bearer " + token,
-        "Content-Type": "application/json",
+    const response = await fetch(
+      apiUrl + `/products/${product_id}/users/${user_id}/`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       },
-      body: JSON.stringify(data),
-    });
+    );
 
     const responseData = await response.json();
 
@@ -56,18 +59,19 @@ export const updateProducer = async (data, product_id, user_id) => {
   }
 };
 
-
-
 export const removeProducer = async (product_id, user_id) => {
   const token = localStorage.getItem("accessToken");
 
   try {
-    const response = await fetch(apiUrl + `/products/${product_id}/users/${user_id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: "Bearer " + token,
+    const response = await fetch(
+      apiUrl + `/products/${product_id}/users/${user_id}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
       },
-    });
+    );
 
     if (response.ok && response.status === 204) {
       return { success: true };
@@ -78,9 +82,9 @@ export const removeProducer = async (product_id, user_id) => {
     if (response.ok) {
       return responseData;
     } else {
-      throw new Error(responseData.errors || 'Failed to delete producer');
+      throw new Error(responseData.errors || "Failed to delete producer");
     }
   } catch (error) {
-    throw new Error(error.message || 'Something went wrong');
+    throw new Error(error.message || "Something went wrong");
   }
 };

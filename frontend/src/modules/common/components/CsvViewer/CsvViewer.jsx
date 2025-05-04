@@ -4,7 +4,7 @@ const CsvViewer = ({ data }) => {
   const [selectedCell, setSelectedCell] = useState({ row: null, col: null });
 
   const filteredData = data?.filter((row) =>
-    Object.values(row).some((val) => val && val.toString().trim() !== "")
+    Object.values(row).some((val) => val && val.toString().trim() !== ""),
   );
 
   if (!filteredData || filteredData.length === 0)

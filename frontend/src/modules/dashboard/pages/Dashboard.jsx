@@ -10,10 +10,9 @@ import { useNavigate } from "react-router-dom";
 import { useProducts } from "../../common/contexts/ProductsContext";
 import { Spinner } from "react-bootstrap";
 import { apiUrl } from "../../common/api/config";
-import { ReactComponent as ProductThumbnailPlaceholder } from '../../common/assets/img/vectors/product-thumbnail-placeholder-lg.svg'
+import { ReactComponent as ProductThumbnailPlaceholder } from "../../common/assets/img/vectors/product-thumbnail-placeholder-lg.svg";
 
 function Dashboard() {
-
   const navigate = useNavigate();
 
   const { products, loading } = useProducts();
@@ -159,7 +158,12 @@ function Dashboard() {
         <div className="row">
           {products?.map((product) => (
             <div className="col-md-4 pb-4" key={product.id}>
-              <div className="card pointer bg-transparent border-0" onClick={() => { navigate('/products/' + product.id) }}>
+              <div
+                className="card pointer bg-transparent border-0"
+                onClick={() => {
+                  navigate("/products/" + product.id);
+                }}
+              >
                 {product.thumbnail ? (
                   <div className="card-img-top">
                     <img

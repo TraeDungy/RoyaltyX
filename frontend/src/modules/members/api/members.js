@@ -26,7 +26,7 @@ export const removeProjectMember = async (user_id) => {
   try {
     const token = localStorage.getItem("accessToken");
 
-    const response = await fetch(apiUrl + "/projects/users/"+user_id, {
+    const response = await fetch(apiUrl + "/projects/users/" + user_id, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

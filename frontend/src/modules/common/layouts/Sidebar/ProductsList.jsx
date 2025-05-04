@@ -4,14 +4,12 @@ import { Link } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
 import { useProducts } from "../../contexts/ProductsContext";
 import { apiUrl } from "../../api/config";
-import { ReactComponent as ProductThumbnailPlaceholder } from '../../assets/img/vectors/product-thumbnail-placeholder.svg'
+import { ReactComponent as ProductThumbnailPlaceholder } from "../../assets/img/vectors/product-thumbnail-placeholder.svg";
 
 const ProductsList = () => {
-
   const { products, loading } = useProducts();
 
   const [activeMenu, setActiveMenu] = useState(null);
-
 
   const toggleSubMenu = (menuId) => {
     setActiveMenu(activeMenu === menuId ? null : menuId);
@@ -28,7 +26,7 @@ const ProductsList = () => {
         products?.map((product) => (
           <li
             key={product.id}
-            className={`nav-item px-2 rounded my-1 ${activeMenu === product.id ? 'menu-active' : ''}`}
+            className={`nav-item px-2 rounded my-1 ${activeMenu === product.id ? "menu-active" : ""}`}
             onClick={() => toggleSubMenu(product.id)}
           >
             <Link className="nav-link d-flex">
@@ -40,7 +38,9 @@ const ProductsList = () => {
                   alt={product.title}
                 />
               ) : (
-                <ProductThumbnailPlaceholder style={{ width: 35, height: 30 }} />
+                <ProductThumbnailPlaceholder
+                  style={{ width: 35, height: 30 }}
+                />
               )}
 
               <div className="d-flex justify-content-between align-items-center w-100">
@@ -60,7 +60,10 @@ const ProductsList = () => {
                   </Link>
                 </li>
                 <li className="nav-item ps-2">
-                  <Link to={`/products/${product.id}/analytics`} className="nav-link">
+                  <Link
+                    to={`/products/${product.id}/analytics`}
+                    className="nav-link"
+                  >
                     Analytics
                   </Link>
                 </li>

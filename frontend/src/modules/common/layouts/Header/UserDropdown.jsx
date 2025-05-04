@@ -9,7 +9,6 @@ import {
 import { useAuth } from "../../contexts/AuthContext";
 
 function UserDropdown() {
-
   const { name, email, avatar } = useAuth();
 
   return (

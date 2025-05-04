@@ -63,14 +63,14 @@ function Users() {
                   <td className="medium">{user.email}</td>
                   <td className="medium">
                     <span className="badge badge-primary bgc-primary">
-                      {user.is_admin ? 'admin' : 'producer'}
+                      {user.is_admin ? "admin" : "producer"}
                     </span>
                   </td>
                   <td className="medium">
                     {new Date(user?.date_joined).toLocaleDateString("en-US", {
                       year: "numeric",
                       month: "long",
-                      day: "numeric"
+                      day: "numeric",
                     })}
                   </td>
                   <td className="medium">

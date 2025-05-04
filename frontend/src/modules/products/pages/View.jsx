@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { getProduct } from '../api/product';
-import { toast } from 'react-toastify';
-import { Container, Spinner } from 'react-bootstrap';
-import { ReactComponent as ProductThumbnailPlaceholder } from '../../common/assets/img/vectors/product-thumbnail-placeholder-lg.svg'
-import { apiUrl } from '../../common/api/config';
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { getProduct } from "../api/product";
+import { toast } from "react-toastify";
+import { Container, Spinner } from "react-bootstrap";
+import { ReactComponent as ProductThumbnailPlaceholder } from "../../common/assets/img/vectors/product-thumbnail-placeholder-lg.svg";
+import { apiUrl } from "../../common/api/config";
 
 const View = () => {
   const [product, setProduct] = useState(null);
@@ -36,12 +36,15 @@ const View = () => {
       <div className="row">
         <div className="col-md-6">
           <h1 className="bold mb-4 mt-4">{product.title}</h1>
-          <p className='txt-lighter mb-5'>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aliquid dolor voluptate blanditiis minima repellendus voluptatem, sapiente ex. Quo, id hic! Cumque provident similique quod accusantium possimus, accusamus ad exercitationem itaque?
+          <p className="txt-lighter mb-5">
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aliquid
+            dolor voluptate blanditiis minima repellendus voluptatem, sapiente
+            ex. Quo, id hic! Cumque provident similique quod accusantium
+            possimus, accusamus ad exercitationem itaque?
           </p>
         </div>
         <div className="col-md-6">
-          <div className='card'>
+          <div className="card">
             {product.thumbnail ? (
               <div className="card-img-top" style={{ maxHeight: 650 }}>
                 <img

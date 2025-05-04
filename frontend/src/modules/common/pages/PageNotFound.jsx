@@ -13,7 +13,9 @@ function PageNotFound() {
                 <span className="display-1 fw-bold bsb-flip-h">4</span>
               </h1>
               <h1 className="bold mb-2">Oops! You're lost.</h1>
-              <p className="mb-5">The page you are looking for was not found.</p>
+              <p className="mb-5">
+                The page you are looking for was not found.
+              </p>
               <a
                 className="btn btn-primary rounded-lg text-white px-5 fs-6 m-0"
                 href="/"
