@@ -5,26 +5,26 @@ import { toast } from "react-toastify";
 const ProjectContext = createContext();
 
 export const ProjectProvider = ({ children }) => {
-    const [project, setProject] = useState(null);
+  const [project, setProject] = useState(null);
 
-    useEffect(() => {
-        const fetchProjectInfo = async () => {
-            try {
-                const data = await getProjectInfo();
-                setProject(data);
-            } catch (error) {
-                toast.error(error.message || "Failed to fetch project info");
-            }
-        };
+  useEffect(() => {
+    const fetchProjectInfo = async () => {
+      try {
+        const data = await getProjectInfo();
+        setProject(data);
+      } catch (error) {
+        toast.error(error.message || "Failed to fetch project info");
+      }
+    };
 
-        fetchProjectInfo();
-    }, []);
+    fetchProjectInfo();
+  }, []);
 
-    return (
-        <ProjectContext.Provider value={{ project, setProject }}>
-            {children}
-        </ProjectContext.Provider>
-    );
+  return (
+    <ProjectContext.Provider value={{ project, setProject }}>
+      {children}
+    </ProjectContext.Provider>
+  );
 };
 
 export const useProject = () => useContext(ProjectContext);

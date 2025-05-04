@@ -29,7 +29,7 @@ export const getProduct = async (id) => {
   try {
     const token = localStorage.getItem("accessToken");
 
-    const response = await fetch(apiUrl + "/products/" + id + '/', {
+    const response = await fetch(apiUrl + "/products/" + id + "/", {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -57,7 +57,7 @@ export const updateProduct = async (formData, productId) => {
     const response = await fetch(apiUrl + "/products/" + productId + "/", {
       method: "PUT",
       headers: {
-        "Authorization": "Bearer " + token,
+        Authorization: "Bearer " + token,
       },
       body: formData,
     });
@@ -117,9 +117,9 @@ export const removeProduct = async (id) => {
     if (response.ok) {
       return responseData;
     } else {
-      throw new Error(responseData.errors || 'Failed to delete product');
+      throw new Error(responseData.errors || "Failed to delete product");
     }
   } catch (error) {
-    throw new Error(error.message || 'Something went wrong');
+    throw new Error(error.message || "Something went wrong");
   }
 };

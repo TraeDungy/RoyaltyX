@@ -22,31 +22,30 @@ function AddProductModal() {
 
   const handleSubmit = async () => {
     setLoading(true);
-  
+
     const product = {
       title: title,
       description: description,
       project: currentlySelectedProjectId,
     };
-  
+
     try {
       const newProduct = await createProduct(product);
-  
+
       setProducts((prevProducts) => [...prevProducts, newProduct]);
-  
+
       setTitle("");
       setDescription("");
-  
+
       navigate("/");
       toast.success("Successfully added a new product!");
       handleClose();
     } catch (error) {
       toast.error(error.message);
     }
-  
+
     setLoading(false);
   };
-  
 
   return (
     <>

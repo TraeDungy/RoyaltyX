@@ -6,8 +6,8 @@ import PageHeader from "../../../common/components/PageHeader";
 import { apiUrl } from "../../../common/api/config";
 import { Download, Trash } from "react-bootstrap-icons";
 import ViewFileModal from "../../components/ViewFileModal";
-import { ReactComponent as GoogleSheetsIcon } from '../../../common/assets/img/vectors/google_sheets_icon.svg'
-import { Link } from 'react-router-dom'
+import { ReactComponent as GoogleSheetsIcon } from "../../../common/assets/img/vectors/google_sheets_icon.svg";
+import { Link } from "react-router-dom";
 
 const ImportData = () => {
   const [files, setFiles] = useState([]);
@@ -32,7 +32,10 @@ const ImportData = () => {
     try {
       const response = await fetch(apiUrl + file.file);
       const text = await response.text();
-      const parsedData = Papa.parse(text, { header: true, dynamicTyping: true }).data;
+      const parsedData = Papa.parse(text, {
+        header: true,
+        dynamicTyping: true,
+      }).data;
       setCsvData(parsedData);
       setSelectedFile(file);
       setShowModal(true);
@@ -54,9 +57,7 @@ const ImportData = () => {
         description="Manage your data sources and reports from different platforms all in one place."
       />
 
-      <FileUploadInput
-        setFiles={setFiles}
-      />
+      <FileUploadInput setFiles={setFiles} />
 
       {files.length > 0 && (
         <div className="mt-5">
@@ -89,7 +90,10 @@ const ImportData = () => {
                       </a>
                     </div>
                     <div className="px-1">
-                      <Link to={`/management/data/${file.id}/delete`} className="btn btn-basic">
+                      <Link
+                        to={`/management/data/${file.id}/delete`}
+                        className="btn btn-basic"
+                      >
                         <Trash className="text-danger" />
                       </Link>
                     </div>
@@ -101,13 +105,13 @@ const ImportData = () => {
         </div>
       )}
 
-      {showModal &&
+      {showModal && (
         <ViewFileModal
           csvData={csvData}
           selectedFile={selectedFile}
           handleCloseModal={handleCloseModal}
         />
-      }
+      )}
     </div>
   );
 };

@@ -7,7 +7,6 @@ import { formatDistanceToNow } from "date-fns";
 import PageHeader from "../../common/components/PageHeader";
 
 const Reports = () => {
-
   const [reports, setReports] = useState([]);
   const navigate = useNavigate();
 
@@ -24,10 +23,8 @@ const Reports = () => {
     fetchReports();
   }, []);
 
-
   return (
     <div className="py-3">
-
       <PageHeader
         title="Reports"
         description="This is a page where you will be able to see reports specific to this
@@ -59,8 +56,9 @@ const Reports = () => {
               <td>{report.period_end}</td>
               <td>{report?.created_by?.username}</td>
               <td>
-                {formatDistanceToNow(new Date(report.created_at),
-                  { addSuffix: true })}
+                {formatDistanceToNow(new Date(report.created_at), {
+                  addSuffix: true,
+                })}
               </td>
               <td>
                 <a
@@ -75,7 +73,6 @@ const Reports = () => {
           ))}
         </tbody>
       </table>
-
     </div>
   );
 };

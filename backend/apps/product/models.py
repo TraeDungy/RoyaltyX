@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import F, Sum
+from django.db.models import Sum
 
 from apps.data_imports.models import File
 from apps.project.models import Project

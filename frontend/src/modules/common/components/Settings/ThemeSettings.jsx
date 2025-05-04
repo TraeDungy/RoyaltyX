@@ -28,7 +28,7 @@ const ThemeSettings = () => {
             textAlign: "center",
           }}
         >
-          <SunFill size={24} style={{ marginBottom: "10px" }} />
+          <SunFill size={24} className="m-auto mb-3" />
           <p>Light Theme</p>
         </div>
         <div
@@ -43,7 +43,7 @@ const ThemeSettings = () => {
             textAlign: "center",
           }}
         >
-          <MoonFill size={24} style={{ marginBottom: "10px" }} />
+          <MoonFill size={24} className="m-auto mb-3" />
           <p>Dark Theme</p>
         </div>
       </div>

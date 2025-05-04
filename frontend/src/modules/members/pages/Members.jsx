@@ -6,7 +6,6 @@ import { TrashFill } from "react-bootstrap-icons";
 import { useProject } from "../../common/contexts/ProjectContext";
 
 function Members() {
-
   const { project, setProject } = useProject();
 
   const [showAddMemberModal, setShowAddMemberModal] = useState(false);
@@ -23,7 +22,6 @@ function Members() {
       toast.error("Error while trying to remove a member!");
     }
   };
-
 
   const handleOpenMembersModal = () => {
     setShowAddMemberModal(true);
@@ -47,12 +45,8 @@ function Members() {
             <tbody>
               {project?.users?.map((user) => (
                 <tr key={user.id}>
-                  <td className="medium">
-                    {user?.user_details?.name}
-                  </td>
-                  <td className="medium">
-                    {user?.user_details?.email}
-                  </td>
+                  <td className="medium">{user?.user_details?.name}</td>
+                  <td className="medium">{user?.user_details?.email}</td>
                   <td className="medium">{user?.role}</td>
                   <td className="text-center">
                     <TrashFill
