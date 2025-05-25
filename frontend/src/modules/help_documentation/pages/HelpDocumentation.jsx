@@ -7,7 +7,7 @@ const HelpDocumentation = () => {
       <h1 className="bold">Help Documentation</h1>
       <div className="alert alert-primary my-5 d-flex align-items-center">
         <div className="pe-3">
-          <InfoCircleFill className="h5" />
+          <InfoCircleFill className="h5 mb-0" />
         </div>
         This page will contain multiple topics all containing instructions and
         rules on how to use particular features as a project owner. As we make

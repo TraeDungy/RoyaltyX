@@ -168,3 +168,22 @@ export const updateProject = async (project) => {
     throw error;
   }
 };
+
+export const deleteProject = async () => {
+  try {
+    const token = localStorage.getItem("accessToken");
+
+    const response = await fetch(`${apiUrl}/projects/delete/`, {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+
+    const responseData = await response.json();
+
+    return responseData;
+  } catch (error) {
+    return error;
+  }
+};

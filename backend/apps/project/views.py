@@ -161,3 +161,20 @@ def getProjectAnalytics(request):
     )
 
     return Response(data, status=status.HTTP_200_OK)
+
+
+@api_view(http_method_names=["DELETE"])
+def deleteProject(request):
+    try:
+        user = request.user
+        project = Project.objects.get(pk=user.currently_selected_project_id)
+        user.currently_selected_project_id = None
+        user.save()
+    except Project.DoesNotExist:
+        return Response(
+            {"error": "Project not found"}, status=status.HTTP_404_NOT_FOUND
+        )
+    project.delete()
+    return Response(
+        {"message": "Project deleted successfully"}, status=status.HTTP_204_NO_CONTENT
+    )

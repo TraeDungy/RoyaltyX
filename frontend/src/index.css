@@ -8,9 +8,9 @@
   --color-light-gray: #f2f2f2;
   --color-light-contrast: #f3f3f3;
   --color-power-contrast: #f5f5f5;
-  --color-lines: #dadada;
+  --color-subtle: #dadada;
   --color-darker-gray: #d9d9d9;
-  --color-danger: #ff3fff;
+  --color-danger: #ff0022;
   --color-success: #0bb050 !important;
   --toastify-color-success: #0bb050 !important;
   --sidebar-background: #f6f6f6;
@@ -31,7 +31,7 @@
   --color-power-contrast: #181a1b;
   --content-over-widget-color: #2b2c2d;
   --scrollbar-color: #3a3c3d;
-  --color-lines: #4c5155;
+  --color-subtle: #4c5155;
 }
 
 #sidebar.active {
@@ -113,7 +113,7 @@ body {
 }
 
 .border-custom-regular {
-  border: 1px solid var(--color-lines) !important;
+  border: 1px solid var(--color-subtle) !important;
 }
 
 .bgc-primary-transparent {
@@ -188,7 +188,7 @@ body {
 }
 
 .form-control {
-  border: 1px solid var(--color-lines) !important;
+  border: 1px solid var(--color-subtle) !important;
   background: transparent !important;
   transition: border-color 0.3s ease;
   padding-top: 0.6rem !important;
@@ -430,7 +430,7 @@ p {
 }
 
 .btn-outline-secondary {
-  border: 1px solid var(--color-lines) !important;
+  border: 1px solid var(--color-subtle) !important;
 }
 
 .btn-outline-secondary:hover {
@@ -439,7 +439,7 @@ p {
 
 .card {
   border-radius: 1.2rem !important;
-  border: 1.5px solid var(--color-power-contrast) !important;
+  border: 1.5px solid var(--color-subtle) !important;
   background-color: transparent !important;
 }
 
@@ -454,8 +454,8 @@ p {
 .card .card-img-top {
   height: 200px;
   overflow: hidden !important;
-  background-color: var(--color-light-contrast);
   border-radius: 1.2rem !important;
+  border: 1px solid var(--color-subtle);
 }
 
 .card .card-img-top img {
