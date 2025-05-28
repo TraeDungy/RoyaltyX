@@ -72,7 +72,7 @@ const RentalsOverTime = ({ analytics }) => {
 
   return (
     <div style={{ width: "100%", maxWidth: "1200px", margin: "auto" }}>
-      <h5 className="bold mt-4 mb-4">EDP Rentals Over Time</h5>
+      <h5 className="bold mt-4 mb-4">Rentals Over Time</h5>
       <Line data={data} options={options} />
     </div>
   );

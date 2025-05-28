@@ -19,27 +19,29 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  Filler,
+  Filler
 );
 
-const ImpressionsOverTime = ({ analytics }) => {
+const ImpressionRevenueOverTime = ({ analytics }) => {
   if (!analytics || !analytics.monthly_stats) return <p>Loading...</p>;
 
-  const impressionsData = analytics.monthly_stats;
+  const impressionRevenueData = analytics.monthly_stats;
 
-  const labels = impressionsData.map((item) => {
+  const labels = impressionRevenueData.map((item) => {
     const [year, month] = item.month.split("-");
     const date = new Date(year, month - 1); // month is 0-indexed
     return date.toLocaleString("default", { month: "short", year: "numeric" }); // e.g., "Aug 2024"
   });
 
-  const dataValues = impressionsData.map((item) => item.impressions);
+  const dataValues = impressionRevenueData.map(
+    (item) => item.impression_revenue
+  );
 
   const data = {
     labels,
     datasets: [
       {
-        label: "Impressions Per Month",
+        label: "Impression Revenue",
         data: dataValues,
         fill: true,
         backgroundColor: "rgba(0,158,253, 0.2)",
@@ -53,7 +55,15 @@ const ImpressionsOverTime = ({ analytics }) => {
     responsive: true,
     plugins: {
       legend: { display: false },
-      tooltip: { enabled: true },
+      tooltip: {
+        enabled: true,
+        callbacks: {
+          label: (context) => {
+            const value = context.parsed.y ?? 0;
+            return `$${value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+          },
+        },
+      },
     },
     scales: {
       x: {
@@ -63,6 +73,9 @@ const ImpressionsOverTime = ({ analytics }) => {
       y: {
         title: { display: true },
         beginAtZero: true,
+        ticks: {
+          callback: (value) => `$${value}`,
+        },
       },
     },
     layout: {
@@ -72,10 +85,10 @@ const ImpressionsOverTime = ({ analytics }) => {
 
   return (
     <div style={{ width: "100%", maxWidth: "1200px", margin: "auto" }}>
-      <h5 className="bold mt-4 mb-4">Impressions Over Time</h5>
+      <h5 className="bold mt-4 mb-4">Revenue From Impressions</h5>
       <Line data={data} options={options} />
     </div>
   );
 };
 
-export default ImpressionsOverTime;
+export default ImpressionRevenueOverTime;

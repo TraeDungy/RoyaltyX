@@ -73,6 +73,7 @@ class ProductImpressions(BaseModel):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     impressions = models.IntegerField(null=True)
     from_file = models.ForeignKey(File, on_delete=models.CASCADE, null=True)
+    ecpm = models.DecimalField(max_digits=30, decimal_places=18, null=True, blank=True)
     period_start = models.DateField()
     period_end = models.DateField()
 

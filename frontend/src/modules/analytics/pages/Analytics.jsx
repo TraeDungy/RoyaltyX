@@ -5,6 +5,7 @@ import { getProjectAnalytics } from "../api/analytics";
 import { useLocation } from "react-router";
 import DateRangeSelector from "../../common/components/DateRangeSelector";
 import ImpressionsOverTime from "../components/ImpressionsOverTime";
+import ImpressionRevenueOverTime from "../components/ImpressionRevenueOverTime";
 import SalesOverTime from "../components/SalesOverTime";
 import RentalsOverTime from "../components/RentalsOverTime";
 import { SalesCard } from "../components/SalesCard";
@@ -65,8 +66,11 @@ function Analytics() {
         <div className="col-md-6">
           <RentalsOverTime analytics={analytics} />
         </div>
-        <div className="col-md-12">
+        <div className="col-md-6">
           <ImpressionsOverTime analytics={analytics} />
+        </div>
+        <div className="col-md-6">
+          <ImpressionRevenueOverTime analytics={analytics} />
         </div>
       </div>
 
@@ -110,6 +114,12 @@ function Analytics() {
                 <th>Impressions</th>
                 <td className="text-end">
                   {analytics?.total_impressions?.toLocaleString()}
+                </td>
+              </tr>
+              <tr>
+                <th>Revenue From Impressions</th>
+                <td className="text-end">
+                  ${analytics?.total_impression_revenue?.toLocaleString()}
                 </td>
               </tr>
               <tr>

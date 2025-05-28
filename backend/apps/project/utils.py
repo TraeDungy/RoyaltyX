@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 
 from django.db.models import Count, Sum
 from django.db.models.functions import TruncMonth
+from django.db.models import F, ExpressionWrapper, DecimalField
 
 from apps.product.models import Product, ProductImpressions, ProductSale
 
@@ -21,6 +22,24 @@ def calculateProjectAnalytics(project_id: int, filters: dict):
         .annotate(count=Sum("impressions"))
         .order_by("month")
     )
+
+    impression_revenue_qs = (
+        impressions_qs.annotate(
+            month=TruncMonth("created_at"),
+            revenue_expr=ExpressionWrapper(
+                F("impressions") * F("ecpm") / 1000,
+                output_field=DecimalField(max_digits=30, decimal_places=18),
+            ),
+        )
+        .values("month")
+        .annotate(revenue=Sum("revenue_expr"))
+        .order_by("month")
+    )
+
+    impression_revenue_map = {
+        entry["month"].date(): entry["revenue"] or 0 for entry in impression_revenue_qs
+    }
+
 
     sales_qs = ProductSale.objects.filter(
         product__project_id=project_id, created_at__gte=start_date
@@ -70,6 +89,7 @@ def calculateProjectAnalytics(project_id: int, filters: dict):
                 "sales": sales_map.get(month, 0),
                 "rentals": rentals_map.get(month, 0),
                 "royalty_revenue": revenue_map.get(month, 0),
+                "impression_revenue": impression_revenue_map.get(month, 0),
             }
         )
 
@@ -86,6 +106,16 @@ def calculateProjectAnalytics(project_id: int, filters: dict):
     total_impressions = (
         impressions_qs_total.aggregate(Sum("impressions"))["impressions__sum"] or 0
     )
+
+    total_impression_revenue_qs = impressions_qs_total.annotate(
+    revenue_expr=ExpressionWrapper(
+        F("impressions") * F("ecpm") / 1000,
+        output_field=DecimalField(max_digits=30, decimal_places=18)
+    )
+    ).aggregate(total=Sum("revenue_expr"))
+
+    total_impression_revenue = total_impression_revenue_qs["total"] or 0
+
 
     sales_qs_total = ProductSale.objects.filter(product__project_id=project_id)
     if filters:
@@ -124,6 +154,7 @@ def calculateProjectAnalytics(project_id: int, filters: dict):
         "rentals_revenue": rentals_revenue,
         "purchases_count": purchases_count,
         "purchases_revenue": purchases_revenue,
+        "total_impression_revenue": total_impression_revenue,
         "monthly_stats": monthly_stats,
     }
 

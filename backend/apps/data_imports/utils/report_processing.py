@@ -93,10 +93,14 @@ def storeProductSales(row: Dict[str, Any], product: Product, file_id: int) -> No
 def storeProductImpressions(
     row: Dict[str, Any], product: Product, file_id: int
 ) -> None:
-    ProductImpressions.objects.create(
-        product=product,
-        impressions=row.get("impressions"),
-        period_start=row.get("Period Start"),
-        period_end=row.get("Period End"),
-        from_file_id=file_id,
-    )
+    try:
+        ProductImpressions.objects.create(
+            product=product,
+            ecpm=Decimal(row.get("ecpm")),
+            impressions=row.get("impressions"),
+            period_start=row.get("Period Start"),
+            period_end=row.get("Period End"),
+            from_file_id=file_id,
+        )
+    except Exception as e:
+        print(e, flush=True)
