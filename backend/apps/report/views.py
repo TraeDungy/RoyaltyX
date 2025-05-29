@@ -70,10 +70,21 @@ class ReportsView(APIView):
 
         for product in products:
             total_royalty = product.total_royalty_earnings(start_date, end_date)
+            total_impressions = product.total_impressions(start_date, end_date)
+            impressions_revenue = product.impressions_revenue(
+                start_date, end_date
+            )
+
             total_royalty_sum += total_royalty
+            total_royalty_sum += impressions_revenue
 
             product_data.append(
-                {"title": product.title, "total_royalty": total_royalty}
+                {
+                    "title": product.title,
+                    "total_royalty": total_royalty,
+                    "total_impressions": total_impressions,
+                    "impressions_revenue": impressions_revenue,
+                }
             )
 
         filename = f"rx_report_{uuid.uuid4().hex}.pdf"

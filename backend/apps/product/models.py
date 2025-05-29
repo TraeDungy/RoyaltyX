@@ -48,6 +48,35 @@ class Product(BaseModel):
             or 0
         )
 
+    def total_impressions(self, period_start=None, period_end=None):
+        filters = {}
+
+        if period_start and period_end:
+            filters["period_start__gte"] = period_start
+            filters["period_end__lte"] = period_end
+
+        return (
+            self.productimpressions_set.filter(**filters).aggregate(
+                total_impressions=Sum("impressions")
+            )["total_impressions"]
+            or 0
+        )
+
+    def impressions_revenue(self, period_start=None, period_end=None):
+        filters = {}
+
+        if period_start and period_end:
+            filters["period_start__gte"] = period_start
+            filters["period_end__lte"] = period_end
+
+        return (
+            self.productimpressions_set.filter(**filters).aggregate(
+                impressions_revenue=Sum(models.F("impressions") * models.F("ecpm"))
+                / 1000
+            )["impressions_revenue"]
+            or 0
+        )
+
 
 class ProductSale(BaseModel):
     TYPE_RENTAL = "rental"
