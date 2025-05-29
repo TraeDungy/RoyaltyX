@@ -8,11 +8,7 @@ from apps.product.models import ProductImpressions, ProductSale
 
 def calculateProductAnalytics(product_id: int, filters: dict):
     now = datetime.now()
-    start_date = (now.replace(day=1) - timedelta(days=365)).replace(day=1)
-
-    impressions_qs = ProductImpressions.objects.filter(
-        product_id=product_id, created_at__gte=start_date
-    )
+    impressions_qs = ProductImpressions.objects.filter(product_id=product_id)
     if filters:
         impressions_qs = impressions_qs.filter(**filters)
 
@@ -48,9 +44,7 @@ def calculateProductAnalytics(product_id: int, filters: dict):
     }
 
     # Monthly royalty revenue from sales
-    sales_qs = ProductSale.objects.filter(
-        product_id=product_id, created_at__gte=start_date
-    )
+    sales_qs = ProductSale.objects.filter(product_id=product_id)
     if filters:
         sales_qs = sales_qs.filter(**filters)
 

@@ -149,7 +149,8 @@ def getProjectAnalytics(request):
         try:
             start_date = datetime.strptime(period_start, "%Y-%m-%d")
             end_date = datetime.strptime(period_end, "%Y-%m-%d")
-            filters["created_at__range"] = (start_date, end_date)
+            filters["period_start__gte"] = start_date
+            filters["period_end__lte"] = end_date
         except ValueError:
             return Response(
                 {"error": "Invalid date format. Use YYYY-MM-DD."},

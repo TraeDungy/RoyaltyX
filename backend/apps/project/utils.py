@@ -8,11 +8,8 @@ from apps.product.models import Product, ProductImpressions, ProductSale
 
 def calculateProjectAnalytics(project_id: int, filters: dict):
     now = datetime.now()
-    start_date = (now.replace(day=1) - timedelta(days=365)).replace(day=1)
 
-    impressions_qs = ProductImpressions.objects.filter(
-        product__project_id=project_id, created_at__gte=start_date
-    )
+    impressions_qs = ProductImpressions.objects.filter(product__project_id=project_id)
     if filters:
         impressions_qs = impressions_qs.filter(**filters)
     monthly_impressions = (
@@ -39,9 +36,8 @@ def calculateProjectAnalytics(project_id: int, filters: dict):
         entry["month"].date(): entry["revenue"] or 0 for entry in impression_revenue_qs
     }
 
-
     sales_qs = ProductSale.objects.filter(
-        product__project_id=project_id, created_at__gte=start_date
+        product__project_id=project_id
     )
     if filters:
         sales_qs = sales_qs.filter(**filters)
@@ -107,14 +103,13 @@ def calculateProjectAnalytics(project_id: int, filters: dict):
     )
 
     total_impression_revenue_qs = impressions_qs_total.annotate(
-    revenue_expr=ExpressionWrapper(
-        F("impressions") * F("ecpm") / 1000,
-        output_field=DecimalField(max_digits=30, decimal_places=18)
-    )
+        revenue_expr=ExpressionWrapper(
+            F("impressions") * F("ecpm") / 1000,
+            output_field=DecimalField(max_digits=30, decimal_places=18),
+        )
     ).aggregate(total=Sum("revenue_expr"))
 
     total_impression_revenue = total_impression_revenue_qs["total"] or 0
-
 
     sales_qs_total = ProductSale.objects.filter(product__project_id=project_id)
     if filters:
