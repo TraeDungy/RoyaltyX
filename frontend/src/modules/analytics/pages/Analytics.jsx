@@ -11,9 +11,19 @@ import RentalsOverTime from "../components/RentalsOverTime";
 import { SalesCard } from "../components/SalesCard";
 import { ImpressionsCard } from "../components/ImpressionsCard";
 import { RevenueCard } from "../components/RevenueCard";
+import { useSettings } from "../../common/contexts/SettingsContext";
 
 function Analytics() {
   const [analytics, setAnalytics] = useState(null);
+  const {
+    showSalesOverTime,
+    showRentalsOverTime,
+    showImpressionsOverTime,
+    showImpressionRevenueOverTime,
+    showTotalImpressionsCard,
+    showTotalSalesCard,
+    showTotalRevenueCard,
+  } = useSettings();
   const location = useLocation();
   const params = new URLSearchParams(location.search);
 
@@ -54,24 +64,20 @@ function Analytics() {
       </div>
 
       <div className="row">
-        <ImpressionsCard analytics={analytics} />
-        <SalesCard analytics={analytics} />
-        <RevenueCard analytics={analytics} />
+        {showTotalImpressionsCard && <ImpressionsCard analytics={analytics} />}
+        {showTotalSalesCard && <SalesCard analytics={analytics} />}
+        {showTotalRevenueCard && <RevenueCard analytics={analytics} />}
       </div>
 
       <div className="row">
-        <div className="col-md-6">
-          <SalesOverTime analytics={analytics} />
-        </div>
-        <div className="col-md-6">
-          <RentalsOverTime analytics={analytics} />
-        </div>
-        <div className="col-md-6">
+        {showSalesOverTime && <SalesOverTime analytics={analytics} />}
+        {showRentalsOverTime && <RentalsOverTime analytics={analytics} />}
+        {showImpressionsOverTime && (
           <ImpressionsOverTime analytics={analytics} />
-        </div>
-        <div className="col-md-6">
+        )}
+        {showImpressionRevenueOverTime && (
           <ImpressionRevenueOverTime analytics={analytics} />
-        </div>
+        )}
       </div>
 
       <div className="row">

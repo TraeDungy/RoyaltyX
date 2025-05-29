@@ -84,9 +84,11 @@ const ImpressionRevenueOverTime = ({ analytics }) => {
   };
 
   return (
-    <div style={{ width: "100%", maxWidth: "1200px", margin: "auto" }}>
-      <h5 className="bold mt-4 mb-4">Revenue From Impressions</h5>
-      <Line data={data} options={options} />
+    <div className="col-md-6">
+      <div style={{ width: "100%", maxWidth: "1200px", margin: "auto" }}>
+        <h5 className="bold mt-4 mb-4">Revenue From Impressions</h5>
+        <Line data={data} options={options} />
+      </div>
     </div>
   );
 };
