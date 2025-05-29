@@ -12,6 +12,8 @@ import { SalesCard } from "../components/SalesCard";
 import { ImpressionsCard } from "../components/ImpressionsCard";
 import { RevenueCard } from "../components/RevenueCard";
 import { useSettings } from "../../common/contexts/SettingsContext";
+import { TopPerfomingContentByImpressions } from "../components/TopPerfomingContentByImpressions";
+import { TopPerfomingContentBySales } from "../components/TopPerfomingContentBySales";
 
 function Analytics() {
   const [analytics, setAnalytics] = useState(null);
@@ -59,7 +61,7 @@ function Analytics() {
   return (
     <>
       <div className="d-flex justify-content-between align-items-center mt-4 mb-3 ps-1">
-        <h2 className="bold">Analytics</h2>
+        <h2 className="bold mb-0">Analytics</h2>
         <DateRangeSelector />
       </div>
 
@@ -82,7 +84,7 @@ function Analytics() {
 
       <div className="row">
         <div className="col-md-6">
-          <h4 className="bold mt-4 mb-4">Sales stats</h4>
+          <h5 className="bold mt-4 mb-4">Sales stats</h5>
           <table className="table table-bordered table-hover">
             <tbody>
               <tr>
@@ -113,7 +115,7 @@ function Analytics() {
           </table>
         </div>
         <div className="col-md-6">
-          <h4 className="bold mt-4 mb-4">General stats</h4>
+          <h5 className="bold mt-4 mb-4">General stats</h5>
           <table className="table table-bordered table-hover">
             <tbody>
               <tr>
@@ -137,6 +139,16 @@ function Analytics() {
             </tbody>
           </table>
         </div>
+      </div>
+
+      <div className="row">
+        <h5 className="bold mt-4 mb-4">Top Performing Content (by impressions)</h5>
+        <TopPerfomingContentByImpressions />
+      </div>
+
+      <div className="row">
+        <h5 className="bold mt-4 mb-4">Top Performing Content (by sales)</h5>
+        <TopPerfomingContentBySales />
       </div>
     </>
   );

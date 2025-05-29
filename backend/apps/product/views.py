@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from django.db.models import Sum
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -159,3 +160,20 @@ def getProductAnalytics(request, product_id):
     data = calculateProductAnalytics(product_id, filters)
 
     return Response(data, status=status.HTTP_200_OK)
+
+
+@api_view(http_method_names=["GET"])
+def getTopPerformingContentByImpressions(request):
+    products = Product.objects.filter(
+        project_id=request.user.currently_selected_project_id
+    ).annotate(total_impressions=Sum('productimpressions__impressions')).filter(total_impressions__gt=0).order_by("-total_impressions")[:10]
+    serializer = ProductSerializer(products, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(http_method_names=["GET"])
+def getTopPerformingContentBySales(request):
+    products = Product.objects.filter(
+        project_id=request.user.currently_selected_project_id
+    ).annotate(total_sales=Sum('productsale__royalty_amount')).filter(total_sales__gt=0).order_by("-total_sales")[:10]
+    serializer = ProductSerializer(products, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
