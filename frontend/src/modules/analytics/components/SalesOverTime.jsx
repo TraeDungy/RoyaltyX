@@ -10,6 +10,9 @@ import {
   Legend,
   Filler,
 } from "chart.js";
+import { useState } from "react";
+import { EyeSlash, ThreeDotsVertical } from "react-bootstrap-icons";
+import { useSettings } from "../../common/contexts/SettingsContext";
 
 ChartJS.register(
   CategoryScale,
@@ -23,6 +26,13 @@ ChartJS.register(
 );
 
 const SalesOverTime = ({ analytics }) => {
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const { setShowSalesOverTime } = useSettings();
+
+  const toggleDropdown = () => {
+    setDropdownVisible(!dropdownVisible);
+  };
+
   if (!analytics || !analytics.monthly_stats) return <p>Loading...</p>;
 
   const salesData = analytics.monthly_stats;
@@ -30,7 +40,7 @@ const SalesOverTime = ({ analytics }) => {
   const labels = salesData.map((item) => {
     const [year, month] = item.month.split("-");
     const date = new Date(year, month - 1); // month is 0-indexed
-    return date.toLocaleString("default", { month: "short", year: "numeric" }); // e.g., "Aug 2024"
+    return date.toLocaleString("default", { month: "short" }); // e.g., "Jan"
   });
 
   const dataValues = salesData.map((item) => item.sales);
@@ -73,7 +83,29 @@ const SalesOverTime = ({ analytics }) => {
   return (
     <div className="col-md-6">
       <div style={{ width: "100%", maxWidth: "1200px", margin: "auto" }}>
-        <h5 className="bold mt-4 mb-4">Sales Over Time</h5>
+        <div className="py-4 d-flex justify-content-between align-items-center">
+          <h5 className="bold mb-0">Sales Over Time</h5>
+          <div className="d-flex align-items-center">
+            <div className="dropdown">
+              <button className="btn btn-basic" onClick={toggleDropdown}>
+                <ThreeDotsVertical className="txt-regular" />
+              </button>
+              {dropdownVisible && (
+                <div className="dropdown-menu shadow-sm dropdown-menu-end show">
+                  <button
+                    className="dropdown-item"
+                    onClick={() => {
+                      setShowSalesOverTime(false);
+                      setDropdownVisible(false);
+                    }}
+                  >
+                    Hide <EyeSlash className="ms-1" />
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
         <Line data={data} options={options} />
       </div>
     </div>

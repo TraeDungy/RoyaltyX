@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { Gear, Palette, ExclamationCircle, ColumnsGap } from "react-bootstrap-icons";
+import {
+  Gear,
+  Palette,
+  ExclamationCircle,
+  ColumnsGap,
+} from "react-bootstrap-icons";
 import Modal from "react-bootstrap/Modal";
 import GeneralSettings from "./GeneralSettings";
 import ThemeSettings from "./ThemeSettings";
@@ -13,8 +18,8 @@ function SettingsModal({ showSettingsModal, setShowSettingsModal }) {
 
   return (
     <Modal show={showSettingsModal} onHide={handleClose} size="lg" centered>
-      <Modal.Body className="rounded py-0" style={{ maxHeight: "70vh", overflowY: "auto" }}>
-        <div className="d-flex">
+      <Modal.Body className="rounded py-0 pe-0">
+        <div className="d-flex w-100">
           <div style={{ maxWidth: 200 }} className="w-100">
             <nav className="pe-3">
               <ul className="list-unstyled">
@@ -69,11 +74,13 @@ function SettingsModal({ showSettingsModal, setShowSettingsModal }) {
             </nav>
           </div>
 
-          <div className="w-100 pt-3 pb-5 px-5">
-            {selectedTab === "general" && <GeneralSettings />}
-            {selectedTab === "theme" && <ThemeSettings />}
-            {selectedTab === "view" && <ViewSettings />}
-            {selectedTab === "danger" && <DangerZone />}
+          <div className="w-100" style={{ maxHeight: "70vh", overflowY: "auto" }}>
+            <div className="w-100 pt-3 pb-5 px-5">
+              {selectedTab === "general" && <GeneralSettings />}
+              {selectedTab === "theme" && <ThemeSettings />}
+              {selectedTab === "view" && <ViewSettings />}
+              {selectedTab === "danger" && <DangerZone />}
+            </div>
           </div>
         </div>
       </Modal.Body>

@@ -12,10 +12,20 @@ import SalesOverTime from "../../analytics/components/SalesOverTime";
 import RentalsOverTime from "../../analytics/components/RentalsOverTime";
 import ImpressionsOverTime from "../../analytics/components/ImpressionsOverTime";
 import ImpressionRevenueOverTime from "../../analytics/components/ImpressionRevenueOverTime";
+import { useSettings } from "../../common/contexts/SettingsContext";
 
 function Analytics() {
   const [product, setProduct] = useState(null);
   const { id } = useParams();
+  const {
+    showSalesOverTime,
+    showRentalsOverTime,
+    showImpressionsOverTime,
+    showImpressionRevenueOverTime,
+    showTotalImpressionsCard,
+    showTotalSalesCard,
+    showTotalRevenueCard,
+  } = useSettings();
 
   const [analytics, setAnalytics] = useState(null);
   const location = useLocation();
@@ -71,24 +81,20 @@ function Analytics() {
       </div>
 
       <div className="row">
-        <ImpressionsCard analytics={analytics} />
-        <SalesCard analytics={analytics} />
-        <RevenueCard analytics={analytics} />
+        {showTotalImpressionsCard && <ImpressionsCard analytics={analytics} />}
+        {showTotalSalesCard && <SalesCard analytics={analytics} />}
+        {showTotalRevenueCard && <RevenueCard analytics={analytics} />}
       </div>
 
       <div className="row">
-        <div className="col-md-6">
-          <SalesOverTime analytics={analytics} />
-        </div>
-        <div className="col-md-6">
-          <RentalsOverTime analytics={analytics} />
-        </div>
-        <div className="col-md-6">
+        {showSalesOverTime && <SalesOverTime analytics={analytics} />}
+        {showRentalsOverTime && <RentalsOverTime analytics={analytics} />}
+        {showImpressionsOverTime && (
           <ImpressionsOverTime analytics={analytics} />
-        </div>
-        <div className="col-md-6">
+        )}
+        {showImpressionRevenueOverTime && (
           <ImpressionRevenueOverTime analytics={analytics} />
-        </div>
+        )}
       </div>
       <div className="row">
         <div className="col-md-6">

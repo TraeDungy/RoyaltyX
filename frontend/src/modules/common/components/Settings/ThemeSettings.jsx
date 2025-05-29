@@ -10,40 +10,36 @@ const ThemeSettings = () => {
 
   return (
     <div>
-      <p className="bold" style={{ fontSize: 17 }}>
-        Theme
+      <p className="bold mb-3" style={{ fontSize: 19 }}>
+        Theme Settings
       </p>
       <div className="py-4 d-flex gap-3">
         <div
           onClick={() => handleThemeChange("light")}
-          className={`theme-option card bg-transparent p-3 ${!darkMode ? "selected" : ""}`}
+          className={`theme-option rounded-lg bg-transparent p-3 ${!darkMode ? "selected" : ""}`}
           style={{
             cursor: "pointer",
             border: !darkMode
               ? "2px solid var(--color-primary)"
-              : "1px solid #ddd",
-            boxShadow: !darkMode
-              ? "0px 0px 5px rgba(0, 123, 255, 0.5)"
-              : "none",
+              : "1px solid var(--color-subtle)",
             textAlign: "center",
           }}
         >
-          <SunFill size={24} className="m-auto mb-3" />
+          <SunFill size={24} className="m-auto mb-3 text-warning" />
           <p>Light Theme</p>
         </div>
         <div
           onClick={() => handleThemeChange("dark")}
-          className={`theme-option card bg-transparent p-3 ${darkMode ? "selected" : ""}`}
+          className={`theme-option rounded-lg bg-transparent p-3 ${darkMode ? "selected" : ""}`}
           style={{
             cursor: "pointer",
             border: darkMode
               ? "2px solid var(--color-primary)"
-              : "1px solid #ddd",
-            boxShadow: darkMode ? "0px 0px 5px rgba(0, 123, 255, 0.5)" : "none",
+              : "1px solid var(--color-subtle)",
             textAlign: "center",
           }}
         >
-          <MoonFill size={24} className="m-auto mb-3" />
+          <MoonFill size={24} className="m-auto mb-3 txt-primary" />
           <p>Dark Theme</p>
         </div>
       </div>

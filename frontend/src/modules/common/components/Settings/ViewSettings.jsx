@@ -45,8 +45,8 @@ const ViewSettings = () => {
 
   return (
     <div>
-      <p className="bold mb-3" style={{ fontSize: 17 }}>
-        View
+      <p className="bold mb-3" style={{ fontSize: 19 }}>
+        View Settings
       </p>
 
       <div className="py-4">

@@ -71,15 +71,6 @@ function Sidebar() {
     fetchUserInfo();
   }, []);
 
-  // const toggleModal = () => {
-  //   const sidebar = document.getElementById("sidebar");
-  //   sidebar.classList.toggle("active");
-  //   if (sidebar.classList.contains("active")) {
-  //     document.documentElement.style.setProperty("--sidebar-width", "0");
-  //   } else {
-  //     document.documentElement.style.setProperty("--sidebar-width", "236px");
-  //   }
-  // };
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -174,7 +165,7 @@ function Sidebar() {
             </div>
           </div>
 
-          {projectUser?.role == "owner" && (
+          {projectUser?.role === "owner" && (
             <div className="sidebar-link-group">
               <span className="txt-lighter small ps-2">MANAGEMENT</span>
               <li
