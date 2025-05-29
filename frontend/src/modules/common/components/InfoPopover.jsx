@@ -1,9 +1,10 @@
 import { InfoCircleFill } from "react-bootstrap-icons";
 import { OverlayTrigger, Popover } from "react-bootstrap";
 
-export const InfoPopover = ({ text }) => {
+export const InfoPopover = ({ title = "", text }) => {
   const popover = (
     <Popover>
+      {title && <Popover.Header as="h3" className="text-dark">{title}</Popover.Header>}
       <Popover.Body>{text}</Popover.Body>
     </Popover>
   );

@@ -8,8 +8,8 @@ export const SalesCard = ({ analytics }) => {
       <div className="p-3 d-flex justify-content-center rounded flex-column w-100 h-100 border-custom-regular">
         <div className="d-flex justify-content-between align-items-center mb-2">
           <h6 className="mb-2">
-            Sales{" "}
-            <InfoPopover text="Total number of sales during the selected period for the analytics" />{" "}
+            Sales
+            <InfoPopover title="Sales over time" text="Total number of sales during the selected period for the analytics" />
           </h6>
           <Link
             to="/reports/create"

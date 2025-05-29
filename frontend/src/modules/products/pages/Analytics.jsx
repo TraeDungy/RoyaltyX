@@ -132,6 +132,12 @@ function Analytics() {
                   {analytics?.total_impressions?.toLocaleString()}
                 </td>
               </tr>
+              <tr>
+                <th>Revenue From Impressions</th>
+                <td className="text-end">
+                  ${analytics?.impression_revenue?.toLocaleString()}
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>

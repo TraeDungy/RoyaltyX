@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { InfoCircleFill } from "react-bootstrap-icons";
 import { ImpressionsInLastFourMonthsChart } from "./ImpressionsInLastFourMonthsChart";
+import { InfoPopover } from "../../common/components/InfoPopover";
 
 export const ImpressionsCard = ({ analytics }) => {
   return (
@@ -8,7 +8,12 @@ export const ImpressionsCard = ({ analytics }) => {
       <div className="p-3 d-flex justify-content-center rounded flex-column w-100 h-100 border-custom-regular">
         <div className="d-flex justify-content-between align-items-center mb-2">
           <h6 className="mb-2">
-            Impressions <InfoCircleFill />{" "}
+            Impressions
+            <InfoPopover
+              title="Monthly impressions"
+              text="Impressions represent the number of times your content has been
+        displayed to users counted separately for each month."
+            />
           </h6>
           <Link
             to="/reports/create"

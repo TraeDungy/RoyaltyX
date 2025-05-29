@@ -347,7 +347,7 @@ p.two-words::after {
 }
 
 .table-bordered > :not(caption) > * {
-  border-color: var(--color-light-gray) !important;
+  border-color: var(--color-light-contrast) !important;
 }
 
 .dt-info {

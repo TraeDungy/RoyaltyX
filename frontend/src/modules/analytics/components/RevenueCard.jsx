@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { RevenueInLastFourMonthsChart } from "./RevenueInLastFourMonthsChart";
-import { InfoCircleFill } from "react-bootstrap-icons";
+import { InfoPopover } from "../../common/components/InfoPopover";
 
 export const RevenueCard = ({ analytics }) => {
   return (
@@ -8,7 +8,11 @@ export const RevenueCard = ({ analytics }) => {
       <div className="p-3 d-flex justify-content-center rounded flex-column w-100 h-100 border-custom-regular">
         <div className="d-flex justify-content-between align-items-center mb-2">
           <h6 className="mb-2">
-            Revenue <InfoCircleFill />{" "}
+            Revenue
+            <InfoPopover
+              title="Monthly revenue"
+              text="This stat represents the total royalty revenue generated over the last month."
+            />
           </h6>
           <Link
             to="/reports/create"
