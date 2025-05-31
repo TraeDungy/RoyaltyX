@@ -149,7 +149,8 @@ def getProjectAnalytics(request):
         try:
             start_date = datetime.strptime(period_start, "%Y-%m-%d")
             end_date = datetime.strptime(period_end, "%Y-%m-%d")
-            filters["created_at__range"] = (start_date, end_date)
+            filters["period_start__gte"] = start_date
+            filters["period_end__lte"] = end_date
         except ValueError:
             return Response(
                 {"error": "Invalid date format. Use YYYY-MM-DD."},
@@ -161,3 +162,20 @@ def getProjectAnalytics(request):
     )
 
     return Response(data, status=status.HTTP_200_OK)
+
+
+@api_view(http_method_names=["DELETE"])
+def deleteProject(request):
+    try:
+        user = request.user
+        project = Project.objects.get(pk=user.currently_selected_project_id)
+        user.currently_selected_project_id = None
+        user.save()
+    except Project.DoesNotExist:
+        return Response(
+            {"error": "Project not found"}, status=status.HTTP_404_NOT_FOUND
+        )
+    project.delete()
+    return Response(
+        {"message": "Project deleted successfully"}, status=status.HTTP_204_NO_CONTENT
+    )

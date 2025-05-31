@@ -11,7 +11,7 @@
       .header {
         display: flex;
         justify-content: space-between;
-        align-items: center;
+        text-align: center;
       }
       body {
         font-family: "Roboto", sans-serif;
@@ -22,7 +22,13 @@
       }
 
       .col {
-        width: 50%;
+        width: 25%;
+        padding-bottom: 5px;
+      }
+
+      .col p {
+        margin: 0;
+        padding: 0;
       }
     </style>
   </head>
@@ -43,10 +49,9 @@
 
     <span>Report requested by: {{ user.name }}</span><br />
     <span>Generated at: {% now "Y-m-d H:i" %}</span><br />
-    <span>Royalty Period: {{ period_start }} - {{ period_end }}</span
-    ><br />
+    <span>Royalty Period: {{ period_start }} - {{ period_end }}</span><br />
     <br />
-    <br>
+    <br />
 
     <h2 style="text-align: center">Summary Royalty Statement</h2>
     <br /><br />
@@ -57,16 +62,30 @@
           <p><b>Title</b></p>
         </div>
         <div class="col">
-          <p><b>Amount Earned</b></p>
+          <p style="text-align: right"><b>Sales Revenue</b></p>
+        </div>
+        <div class="col">
+          <p style="text-align: right"><b>Impressions</b></p>
+        </div>
+        <div class="col">
+          <p style="text-align: right"><b>Impressions Revenue</b></p>
         </div>
       </div>
       {% for product in products %}
       <div class="row">
         <div class="col">
-          <span>{{ product.title }}</span>
+          <p>{{ product.title }}</p>
         </div>
         <div class="col">
-          <span>{{ product.total_royalty }} USD</span>
+          <p style="text-align: right">${{ product.total_royalty }}</p>
+        </div>
+        <div class="col">
+          <p style="text-align: right">{{ product.total_impressions }}</p>
+        </div>
+        <div class="col">
+          <p style="text-align: right">
+            ${{ product.impressions_revenue|floatformat:2 }}
+          </p>
         </div>
       </div>
       {% endfor %}
@@ -77,14 +96,14 @@
 
       <div class="row">
         <div class="col">
-          <span><b>Total Amount</b></span>
+          <p><b>Total Earned Amount</b></p>
         </div>
         <div class="col">
-          <span><b>${{ total_royalty_sum }}</b></span>
+          <p><b>${{ total_royalty_sum|floatformat:2 }}</b></p>
         </div>
       </div>
 
-      <br>
+      <br />
 
       <p>
         To sign up for paperless statements and to access AuthorPortal, please

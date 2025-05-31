@@ -1,21 +1,49 @@
-import { Link } from "react-router-dom";
-import { InfoCircleFill } from "react-bootstrap-icons";
 import { ImpressionsInLastFourMonthsChart } from "./ImpressionsInLastFourMonthsChart";
+import { InfoPopover } from "../../common/components/InfoPopover";
+import { useState } from "react";
+import { EyeSlash, ThreeDotsVertical } from "react-bootstrap-icons";
+import { useSettings } from "../../common/contexts/SettingsContext";
 
 export const ImpressionsCard = ({ analytics }) => {
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const { setShowTotalImpressionsCard } = useSettings();
+
+  const toggleDropdown = () => {
+    setDropdownVisible(!dropdownVisible);
+  };
+
   return (
     <div className="col-md-4 p-3">
       <div className="p-3 d-flex justify-content-center rounded flex-column w-100 h-100 border-custom-regular">
         <div className="d-flex justify-content-between align-items-center mb-2">
           <h6 className="mb-2">
-            Impressions <InfoCircleFill />{" "}
+            Impressions
+            <InfoPopover
+              title="Monthly impressions"
+              text="Impressions represent the number of times your content has been
+        displayed to users counted separately for each month."
+            />
           </h6>
-          <Link
-            to="/reports/create"
-            className="btn btn-outline-secondary small"
-          >
-            View report
-          </Link>
+          <div className="d-flex align-items-center">
+            <div className="dropdown">
+              <button className="btn btn-basic" onClick={toggleDropdown}>
+                <ThreeDotsVertical className="txt-regular" />
+              </button>
+              {dropdownVisible && (
+                <div className="dropdown-menu shadow-sm dropdown-menu-end show">
+                  <button
+                    className="dropdown-item"
+                    onClick={() => {
+                      setShowTotalImpressionsCard(false);
+                      setDropdownVisible(false);
+                    }}
+                  >
+                    Hide <EyeSlash className="ms-1" />
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
         <h1 className="bold mb-0 position-relative ps-3 mb-3">
           {analytics?.total_impressions.toLocaleString()}

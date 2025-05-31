@@ -16,7 +16,8 @@ def create_file(file, data):
 
     serializer = FileSerializer(data=data)
     if not serializer.is_valid():
-        raise ValueError("Invalid file data")
+        print(serializer.errors, flush=True)
+        raise ValueError(serializer.errors)
 
     saved_file = serializer.save()
 

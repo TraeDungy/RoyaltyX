@@ -28,6 +28,7 @@ import { ProjectProvider } from "./modules/common/contexts/ProjectContext";
 import { ProductsProvider } from "./modules/common/contexts/ProductsContext";
 import helpDocumentationRoutes from "./modules/help_documentation";
 import InboxLayout from "./modules/inbox/layouts/InboxLayout";
+import { SettingsProvider } from "./modules/common/contexts/SettingsContext";
 
 const PrivateRoutes = () => {
   const { authenticated, loading } = useAuth();
@@ -63,54 +64,56 @@ const renderRoutes = (routes) => {
 function App() {
   return (
     <Router>
-      <AuthProvider>
-        <ThemeProvider>
-          <ScrollToTop />
-          <Routes>
-            <Route path="/" element={<PrivateRoutes />}>
-              <Route
-                path="/"
-                element={
-                  <ProjectProvider>
-                    <ProductsProvider>
-                      <AppLayout />
-                    </ProductsProvider>
-                  </ProjectProvider>
-                }
-              >
-                {renderRoutes([
-                  ...dashboardRoutes,
-                  ...analyticsRoutes,
-                  ...memberRoutes,
-                  ...reportRoutes,
-                  ...accountRoutes,
-                  ...contentRoutes,
-                  ...managementRoutes,
-                  ...productRoutes,
-                  ...helpDocumentationRoutes,
-                ])}
-                <Route path="/" element={<InboxLayout />}>
-                  {renderRoutes([...inboxRoutes])}
+      <SettingsProvider>
+        <AuthProvider>
+          <ThemeProvider>
+            <ScrollToTop />
+            <Routes>
+              <Route path="/" element={<PrivateRoutes />}>
+                <Route
+                  path="/"
+                  element={
+                    <ProjectProvider>
+                      <ProductsProvider>
+                        <AppLayout />
+                      </ProductsProvider>
+                    </ProjectProvider>
+                  }
+                >
+                  {renderRoutes([
+                    ...dashboardRoutes,
+                    ...analyticsRoutes,
+                    ...memberRoutes,
+                    ...reportRoutes,
+                    ...accountRoutes,
+                    ...contentRoutes,
+                    ...managementRoutes,
+                    ...productRoutes,
+                    ...helpDocumentationRoutes,
+                  ])}
+                  <Route path="/" element={<InboxLayout />}>
+                    {renderRoutes([...inboxRoutes])}
+                  </Route>
+                </Route>
+
+                <Route path="/" element={<Layout />}>
+                  {renderRoutes([...projectRoutes])}
                 </Route>
               </Route>
 
-              <Route path="/" element={<Layout />}>
-                {renderRoutes([...projectRoutes])}
+              <Route path="/admin" element={<PrivateRoutes />}>
+                <Route path="/admin" element={<AdminLayout />}>
+                  {renderRoutes([...adminRoutes])}
+                </Route>
               </Route>
-            </Route>
 
-            <Route path="/admin" element={<PrivateRoutes />}>
-              <Route path="/admin" element={<AdminLayout />}>
-                {renderRoutes([...adminRoutes])}
-              </Route>
-            </Route>
+              {renderRoutes([...authRoutes])}
 
-            {renderRoutes([...authRoutes])}
-
-            <Route path="*" element={<PageNotFound />} />
-          </Routes>
-        </ThemeProvider>
-      </AuthProvider>
+              <Route path="*" element={<PageNotFound />} />
+            </Routes>
+          </ThemeProvider>
+        </AuthProvider>
+      </SettingsProvider>
     </Router>
   );
 }

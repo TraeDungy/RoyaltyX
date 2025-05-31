@@ -5,10 +5,27 @@ import { toast } from "react-toastify";
 import { Container, Spinner } from "react-bootstrap";
 import DateRangeSelector from "../../common/components/DateRangeSelector";
 import { getProductAnalytics } from "../api/analytics";
+import { ImpressionsCard } from "../../analytics/components/ImpressionsCard";
+import { SalesCard } from "../../analytics/components/SalesCard";
+import { RevenueCard } from "../../analytics/components/RevenueCard";
+import SalesOverTime from "../../analytics/components/SalesOverTime";
+import RentalsOverTime from "../../analytics/components/RentalsOverTime";
+import ImpressionsOverTime from "../../analytics/components/ImpressionsOverTime";
+import ImpressionRevenueOverTime from "../../analytics/components/ImpressionRevenueOverTime";
+import { useSettings } from "../../common/contexts/SettingsContext";
 
 function Analytics() {
   const [product, setProduct] = useState(null);
   const { id } = useParams();
+  const {
+    showSalesOverTime,
+    showRentalsOverTime,
+    showImpressionsOverTime,
+    showImpressionRevenueOverTime,
+    showTotalImpressionsCard,
+    showTotalSalesCard,
+    showTotalRevenueCard,
+  } = useSettings();
 
   const [analytics, setAnalytics] = useState(null);
   const location = useLocation();
@@ -64,38 +81,21 @@ function Analytics() {
       </div>
 
       <div className="row">
-        <div className="col-md-4 p-3">
-          <div className="card d-flex justify-content-center flex-column w-100 h-100">
-            <div className="card-body">
-              <h6 className="mb-2">Total Impressions</h6>
-              <h3 className="bold txt-primary mb-0">
-                {analytics?.total_impressions?.toLocaleString()}
-              </h3>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-4 p-3">
-          <div className="card d-flex justify-content-center flex-column w-100 h-100">
-            <div className="card-body">
-              <h6 className="mb-2">Total Sales</h6>
-              <h3 className="bold txt-primary mb-0">
-                {product?.sales?.length}
-              </h3>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-4 p-3">
-          <div className="card d-flex justify-content-center flex-column w-100 h-100">
-            <div className="card-body">
-              <h6 className="mb-2">Total Royalty Revenue</h6>
-              <h3 className="bold txt-primary mb-0">
-                {analytics?.total_royalty_revenue?.toLocaleString()} $
-              </h3>
-            </div>
-          </div>
-        </div>
+        {showTotalImpressionsCard && <ImpressionsCard analytics={analytics} />}
+        {showTotalSalesCard && <SalesCard analytics={analytics} />}
+        {showTotalRevenueCard && <RevenueCard analytics={analytics} />}
       </div>
 
+      <div className="row">
+        {showSalesOverTime && <SalesOverTime analytics={analytics} />}
+        {showRentalsOverTime && <RentalsOverTime analytics={analytics} />}
+        {showImpressionsOverTime && (
+          <ImpressionsOverTime analytics={analytics} />
+        )}
+        {showImpressionRevenueOverTime && (
+          <ImpressionRevenueOverTime analytics={analytics} />
+        )}
+      </div>
       <div className="row">
         <div className="col-md-6">
           <h4 className="bold mt-4 mb-4">Sales stats</h4>
@@ -136,6 +136,12 @@ function Analytics() {
                 <th>Impressions</th>
                 <td className="text-end">
                   {analytics?.total_impressions?.toLocaleString()}
+                </td>
+              </tr>
+              <tr>
+                <th>Revenue From Impressions</th>
+                <td className="text-end">
+                  ${analytics?.impression_revenue?.toLocaleString()}
                 </td>
               </tr>
             </tbody>

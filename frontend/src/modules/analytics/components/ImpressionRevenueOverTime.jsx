@@ -25,31 +25,32 @@ ChartJS.register(
   Filler
 );
 
-const SalesOverTime = ({ analytics }) => {
+const ImpressionRevenueOverTime = ({ analytics }) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
-  const { setShowSalesOverTime } = useSettings();
+  const { setShowImpressionRevenueOverTime } = useSettings();
 
   const toggleDropdown = () => {
     setDropdownVisible(!dropdownVisible);
   };
-
   if (!analytics || !analytics.monthly_stats) return <p>Loading...</p>;
 
-  const salesData = analytics.monthly_stats;
+  const impressionRevenueData = analytics.monthly_stats;
 
-  const labels = salesData.map((item) => {
+  const labels = impressionRevenueData.map((item) => {
     const [year, month] = item.month.split("-");
     const date = new Date(year, month - 1); // month is 0-indexed
     return date.toLocaleString("default", { month: "short" }); // e.g., "Jan"
   });
 
-  const dataValues = salesData.map((item) => item.sales);
+  const dataValues = impressionRevenueData.map(
+    (item) => item.impression_revenue
+  );
 
   const data = {
     labels,
     datasets: [
       {
-        label: "Sales Per Month",
+        label: "Impression Revenue",
         data: dataValues,
         fill: true,
         backgroundColor: "rgba(0,158,253, 0.2)",
@@ -63,7 +64,15 @@ const SalesOverTime = ({ analytics }) => {
     responsive: true,
     plugins: {
       legend: { display: false },
-      tooltip: { enabled: true },
+      tooltip: {
+        enabled: true,
+        callbacks: {
+          label: (context) => {
+            const value = context.parsed.y ?? 0;
+            return `$${value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+          },
+        },
+      },
     },
     scales: {
       x: {
@@ -73,6 +82,9 @@ const SalesOverTime = ({ analytics }) => {
       y: {
         title: { display: true },
         beginAtZero: true,
+        ticks: {
+          callback: (value) => `$${value}`,
+        },
       },
     },
     layout: {
@@ -84,7 +96,7 @@ const SalesOverTime = ({ analytics }) => {
     <div className="col-md-6">
       <div style={{ width: "100%", maxWidth: "1200px", margin: "auto" }}>
         <div className="py-4 d-flex justify-content-between align-items-center">
-          <h5 className="bold mb-0">Sales Over Time</h5>
+          <h5 className="bold mb-0">Revenue From Impressions</h5>
           <div className="d-flex align-items-center">
             <div className="dropdown">
               <button className="btn btn-basic" onClick={toggleDropdown}>
@@ -95,7 +107,7 @@ const SalesOverTime = ({ analytics }) => {
                   <button
                     className="dropdown-item"
                     onClick={() => {
-                      setShowSalesOverTime(false);
+                      setShowImpressionRevenueOverTime(false);
                       setDropdownVisible(false);
                     }}
                   >
@@ -112,4 +124,4 @@ const SalesOverTime = ({ analytics }) => {
   );
 };
 
-export default SalesOverTime;
+export default ImpressionRevenueOverTime;

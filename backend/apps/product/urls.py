@@ -4,12 +4,16 @@ from .views import (
     ProductListCreateAPIView,
     ProductUserDetail,
     getProductAnalytics,
+    getTopPerformingContentByImpressions,
+    getTopPerformingContentBySales,
     product_detail,
     product_user_list_create,
 )
 
 urlpatterns = [
     path("", ProductListCreateAPIView.as_view(), name="product_list_create"),
+    path("top-performing-by-impressions/", getTopPerformingContentByImpressions),
+    path("top-performing-by-sales/", getTopPerformingContentBySales),
     path("<int:product_id>/", product_detail, name="product_detail"),
     path(
         "<int:product_id>/users",

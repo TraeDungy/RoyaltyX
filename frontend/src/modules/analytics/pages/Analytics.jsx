@@ -5,14 +5,27 @@ import { getProjectAnalytics } from "../api/analytics";
 import { useLocation } from "react-router";
 import DateRangeSelector from "../../common/components/DateRangeSelector";
 import ImpressionsOverTime from "../components/ImpressionsOverTime";
+import ImpressionRevenueOverTime from "../components/ImpressionRevenueOverTime";
 import SalesOverTime from "../components/SalesOverTime";
 import RentalsOverTime from "../components/RentalsOverTime";
 import { SalesCard } from "../components/SalesCard";
 import { ImpressionsCard } from "../components/ImpressionsCard";
 import { RevenueCard } from "../components/RevenueCard";
+import { useSettings } from "../../common/contexts/SettingsContext";
+import { TopPerfomingContentByImpressions } from "../components/TopPerfomingContentByImpressions";
+import { TopPerfomingContentBySales } from "../components/TopPerfomingContentBySales";
 
 function Analytics() {
   const [analytics, setAnalytics] = useState(null);
+  const {
+    showSalesOverTime,
+    showRentalsOverTime,
+    showImpressionsOverTime,
+    showImpressionRevenueOverTime,
+    showTotalImpressionsCard,
+    showTotalSalesCard,
+    showTotalRevenueCard,
+  } = useSettings();
   const location = useLocation();
   const params = new URLSearchParams(location.search);
 
@@ -48,31 +61,30 @@ function Analytics() {
   return (
     <>
       <div className="d-flex justify-content-between align-items-center mt-4 mb-3 ps-1">
-        <h2 className="bold">Analytics</h2>
+        <h2 className="bold mb-0">Analytics</h2>
         <DateRangeSelector />
       </div>
 
       <div className="row">
-        <ImpressionsCard analytics={analytics} />
-        <SalesCard analytics={analytics} />
-        <RevenueCard analytics={analytics} />
+        {showTotalImpressionsCard && <ImpressionsCard analytics={analytics} />}
+        {showTotalSalesCard && <SalesCard analytics={analytics} />}
+        {showTotalRevenueCard && <RevenueCard analytics={analytics} />}
       </div>
 
       <div className="row">
-        <div className="col-md-6">
-          <SalesOverTime analytics={analytics} />
-        </div>
-        <div className="col-md-6">
-          <RentalsOverTime analytics={analytics} />
-        </div>
-        <div className="col-md-12">
+        {showSalesOverTime && <SalesOverTime analytics={analytics} />}
+        {showRentalsOverTime && <RentalsOverTime analytics={analytics} />}
+        {showImpressionsOverTime && (
           <ImpressionsOverTime analytics={analytics} />
-        </div>
+        )}
+        {showImpressionRevenueOverTime && (
+          <ImpressionRevenueOverTime analytics={analytics} />
+        )}
       </div>
 
       <div className="row">
         <div className="col-md-6">
-          <h4 className="bold mt-4 mb-4">Sales stats</h4>
+          <h5 className="bold mt-4 mb-4">Sales stats</h5>
           <table className="table table-bordered table-hover">
             <tbody>
               <tr>
@@ -103,13 +115,19 @@ function Analytics() {
           </table>
         </div>
         <div className="col-md-6">
-          <h4 className="bold mt-4 mb-4">General stats</h4>
+          <h5 className="bold mt-4 mb-4">General stats</h5>
           <table className="table table-bordered table-hover">
             <tbody>
               <tr>
                 <th>Impressions</th>
                 <td className="text-end">
                   {analytics?.total_impressions?.toLocaleString()}
+                </td>
+              </tr>
+              <tr>
+                <th>Revenue From Impressions</th>
+                <td className="text-end">
+                  ${analytics?.total_impression_revenue?.toLocaleString()}
                 </td>
               </tr>
               <tr>
@@ -121,6 +139,16 @@ function Analytics() {
             </tbody>
           </table>
         </div>
+      </div>
+
+      <div className="row">
+        <h5 className="bold mt-4 mb-4">Top Performing Content (by impressions)</h5>
+        <TopPerfomingContentByImpressions />
+      </div>
+
+      <div className="row">
+        <h5 className="bold mt-4 mb-4">Top Performing Content (by sales)</h5>
+        <TopPerfomingContentBySales />
       </div>
     </>
   );
