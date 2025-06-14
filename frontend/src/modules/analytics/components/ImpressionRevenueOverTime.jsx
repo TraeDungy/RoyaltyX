@@ -11,8 +11,9 @@ import {
   Filler,
 } from "chart.js";
 import { useState } from "react";
-import { EyeSlash, ThreeDotsVertical } from "react-bootstrap-icons";
+import { EyeSlash, Palette, ThreeDotsVertical } from "react-bootstrap-icons";
 import { useSettings } from "../../common/contexts/SettingsContext";
+import { GraphColorPalette } from "./GraphColorPalette";
 
 ChartJS.register(
   CategoryScale,
@@ -22,16 +23,26 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  Filler
+  Filler,
 );
 
 const ImpressionRevenueOverTime = ({ analytics }) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const { setShowImpressionRevenueOverTime } = useSettings();
+  const [showGraphColorPalette, setShowGraphColorPalette] = useState(false);
+  const {
+    setImpressionRevenueOverTimeGraphColor,
+    impressionRevenueOverTimeGraphColor,
+  } = useSettings();
 
   const toggleDropdown = () => {
     setDropdownVisible(!dropdownVisible);
   };
+
+  const onSelectColor = (color) => {
+    setImpressionRevenueOverTimeGraphColor(color);
+  };
+
   if (!analytics || !analytics.monthly_stats) return <p>Loading...</p>;
 
   const impressionRevenueData = analytics.monthly_stats;
@@ -43,7 +54,7 @@ const ImpressionRevenueOverTime = ({ analytics }) => {
   });
 
   const dataValues = impressionRevenueData.map(
-    (item) => item.impression_revenue
+    (item) => item.impression_revenue,
   );
 
   const data = {
@@ -53,8 +64,8 @@ const ImpressionRevenueOverTime = ({ analytics }) => {
         label: "Impression Revenue",
         data: dataValues,
         fill: true,
-        backgroundColor: "rgba(0,158,253, 0.2)",
-        borderColor: "rgb(0,158,253)",
+        backgroundColor: impressionRevenueOverTimeGraphColor + "45",
+        borderColor: impressionRevenueOverTimeGraphColor,
         tension: 0.4,
       },
     ],
@@ -93,34 +104,51 @@ const ImpressionRevenueOverTime = ({ analytics }) => {
   };
 
   return (
-    <div className="col-md-6">
-      <div style={{ width: "100%", maxWidth: "1200px", margin: "auto" }}>
-        <div className="py-4 d-flex justify-content-between align-items-center">
-          <h5 className="bold mb-0">Revenue From Impressions</h5>
-          <div className="d-flex align-items-center">
-            <div className="dropdown">
-              <button className="btn btn-basic" onClick={toggleDropdown}>
-                <ThreeDotsVertical className="txt-regular" />
-              </button>
-              {dropdownVisible && (
-                <div className="dropdown-menu shadow-sm dropdown-menu-end show">
-                  <button
-                    className="dropdown-item"
-                    onClick={() => {
-                      setShowImpressionRevenueOverTime(false);
-                      setDropdownVisible(false);
-                    }}
-                  >
-                    Hide <EyeSlash className="ms-1" />
-                  </button>
-                </div>
-              )}
+    <>
+      <div className="col-md-6">
+        <div style={{ width: "100%", maxWidth: "1200px", margin: "auto" }}>
+          <div className="py-4 d-flex justify-content-between align-items-center">
+            <h5 className="bold mb-0">Revenue From Impressions</h5>
+            <div className="d-flex align-items-center">
+              <div className="dropdown">
+                <button className="btn btn-basic" onClick={toggleDropdown}>
+                  <ThreeDotsVertical className="txt-regular" />
+                </button>
+                {dropdownVisible && (
+                  <div className="dropdown-menu shadow-sm dropdown-menu-end show">
+                    <button
+                      className="dropdown-item py-2"
+                      onClick={() => {
+                        setShowImpressionRevenueOverTime(false);
+                        setDropdownVisible(false);
+                      }}
+                    >
+                      Hide <EyeSlash className="ms-1" />
+                    </button>
+                    <button
+                      className="dropdown-item py-2"
+                      onClick={() => {
+                        setShowGraphColorPalette(true);
+                        setDropdownVisible(false);
+                      }}
+                    >
+                      Customize color <Palette className="ms-2" />
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
+          <Line data={data} options={options} />
         </div>
-        <Line data={data} options={options} />
       </div>
-    </div>
+
+      <GraphColorPalette
+        showGraphColorPalette={showGraphColorPalette}
+        setShowGraphColorPalette={setShowGraphColorPalette}
+        onSelectColor={onSelectColor}
+      />
+    </>
   );
 };
 

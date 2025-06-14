@@ -142,7 +142,9 @@ function Analytics() {
       </div>
 
       <div className="row">
-        <h5 className="bold mt-4 mb-4">Top Performing Content (by impressions)</h5>
+        <h5 className="bold mt-4 mb-4">
+          Top Performing Content (by impressions)
+        </h5>
         <TopPerfomingContentByImpressions />
       </div>
 

@@ -128,14 +128,17 @@ export const getTopPerformingProductsByImpressions = async () => {
   try {
     const token = localStorage.getItem("accessToken");
 
-    const response = await fetch(apiUrl + "/products/top-performing-by-impressions/", {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
+    const response = await fetch(
+      apiUrl + "/products/top-performing-by-impressions/",
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
       },
-    });
+    );
 
     const responseData = await response.json();
 
@@ -153,14 +156,17 @@ export const getTopPerformingProductsBySales = async () => {
   try {
     const token = localStorage.getItem("accessToken");
 
-    const response = await fetch(apiUrl + "/products/top-performing-by-sales/", {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
+    const response = await fetch(
+      apiUrl + "/products/top-performing-by-sales/",
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
       },
-    });
+    );
 
     const responseData = await response.json();
 

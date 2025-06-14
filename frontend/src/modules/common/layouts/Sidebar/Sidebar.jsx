@@ -71,7 +71,6 @@ function Sidebar() {
     fetchUserInfo();
   }, []);
 
-
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };

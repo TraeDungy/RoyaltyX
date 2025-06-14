@@ -93,7 +93,8 @@ const Settings = () => {
           <div className="pe-3">
             <ExclamationTriangleFill className="h5 mb-0" />
           </div>
-          Deleting this project is a permanent action and cannot be undone. You will lose all data associated with this project.
+          Deleting this project is a permanent action and cannot be undone. You
+          will lose all data associated with this project.
         </div>
         <Button
           variant="danger"
@@ -101,7 +102,7 @@ const Settings = () => {
           onClick={async () => {
             if (
               window.confirm(
-                "Are you sure you want to delete this project? This action cannot be undone."
+                "Are you sure you want to delete this project? This action cannot be undone.",
               )
             ) {
               try {

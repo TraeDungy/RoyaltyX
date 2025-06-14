@@ -74,7 +74,10 @@ function SettingsModal({ showSettingsModal, setShowSettingsModal }) {
             </nav>
           </div>
 
-          <div className="w-100" style={{ maxHeight: "70vh", overflowY: "auto" }}>
+          <div
+            className="w-100"
+            style={{ maxHeight: "70vh", overflowY: "auto" }}
+          >
             <div className="w-100 pt-3 pb-5 px-5">
               {selectedTab === "general" && <GeneralSettings />}
               {selectedTab === "theme" && <ThemeSettings />}

@@ -4,7 +4,11 @@ import { OverlayTrigger, Popover } from "react-bootstrap";
 export const InfoPopover = ({ title = "", text }) => {
   const popover = (
     <Popover>
-      {title && <Popover.Header as="h3" className="text-dark">{title}</Popover.Header>}
+      {title && (
+        <Popover.Header as="h3" className="text-dark">
+          {title}
+        </Popover.Header>
+      )}
       <Popover.Body>{text}</Popover.Body>
     </Popover>
   );

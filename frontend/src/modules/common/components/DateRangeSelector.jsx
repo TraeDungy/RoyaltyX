@@ -15,8 +15,8 @@ const DateRangeSelector = () => {
     const params = new URLSearchParams(location.search);
 
     if (start && end) {
-      params.set("period_start", start.toISOString().split("T")[0]);
-      params.set("period_end", end.toISOString().split("T")[0]);
+      params.set("period_start", start.toLocaleDateString("en-CA"));
+      params.set("period_end", end.toLocaleDateString("en-CA"));
     } else {
       params.delete("period_start");
       params.delete("period_end");

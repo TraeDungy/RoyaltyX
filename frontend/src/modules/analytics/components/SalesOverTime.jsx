@@ -11,8 +11,9 @@ import {
   Filler,
 } from "chart.js";
 import { useState } from "react";
-import { EyeSlash, ThreeDotsVertical } from "react-bootstrap-icons";
+import { EyeSlash, Palette, ThreeDotsVertical } from "react-bootstrap-icons";
 import { useSettings } from "../../common/contexts/SettingsContext";
+import { GraphColorPalette } from "./GraphColorPalette";
 
 ChartJS.register(
   CategoryScale,
@@ -22,15 +23,20 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  Filler
+  Filler,
 );
 
 const SalesOverTime = ({ analytics }) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const { setShowSalesOverTime } = useSettings();
-
+  const [showGraphColorPalette, setShowGraphColorPalette] = useState(false);
+  const { setSalesOverTimeGraphColor, salesOverTimeGraphColor } = useSettings();
   const toggleDropdown = () => {
     setDropdownVisible(!dropdownVisible);
+  };
+
+  const onSelectColor = (color) => {
+    setSalesOverTimeGraphColor(color);
   };
 
   if (!analytics || !analytics.monthly_stats) return <p>Loading...</p>;
@@ -52,8 +58,8 @@ const SalesOverTime = ({ analytics }) => {
         label: "Sales Per Month",
         data: dataValues,
         fill: true,
-        backgroundColor: "rgba(0,158,253, 0.2)",
-        borderColor: "rgb(0,158,253)",
+        backgroundColor: salesOverTimeGraphColor + "45",
+        borderColor: salesOverTimeGraphColor,
         tension: 0.4,
       },
     ],
@@ -81,34 +87,50 @@ const SalesOverTime = ({ analytics }) => {
   };
 
   return (
-    <div className="col-md-6">
-      <div style={{ width: "100%", maxWidth: "1200px", margin: "auto" }}>
-        <div className="py-4 d-flex justify-content-between align-items-center">
-          <h5 className="bold mb-0">Sales Over Time</h5>
-          <div className="d-flex align-items-center">
-            <div className="dropdown">
-              <button className="btn btn-basic" onClick={toggleDropdown}>
-                <ThreeDotsVertical className="txt-regular" />
-              </button>
-              {dropdownVisible && (
-                <div className="dropdown-menu shadow-sm dropdown-menu-end show">
-                  <button
-                    className="dropdown-item"
-                    onClick={() => {
-                      setShowSalesOverTime(false);
-                      setDropdownVisible(false);
-                    }}
-                  >
-                    Hide <EyeSlash className="ms-1" />
-                  </button>
-                </div>
-              )}
+    <>
+      <div className="col-md-6">
+        <div style={{ width: "100%", maxWidth: "1200px", margin: "auto" }}>
+          <div className="py-4 d-flex justify-content-between align-items-center">
+            <h5 className="bold mb-0">Sales Over Time</h5>
+            <div className="d-flex align-items-center">
+              <div className="dropdown">
+                <button className="btn btn-basic" onClick={toggleDropdown}>
+                  <ThreeDotsVertical className="txt-regular" />
+                </button>
+                {dropdownVisible && (
+                  <div className="dropdown-menu shadow-sm show">
+                    <button
+                      className="dropdown-item py-2"
+                      onClick={() => {
+                        setShowSalesOverTime(false);
+                        setDropdownVisible(false);
+                      }}
+                    >
+                      Hide <EyeSlash className="ms-1" />
+                    </button>
+                    <button
+                      className="dropdown-item py-2"
+                      onClick={() => {
+                        setShowGraphColorPalette(true);
+                        setDropdownVisible(false);
+                      }}
+                    >
+                      Customize color <Palette className="ms-2" />
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
+          <Line data={data} options={options} />
         </div>
-        <Line data={data} options={options} />
       </div>
-    </div>
+      <GraphColorPalette
+        showGraphColorPalette={showGraphColorPalette}
+        setShowGraphColorPalette={setShowGraphColorPalette}
+        onSelectColor={onSelectColor}
+      />
+    </>
   );
 };
 
