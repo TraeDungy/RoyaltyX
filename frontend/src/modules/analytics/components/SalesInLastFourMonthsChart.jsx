@@ -10,6 +10,7 @@ import {
   Legend,
   Filler,
 } from "chart.js";
+import { useSettings } from "../../common/contexts/SettingsContext";
 
 ChartJS.register(
   CategoryScale,
@@ -23,6 +24,8 @@ ChartJS.register(
 );
 
 export const SalesInLastFourMonthsChart = ({ analytics }) => {
+  const { salesOverFourMonthsGraphColor } = useSettings();
+
   if (!analytics || !analytics.monthly_stats) return <p>Loading...</p>;
 
   const salesData = analytics.monthly_stats.slice(-4);
@@ -42,8 +45,8 @@ export const SalesInLastFourMonthsChart = ({ analytics }) => {
         label: "Sales Per Month",
         data: dataValues,
         fill: true,
-        backgroundColor: "#f43f0f45",
-        borderColor: "#f43f0f",
+        backgroundColor: salesOverFourMonthsGraphColor + "45",
+        borderColor: salesOverFourMonthsGraphColor,
         tension: 0.4,
       },
     ],

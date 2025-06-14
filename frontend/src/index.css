@@ -623,3 +623,7 @@ input:checked + .slider {
 input:checked + .slider:before {
   transform: translateX(14px);
 }
+.dropdown-menu-end {
+  right: 0 !important;
+  left: unset !important;
+}

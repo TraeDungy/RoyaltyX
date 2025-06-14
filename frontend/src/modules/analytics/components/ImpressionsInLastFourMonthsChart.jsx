@@ -10,6 +10,7 @@ import {
   Legend,
   Filler,
 } from "chart.js";
+import { useSettings } from "../../common/contexts/SettingsContext";
 
 ChartJS.register(
   CategoryScale,
@@ -23,6 +24,7 @@ ChartJS.register(
 );
 
 export const ImpressionsInLastFourMonthsChart = ({ analytics }) => {
+  const { impressionsOverFourMonthsGraphColor } = useSettings();
   if (!analytics || !analytics.monthly_stats) return <p>Loading...</p>;
 
   const impressionsData = analytics.monthly_stats.slice(-4);
@@ -42,8 +44,8 @@ export const ImpressionsInLastFourMonthsChart = ({ analytics }) => {
         label: "Impressions Per Month",
         data: dataValues,
         fill: true,
-        backgroundColor: "rgba(0,158,253, 0.2)",
-        borderColor: "rgb(0,158,253)",
+        backgroundColor: impressionsOverFourMonthsGraphColor + "45",
+        borderColor: impressionsOverFourMonthsGraphColor,
         tension: 0.4,
       },
     ],

@@ -30,7 +30,7 @@ export const TopPerfomingContentByImpressions = () => {
           {products.map((product, index) => {
             const totalImpressions = product.impressions.reduce(
               (sum, impression) => sum + impression.impressions,
-              0
+              0,
             );
             return (
               <tr key={product.id}>

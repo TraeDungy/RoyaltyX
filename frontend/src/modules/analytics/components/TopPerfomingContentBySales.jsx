@@ -30,7 +30,7 @@ export const TopPerfomingContentBySales = () => {
           {products.map((product, index) => {
             const totalSales = product.sales.reduce(
               (sum, sale) => sum + Number(sale.royalty_amount),
-              0
+              0,
             );
             return (
               <tr key={product.id}>

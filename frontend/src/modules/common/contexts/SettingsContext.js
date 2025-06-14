@@ -13,7 +13,7 @@ export const SettingsProvider = ({ children }) => {
 
   const [showRentalsOverTime, setShowRentalsOverTime] = useState(() => {
     const savedShowRentalsOverTimePreference = localStorage.getItem(
-      "showRentalsOverTime"
+      "showRentalsOverTime",
     );
     return savedShowRentalsOverTimePreference !== null
       ? savedShowRentalsOverTimePreference === "true"
@@ -22,7 +22,7 @@ export const SettingsProvider = ({ children }) => {
 
   const [showImpressionsOverTime, setShowImpressionsOverTime] = useState(() => {
     const savedShowImpressionsOverTimePreference = localStorage.getItem(
-      "showImpressionsOverTime"
+      "showImpressionsOverTime",
     );
     return savedShowImpressionsOverTimePreference !== null
       ? savedShowImpressionsOverTimePreference === "true"
@@ -32,7 +32,7 @@ export const SettingsProvider = ({ children }) => {
   const [showImpressionRevenueOverTime, setShowImpressionRevenueOverTime] =
     useState(() => {
       const savedShowImpressionRevenueOverTimePreference = localStorage.getItem(
-        "showImpressionRevenueOverTime"
+        "showImpressionRevenueOverTime",
       );
       return savedShowImpressionRevenueOverTimePreference !== null
         ? savedShowImpressionRevenueOverTimePreference === "true"
@@ -42,12 +42,12 @@ export const SettingsProvider = ({ children }) => {
   const [showTotalImpressionsCard, setShowTotalImpressionsCard] = useState(
     () => {
       const savedShowTotalImpressionsCardPreference = localStorage.getItem(
-        "showTotalImpressionsCard"
+        "showTotalImpressionsCard",
       );
       return savedShowTotalImpressionsCardPreference !== null
         ? savedShowTotalImpressionsCardPreference === "true"
         : true;
-    }
+    },
   );
 
   const [showTotalSalesCard, setShowTotalSalesCard] = useState(() => {
@@ -60,11 +60,85 @@ export const SettingsProvider = ({ children }) => {
 
   const [showTotalRevenueCard, setShowTotalRevenueCard] = useState(() => {
     const savedShowTotalRevenueCardPreference = localStorage.getItem(
-      "showTotalRevenueCard"
+      "showTotalRevenueCard",
     );
     return savedShowTotalRevenueCardPreference !== null
       ? savedShowTotalRevenueCardPreference === "true"
       : true;
+  });
+
+  const [
+    impressionsOverFourMonthsGraphColor,
+    setImpressionsOverFourMonthsGraphColor,
+  ] = useState(() => {
+    const savedImpressionsOverFourMonthsGraphColor = localStorage.getItem(
+      "impressionsOverFourMonthsGraphColor",
+    );
+    return savedImpressionsOverFourMonthsGraphColor !== null
+      ? savedImpressionsOverFourMonthsGraphColor
+      : "#009efd";
+  });
+
+  const [salesOverFourMonthsGraphColor, setSalesOverFourMonthsGraphColor] =
+    useState(() => {
+      const savedSalesOverFourMonthsGraphColor = localStorage.getItem(
+        "salesOverFourMonthsGraphColor",
+      );
+      return savedSalesOverFourMonthsGraphColor !== null
+        ? savedSalesOverFourMonthsGraphColor
+        : "#009efd";
+    });
+
+  const [revenueOverFourMonthsGraphColor, setRevenueOverFourMonthsGraphColor] =
+    useState(() => {
+      const savedRevenueOverFourMonthsGraphColor = localStorage.getItem(
+        "revenueOverFourMonthsGraphColor",
+      );
+      return savedRevenueOverFourMonthsGraphColor !== null
+        ? savedRevenueOverFourMonthsGraphColor
+        : "#009efd";
+    });
+
+  const [salesOverTimeGraphColor, setSalesOverTimeGraphColor] = useState(() => {
+    const savedSalesOverTimeGraphColor = localStorage.getItem(
+      "salesOverTimeGraphColor",
+    );
+    return savedSalesOverTimeGraphColor !== null
+      ? savedSalesOverTimeGraphColor
+      : "#009efd";
+  });
+
+  const [rentalsOverTimeGraphColor, setRentalsOverTimeGraphColor] = useState(
+    () => {
+      const savedRentalsOverTimeGraphColor = localStorage.getItem(
+        "rentalsOverTimeGraphColor",
+      );
+      return savedRentalsOverTimeGraphColor !== null
+        ? savedRentalsOverTimeGraphColor
+        : "#009efd";
+    },
+  );
+
+  const [impressionsOverTimeGraphColor, setImpressionsOverTimeGraphColor] =
+    useState(() => {
+      const savedImpressionsOverTimeGraphColor = localStorage.getItem(
+        "impressionsOverTimeGraphColor",
+      );
+      return savedImpressionsOverTimeGraphColor !== null
+        ? savedImpressionsOverTimeGraphColor
+        : "#009efd";
+    });
+
+  const [
+    impressionRevenueOverTimeGraphColor,
+    setImpressionRevenueOverTimeGraphColor,
+  ] = useState(() => {
+    const savedImpressionRevenueOverTimeGraphColor = localStorage.getItem(
+      "impressionRevenueOverTimeGraphColor",
+    );
+    return savedImpressionRevenueOverTimeGraphColor !== null
+      ? savedImpressionRevenueOverTimeGraphColor
+      : "#009efd";
   });
 
   useEffect(() => {
@@ -78,21 +152,21 @@ export const SettingsProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem(
       "showImpressionsOverTime",
-      showImpressionsOverTime.toString()
+      showImpressionsOverTime.toString(),
     );
   }, [showImpressionsOverTime]);
 
   useEffect(() => {
     localStorage.setItem(
       "showImpressionRevenueOverTime",
-      showImpressionRevenueOverTime.toString()
+      showImpressionRevenueOverTime.toString(),
     );
   }, [showImpressionRevenueOverTime]);
 
   useEffect(() => {
     localStorage.setItem(
       "showTotalImpressionsCard",
-      showTotalImpressionsCard.toString()
+      showTotalImpressionsCard.toString(),
     );
   }, [showTotalImpressionsCard]);
 
@@ -103,9 +177,62 @@ export const SettingsProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem(
       "showTotalRevenueCard",
-      showTotalRevenueCard.toString()
+      showTotalRevenueCard.toString(),
     );
   }, [showTotalRevenueCard]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "impressionsOverFourMonthsGraphColor",
+      impressionsOverFourMonthsGraphColor,
+    );
+  }, [impressionsOverFourMonthsGraphColor]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "salesOverFourMonthsGraphColor",
+      salesOverFourMonthsGraphColor,
+    );
+  }, [salesOverFourMonthsGraphColor]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "revenueOverFourMonthsGraphColor",
+      revenueOverFourMonthsGraphColor,
+    );
+  }, [revenueOverFourMonthsGraphColor]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "impressionsOverTimeGraphColor",
+      impressionsOverTimeGraphColor,
+    );
+  }, [impressionsOverTimeGraphColor]);
+
+  useEffect(() => {
+    localStorage.setItem("salesOverTimeGraphColor", salesOverTimeGraphColor);
+  }, [salesOverTimeGraphColor]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "rentalsOverTimeGraphColor",
+      rentalsOverTimeGraphColor,
+    );
+  }, [rentalsOverTimeGraphColor]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "impressionsOverTimeGraphColor",
+      impressionsOverTimeGraphColor,
+    );
+  }, [impressionsOverTimeGraphColor]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "impressionRevenueOverTimeGraphColor",
+      impressionRevenueOverTimeGraphColor,
+    );
+  }, [impressionRevenueOverTimeGraphColor]);
 
   return (
     <SettingsContext.Provider
@@ -124,6 +251,20 @@ export const SettingsProvider = ({ children }) => {
         setShowTotalSalesCard,
         showTotalRevenueCard,
         setShowTotalRevenueCard,
+        impressionsOverFourMonthsGraphColor,
+        setImpressionsOverFourMonthsGraphColor,
+        salesOverFourMonthsGraphColor,
+        setSalesOverFourMonthsGraphColor,
+        revenueOverFourMonthsGraphColor,
+        setRevenueOverFourMonthsGraphColor,
+        salesOverTimeGraphColor,
+        setSalesOverTimeGraphColor,
+        rentalsOverTimeGraphColor,
+        setRentalsOverTimeGraphColor,
+        impressionsOverTimeGraphColor,
+        setImpressionsOverTimeGraphColor,
+        impressionRevenueOverTimeGraphColor,
+        setImpressionRevenueOverTimeGraphColor,
       }}
     >
       {children}
