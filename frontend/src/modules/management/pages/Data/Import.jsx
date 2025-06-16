@@ -110,6 +110,7 @@ const ImportData = () => {
           csvData={csvData}
           selectedFile={selectedFile}
           handleCloseModal={handleCloseModal}
+          setFiles={setFiles}
         />
       )}
     </div>

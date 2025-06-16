@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const CsvViewer = ({ data }) => {
+const CsvViewer = ({ data, onCellChange }) => {
   const [selectedCell, setSelectedCell] = useState({ row: null, col: null });
 
   const filteredData = data?.filter((row) =>
@@ -63,7 +63,21 @@ const CsvViewer = ({ data }) => {
                       : ""
                   }
                 >
-                  {row[key]}
+                  {selectedCell.row === rowIndex &&
+                  selectedCell.col === colIndex ? (
+                    <input
+                      type="text"
+                      value={row[key] ?? ""}
+                      onChange={(e) =>
+                        onCellChange?.(rowIndex, key, e.target.value)
+                      }
+                      onBlur={() => setSelectedCell({ row: null, col: null })}
+                      autoFocus
+                      className="form-control form-control-sm text-center"
+                    />
+                  ) : (
+                    row[key]
+                  )}
                 </td>
               ))}
             </tr>
