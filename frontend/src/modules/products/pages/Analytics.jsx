@@ -3,6 +3,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { getProduct } from "../api/product";
 import { toast } from "react-toastify";
 import { Container, Spinner } from "react-bootstrap";
+import { apiUrl } from "../../common/api/config";
 import DateRangeSelector from "../../common/components/DateRangeSelector";
 import { getProductAnalytics } from "../api/analytics";
 import { ImpressionsCard } from "../../analytics/components/ImpressionsCard";
@@ -13,6 +14,7 @@ import RentalsOverTime from "../../analytics/components/RentalsOverTime";
 import ImpressionsOverTime from "../../analytics/components/ImpressionsOverTime";
 import ImpressionRevenueOverTime from "../../analytics/components/ImpressionRevenueOverTime";
 import { useSettings } from "../../common/contexts/SettingsContext";
+import { ReactComponent as ProductThumbnailPlaceholder } from "../../common/assets/img/vectors/product-thumbnail-placeholder.svg";
 
 function Analytics() {
   const [product, setProduct] = useState(null);
@@ -72,11 +74,27 @@ function Analytics() {
       </Container>
     );
   }
-
+  
   return (
     <>
       <div className="d-flex justify-content-between align-items-center mt-4 mb-3 ps-1">
-        <h2 className="bold">{product.title}</h2>
+        <div className="d-flex align-items-center gap-2" style={{ height: "100%" }}>
+          {product.thumbnail ? (
+                <img
+                src={`${apiUrl}${product.thumbnail}`}
+                alt={product.title}
+                style={{
+                  height: "2em",
+                  display: "block"
+                }}
+                />
+              ) : (
+                <ProductThumbnailPlaceholder
+                  style={{ width: "auto", height: "2em" }}
+                />
+              )}
+          <h2 className="bold">{product.title}</h2>
+        </div>
         <DateRangeSelector />
       </div>
 
