@@ -55,11 +55,11 @@ const ViewFileModal = ({ csvData, selectedFile, handleCloseModal, setFiles }) =>
         <CsvViewer data={editableData} onCellChange={handleCellChange}/>
       </Modal.Body>
       <Modal.Footer>
-        <button className="btn btn-danger" onClick={handleCloseModal}>
+        <button className="btn btn-outline-dark text-dark bg-transparent" onClick={handleCloseModal}>
           Cancel
         </button>
         <button className="btn btn-primary" onClick={handleSave}>
-          Save
+          Save changes
         </button>
       </Modal.Footer>
     </Modal>

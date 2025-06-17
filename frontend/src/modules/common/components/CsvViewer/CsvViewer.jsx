@@ -82,7 +82,7 @@ const CsvViewer = ({ data, onCellChange }) => {
                       }
                       onBlur={() => setSelectedCell({ row: null, col: null })}
                       autoFocus
-                      className="form-control form-control-sm text-center"
+                      className="form-control form-control-sm text-center border-0"
                     />
                   ) : (
                     row[key]
