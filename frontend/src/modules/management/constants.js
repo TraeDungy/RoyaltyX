@@ -1,0 +1,17 @@
+export const SYSTEM_FIELDS = [
+    "Title",
+    "program_name",
+    "Title Name",
+    "Unit Price",
+    "impressions",
+    "Consumption Type",
+    "Unit Price",
+    "Unit Price Currency",
+    "Quantity",
+    "Is Refund",
+    "Royalty Amount",
+    "Royalty Currency",
+    "Period Start",
+    "Period End",
+    "ecpm",
+  ];
