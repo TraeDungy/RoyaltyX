@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { SYSTEM_FIELDS } from "../../../management/constants";
 
 const CsvViewer = ({ data, onCellChange }) => {
   const [selectedCell, setSelectedCell] = useState({ row: null, col: null });
@@ -50,21 +51,29 @@ const CsvViewer = ({ data, onCellChange }) => {
           {filteredData.map((row, rowIndex) => (
             <tr key={rowIndex}>
               <th className="text-center">{rowIndex + 1}</th>
-              {columnKeys.map((key, colIndex) => (
+              {columnKeys.map((key, colIndex) => {
+                const isSelected = selectedCell.row === rowIndex && selectedCell.col === colIndex;
+                return (
                 <td
                   key={colIndex}
                   onClick={() =>
                     setSelectedCell({ row: rowIndex, col: colIndex })
                   }
+                  style={
+                    SYSTEM_FIELDS.includes(key) || isSelected
+                      ? {}
+                      : {
+                          filter: "blur(0.5px)",
+                          opacity: 0.8,
+                        }
+                  }
                   className={
-                    selectedCell.row === rowIndex &&
-                    selectedCell.col === colIndex
+                    isSelected 
                       ? "selected-cell"
                       : ""
                   }
                 >
-                  {selectedCell.row === rowIndex &&
-                  selectedCell.col === colIndex ? (
+                  {isSelected ? (
                     <input
                       type="text"
                       value={row[key] ?? ""}
@@ -79,7 +88,7 @@ const CsvViewer = ({ data, onCellChange }) => {
                     row[key]
                   )}
                 </td>
-              ))}
+              )})}
             </tr>
           ))}
         </tbody>
