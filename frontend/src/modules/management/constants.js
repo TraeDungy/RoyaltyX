@@ -3,5 +3,15 @@ export const SYSTEM_FIELDS = [
     "program_name",
     "Title Name",
     "Unit Price",
-    "impressions"    
+    "impressions",
+    "Consumption Type",
+    "Unit Price",
+    "Unit Price Currency",
+    "Quantity",
+    "Is Refund",
+    "Royalty Amount",
+    "Royalty Currency",
+    "Period Start",
+    "Period End",
+    "ecpm",
   ];

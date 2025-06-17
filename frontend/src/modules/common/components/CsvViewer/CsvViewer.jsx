@@ -64,7 +64,7 @@ const CsvViewer = ({ data, onCellChange }) => {
                       ? {}
                       : {
                           filter: "blur(0.5px)",
-                          opacity: 0.8,
+                          opacity: 0.6,
                         }
                   }
                   className={
