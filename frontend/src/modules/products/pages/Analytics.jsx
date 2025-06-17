@@ -78,19 +78,25 @@ function Analytics() {
   return (
     <>
       <div className="d-flex justify-content-between align-items-center mt-4 mb-3 ps-1">
-        <div className="d-flex align-items-center gap-2" style={{ height: "100%" }}>
+        <div className="d-flex align-items-center gap-2">
           {product.thumbnail ? (
                 <img
                 src={`${apiUrl}${product.thumbnail}`}
                 alt={product.title}
                 style={{
-                  height: "2em",
-                  display: "block"
+                  height: 30,
+                  width: 35,
+                  objectFit: "cover"
                 }}
                 />
               ) : (
                 <ProductThumbnailPlaceholder
-                  style={{ width: "auto", height: "2em" }}
+                  style={{ 
+                    width: 60, 
+                    height: 60, 
+                    objectFit: "cover",
+                    marginBottom: "0.25rem"
+                  }}
                 />
               )}
           <h2 className="bold">{product.title}</h2>
