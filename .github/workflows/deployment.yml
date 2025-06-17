@@ -25,4 +25,4 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            nohup ./deploy.sh > deploy.log 2>&1 &
+            ./deploy.sh > deploy.log 2>&1
