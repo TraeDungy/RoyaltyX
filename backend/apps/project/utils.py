@@ -6,7 +6,7 @@ from django.db.models.functions import TruncMonth
 from apps.product.models import Product, ProductImpressions, ProductSale
 
 
-def calculateProjectAnalytics(project_id: int, filters: dict):
+def calculateProjectAnalytics(project_id: int, filters: dict, months: int):
     now = datetime.now()
 
     impressions_qs = ProductImpressions.objects.filter(product__project_id=project_id)
@@ -72,11 +72,23 @@ def calculateProjectAnalytics(project_id: int, filters: dict):
     revenue_map = {
         entry["month"].date(): entry["revenue"] or 0 for entry in monthly_revenue
     }
+    monthly_stats = []    
 
-    monthly_stats = []
-    for i in range(12):
-        month = (now.replace(day=1) - timedelta(days=i * 30)).replace(day=1)
-        month = month.date().replace(day=1)
+    single_month_adjustment  = False
+    if months == 1:
+        months += 1
+        single_month_adjustment = True
+        
+    for i in range(months):
+        if filters and filters["period_end__lte"]:
+            month = (filters["period_end__lte"].replace(day=1) - timedelta(days=i * 30)).replace(day=1).date()
+        else:
+            month = (now.replace(day=1) - timedelta(days=i * 30)).replace(day=1)
+            month = month.date().replace(day=1)
+
+        if single_month_adjustment:
+            month = (month + timedelta(days=31)).replace(day=1)
+
         monthly_stats.append(
             {
                 "month": month.strftime("%Y-%m"),
