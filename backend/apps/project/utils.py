@@ -13,7 +13,7 @@ def calculateProjectAnalytics(project_id: int, filters: dict, months: int):
     if filters:
         impressions_qs = impressions_qs.filter(**filters)
     monthly_impressions = (
-        impressions_qs.annotate(month=TruncMonth("created_at"))
+        impressions_qs.annotate(month=TruncMonth("period_start"))
         .values("month")
         .annotate(count=Sum("impressions"))
         .order_by("month")
@@ -21,7 +21,7 @@ def calculateProjectAnalytics(project_id: int, filters: dict, months: int):
 
     impression_revenue_qs = (
         impressions_qs.annotate(
-            month=TruncMonth("created_at"),
+            month=TruncMonth("period_start"),
             revenue_expr=ExpressionWrapper(
                 F("impressions") * F("ecpm") / 1000,
                 output_field=DecimalField(max_digits=30, decimal_places=18),
@@ -31,9 +31,8 @@ def calculateProjectAnalytics(project_id: int, filters: dict, months: int):
         .annotate(revenue=Sum("revenue_expr"))
         .order_by("month")
     )
-
     impression_revenue_map = {
-        entry["month"].date(): entry["revenue"] or 0 for entry in impression_revenue_qs
+        entry["month"]: entry["revenue"] or 0 for entry in impression_revenue_qs
     }
 
     sales_qs = ProductSale.objects.filter(
@@ -43,7 +42,7 @@ def calculateProjectAnalytics(project_id: int, filters: dict, months: int):
         sales_qs = sales_qs.filter(**filters)
 
     monthly_sales = (
-        sales_qs.annotate(month=TruncMonth("created_at"))
+        sales_qs.annotate(month=TruncMonth("period_start"))
         .values("month")
         .annotate(count=Count("id"))
         .order_by("month")
@@ -51,26 +50,26 @@ def calculateProjectAnalytics(project_id: int, filters: dict, months: int):
 
     monthly_rentals_qs = sales_qs.filter(type=ProductSale.TYPE_RENTAL)
     monthly_rentals = (
-        monthly_rentals_qs.annotate(month=TruncMonth("created_at"))
+        monthly_rentals_qs.annotate(month=TruncMonth("period_start"))
         .values("month")
         .annotate(count=Count("id"))
         .order_by("month")
     )
 
     monthly_revenue = (
-        sales_qs.annotate(month=TruncMonth("created_at"))
+        sales_qs.annotate(month=TruncMonth("period_start"))
         .values("month")
         .annotate(revenue=Sum("royalty_amount"))
         .order_by("month")
     )
 
     impressions_map = {
-        entry["month"].date(): entry["count"] for entry in monthly_impressions
+        entry["month"]: entry["count"] for entry in monthly_impressions
     }
-    sales_map = {entry["month"].date(): entry["count"] for entry in monthly_sales}
-    rentals_map = {entry["month"].date(): entry["count"] for entry in monthly_rentals}
+    sales_map = {entry["month"]: entry["count"] for entry in monthly_sales}
+    rentals_map = {entry["month"]: entry["count"] for entry in monthly_rentals}
     revenue_map = {
-        entry["month"].date(): entry["revenue"] or 0 for entry in monthly_revenue
+        entry["month"]: entry["revenue"] or 0 for entry in monthly_revenue
     }
     monthly_stats = []    
 
