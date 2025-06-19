@@ -145,6 +145,7 @@ def getProductAnalytics(request, product_id):
     period_end = request.query_params.get("period_end")
 
     filters = {}
+    months = 12
 
     if period_start and period_end:
         try:
@@ -152,13 +153,14 @@ def getProductAnalytics(request, product_id):
             end_date = datetime.strptime(period_end, "%Y-%m-%d")
             filters["period_start__gte"] = start_date
             filters["period_end__lte"] = end_date
+            months = (end_date.year - start_date.year) * 12 + (end_date.month - start_date.month) + 1
         except ValueError:
             return Response(
                 {"error": "Invalid date format. Use YYYY-MM-DD."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-    data = calculateProductAnalytics(product_id, filters)
+    data = calculateProductAnalytics(product_id, filters, months)
 
     return Response(data, status=status.HTTP_200_OK)
 

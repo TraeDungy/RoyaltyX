@@ -1,12 +1,12 @@
 from datetime import datetime, timedelta
 
-from django.db.models import ExpressionWrapper, F, FloatField, Sum
+from django.db.models import Count, ExpressionWrapper, F, FloatField, Sum
 from django.db.models.functions import TruncMonth
 
 from apps.product.models import ProductImpressions, ProductSale
 
 
-def calculateProductAnalytics(product_id: int, filters: dict):
+def calculateProductAnalytics(product_id: int, filters: dict, months: int):
     now = datetime.now()
     impressions_qs = ProductImpressions.objects.filter(product_id=product_id)
     if filters:
@@ -59,15 +59,47 @@ def calculateProductAnalytics(product_id: int, filters: dict):
         for entry in monthly_revenue
     }
 
+    # Aggregate total number of sales per calendar month
+    monthly_sales = (
+        sales_qs.annotate(month=TruncMonth("created_at"))
+        .values("month")
+        .annotate(count=Count("id"))
+        .order_by("month")
+    )
+    sales_map = {entry["month"]: entry["count"] for entry in monthly_sales}
+
+    # Aggregate total number of rentals per calendar month
+    monthly_rentals_qs = sales_qs.filter(type=ProductSale.TYPE_RENTAL)
+    monthly_rentals = (
+        monthly_rentals_qs.annotate(month=TruncMonth("created_at"))
+        .values("month")
+        .annotate(count=Count("id"))
+        .order_by("month")
+    )
+    rentals_map = {entry["month"].date(): entry["count"] for entry in monthly_rentals}
+
     monthly_stats = []
-    for i in range(12):
-        month = (now.replace(day=1) - timedelta(days=i * 30)).replace(day=1)
-        month_date = month.date()
+    single_month_adjustment  = False
+    if months == 1:
+        months += 1
+        single_month_adjustment = True
+
+    for i in range(months):
+        if filters and filters["period_end__lte"]:
+            month_date = (filters["period_end__lte"].replace(day=1) - timedelta(days=i * 30)).replace(day=1).date()
+        else:
+            month_date = (now.replace(day=1) - timedelta(days=i * 30)).replace(day=1)
+            month_date = month_date.date().replace(day=1)
+
+        if single_month_adjustment:
+            month_date = (month_date + timedelta(days=31)).replace(day=1)
 
         monthly_stats.append(
             {
                 "month": month_date.strftime("%Y-%m"),
                 "impressions": impressions_map.get(month_date, 0),
+                "sales": sales_map.get(month_date, 0),
+                "rentals": rentals_map.get(month_date, 0),
                 "impression_revenue": impression_revenue_map.get(month_date, 0),
                 "royalty_revenue": royalty_revenue_map.get(month_date, 0),
             }
