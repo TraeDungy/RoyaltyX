@@ -4,15 +4,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('product', '0013_productimpressions_from_file_productsale_from_file'),
+        ("product", "0013_productimpressions_from_file_productsale_from_file"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='productimpressions',
-            name='ecpm',
-            field=models.DecimalField(blank=True, decimal_places=18, max_digits=30, null=True),
+            model_name="productimpressions",
+            name="ecpm",
+            field=models.DecimalField(
+                blank=True, decimal_places=18, max_digits=30, null=True
+            ),
         ),
     ]
