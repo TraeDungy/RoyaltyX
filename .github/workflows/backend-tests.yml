@@ -4,30 +4,49 @@ on:
   push:
     branches:
       - main
+      - dev
   pull_request:
     branches:
       - main
+      - dev
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
+    env:
+      POSTGRES_HOST: postgres
+      POSTGRES_DB: postgres
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_PORT: 5432
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.11.11'
-
-      - name: Install dependencies
+      - name: Set up Docker Compose
         run: |
-          cd backend
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          docker-compose -f local.yml up -d
 
-      - name: Run Django tests
+      - name: Wait for backend container to be healthy
         run: |
-          cd backend
-          python manage.py test apps
+          echo "Waiting for backend service..."
+          for i in {1..30}; do
+            if docker exec backend python manage.py showmigrations &> /dev/null; then
+              echo "Backend is ready."
+              break
+            fi
+            echo "Waiting... ($i)"
+            sleep 2
+          done
+
+      - name: Run Django tests in backend container
+        run: |
+          set -e
+          docker exec backend python manage.py test apps
+
+      - name: Tear down Docker Compose
+        if: always()
+        run: |
+          docker-compose -f local.yml down
