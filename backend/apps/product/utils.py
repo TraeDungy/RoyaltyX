@@ -66,7 +66,7 @@ def calculateProductAnalytics(product_id: int, filters: dict, months: int):
         .annotate(count=Count("id"))
         .order_by("month")
     )
-    sales_map = {entry["month"]: entry["count"] for entry in monthly_sales}
+    sales_map = {entry["month"].date(): entry["count"] for entry in monthly_sales}
 
     # Aggregate total number of rentals per calendar month
     monthly_rentals_qs = sales_qs.filter(type=ProductSale.TYPE_RENTAL)
