@@ -35,9 +35,7 @@ def calculateProjectAnalytics(project_id: int, filters: dict, months: int):
         entry["month"]: entry["revenue"] or 0 for entry in impression_revenue_qs
     }
 
-    sales_qs = ProductSale.objects.filter(
-        product__project_id=project_id
-    )
+    sales_qs = ProductSale.objects.filter(product__project_id=project_id)
     if filters:
         sales_qs = sales_qs.filter(**filters)
 
@@ -63,24 +61,24 @@ def calculateProjectAnalytics(project_id: int, filters: dict, months: int):
         .order_by("month")
     )
 
-    impressions_map = {
-        entry["month"]: entry["count"] for entry in monthly_impressions
-    }
+    impressions_map = {entry["month"]: entry["count"] for entry in monthly_impressions}
     sales_map = {entry["month"]: entry["count"] for entry in monthly_sales}
     rentals_map = {entry["month"]: entry["count"] for entry in monthly_rentals}
-    revenue_map = {
-        entry["month"]: entry["revenue"] or 0 for entry in monthly_revenue
-    }
-    monthly_stats = []    
+    revenue_map = {entry["month"]: entry["revenue"] or 0 for entry in monthly_revenue}
+    monthly_stats = []
 
-    single_month_adjustment  = False
+    single_month_adjustment = False
     if months == 1:
         months += 1
         single_month_adjustment = True
-        
+
     for i in range(months):
         if filters and filters["period_end__lte"]:
-            month = (filters["period_end__lte"].replace(day=1) - timedelta(days=i * 30)).replace(day=1).date()
+            month = (
+                (filters["period_end__lte"].replace(day=1) - timedelta(days=i * 30))
+                .replace(day=1)
+                .date()
+            )
         else:
             month = (now.replace(day=1) - timedelta(days=i * 30)).replace(day=1)
             month = month.date().replace(day=1)
