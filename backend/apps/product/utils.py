@@ -14,14 +14,14 @@ def calculateProductAnalytics(product_id: int, filters: dict, months: int):
 
     # Monthly impressions and impression revenue
     monthly_impressions = (
-        impressions_qs.annotate(month=TruncMonth("created_at"))
+        impressions_qs.annotate(month=TruncMonth("period_start"))
         .values("month")
         .annotate(impressions=Sum("impressions"))
         .order_by("month")
     )
 
     monthly_impression_revenue_qs = (
-        impressions_qs.annotate(month=TruncMonth("created_at"))
+        impressions_qs.annotate(month=TruncMonth("period_start"))
         .annotate(
             revenue_expr=ExpressionWrapper(
                 F("impressions") * F("ecpm") / 1000,
@@ -35,11 +35,11 @@ def calculateProductAnalytics(product_id: int, filters: dict, months: int):
 
     # Combine monthly stats
     impressions_map = {
-        entry["month"].date(): entry["impressions"] or 0
+        entry["month"]: entry["impressions"] or 0
         for entry in monthly_impressions
     }
     impression_revenue_map = {
-        entry["month"].date(): round(entry["impression_revenue"] or 0, 6)
+        entry["month"]: round(entry["impression_revenue"] or 0, 6)
         for entry in monthly_impression_revenue_qs
     }
 
@@ -49,34 +49,34 @@ def calculateProductAnalytics(product_id: int, filters: dict, months: int):
         sales_qs = sales_qs.filter(**filters)
 
     monthly_revenue = (
-        sales_qs.annotate(month=TruncMonth("created_at"))
+        sales_qs.annotate(month=TruncMonth("period_start"))
         .values("month")
         .annotate(royalty_revenue=Sum("royalty_amount"))
         .order_by("month")
     )
     royalty_revenue_map = {
-        entry["month"].date(): entry["royalty_revenue"] or 0
+        entry["month"]: entry["royalty_revenue"] or 0
         for entry in monthly_revenue
     }
 
     # Aggregate total number of sales per calendar month
     monthly_sales = (
-        sales_qs.annotate(month=TruncMonth("created_at"))
+        sales_qs.annotate(month=TruncMonth("period_start"))
         .values("month")
         .annotate(count=Count("id"))
         .order_by("month")
     )
-    sales_map = {entry["month"].date(): entry["count"] for entry in monthly_sales}
+    sales_map = {entry["month"]: entry["count"] for entry in monthly_sales}
 
     # Aggregate total number of rentals per calendar month
     monthly_rentals_qs = sales_qs.filter(type=ProductSale.TYPE_RENTAL)
     monthly_rentals = (
-        monthly_rentals_qs.annotate(month=TruncMonth("created_at"))
+        monthly_rentals_qs.annotate(month=TruncMonth("period_start"))
         .values("month")
         .annotate(count=Count("id"))
         .order_by("month")
     )
-    rentals_map = {entry["month"].date(): entry["count"] for entry in monthly_rentals}
+    rentals_map = {entry["month"]: entry["count"] for entry in monthly_rentals}
 
     monthly_stats = []
     single_month_adjustment  = False
