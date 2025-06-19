@@ -13,6 +13,7 @@ import {
   Box2Heart,
   Person,
   QuestionCircle,
+  Database,
 } from "react-bootstrap-icons";
 import { getUserInfo } from "../../../account/api/user";
 import { getMyProjects, switchProject } from "../../../projects/api/project";
@@ -168,6 +169,18 @@ function Sidebar() {
             <div className="sidebar-link-group">
               <span className="txt-lighter small ps-2">MANAGEMENT</span>
               <li
+                className={`nav-item px-2 rounded my-1 ${currentPage === "/management/data/sources" ? "active" : ""}`}
+              >
+                <Link
+                  to="/management/data/sources"
+                  className="nav-link"
+                  onClick={() => handlePageChange("/management/data/sources")}
+                >
+                  <Database />
+                  <span className="ps-3 medium">Sources</span>
+                </Link>
+              </li>
+              <li
                 className={`nav-item px-2 rounded my-1 ${currentPage === "/management/data/import" ? "active" : ""}`}
               >
                 <Link
@@ -176,7 +189,7 @@ function Sidebar() {
                   onClick={() => handlePageChange("/management/data/import")}
                 >
                   <FilePdf />
-                  <span className="ps-3 medium">Data import</span>
+                  <span className="ps-3 medium">Manual import</span>
                 </Link>
               </li>
               <li

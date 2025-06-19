@@ -1,5 +1,6 @@
 import DeleteData from "./pages/Data/Delete";
 import ImportData from "./pages/Data/Import";
+import Sources from "./pages/Data/Sources";
 import Producers from "./pages/Producers";
 import EditProduct from "./pages/Products/Edit";
 import Products from "./pages/Products/Index";
@@ -9,6 +10,10 @@ const managementRoutes = [
   {
     path: "/management/data/import",
     element: <ImportData />,
+  },
+  {
+    path: "/management/data/sources",
+    element: <Sources />,
   },
   {
     path: "/management/data/:file_id/delete",
