@@ -10,16 +10,13 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    env:
-      POSTGRES_HOST: postgres
-      POSTGRES_DB: postgres
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-      POSTGRES_PORT: 5432
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Rename .env.test to .env
+        run: |
+          mv .env.test .env
 
       - name: Set up Docker Compose
         run: |
