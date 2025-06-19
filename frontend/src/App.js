@@ -29,6 +29,7 @@ import { ProductsProvider } from "./modules/common/contexts/ProductsContext";
 import helpDocumentationRoutes from "./modules/help_documentation";
 import InboxLayout from "./modules/inbox/layouts/InboxLayout";
 import { SettingsProvider } from "./modules/common/contexts/SettingsContext";
+import legalRoutes from "./modules/legal";
 
 const PrivateRoutes = () => {
   const { authenticated, loading } = useAuth();
@@ -89,6 +90,7 @@ function App() {
                     ...contentRoutes,
                     ...managementRoutes,
                     ...productRoutes,
+                    ...legalRoutes,
                     ...helpDocumentationRoutes,
                   ])}
                   <Route path="/" element={<InboxLayout />}>
