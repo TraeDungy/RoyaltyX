@@ -23,7 +23,7 @@ jobs:
 
       - name: Set up Docker Compose
         run: |
-          docker-compose -f local.yml up -d
+          docker compose -f local.yml up -d
 
       - name: Wait for backend container to be healthy
         run: |
@@ -45,4 +45,4 @@ jobs:
       - name: Tear down Docker Compose
         if: always()
         run: |
-          docker-compose -f local.yml down
+          docker compose -f local.yml down
