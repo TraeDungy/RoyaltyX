@@ -1,6 +1,8 @@
+import { useEffect } from "react";
 import { appUrl } from "../../common/api/config";
 import youtubeLogo from "../../common/assets/img/platform_logos/youtube.webp";
 import { Typography, Card, Button, Grid } from "@mui/material";
+import { requestAccessTokenFromGoogle } from "../api/google";
 
 const openGoogleOAuthPopup = () => {
   const clientId =
@@ -22,6 +24,22 @@ const openGoogleOAuthPopup = () => {
 };
 
 export const LinkYoutubeCard = () => {
+  useEffect(() => {
+    const handleMessage = async (event) => {
+      if (event.origin !== window.location.origin) return; // for security
+
+      if (event.data?.source === "google-oauth" && event.data.code) {
+        const authCode = event.data.code;
+        const googleTokenData = await requestAccessTokenFromGoogle(authCode);
+        console.log(googleTokenData.access_token);
+        console.log(googleTokenData.refresh_token);
+      }
+    };
+
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
+  }, []);
+
   return (
     <Grid size={{ xs: 12, md: 6 }}>
       <Card sx={{ p: 3, borderRadius: 2, boxShadow: 3 }}>

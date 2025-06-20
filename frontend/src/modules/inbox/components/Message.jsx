@@ -3,12 +3,9 @@ import { useAuth } from "../../common/contexts/AuthContext";
 const Message = ({ message }) => {
   const { id } = useAuth();
 
-  console.log(message.sent_by);
-  console.log(id);
-
   return (
     <div
-      className={`fs-13 mb-2 ${message.sent_by == id ? "right-chat-message" : "left-chat-message"}`}
+      className={`fs-13 mb-2 ${message.sent_by === id ? "right-chat-message" : "left-chat-message"}`}
     >
       <div className="mb-0 mr-3 pe-5">
         <div className="d-flex flex-row">

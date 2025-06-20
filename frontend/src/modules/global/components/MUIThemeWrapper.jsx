@@ -5,7 +5,6 @@ import { useTheme } from "../../common/contexts/ThemeContext";
 
 export const MUIThemeWrapper = ({ children }) => {
   const { theme } = useTheme(); // "light" or "dark"
-  console.log(theme);
   const [muiTheme, setMuiTheme] = useState(() => getMuiTheme(theme));
 
   useEffect(() => {

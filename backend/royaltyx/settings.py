@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     "apps.report",
     "apps.notifications",
     "apps.inbox",
+    "apps.oauth.google",
     "rest_framework",
     "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",
@@ -182,3 +183,8 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
 }
+
+
+GOOGLE_CLIENT_ID=os.environ.get("GOOGLE_CLIENT_ID")
+GOOGLE_CLIENT_SECRET=os.environ.get("GOOGLE_CLIENT_SECRET")
+GOOGLE_REDIRECT_URI=os.environ.get("GOOGLE_REDIRECT_URI")

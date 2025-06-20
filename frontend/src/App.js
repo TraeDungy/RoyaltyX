@@ -32,6 +32,7 @@ import { SettingsProvider } from "./modules/common/contexts/SettingsContext";
 import legalRoutes from "./modules/legal";
 import { MUIThemeWrapper } from "./modules/global/components/MUIThemeWrapper";
 import sourceRoutes from "./modules/sources";
+import oauthRoutes from "./modules/oauth";
 
 const PrivateRoutes = () => {
   const { authenticated, loading } = useAuth();
@@ -113,7 +114,7 @@ function App() {
                   </Route>
                 </Route>
 
-                {renderRoutes([...authRoutes])}
+                {renderRoutes([...authRoutes, ...oauthRoutes])}
 
                 <Route path="*" element={<PageNotFound />} />
               </Routes>
