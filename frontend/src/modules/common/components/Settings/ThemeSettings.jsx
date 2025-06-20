@@ -2,10 +2,10 @@ import { useTheme } from "../../contexts/ThemeContext";
 import { MoonFill, SunFill } from "react-bootstrap-icons";
 
 const ThemeSettings = () => {
-  const { darkMode, setDarkMode } = useTheme();
+  const { theme, setTheme } = useTheme();
 
-  const handleThemeChange = (mode) => {
-    setDarkMode(mode === "dark");
+  const handleThemeChange = (theme) => {
+    setTheme(theme);
   };
 
   return (
@@ -16,10 +16,10 @@ const ThemeSettings = () => {
       <div className="py-4 d-flex gap-3">
         <div
           onClick={() => handleThemeChange("light")}
-          className={`theme-option rounded-lg bg-transparent p-3 ${!darkMode ? "selected" : ""}`}
+          className={`theme-option rounded-lg bg-transparent p-3 ${!theme ? "selected" : ""}`}
           style={{
             cursor: "pointer",
-            border: !darkMode
+            border: theme === "light"
               ? "2px solid var(--color-primary)"
               : "1px solid var(--color-subtle)",
             textAlign: "center",
@@ -30,10 +30,10 @@ const ThemeSettings = () => {
         </div>
         <div
           onClick={() => handleThemeChange("dark")}
-          className={`theme-option rounded-lg bg-transparent p-3 ${darkMode ? "selected" : ""}`}
+          className={`theme-option rounded-lg bg-transparent p-3 ${theme ? "selected" : ""}`}
           style={{
             cursor: "pointer",
-            border: darkMode
+            border: theme === "dark"
               ? "2px solid var(--color-primary)"
               : "1px solid var(--color-subtle)",
             textAlign: "center",
