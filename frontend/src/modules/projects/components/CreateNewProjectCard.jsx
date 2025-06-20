@@ -1,20 +1,43 @@
-import { Link } from "react-router-dom";
+import Card from "@mui/material/Card";
+import CardActionArea from "@mui/material/CardActionArea";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
+import { Link as RouterLink } from "react-router-dom";
 import { PlusCircle } from "react-bootstrap-icons";
+import { Box } from "@mui/material";
 
 function CreateNewProjectCard() {
   return (
-    <div className="col-12 col-md-6 col-lg-3 col-sm-6 col-xs-6 px-3 mb-5">
-      <Link
-        to="/projects/create"
-        className="h-100 py-5 rounded-sm card shadow-sm d-flex align-items-center justify-content-center 
-        hover pointer w-100 d-flex bgc-light-contrast"
-      >
-        <h1 className="txt-primary">
-          <PlusCircle />
-        </h1>
-        <span className="txt-lighter">Add project</span>
-      </Link>
-    </div>
+    <Grid size={{ xs: 12, md: 4 }}>
+      <Card>
+        <CardActionArea
+          component={RouterLink}
+          to="/projects/create"
+          sx={{
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            px: 3,
+            py: 5,
+            textDecoration: "none",
+          }}
+        >
+          <Box sx={{ color: "primary.main", mb: 1 }}>
+            <PlusCircle size={48} />
+          </Box>
+          <Typography
+            variant="subtitle1"
+            color="text.secondary"
+            textAlign="center"
+            sx={{ userSelect: "none" }}
+          >
+            Add project
+          </Typography>
+        </CardActionArea>
+      </Card>
+    </Grid>
   );
 }
 

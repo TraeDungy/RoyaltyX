@@ -35,8 +35,7 @@ def calculateProductAnalytics(product_id: int, filters: dict, months: int):
 
     # Combine monthly stats
     impressions_map = {
-        entry["month"]: entry["impressions"] or 0
-        for entry in monthly_impressions
+        entry["month"]: entry["impressions"] or 0 for entry in monthly_impressions
     }
     impression_revenue_map = {
         entry["month"]: round(entry["impression_revenue"] or 0, 6)
@@ -55,8 +54,7 @@ def calculateProductAnalytics(product_id: int, filters: dict, months: int):
         .order_by("month")
     )
     royalty_revenue_map = {
-        entry["month"]: entry["royalty_revenue"] or 0
-        for entry in monthly_revenue
+        entry["month"]: entry["royalty_revenue"] or 0 for entry in monthly_revenue
     }
 
     # Aggregate total number of sales per calendar month
@@ -79,14 +77,18 @@ def calculateProductAnalytics(product_id: int, filters: dict, months: int):
     rentals_map = {entry["month"]: entry["count"] for entry in monthly_rentals}
 
     monthly_stats = []
-    single_month_adjustment  = False
+    single_month_adjustment = False
     if months == 1:
         months += 1
         single_month_adjustment = True
 
     for i in range(months):
         if filters and filters["period_end__lte"]:
-            month_date = (filters["period_end__lte"].replace(day=1) - timedelta(days=i * 30)).replace(day=1).date()
+            month_date = (
+                (filters["period_end__lte"].replace(day=1) - timedelta(days=i * 30))
+                .replace(day=1)
+                .date()
+            )
         else:
             month_date = (now.replace(day=1) - timedelta(days=i * 30)).replace(day=1)
             month_date = month_date.date().replace(day=1)

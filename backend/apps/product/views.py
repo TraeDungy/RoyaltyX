@@ -153,7 +153,11 @@ def getProductAnalytics(request, product_id):
             end_date = datetime.strptime(period_end, "%Y-%m-%d")
             filters["period_start__gte"] = start_date
             filters["period_end__lte"] = end_date
-            months = (end_date.year - start_date.year) * 12 + (end_date.month - start_date.month) + 1
+            months = (
+                (end_date.year - start_date.year) * 12
+                + (end_date.month - start_date.month)
+                + 1
+            )
         except ValueError:
             return Response(
                 {"error": "Invalid date format. Use YYYY-MM-DD."},
@@ -167,16 +171,23 @@ def getProductAnalytics(request, product_id):
 
 @api_view(http_method_names=["GET"])
 def getTopPerformingContentByImpressions(request):
-    products = Product.objects.filter(
-        project_id=request.user.currently_selected_project_id
-    ).annotate(total_impressions=Sum('productimpressions__impressions')).filter(total_impressions__gt=0).order_by("-total_impressions")[:10]
+    products = (
+        Product.objects.filter(project_id=request.user.currently_selected_project_id)
+        .annotate(total_impressions=Sum("productimpressions__impressions"))
+        .filter(total_impressions__gt=0)
+        .order_by("-total_impressions")[:10]
+    )
     serializer = ProductSerializer(products, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+
 @api_view(http_method_names=["GET"])
 def getTopPerformingContentBySales(request):
-    products = Product.objects.filter(
-        project_id=request.user.currently_selected_project_id
-    ).annotate(total_sales=Sum('productsale__royalty_amount')).filter(total_sales__gt=0).order_by("-total_sales")[:10]
+    products = (
+        Product.objects.filter(project_id=request.user.currently_selected_project_id)
+        .annotate(total_sales=Sum("productsale__royalty_amount"))
+        .filter(total_sales__gt=0)
+        .order_by("-total_sales")[:10]
+    )
     serializer = ProductSerializer(products, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
