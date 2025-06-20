@@ -1,10 +1,10 @@
 import { Box, Typography, Card, Button, Grid } from "@mui/material";
-import PageHeader from "../../../common/components/PageHeader";
-import youtubeLogo from "../../../common/assets/img/platform_logos/youtube.webp";
-import googleAdsLogo from "../../../common/assets/img/platform_logos/google_ads.webp";
-import amazonLogo from "../../../common/assets/img/platform_logos/amazon.webp";
+import PageHeader from "../../common/components/PageHeader";
+import googleAdsLogo from "../../common/assets/img/platform_logos/google_ads.webp";
+import amazonLogo from "../../common/assets/img/platform_logos/amazon.webp";
+import { LinkYoutubeCard } from "../components/LinkYoutubeCard";
 
-const Sources = () => {
+export const Sources = () => {
   return (
     <Box sx={{ py: 3 }}>
       <PageHeader
@@ -13,44 +13,7 @@ const Sources = () => {
       />
 
       <Grid container spacing={4} sx={{ mt: 4 }}>
-        <Grid size={{ xs: 12, md: 6 }}>
-          <Card sx={{ p: 3, borderRadius: 2, boxShadow: 3 }}>
-            <Grid container spacing={2}>
-              <Grid
-                item
-                xs={3}
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <img
-                  src={youtubeLogo}
-                  alt="YouTube Logo"
-                  style={{ height: "70px", objectFit: "contain" }}
-                />
-              </Grid>
-              <Grid item xs={9}>
-                <Typography variant="h5" sx={{ fontWeight: "bold" }}>
-                  YouTube
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{ color: "text.secondary", mb: 3 }}
-                >
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nam
-                  laborum a veniam velit iure.
-                </Typography>
-                <Grid item xs={12}>
-                  <Button variant="outlined" sx={{ mt: 2, display: "block" }}>
-                    Link YouTube
-                  </Button>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Card>
-        </Grid>
+        <LinkYoutubeCard />
         <Grid size={{ xs: 12, md: 6 }}>
           <Card sx={{ p: 3, borderRadius: 2, boxShadow: 3 }}>
             <Grid container spacing={2}>
@@ -131,5 +94,3 @@ const Sources = () => {
     </Box>
   );
 };
-
-export default Sources;

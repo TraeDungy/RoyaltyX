@@ -169,12 +169,12 @@ function Sidebar() {
             <div className="sidebar-link-group">
               <span className="txt-lighter small ps-2">MANAGEMENT</span>
               <li
-                className={`nav-item px-2 rounded my-1 ${currentPage === "/management/data/sources" ? "active" : ""}`}
+                className={`nav-item px-2 rounded my-1 ${currentPage === "/sources" ? "active" : ""}`}
               >
                 <Link
-                  to="/management/data/sources"
+                  to="/sources"
                   className="nav-link"
-                  onClick={() => handlePageChange("/management/data/sources")}
+                  onClick={() => handlePageChange("/sources")}
                 >
                   <Database />
                   <span className="ps-3 medium">Sources</span>
