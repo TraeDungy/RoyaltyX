@@ -3,8 +3,27 @@ import PageHeader from "../../common/components/PageHeader";
 import googleAdsLogo from "../../common/assets/img/platform_logos/google_ads.webp";
 import amazonLogo from "../../common/assets/img/platform_logos/amazon.webp";
 import { LinkYoutubeCard } from "../components/LinkYoutubeCard";
+import { useEffect, useState } from "react";
+import { getDataSources } from "../api/sources";
 
 export const Sources = () => {
+  const [sources, setSources] = useState([]);
+
+  useEffect(() => {
+    const fetchSources = async () => {
+      try {
+        const response = await getDataSources();
+        setSources(response);
+      } catch (error) {
+        console.error("Error fetching reports:", error);
+      }
+    };
+
+    fetchSources();
+  }, []);
+
+  console.log(sources);
+
   return (
     <Box sx={{ py: 3 }}>
       <PageHeader

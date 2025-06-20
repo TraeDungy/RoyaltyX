@@ -3,6 +3,7 @@ import { appUrl } from "../../common/api/config";
 import youtubeLogo from "../../common/assets/img/platform_logos/youtube.webp";
 import { Typography, Card, Button, Grid } from "@mui/material";
 import { requestAccessTokenFromGoogle } from "../api/google";
+import { createNewDataSource } from "../api/sources";
 
 const openGoogleOAuthPopup = () => {
   const clientId =
@@ -33,6 +34,19 @@ export const LinkYoutubeCard = () => {
         const googleTokenData = await requestAccessTokenFromGoogle(authCode);
         console.log(googleTokenData.access_token);
         console.log(googleTokenData.refresh_token);
+        const source = {
+          platform: "youtube",
+          access_token: googleTokenData.access_token,
+          refresh_token: googleTokenData.refresh_token,
+          expires_at: googleTokenData.expires_at,
+        };
+        try {
+          await createNewDataSource(source);
+          window.location.reload();
+        } catch (error) {
+          console.error("Error creating data source:", error);
+        }
+
       }
     };
 
