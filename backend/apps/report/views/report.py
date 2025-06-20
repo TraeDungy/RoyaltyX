@@ -15,9 +15,8 @@ from apps.notifications.utils import create_notification
 from apps.product.models import Product
 from apps.project.models import Project
 from apps.project.utils import calculateProjectAnalytics
-
-from .models import Report
-from .serializers import ReportSerializer
+from apps.report.models import Report
+from apps.report.serializers import ReportSerializer
 
 
 class ReportsView(APIView):

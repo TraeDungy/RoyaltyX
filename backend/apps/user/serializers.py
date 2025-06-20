@@ -8,3 +8,9 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = "__all__"
         depth = 1
+
+
+class UserLiteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["email", "name"]
