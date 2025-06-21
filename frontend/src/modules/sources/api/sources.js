@@ -54,3 +54,57 @@ export const getDataSources = async () => {
     throw new Error(error);
   }
 };
+
+export const getSource = async (id) => {
+  const token = localStorage.getItem("accessToken");
+
+  try {
+    const url = `${apiUrl}/sources/${id}/`;
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    });
+
+    const responseData = await response.json();
+
+    if (response.ok) {
+      return responseData;
+    } else {
+      throw new Error(responseData.errors);
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+export const deleteSource = async (id) => {
+  const token = localStorage.getItem("accessToken");
+
+  try {
+    const url = `${apiUrl}/sources/${id}/`;
+
+    const response = await fetch(url, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    });
+
+    const responseData = await response.json();
+
+    if (response.ok) {
+      return responseData;
+    } else {
+      throw new Error(responseData.errors);
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
+};

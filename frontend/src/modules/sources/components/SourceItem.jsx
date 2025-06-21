@@ -1,10 +1,17 @@
 import { Box, Button, Card, Grid, Typography } from "@mui/material";
 import youtubeLogo from "../../common/assets/img/platform_logos/youtube.webp";
 import { ArrowRight } from "react-bootstrap-icons";
+import { useNavigate } from "react-router-dom";
 
 export const SourceItem = ({ source }) => {
+  const navigate = useNavigate();
+
+  const handleViewClick = () => {
+    navigate(`/sources/${source.id}`);
+  };
+
   return (
-    <Grid>
+    <Grid sx={{ width: "100%" }}>
       <Card sx={{ p: 3, borderRadius: 2, boxShadow: 3 }}>
         <Grid
           container
@@ -53,7 +60,7 @@ export const SourceItem = ({ source }) => {
               alignItems: "center",
             }}
           >
-            <Button variant="outlined" color="primary">
+            <Button variant="outlined" color="primary" onClick={handleViewClick}>
               View <ArrowRight className="ms-2" />
             </Button>
           </Grid>

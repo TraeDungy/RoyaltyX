@@ -78,8 +78,9 @@ export const LinkYoutubeCard = () => {
               YouTube
             </Typography>
             <Typography variant="body2" sx={{ color: "text.secondary", mb: 3 }}>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nam
-              laborum a veniam velit iure.
+              Link your YouTube account to fetch analytics data. This will allow
+              you to monitor your channel's performance and gain insights into
+              your audience.
             </Typography>
             <Grid item xs={12}>
               <Button

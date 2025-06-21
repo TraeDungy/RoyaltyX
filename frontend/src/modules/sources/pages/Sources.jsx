@@ -6,6 +6,7 @@ import { LinkYoutubeCard } from "../components/LinkYoutubeCard";
 import { useEffect, useState } from "react";
 import { getDataSources } from "../api/sources";
 import { SourceItem } from "../components/SourceItem";
+import { WifiOff } from "react-bootstrap-icons";
 
 export const Sources = () => {
   const [sources, setSources] = useState([]);
@@ -35,10 +36,31 @@ export const Sources = () => {
       <Grid container spacing={4} sx={{ mt: 4 }}>
         <Grid size={{ xs: 12, md: 7 }}>
           <Grid container spacing={4} sx={{ mt: 4 }}>
-            {sources.length > 0 &&
+            {sources.length > 0 ? (
               sources.map((source) => (
                 <SourceItem key={source.id} source={source} />
-              ))}
+              ))
+            ) : (
+              <Grid
+                item
+                md={12}
+                lg={12}
+                xs={12}
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "100%",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  mt: 4,
+                }}
+              >
+                <WifiOff size={70} color="var(--color-text-lighter)" />
+                <Typography sx={{ color: "text.secondary", mt: 1 }}>
+                  No sources connected.
+                </Typography>
+              </Grid>
+            )}
           </Grid>
         </Grid>
         <Grid size={{ xs: 12, md: 5 }}>
@@ -70,13 +92,15 @@ export const Sources = () => {
                       variant="body2"
                       sx={{ color: "text.secondary", mb: 3 }}
                     >
-                      Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                      Nam laborum a veniam velit iure.
+                      Connect your Google Ads account to track and manage your
+                      ad campaigns, performance metrics, and insights all in one
+                      place.
                     </Typography>
                     <Grid item xs={12}>
                       <Button
                         variant="outlined"
                         sx={{ mt: 2, display: "block" }}
+                        disabled
                       >
                         Link Google Ads
                       </Button>
@@ -111,13 +135,15 @@ export const Sources = () => {
                       variant="body2"
                       sx={{ color: "text.secondary", mb: 3 }}
                     >
-                      Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                      Nam laborum a veniam velit iure.
+                      Integrate your Amazon account to monitor sales data,
+                      product performance, and streamline your e-commerce
+                      operations.
                     </Typography>
                     <Grid item xs={12}>
                       <Button
                         variant="outlined"
                         sx={{ mt: 2, display: "block" }}
+                        disabled
                       >
                         Link Amazon
                       </Button>

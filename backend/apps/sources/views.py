@@ -36,3 +36,57 @@ class SourceListCreateView(APIView):
                 SourceSerializer(source).data, status=status.HTTP_201_CREATED
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class SourceDetailView(APIView):
+    """
+    GET: Returns a single source
+    PUT: Update a source
+    DELETE: Delete a source
+    """
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        try:
+            source = Source.objects.get(
+                pk=pk, project_id=request.user.currently_selected_project_id
+            )
+            serializer = SourceSerializer(source)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Source.DoesNotExist:
+            return Response(
+                {"detail": "Source not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+
+    @extend_schema(
+        request=SourceSerializer,
+    )
+    def put(self, request, pk):
+        try:
+            source = Source.objects.get(
+                pk=pk, project_id=request.user.currently_selected_project_id
+            )
+            serializer = SourceSerializer(source, data=request.data, partial=True)
+            if serializer.is_valid():
+                updated_source = serializer.save()
+                return Response(
+                    SourceSerializer(updated_source).data, status=status.HTTP_200_OK
+                )
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Source.DoesNotExist:
+            return Response(
+                {"detail": "Source not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+
+    def delete(self, request, pk):
+        try:
+            source = Source.objects.get(
+                pk=pk, project_id=request.user.currently_selected_project_id
+            )
+            source.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Source.DoesNotExist:
+            return Response(
+                {"detail": "Source not found"}, status=status.HTTP_404_NOT_FOUND
+            )
