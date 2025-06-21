@@ -6,15 +6,12 @@ import {
   Search,
   ShieldCheck,
 } from "react-bootstrap-icons";
-import { useNavigate } from "react-router-dom";
 import { useProducts } from "../../common/contexts/ProductsContext";
 import { Spinner } from "react-bootstrap";
-import { apiUrl } from "../../common/api/config";
-import { ReactComponent as ProductThumbnailPlaceholder } from "../../common/assets/img/vectors/product-thumbnail-placeholder-lg.svg";
+import { ProductCard } from "../../products/components/ProductCard";
+import { Grid } from "@mui/material";
 
 function Dashboard() {
-  const navigate = useNavigate();
-
   const { products, loading } = useProducts();
 
   return (
@@ -155,36 +152,11 @@ function Dashboard() {
           <Spinner animation="border" />
         </div>
       ) : products?.length > 0 ? (
-        <div className="row">
-          {products?.map((product) => (
-            <div className="col-md-4 pb-4" key={product.id}>
-              <div
-                className="card pointer bg-transparent border-0"
-                onClick={() => {
-                  navigate("/products/" + product.id);
-                }}
-              >
-                {product.thumbnail ? (
-                  <div className="card-img-top">
-                    <img
-                      className="rounded"
-                      src={apiUrl + product.thumbnail}
-                      alt={product.title}
-                    />
-                  </div>
-                ) : (
-                  <div className="card-img-top text-center">
-                    <ProductThumbnailPlaceholder />
-                  </div>
-                )}
-                <div className="py-3">
-                  <h5>{product.title}</h5>
-                  <p className="txt-lighter medium">{product.description}</p>
-                </div>
-              </div>
-            </div>
+        <Grid container spacing={2}>
+          {products?.map((product, key) => (
+            <ProductCard key={key} product={product} />
           ))}
-        </div>
+        </Grid>
       ) : (
         <div className="text-center py-5">
           <p className="txt-lighter medium">

@@ -1,52 +1,102 @@
 import { Link } from "react-router-dom";
-import { Dropdown } from "react-bootstrap";
-import { ThreeDotsVertical } from "react-bootstrap-icons";
+import {
+  Card,
+  CardMedia,
+  CardContent,
+  Typography,
+  IconButton,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 import { ReactComponent as ProductThumbnailPlaceholder } from "../../common/assets/img/vectors/product-thumbnail-placeholder-lg.svg";
 import { apiUrl } from "../../common/api/config";
+import { useState } from "react";
+import { ThreeDotsVertical } from "react-bootstrap-icons";
 
 const ProductCard = ({ product, handleEdit, handleDelete }) => {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <div className="col-md-4 pb-4" key={product.id}>
-      <div className="card pointer bg-transparent border-0 position-relative">
+      <Card>
         {product.thumbnail ? (
-          <div className="card-img-top">
-            <img
-              className="rounded"
-              src={apiUrl + product.thumbnail}
-              alt={product.title}
-            />
-          </div>
+          <CardMedia
+            component="img"
+            image={apiUrl + product.thumbnail}
+            alt={product.title}
+            sx={{ borderRadius: 1 }}
+          />
         ) : (
-          <div className="card-img-top text-center">
+          <div style={{ textAlign: "center", padding: "16px" }}>
             <ProductThumbnailPlaceholder />
           </div>
         )}
-        <div className="py-3 d-flex justify-content-between align-items-center">
+        <CardContent
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
           <div>
-            <Link to={"/products/" + product.id} className="h5">
-              {product.title}
-            </Link>
-            <p className="txt-lighter medium">{product.description}</p>
-          </div>
-          <Dropdown>
-            <Dropdown.Toggle variant="link" id="product-dropdown">
-              <ThreeDotsVertical />
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu
-              className="shadow-sm"
-              style={{ right: 0, transform: "translateX(-50%)" }}
+            <Typography
+              component={Link}
+              to={"/products/" + product.id}
+              variant="h6"
+              sx={{ textDecoration: "none", color: "inherit" }}
             >
-              <Dropdown.Item onClick={() => handleEdit(product.id)}>
+              {product.title}
+            </Typography>
+            <Typography variant="body2" color="textSecondary">
+              {product.description}
+            </Typography>
+          </div>
+          <div>
+            <IconButton onClick={handleMenuOpen}>
+              <ThreeDotsVertical />
+            </IconButton>
+            <Menu
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleMenuClose}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+            >
+              <MenuItem
+                onClick={() => {
+                  handleEdit(product.id);
+                  handleMenuClose();
+                }}
+              >
                 Edit
-              </Dropdown.Item>
-              <Dropdown.Item onClick={() => handleDelete(product.id)}>
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  handleDelete(product.id);
+                  handleMenuClose();
+                }}
+              >
                 Delete
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </div>
-      </div>
+              </MenuItem>
+            </Menu>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };

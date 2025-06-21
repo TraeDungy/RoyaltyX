@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Container, Spinner, Button, Form, Image } from "react-bootstrap";
+import { Container, Spinner, Image } from "react-bootstrap";
 import { getProduct, updateProduct } from "../../../products/api/product";
 import { apiUrl } from "../../../common/api/config";
 import { ReactComponent as ProductThumbnailPlaceholder } from "../../../common/assets/img/vectors/product-thumbnail-placeholder-lg.svg";
+import { Button, TextField } from "@mui/material";
 
 const EditProduct = () => {
   const [product, setProduct] = useState(null);
@@ -71,36 +72,39 @@ const EditProduct = () => {
       <h2 className="bold mb-4">Edit Product</h2>
       <div className="row">
         <div className="col-md-7">
-          <Form className="pe-5">
-            <Form.Group controlId="formProductTitle" className="mb-3">
-              <Form.Label>Title</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter product title"
+          <form className="pe-5">
+            <div className="mb-3">
+              <TextField
+                id="formProductTitle"
+                variant="outlined"
+                label="Title"
+                fullWidth
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
-            </Form.Group>
+            </div>
 
-            <Form.Group controlId="formProductDescription" className="mb-4">
-              <Form.Label>Description</Form.Label>
-              <Form.Control
-                as="textarea"
+            <div className="mb-4">
+              <TextField
+                id="formProductDescription"
+                variant="outlined"
+                fullWidth
+                label="Description"
+                multiline
                 rows={4}
-                placeholder="Enter product description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
-            </Form.Group>
+            </div>
 
-            <Button variant="primary" onClick={handleSave}>
+            <Button variant="contained" color="primary" onClick={handleSave}>
               Save Changes
             </Button>
-          </Form>
+          </form>
         </div>
-        <div className="col-md-5 pt-4">
+        <div className="col-md-5">
           {previewImage ? (
-            <Image src={previewImage} alt="Product Thumbnail" rounded fluid />
+            <Image src={previewImage} alt="Product Thumbnail" fluid />
           ) : thumbnail ? (
             <Image
               src={`${apiUrl}${thumbnail}`}
@@ -114,14 +118,16 @@ const EditProduct = () => {
             </div>
           )}
 
-          <Form.Group controlId="formProductThumbnail" className="mt-3">
-            <Form.Label>Upload New Thumbnail</Form.Label>
-            <Form.Control
+          <div className="mt-3">
+            <label htmlFor="formProductThumbnail">Upload New Thumbnail</label>
+            <input
+              id="formProductThumbnail"
               type="file"
               accept="image/*"
               onChange={handleImageChange}
+              style={{ display: "block", marginTop: "8px" }}
             />
-          </Form.Group>
+          </div>
         </div>
       </div>
     </div>
