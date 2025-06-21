@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { getSource, deleteSource } from "../api/sources";
+import { useNavigate, useParams } from "react-router-dom";
+import { useSource } from "../api/source";
 import { toast } from "react-toastify";
 
 import {
@@ -18,33 +17,19 @@ import {
   Card,
   CardContent,
 } from "@mui/material";
+import { useState } from "react";
 
 export const Source = () => {
-  const [source, setSource] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [confirmOpen, setConfirmOpen] = useState(false);
   const { sourceId } = useParams();
-
-  useEffect(() => {
-    const fetchSource = async () => {
-      try {
-        const fetchedSource = await getSource(sourceId);
-        setSource(fetchedSource);
-      } catch (error) {
-        toast.error(error.message || "Failed to fetch source");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchSource();
-  }, [sourceId]);
+  const { source, loading, deleteSource } = useSource(sourceId);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleDelete = async () => {
     try {
       await deleteSource(sourceId);
       toast.success("Source deleted successfully");
-      // redirect or update state as needed
+      navigate("/sources");
     } catch (error) {
       toast.error("Failed to delete source");
     } finally {
@@ -60,7 +45,7 @@ export const Source = () => {
     );
   }
 
-  if (!source) {
+  if (!source && !loading) {
     return (
       <Container>
         <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }} color="error">

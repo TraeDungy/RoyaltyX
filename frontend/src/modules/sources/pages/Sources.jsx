@@ -3,28 +3,12 @@ import PageHeader from "../../common/components/PageHeader";
 import googleAdsLogo from "../../common/assets/img/platform_logos/google_ads.webp";
 import amazonLogo from "../../common/assets/img/platform_logos/amazon.webp";
 import { LinkYoutubeCard } from "../components/LinkYoutubeCard";
-import { useEffect, useState } from "react";
-import { getDataSources } from "../api/sources";
+import { useSources } from "../api/sources";
 import { SourceItem } from "../components/SourceItem";
 import { WifiOff } from "react-bootstrap-icons";
 
 export const Sources = () => {
-  const [sources, setSources] = useState([]);
-
-  useEffect(() => {
-    const fetchSources = async () => {
-      try {
-        const response = await getDataSources();
-        setSources(response);
-      } catch (error) {
-        console.error("Error fetching reports:", error);
-      }
-    };
-
-    fetchSources();
-  }, []);
-
-  console.log(sources);
+  const { sources, createSource, loading } = useSources();
 
   return (
     <Box sx={{ py: 3 }}>
@@ -36,11 +20,11 @@ export const Sources = () => {
       <Grid container spacing={4} sx={{ mt: 4 }}>
         <Grid size={{ xs: 12, md: 7 }}>
           <Grid container spacing={4} sx={{ mt: 4 }}>
-            {sources.length > 0 ? (
-              sources.map((source) => (
-                <SourceItem key={source.id} source={source} />
-              ))
-            ) : (
+            {sources.map((source) => (
+              <SourceItem key={source.id} source={source} />
+            ))}
+
+            {sources.length === 0 && !loading && (
               <Grid
                 item
                 md={12}
@@ -65,7 +49,7 @@ export const Sources = () => {
         </Grid>
         <Grid size={{ xs: 12, md: 5 }}>
           <Grid container spacing={4} sx={{ mt: 4 }}>
-            <LinkYoutubeCard />
+            <LinkYoutubeCard createSource={createSource} />
             <Grid size={{ xs: 12, md: 12 }}>
               <Card sx={{ p: 3, borderRadius: 2, boxShadow: 3 }}>
                 <Grid container spacing={2}>

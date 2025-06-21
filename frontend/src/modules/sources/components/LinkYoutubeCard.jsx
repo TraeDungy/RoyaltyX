@@ -3,7 +3,6 @@ import { appUrl } from "../../common/api/config";
 import youtubeLogo from "../../common/assets/img/platform_logos/youtube.webp";
 import { Typography, Card, Button, Grid } from "@mui/material";
 import { requestAccessTokenFromGoogle } from "../api/google";
-import { createNewDataSource } from "../api/sources";
 
 const openGoogleOAuthPopup = () => {
   const clientId =
@@ -24,7 +23,8 @@ const openGoogleOAuthPopup = () => {
   );
 };
 
-export const LinkYoutubeCard = () => {
+export const LinkYoutubeCard = ({createSource}) => {
+
   useEffect(() => {
     const handleMessage = async (event) => {
       if (event.origin !== window.location.origin) return; // for security
@@ -41,8 +41,7 @@ export const LinkYoutubeCard = () => {
           expires_at: googleTokenData.expires_at,
         };
         try {
-          await createNewDataSource(source);
-          window.location.reload();
+          await createSource(source);
         } catch (error) {
           console.error("Error creating data source:", error);
         }

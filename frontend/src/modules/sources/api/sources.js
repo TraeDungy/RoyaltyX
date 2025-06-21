@@ -1,110 +1,30 @@
-import { apiUrl } from "../../common/api/config";
+import useFetch from "../../global/hooks/useFetch";
+import useMutation from "../../global/hooks/useMutation";
 
-export const createNewDataSource = async (source) => {
-  const token = localStorage.getItem("accessToken");
+export const useSources = () => {
+  const { data: sources, loading, refetch } = useFetch("/sources/");
+  const {
+    mutate: createSourceMutation,
+    loading: creating,
+    error,
+  } = useMutation("/sources/", "POST");
 
-  try {
-    const url = `${apiUrl}/sources/`;
+  const createSource = async (source) => {
+    const createdSource = await createSourceMutation(source);
+    await refetch();
+    return createdSource;
+  };
 
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-      body: JSON.stringify(source),
-    });
-
-    const responseData = await response.json();
-
-    if (response.ok) {
-      return responseData;
-    } else {
-      throw new Error(responseData.errors);
-    }
-  } catch (error) {
-    throw new Error(error);
+  if (error) {
+    console.log(error.message);
   }
-};
 
-export const getDataSources = async () => {
-  const token = localStorage.getItem("accessToken");
-
-  try {
-    const url = `${apiUrl}/sources/`;
-
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-    });
-
-    const responseData = await response.json();
-
-    if (response.ok) {
-      return responseData;
-    } else {
-      throw new Error(responseData.errors);
-    }
-  } catch (error) {
-    throw new Error(error);
-  }
-};
-
-export const getSource = async (id) => {
-  const token = localStorage.getItem("accessToken");
-
-  try {
-    const url = `${apiUrl}/sources/${id}/`;
-
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-    });
-
-    const responseData = await response.json();
-
-    if (response.ok) {
-      return responseData;
-    } else {
-      throw new Error(responseData.errors);
-    }
-  } catch (error) {
-    throw new Error(error);
-  }
-};
-
-export const deleteSource = async (id) => {
-  const token = localStorage.getItem("accessToken");
-
-  try {
-    const url = `${apiUrl}/sources/${id}/`;
-
-    const response = await fetch(url, {
-      method: "DELETE",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-    });
-
-    const responseData = await response.json();
-
-    if (response.ok) {
-      return responseData;
-    } else {
-      throw new Error(responseData.errors);
-    }
-  } catch (error) {
-    throw new Error(error);
-  }
+  return {
+    sources,
+    loading,
+    createSource,
+    creating,
+    error,
+    refetch,
+  };
 };
