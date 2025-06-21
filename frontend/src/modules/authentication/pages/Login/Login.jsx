@@ -40,7 +40,7 @@ export default function Login() {
           className="mb-4"
           alt="Brand Icon"
         />
-        <Typography variant="h4" className="mb-4 bold">
+        <Typography variant="h2" className="mb-4 bold">
           Log In
         </Typography>
         {error && <span className="text-danger small">{error}</span>}

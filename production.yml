@@ -50,6 +50,54 @@ services:
     volumes:
       - ./media:/backend/media
 
+  celery:
+    build:
+      context: ./api
+      dockerfile: Dockerfile.local
+    command: celery -A momentum worker -l info -E
+    volumes:
+      - ./api:/api
+    working_dir: /api
+    depends_on:
+      - redis
+    env_file:
+      - .env
+
+  celery-beat:
+    build:
+      context: ./api
+      dockerfile: Dockerfile.local
+    command: celery -A momentum beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    volumes:
+      - ./api:/api
+    working_dir: /api
+    depends_on:
+      - redis
+      - api
+    env_file:
+      - .env
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+
+  flower:
+    build:
+      context: ./api
+      dockerfile: Dockerfile.local
+    command: celery -A momentum flower --port=5555 --broker=redis://redis:6379/0
+    ports:
+      - "5555:5555"
+    volumes:
+      - ./api:/api
+    working_dir: /api
+    depends_on:
+      - redis
+    env_file:
+      - .env
+
+
 volumes:
   postgres_data:
   frontend-build:

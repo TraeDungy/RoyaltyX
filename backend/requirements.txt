@@ -13,3 +13,8 @@ ruff==0.9.6
 drf-spectacular==0.28.0
 Pillow
 weasyprint==64.1
+celery==5.5.3
+redis>=4.0
+django-celery-beat>=2.0
+flower
+cryptography

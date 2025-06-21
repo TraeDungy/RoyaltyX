@@ -17,6 +17,9 @@ urlpatterns = [
     path("reports/", include("apps.report.urls")),
     path("notifications/", include("apps.notifications.urls")),
     path("inbox/", include("apps.inbox.urls")),
+    path("sources/", include("apps.sources.urls")),
+    ## OAuth2
+    path("oauth/google/", include("apps.oauth.google.urls")),
     ## API documentation urls
     path("schema/", SpectacularAPIView.as_view(), name="schema"),
     path("docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),

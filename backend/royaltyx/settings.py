@@ -10,7 +10,7 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.append(str(BASE_DIR / "apps"))
 
-SECRET_KEY = "django-insecure--+2w2!&en+qe9092u^p)wuzn5(kj+nyr4*!!(ewh2fq4yha)xl"
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
 DEBUG = True
 
@@ -36,11 +36,14 @@ INSTALLED_APPS = [
     "apps.report",
     "apps.notifications",
     "apps.inbox",
+    "apps.sources",
+    "apps.oauth.google",
     "rest_framework",
     "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",
     "corsheaders",
     "drf_spectacular",
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -182,3 +185,10 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
 }
+
+
+GOOGLE_CLIENT_ID=os.environ.get("GOOGLE_CLIENT_ID")
+GOOGLE_CLIENT_SECRET=os.environ.get("GOOGLE_CLIENT_SECRET")
+GOOGLE_REDIRECT_URI=os.environ.get("GOOGLE_REDIRECT_URI")
+
+CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL", "redis://localhost:6379/0")
