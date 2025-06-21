@@ -12,10 +12,13 @@ import { ReactComponent as ProductThumbnailPlaceholder } from "../../common/asse
 import { apiUrl } from "../../common/api/config";
 import { useState } from "react";
 import { ThreeDotsVertical } from "react-bootstrap-icons";
+import { useProduct } from "../../products/api/product";
+import { toast } from "react-toastify";
 
-const ProductCard = ({ product, handleEdit, handleDelete }) => {
+const ProductCard = ({ product, handleEdit }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const { removeProduct } = useProduct(product.id);
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -24,6 +27,24 @@ const ProductCard = ({ product, handleEdit, handleDelete }) => {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
+
+  const handleDelete = async (product_id) => {
+    try {
+      const response = await removeProduct(product_id);
+
+      if (response.success) {
+        toast.success("Product successfully deleted");
+      } else {
+        throw new Error("Failed to delete the product");
+      }
+    } catch (error) {
+      toast.error(error.message || "Failed to delete the product");
+    }
+    finally {
+      window.location.reload();
+    }
+  };
+
 
   return (
     <div className="col-md-4 pb-4" key={product.id}>

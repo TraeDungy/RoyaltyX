@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { uploadFile } from "../api/files";
 import { useDropzone } from "react-dropzone";
 import { Spinner } from "react-bootstrap";
-import { useProducts } from "../../common/contexts/ProductsContext";
+import { useProducts } from "../../products/api/products";
 
 const FileUploadInput = ({ setFiles }) => {
   const [uploading, setUploading] = useState(false);

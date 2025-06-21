@@ -1,26 +1,23 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
-  UiChecksGrid,
-  People,
-  List,
   ChevronDown,
-  Gear,
-  Speedometer,
+  Settings,
+  Gauge,
   Folder,
-  FileEarmarkPdf,
-  FilePdf,
-  Box2Heart,
-  Person,
-  QuestionCircle,
+  FileText,
+  Heart,
+  User,
+  HelpCircle,
   Database,
-} from "react-bootstrap-icons";
+  AlignLeft,
+} from "lucide-react";
 import { getUserInfo } from "../../../account/api/user";
 import { getMyProjects, switchProject } from "../../../projects/api/project";
-import AddProductModal from "../../../products/components/AddProductModal";
 import ProductsList from "./ProductsList";
 import { useProject } from "../../contexts/ProjectContext";
 import { useAuth } from "../../contexts/AuthContext";
+import { LayoutDashboard, Users } from "lucide-react";
 
 function Sidebar() {
   const [sidebarActive] = useState(true);
@@ -31,7 +28,7 @@ function Sidebar() {
   const { project } = useProject();
   const { email } = useAuth();
   const projectUser = project?.users?.find(
-    (user) => user.user_details.email === email,
+    (user) => user.user_details.email === email
   );
 
   useEffect(() => {
@@ -115,13 +112,13 @@ function Sidebar() {
                   aria-expanded={isDropdownOpen ? "true" : "false"}
                 >
                   <div className="d-flex justify-content-center align-items-center px-1">
-                    <Folder className="me-2" />{" "}
+                    <Folder className="me-2" size={18} color="var(--color-text-lighter)" />
                     <span className="fw-500">{userInfo?.project?.name}</span>
                     <p className="m-0 pe-2">
                       {userInfo?.currently_selected_project?.name}
                     </p>
                   </div>
-                  <ChevronDown className="ms-auto" />
+                  <ChevronDown className="ms-auto" size={18} />
                 </div>
                 <div
                   className={
@@ -159,7 +156,7 @@ function Sidebar() {
                   className="w-fit pointer rounded-lg"
                   onClick={toggleSidebar}
                 >
-                  <List className="h5 mb-0" />
+                  <AlignLeft size={18} />
                 </div>
               </span>
             </div>
@@ -176,7 +173,7 @@ function Sidebar() {
                   className="nav-link"
                   onClick={() => handlePageChange("/sources")}
                 >
-                  <Database />
+                  <Database size={18} color="var(--color-text-lighter)" />
                   <span className="ps-3 medium">Sources</span>
                 </Link>
               </li>
@@ -188,7 +185,7 @@ function Sidebar() {
                   className="nav-link"
                   onClick={() => handlePageChange("/management/data/import")}
                 >
-                  <FilePdf />
+                  <FileText size={18} color="var(--color-text-lighter)" />
                   <span className="ps-3 medium">Manual import</span>
                 </Link>
               </li>
@@ -200,7 +197,7 @@ function Sidebar() {
                   className="nav-link"
                   onClick={() => handlePageChange("/management/settings")}
                 >
-                  <Gear />
+                  <Settings size={18} color="var(--color-text-lighter)" />
                   <span className="ps-3 medium">Project Settings</span>
                 </Link>
               </li>
@@ -212,7 +209,7 @@ function Sidebar() {
                   className="nav-link"
                   onClick={() => handlePageChange("/management/products")}
                 >
-                  <Box2Heart />
+                  <Heart size={18} color="var(--color-text-lighter)" />
                   <span className="ps-3 medium">Products</span>
                 </Link>
               </li>
@@ -224,7 +221,7 @@ function Sidebar() {
                   className="nav-link"
                   onClick={() => handlePageChange("/management/producers")}
                 >
-                  <Person />
+                  <User size={18} color="var(--color-text-lighter)" />
                   <span className="ps-3 medium">Producers</span>
                 </Link>
               </li>
@@ -236,7 +233,7 @@ function Sidebar() {
                   className="nav-link"
                   onClick={() => handlePageChange("/documentation")}
                 >
-                  <QuestionCircle />
+                  <HelpCircle size={18} color="var(--color-text-lighter)" />
                   <span className="ps-3 medium">Help Documentation</span>
                 </Link>
               </li>
@@ -253,7 +250,7 @@ function Sidebar() {
                 className="nav-link"
                 onClick={() => handlePageChange("/")}
               >
-                <UiChecksGrid />
+                <LayoutDashboard size={18} color="var(--color-text-lighter)" />
                 <span className="ps-3 medium">Dashboard</span>
               </Link>
             </li>
@@ -265,7 +262,8 @@ function Sidebar() {
                 className="nav-link"
                 onClick={() => handlePageChange("/members")}
               >
-                <People />
+                <Users size={18} color="var(--color-text-lighter)" />
+
                 <span className="ps-3 medium">Members</span>
               </Link>
             </li>
@@ -277,7 +275,7 @@ function Sidebar() {
                 className="nav-link"
                 onClick={() => handlePageChange("/analytics")}
               >
-                <Speedometer />
+                <Gauge size={18} color="var(--color-text-lighter)" />
                 <span className="ps-3 medium">Analytics</span>
               </Link>
             </li>
@@ -289,14 +287,13 @@ function Sidebar() {
                 className="nav-link"
                 onClick={() => handlePageChange("/reports")}
               >
-                <FileEarmarkPdf />
+                <FileText size={18} color="var(--color-text-lighter)" />
                 <span className="ps-3 medium">Reports</span>
               </Link>
             </li>
           </div>
 
           <ProductsList />
-          <AddProductModal />
         </ul>
       </nav>
     </>

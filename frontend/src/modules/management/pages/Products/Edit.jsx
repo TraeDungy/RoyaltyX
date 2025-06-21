@@ -2,28 +2,26 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Container, Spinner, Image } from "react-bootstrap";
-import { getProduct, updateProduct } from "../../../products/api/product";
+import { useProduct } from "../../../products/api/product";
 import { apiUrl } from "../../../common/api/config";
 import { ReactComponent as ProductThumbnailPlaceholder } from "../../../common/assets/img/vectors/product-thumbnail-placeholder-lg.svg";
 import { Button, TextField } from "@mui/material";
 
 const EditProduct = () => {
-  const [product, setProduct] = useState(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [thumbnail, setThumbnail] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   const { id } = useParams();
+  const {product, updateProduct} = useProduct(id);
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const fetchedProduct = await getProduct(id);
-        setProduct(fetchedProduct);
-        setTitle(fetchedProduct.title);
-        setDescription(fetchedProduct.description);
-        setThumbnail(fetchedProduct.thumbnail);
+        setTitle(product.title);
+        setDescription(product.description);
+        setThumbnail(product.thumbnail);
       } catch (error) {
         toast.error(error.message || "Failed to fetch product");
       }

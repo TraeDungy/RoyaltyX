@@ -4,9 +4,8 @@ import { Plus, X } from "react-bootstrap-icons";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import Button from "../../common/components/Button";
-import { createProduct } from "../api/product";
 import { useAuth } from "../../common/contexts/AuthContext";
-import { useProducts } from "../../common/contexts/ProductsContext";
+import { useProducts } from "../api/products";
 
 function AddProductModal() {
   const [show, setShow] = useState(false);
@@ -15,7 +14,8 @@ function AddProductModal() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { currentlySelectedProjectId } = useAuth();
-  const { setProducts } = useProducts();
+  const { createProduct } = useProducts();
+
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -30,9 +30,7 @@ function AddProductModal() {
     };
 
     try {
-      const newProduct = await createProduct(product);
-
-      setProducts((prevProducts) => [...prevProducts, newProduct]);
+      await createProduct(product);
 
       setTitle("");
       setDescription("");

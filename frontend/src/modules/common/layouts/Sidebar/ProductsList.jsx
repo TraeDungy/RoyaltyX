@@ -2,9 +2,9 @@ import { useState } from "react";
 import { ChevronDown, ChevronRight } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
-import { useProducts } from "../../contexts/ProductsContext";
 import { apiUrl } from "../../api/config";
 import { ReactComponent as ProductThumbnailPlaceholder } from "../../assets/img/vectors/product-thumbnail-placeholder.svg";
+import { useProducts } from "../../../products/api/products";
 
 const ProductsList = () => {
   const { products, loading } = useProducts();
@@ -17,7 +17,9 @@ const ProductsList = () => {
 
   return (
     <div className="sidebar-link-group">
-      <span className="txt-lighter small ps-2">PRODUCTS</span>
+      {products?.length > 0 && (
+        <h6 className="sidebar-link-group-title">Products</h6>
+      )}
       {loading ? (
         <div className="d-flex justify-content-center py-5">
           <Spinner animation="border" />

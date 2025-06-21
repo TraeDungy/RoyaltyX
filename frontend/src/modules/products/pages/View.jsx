@@ -1,27 +1,13 @@
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getProduct } from "../api/product";
-import { toast } from "react-toastify";
+import { useProduct } from "../api/product";
 import { Container, Spinner } from "react-bootstrap";
 import { ReactComponent as ProductThumbnailPlaceholder } from "../../common/assets/img/vectors/product-thumbnail-placeholder-lg.svg";
 import { apiUrl } from "../../common/api/config";
 
 const View = () => {
-  const [product, setProduct] = useState(null);
   const { id } = useParams();
 
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const fetchedProduct = await getProduct(id);
-        setProduct(fetchedProduct);
-      } catch (error) {
-        toast.error(error.message || "Failed to fetch product");
-      }
-    };
-
-    fetchProduct();
-  }, [id]);
+ const {product} = useProduct(id);
 
   if (!product) {
     return (
