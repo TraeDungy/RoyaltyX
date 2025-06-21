@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "./Header.module.css";
 import UserDropdown from "./UserDropdown";
-import { Chat, Gear } from "react-bootstrap-icons";
+import { MessageSquare, Settings } from "lucide-react";
 import SettingsModal from "../../components/Settings/SettingsModal";
 import NotificationsDropdown from "./NotificationsDropdown";
 import { Link } from "react-router-dom";
@@ -18,16 +18,17 @@ function Header() {
         </div>
         <div className="ms-auto d-flex align-items-center pe-2">
           <div className="ps-4">
-            <Gear
+            <Settings
               onClick={() => {
                 setShowSettingsModal(true);
               }}
-              style={{ fontSize: 19 }}
+              strokeWidth={1.5} size={20}
               className="pointer txt-lighter"
             />
           </div>
           <Link to="/inbox" className="ps-4 position-relative">
-            <Chat style={{ fontSize: 19 }} className="pointer txt-lighter" />
+          
+            <MessageSquare strokeWidth={1.5} size={20} className="pointer txt-lighter" />
             <span
               className="badge badge-primary bg-danger position-absolute"
               style={{

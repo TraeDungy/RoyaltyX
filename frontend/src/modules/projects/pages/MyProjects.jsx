@@ -4,9 +4,9 @@ import { getMyProjects } from "../api/project";
 import { switchProject } from "../api/project";
 import CreateNewProjectCard from "../components/CreateNewProjectCard";
 import { useNavigate } from "react-router-dom";
-import { Plus } from "react-bootstrap-icons";
 import { Button } from "@mui/material";
 import Grid from "@mui/material/Grid";
+import { Plus } from "lucide-react";
 
 function MyProjects() {
   const [projects, setProjects] = useState([]);
@@ -51,7 +51,7 @@ function MyProjects() {
             navigate("/projects/create");
           }}
         >
-          <Plus className="me-1 h4 mb-0" /> Create
+          <Plus size={18} className="me-2" /> Create
         </Button>
       </div>
 

@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import { Dropdown } from "react-bootstrap";
 import {
-  BoxArrowRight,
+  LogOut,
   Folder,
-  PersonCircle,
-  UiChecksGrid,
-} from "react-bootstrap-icons";
+  User,
+  Grid,
+} from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 
 function UserDropdown() {
@@ -54,19 +54,19 @@ function UserDropdown() {
         <Dropdown.Divider />
 
         <Dropdown.Item className="rounded" as={Link} to="/admin/dashboard">
-          <UiChecksGrid /> <span className="ps-3 medium">Admin Panel</span>
+          <Grid size={18} className="txt-lighter" /> <span className="ps-3 medium">Admin Panel</span>
         </Dropdown.Item>
         <Dropdown.Item className="rounded" as={Link} to="/account">
-          <PersonCircle /> <span className="ps-3 medium">My Account</span>
+          <User size={18} className="txt-lighter" /> <span className="ps-3 medium">My Account</span>
         </Dropdown.Item>
         <Dropdown.Item className="rounded" as={Link} to="/my-projects">
-          <Folder /> <span className="ps-3 medium">My Projects</span>
+          <Folder size={18} className="txt-lighter" /> <span className="ps-3 medium">My Projects</span>
         </Dropdown.Item>
 
         <Dropdown.Divider />
 
         <Dropdown.Item className="rounded text-danger" as={Link} to="/logout">
-          <BoxArrowRight className="text-danger" />{" "}
+          <LogOut size={18} className="text-danger" />{" "}
           <span className="ps-3 medium text-danger">Logout</span>
         </Dropdown.Item>
       </Dropdown.Menu>
