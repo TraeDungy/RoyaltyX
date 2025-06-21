@@ -6,11 +6,11 @@ import {
   Gauge,
   Folder,
   FileText,
-  Heart,
   User,
   HelpCircle,
   Database,
   AlignLeft,
+  Package2,
 } from "lucide-react";
 import { getUserInfo } from "../../../account/api/user";
 import { getMyProjects, switchProject } from "../../../projects/api/project";
@@ -174,7 +174,7 @@ function Sidebar() {
                   onClick={() => handlePageChange("/sources")}
                 >
                   <Database size={18} color="var(--color-text-lighter)" />
-                  <span className="ps-3 medium">Sources</span>
+                  <span className="ps-4 medium">Sources</span>
                 </Link>
               </li>
               <li
@@ -186,7 +186,7 @@ function Sidebar() {
                   onClick={() => handlePageChange("/management/data/import")}
                 >
                   <FileText size={18} color="var(--color-text-lighter)" />
-                  <span className="ps-3 medium">Manual import</span>
+                  <span className="ps-4 medium">Manual import</span>
                 </Link>
               </li>
               <li
@@ -198,7 +198,7 @@ function Sidebar() {
                   onClick={() => handlePageChange("/management/settings")}
                 >
                   <Settings size={18} color="var(--color-text-lighter)" />
-                  <span className="ps-3 medium">Project Settings</span>
+                  <span className="ps-4 medium">Project Settings</span>
                 </Link>
               </li>
               <li
@@ -209,8 +209,8 @@ function Sidebar() {
                   className="nav-link"
                   onClick={() => handlePageChange("/management/products")}
                 >
-                  <Heart size={18} color="var(--color-text-lighter)" />
-                  <span className="ps-3 medium">Products</span>
+                  <Package2 size={18} color="var(--color-text-lighter)" />
+                  <span className="ps-4 medium">Products</span>
                 </Link>
               </li>
               <li
@@ -222,7 +222,7 @@ function Sidebar() {
                   onClick={() => handlePageChange("/management/producers")}
                 >
                   <User size={18} color="var(--color-text-lighter)" />
-                  <span className="ps-3 medium">Producers</span>
+                  <span className="ps-4 medium">Producers</span>
                 </Link>
               </li>
               <li
@@ -234,7 +234,7 @@ function Sidebar() {
                   onClick={() => handlePageChange("/documentation")}
                 >
                   <HelpCircle size={18} color="var(--color-text-lighter)" />
-                  <span className="ps-3 medium">Help Documentation</span>
+                  <span className="ps-4 medium">Help Documentation</span>
                 </Link>
               </li>
             </div>
@@ -251,7 +251,7 @@ function Sidebar() {
                 onClick={() => handlePageChange("/")}
               >
                 <LayoutDashboard size={18} color="var(--color-text-lighter)" />
-                <span className="ps-3 medium">Dashboard</span>
+                <span className="ps-4 medium">Dashboard</span>
               </Link>
             </li>
             <li
@@ -264,7 +264,7 @@ function Sidebar() {
               >
                 <Users size={18} color="var(--color-text-lighter)" />
 
-                <span className="ps-3 medium">Members</span>
+                <span className="ps-4 medium">Members</span>
               </Link>
             </li>
             <li
@@ -276,7 +276,7 @@ function Sidebar() {
                 onClick={() => handlePageChange("/analytics")}
               >
                 <Gauge size={18} color="var(--color-text-lighter)" />
-                <span className="ps-3 medium">Analytics</span>
+                <span className="ps-4 medium">Analytics</span>
               </Link>
             </li>
             <li
@@ -288,7 +288,7 @@ function Sidebar() {
                 onClick={() => handlePageChange("/reports")}
               >
                 <FileText size={18} color="var(--color-text-lighter)" />
-                <span className="ps-3 medium">Reports</span>
+                <span className="ps-4 medium">Reports</span>
               </Link>
             </li>
           </div>

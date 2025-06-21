@@ -4,9 +4,9 @@
   --color-primary-hover: #627fead3;
   --color-text: #1e1f21;
   --color-text-lighter: #5d5e5f;
-  --color-body-background: #fff;
+  --color-body-background: #ffffff;
   --color-light-gray: #f2f2f2;
-  --color-light-contrast: #f3f3f3;
+  --color-light-contrast: #fff;
   --color-power-contrast: #ffffff;
   --color-subtle: #dadada;
   --color-darker-gray: #d9d9d9;
@@ -405,7 +405,7 @@ li.disabled,
 
 .dropdown-item:active,
 .dropdown-item:hover {
-  background-color: var(--color-light-contrast) !important;
+  background-color: var(--nav-link-hover-background) !important;
   color: var(--color-text) !important;
 }
 
@@ -468,7 +468,7 @@ p {
 }
 
 .list-group-item:hover {
-  background-color: var(--color-power-contrast) !important;
+  background-color: var(--nav-link-hover-background) !important;
 }
 
 .dropdown-item {

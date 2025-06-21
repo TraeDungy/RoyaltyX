@@ -1,13 +1,30 @@
-import { Grid, Typography, Card, CardContent } from "@mui/material";
+import { Grid, Typography, Card, CardContent, Box } from "@mui/material";
 import { useAuth } from "../../common/contexts/AuthContext";
+import { AtSign, Film, Users } from "lucide-react";
+import React from "react";
 
 function Dashboard() {
   const { name } = useAuth();
 
   const stats = [
-    { label: "Products", value: 14 },
-    { label: "Project Members", value: 12 },
-    { label: "Connected Accounts", value: 3 },
+    {
+      label: "Products",
+      value: 14,
+      icon: <Film size={20} />,
+      color: "#FF5722",
+    },
+    {
+      label: "Project Members",
+      value: 12,
+      icon: <Users size={20} />,
+      color: "#3F51B5",
+    },
+    {
+      label: "Connected Accounts",
+      value: 3,
+      icon: <AtSign size={20} />,
+      color: "#4CAF50",
+    },
   ];
 
   return (
@@ -19,18 +36,32 @@ function Dashboard() {
       <Grid container spacing={3} sx={{ mb: 4 }}>
         {stats.map((stat, index) => (
           <Grid key={index} size={{ xs: 12, md: 4 }}>
-            <Card
-              variant="outlined"
-              sx={{
-                height: "100%",
-                borderRadius: 2,
-              }}
-            >
+            <Card sx={{ borderRadius: 2, boxShadow: 3 }}>
               <CardContent>
-                <Typography variant="h6" color="text.secondary" gutterBottom>
-                  {stat.label}
-                </Typography>
-                <Typography variant="h3" fontWeight="bold">
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginBottom: 8,
+                  }}
+                >
+                  <Typography variant="h6">{stat.label}</Typography>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      width: 40,
+                      height: 40,
+                      borderRadius: "50%",
+                      backgroundColor: `${stat.color}33`,
+                    }}
+                  >
+                    {React.cloneElement(stat.icon, { color: stat.color })}
+                  </Box>
+                </div>
+                <Typography variant="h2" fontWeight="bold">
                   {stat.value}
                 </Typography>
               </CardContent>
