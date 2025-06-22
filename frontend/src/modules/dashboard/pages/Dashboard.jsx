@@ -3,14 +3,18 @@ import { useAuth } from "../../common/contexts/AuthContext";
 import { AtSign, Film, Users } from "lucide-react";
 import React from "react";
 import { LinkedAccountsSection } from "../components/LinkedAccountsSection";
+import { useProducts } from "../../products/api/products";
+import { ProductsList } from "../components/ProductsList";
+import { useSources } from "../../sources/api/sources";
 
 function Dashboard() {
   const { name } = useAuth();
-
+  const { products, loading } = useProducts();
+  const { sources } = useSources();
   const stats = [
     {
       label: "Products",
-      value: 0,
+      value: products?.length || 0,
       icon: <Film size={20} />,
       color: "#FF5722",
     },
@@ -22,7 +26,7 @@ function Dashboard() {
     },
     {
       label: "Connected Accounts",
-      value: 0,
+      value: sources?.length || 0,
       icon: <AtSign size={20} />,
       color: "#4CAF50",
     },
@@ -72,6 +76,8 @@ function Dashboard() {
       </Grid>
 
       <LinkedAccountsSection />
+
+      <ProductsList products={products} loading={loading} />
     </>
   );
 }

@@ -30,7 +30,9 @@ def fetch_youtube_stats():
                 Product.objects.create(
                     title=video["snippet"]["title"],
                     description=video["snippet"]["description"],
-                    thumbnail=video["snippet"]["thumbnails"]["default"]["url"],
+                    thumbnail=video["snippet"]["thumbnails"]
+                    .get("high", {})
+                    .get("url", video["snippet"]["thumbnails"]["default"]["url"]),
                     project=source.project,
                 )
         source.last_fetched_at = timezone.now()

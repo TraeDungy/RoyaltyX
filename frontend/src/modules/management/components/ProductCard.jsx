@@ -39,12 +39,10 @@ const ProductCard = ({ product, handleEdit }) => {
       }
     } catch (error) {
       toast.error(error.message || "Failed to delete the product");
-    }
-    finally {
+    } finally {
       window.location.reload();
     }
   };
-
 
   return (
     <div className="col-md-4 pb-4" key={product.id}>
@@ -52,9 +50,16 @@ const ProductCard = ({ product, handleEdit }) => {
         {product.thumbnail ? (
           <CardMedia
             component="img"
-            image={apiUrl + product.thumbnail}
+            image={(() => {
+              const url = product.thumbnail.replace("/media/", "");
+              if (url.startsWith("https")) {
+                return decodeURIComponent(url);
+              } else {
+                return apiUrl + product.thumbnail;
+              }
+            })()}
             alt={product.title}
-            sx={{ borderRadius: 1 }}
+            sx={{ borderRadius: 1, height: 180, objectFit: "cover" }}
           />
         ) : (
           <div style={{ textAlign: "center", padding: "16px" }}>
@@ -73,10 +78,11 @@ const ProductCard = ({ product, handleEdit }) => {
               component={Link}
               to={"/products/" + product.id}
               variant="h6"
-              sx={{ textDecoration: "none", color: "inherit" }}
+              sx={{ textDecoration: "none", color: "inherit", fontWeight: "bold", mb: 2 }}
             >
               {product.title}
             </Typography>
+            <br />
             <Typography variant="body2" color="textSecondary">
               {product.description}
             </Typography>
