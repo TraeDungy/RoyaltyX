@@ -9,6 +9,7 @@ from common.models import BaseModel
 class Product(BaseModel):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
     statement_frequency = models.CharField(
         max_length=50,
         null=True,

@@ -10,6 +10,24 @@ export const SourceItem = ({ source }) => {
     navigate(`/sources/${source.id}`);
   };
 
+  const formatLastFetchedTime = (timestamp) => {
+    if (!timestamp) return "Never";
+    const date = new Date(timestamp);
+    const now = new Date();
+
+    const isToday =
+      date.getDate() === now.getDate() &&
+      date.getMonth() === now.getMonth() &&
+      date.getFullYear() === now.getFullYear();
+
+    const formattedTime = date.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+
+    return isToday ? `today, ${formattedTime}` : `${date.toLocaleDateString()}, ${formattedTime}`;
+  };
+
   return (
     <Grid sx={{ width: "100%" }}>
       <Card sx={{ p: 3, borderRadius: 2, boxShadow: 3 }}>
@@ -43,7 +61,7 @@ export const SourceItem = ({ source }) => {
               <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                 <Typography variant="body2" sx={{ color: "text.secondary" }}>
                   <span className="fw-500">Last fetched:</span>{" "}
-                  {source.last_fetched_at || "Never"}
+                  {formatLastFetchedTime(source.last_fetched_at)}
                 </Typography>
                 <Typography variant="body2" sx={{ color: "text.secondary" }}>
                   <span className="fw-500">Platform:</span> {source.platform}

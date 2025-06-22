@@ -7,8 +7,11 @@ import {
   Typography,
 } from "@mui/material";
 import { Plus, WifiOff } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export const LinkedAccountsSection = () => {
+  const navigate = useNavigate();
+
   return (
     <Card sx={{ borderRadius: 2, boxShadow: 3 }}>
       <CardContent>
@@ -44,7 +47,12 @@ export const LinkedAccountsSection = () => {
           >
             <WifiOff size={60} color="var(--color-primary)" />
             <Typography sx={{ mt: 1 }}>No accounts linked yet.</Typography>
-            <Button variant="contained" color="primary" sx={{ mt: 2 }}>
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{ mt: 2 }}
+              onClick={() => navigate("/sources")}
+            >
               <Plus className="me-2" /> Add data source
             </Button>
           </Box>

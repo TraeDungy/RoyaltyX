@@ -31,12 +31,19 @@ const ProductsList = () => {
             className={`nav-item px-2 rounded my-1 ${activeMenu === product.id ? "menu-active" : ""}`}
             onClick={() => toggleSubMenu(product.id)}
           >
-            <Link className="nav-link d-flex">
+            <Link className="nav-link d-flex align-items-center">
               {product.thumbnail ? (
                 <img
                   className="img-fluid rounded"
-                  width="35"
-                  src={apiUrl + product.thumbnail}
+                  style={{ width: 45, height: 35, objectFit: "cover" }}
+                  src={(() => {
+                    const url = product.thumbnail.replace("/media/", "");
+                    if (url.startsWith("https")) {
+                      return decodeURIComponent(url);
+                    } else {
+                      return apiUrl + product.thumbnail;
+                    }
+                  })()}
                   alt={product.title}
                 />
               ) : (

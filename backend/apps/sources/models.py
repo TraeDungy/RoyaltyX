@@ -6,19 +6,19 @@ from common.utils.cryptography import decrypt_token, encrypt_token
 
 
 class Source(BaseModel):
-    SOURCE_PLATFORM_YOUTUBE = "youtube"
-    SOURCE_PLATFORM_GOOGLE_ADS = "google_ads"
-    SOURCE_PLATFORM_FACEBOOK = "facebook"
-    SOURCE_PLATFORM_AMAZON = "amazon"
+    PLATFORM_YOUTUBE = "youtube"
+    PLATFORM_GOOGLE_ADS = "google_ads"
+    PLATFORM_FACEBOOK = "facebook"
+    PLATFORM_AMAZON = "amazon"
 
-    SOURCE_PLATFORMS = [
-        (SOURCE_PLATFORM_YOUTUBE, "YouTube"),
-        (SOURCE_PLATFORM_GOOGLE_ADS, "Google Ads"),
-        (SOURCE_PLATFORM_FACEBOOK, "Facebook"),
-        (SOURCE_PLATFORM_AMAZON, "Amazon"),
+    PLATFORMS = [
+        (PLATFORM_YOUTUBE, "YouTube"),
+        (PLATFORM_GOOGLE_ADS, "Google Ads"),
+        (PLATFORM_FACEBOOK, "Facebook"),
+        (PLATFORM_AMAZON, "Amazon"),
     ]
 
-    platform = models.CharField(max_length=50, choices=SOURCE_PLATFORMS)
+    platform = models.CharField(max_length=50, choices=PLATFORMS)
     project = models.ForeignKey(
         Project, on_delete=models.CASCADE, related_name="sources"
     )

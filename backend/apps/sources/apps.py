@@ -12,22 +12,21 @@ class SourcesConfig(AppConfig):
         from django.db.utils import IntegrityError
         from django_celery_beat.models import IntervalSchedule, PeriodicTask
 
-        from . import jobs  # noqa: F401
+        from . import tasks  # noqa: F401
 
         if os.environ.get("RUN_MAIN") != "true":
             return
 
         schedule, created = IntervalSchedule.objects.get_or_create(
-            every=5,
-            period=IntervalSchedule.MINUTES
+            every=1, period=IntervalSchedule.MINUTES
         )
 
         try:
             PeriodicTask.objects.get_or_create(
                 name="Fetch Data From Connected Sources",
                 defaults={
-                    'interval': schedule,
-                    "task": "apps.sources.jobs.fetch_youtube_stats",
+                    "interval": schedule,
+                    "task": "apps.sources.tasks.fetch_youtube_stats",
                     "args": json.dumps([]),
                 },
             )

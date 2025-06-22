@@ -8,7 +8,7 @@ const openGoogleOAuthPopup = () => {
   const clientId =
     "357908321492-m6umfp34t5gcf7quhr2mqh1vhbsgr3hs.apps.googleusercontent.com";
   const redirectUri = `${appUrl}/google-oauth-callback`;
-  const scope = "https://www.googleapis.com/auth/yt-analytics.readonly";
+  const scope = "https://www.googleapis.com/auth/yt-analytics.readonly https://www.googleapis.com/auth/youtube.readonly";
   const oauthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}&access_type=offline&prompt=consent`;
 
   const width = 500;
@@ -23,8 +23,7 @@ const openGoogleOAuthPopup = () => {
   );
 };
 
-export const LinkYoutubeCard = ({createSource}) => {
-
+export const LinkYoutubeCard = ({ createSource }) => {
   useEffect(() => {
     const handleMessage = async (event) => {
       if (event.origin !== window.location.origin) return; // for security
@@ -34,18 +33,18 @@ export const LinkYoutubeCard = ({createSource}) => {
         const googleTokenData = await requestAccessTokenFromGoogle(authCode);
         console.log(googleTokenData.access_token);
         console.log(googleTokenData.refresh_token);
+        const expiresAt = Date.now() + googleTokenData.expires_in * 1000;
         const source = {
           platform: "youtube",
           access_token: googleTokenData.access_token,
           refresh_token: googleTokenData.refresh_token,
-          expires_at: googleTokenData.expires_at,
+          token_expires_at: new Date(expiresAt).toISOString(),
         };
         try {
           await createSource(source);
         } catch (error) {
           console.error("Error creating data source:", error);
         }
-
       }
     };
 
