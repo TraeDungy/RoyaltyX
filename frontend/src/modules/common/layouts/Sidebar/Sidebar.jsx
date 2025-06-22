@@ -112,7 +112,11 @@ function Sidebar() {
                   aria-expanded={isDropdownOpen ? "true" : "false"}
                 >
                   <div className="d-flex justify-content-center align-items-center px-1">
-                    <Folder className="me-2" size={18} color="var(--color-text-lighter)" />
+                    <Folder
+                      className="me-2"
+                      size={18}
+                      color="var(--color-text-lighter)"
+                    />
                     <span className="fw-500">{userInfo?.project?.name}</span>
                     <p className="m-0 pe-2">
                       {userInfo?.currently_selected_project?.name}
@@ -202,19 +206,7 @@ function Sidebar() {
                 </Link>
               </li>
               <li
-                className={`nav-item px-2 rounded my-1 ${currentPage === "/management/products" ? "active" : ""}`}
-              >
-                <Link
-                  to="/management/products"
-                  className="nav-link"
-                  onClick={() => handlePageChange("/management/products")}
-                >
-                  <Package2 size={18} color="var(--color-text-lighter)" />
-                  <span className="ps-4 medium">Products</span>
-                </Link>
-              </li>
-              <li
-                className={`nav-item px-2 rounded my-1 ${currentPage === "/management/producers" ? "active" : ""}`}
+                className={`nav-item px-2 rounded my-1 ${currentPage === "/producers" ? "active" : ""}`}
               >
                 <Link
                   to="/management/producers"
@@ -265,6 +257,18 @@ function Sidebar() {
                 <Users size={18} color="var(--color-text-lighter)" />
 
                 <span className="ps-4 medium">Members</span>
+              </Link>
+            </li>
+            <li
+              className={`nav-item px-2 rounded my-1 ${currentPage === "/products" ? "active" : ""}`}
+            >
+              <Link
+                to="/products"
+                className="nav-link"
+                onClick={() => handlePageChange("/products")}
+              >
+                <Package2 size={18} color="var(--color-text-lighter)" />
+                <span className="ps-4 medium">Products</span>
               </Link>
             </li>
             <li

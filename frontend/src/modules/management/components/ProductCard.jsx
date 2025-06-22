@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Card,
   CardMedia,
@@ -7,18 +7,18 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Box,
 } from "@mui/material";
 import { ReactComponent as ProductThumbnailPlaceholder } from "../../common/assets/img/vectors/product-thumbnail-placeholder-lg.svg";
 import { apiUrl } from "../../common/api/config";
 import { useState } from "react";
-import { ThreeDotsVertical } from "react-bootstrap-icons";
-import { useProduct } from "../../products/api/product";
-import { toast } from "react-toastify";
+import { EllipsisVertical } from "lucide-react";
 
-const ProductCard = ({ product, handleEdit }) => {
+const ProductCard = ({ product }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const { removeProduct } = useProduct(product.id);
+  const navigate = useNavigate();
+  // const { removeProduct } = useProduct(product.id);
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -28,25 +28,25 @@ const ProductCard = ({ product, handleEdit }) => {
     setAnchorEl(null);
   };
 
-  const handleDelete = async (product_id) => {
-    try {
-      const response = await removeProduct(product_id);
+  // const handleDelete = async (product_id) => {
+  //   try {
+  //     const response = await removeProduct(product_id);
 
-      if (response.success) {
-        toast.success("Product successfully deleted");
-      } else {
-        throw new Error("Failed to delete the product");
-      }
-    } catch (error) {
-      toast.error(error.message || "Failed to delete the product");
-    } finally {
-      window.location.reload();
-    }
-  };
+  //     if (response.success) {
+  //       toast.success("Product successfully deleted");
+  //     } else {
+  //       throw new Error("Failed to delete the product");
+  //     }
+  //   } catch (error) {
+  //     toast.error(error.message || "Failed to delete the product");
+  //   } finally {
+  //     window.location.reload();
+  //   }
+  // };
 
   return (
     <div className="col-md-4 pb-4" key={product.id}>
-      <Card>
+      <Card variant="outlined" sx={{ borderRadius: 3 }}>
         {product.thumbnail ? (
           <CardMedia
             component="img"
@@ -69,59 +69,73 @@ const ProductCard = ({ product, handleEdit }) => {
         <CardContent
           sx={{
             display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
+            flexDirection: "column",
+            height: "100%",
           }}
         >
-          <div>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
             <Typography
               component={Link}
               to={"/products/" + product.id}
               variant="h6"
-              sx={{ textDecoration: "none", color: "inherit", fontWeight: "bold", mb: 2 }}
+              sx={{
+                textDecoration: "none",
+                color: "inherit",
+                fontWeight: "bold",
+                mb: 2,
+              }}
             >
               {product.title}
             </Typography>
-            <br />
-            <Typography variant="body2" color="textSecondary">
-              {product.description}
-            </Typography>
-          </div>
-          <div>
-            <IconButton onClick={handleMenuOpen}>
-              <ThreeDotsVertical />
-            </IconButton>
-            <Menu
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleMenuClose}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-            >
-              <MenuItem
-                onClick={() => {
-                  handleEdit(product.id);
-                  handleMenuClose();
+
+            <div>
+              <IconButton
+                sx={{
+                  margin: 0,
+                  padding: 0,
+                  py: 2,
+                  ml: 2,
+                  "&:hover": {
+                    backgroundColor: "transparent",
+                  },
+                }}
+                onClick={handleMenuOpen}
+              >
+                <EllipsisVertical size={20} color="var(--color-text)" />
+              </IconButton>
+              <Menu
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleMenuClose}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
                 }}
               >
-                Edit
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  handleDelete(product.id);
-                  handleMenuClose();
-                }}
-              >
-                Delete
-              </MenuItem>
-            </Menu>
-          </div>
+                <MenuItem
+                  onClick={() => {
+                    navigate(`/products/${product.id}/edit`);
+                    handleMenuClose();
+                  }}
+                >
+                  Edit
+                </MenuItem>
+              </Menu>
+            </div>
+          </Box>
+
+          <Typography variant="body2" color="textSecondary">
+            {product.description}
+          </Typography>
         </CardContent>
       </Card>
     </div>

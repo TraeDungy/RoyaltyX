@@ -1,16 +1,10 @@
 import { Spinner } from "react-bootstrap";
-import ProductCard from "../../components/ProductCard";
-import { useNavigate } from "react-router";
-import { useProducts } from "../../../products/api/products";
+import ProductCard from "../../../management/components/ProductCard";
+import { useProducts } from "../../api/products";
 
 const Products = () => {
   const { products, loading } = useProducts();
-  const navigate = useNavigate();
-
-  const handleEdit = (product_id) => {
-    navigate(`/management/products/${product_id}/edit`);
-  };
-
+  
   return (
     <div>
       <div className="my-3 ps-1">
@@ -26,7 +20,6 @@ const Products = () => {
           {products?.map((product) => (
             <ProductCard
               product={product}
-              handleEdit={handleEdit}
             />
           ))}
         </div>

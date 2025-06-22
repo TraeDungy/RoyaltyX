@@ -75,7 +75,7 @@ function Dashboard() {
         ))}
       </Grid>
 
-      <LinkedAccountsSection />
+      <LinkedAccountsSection sources={sources} loading={loading} />
 
       <ProductsList products={products} loading={loading} />
     </>

@@ -2,17 +2,28 @@ import { Spinner } from "react-bootstrap";
 import { ReactComponent as ProductThumbnailPlaceholder } from "../../common/assets/img/vectors/product-thumbnail-placeholder-lg.svg";
 import { useNavigate } from "react-router";
 import { apiUrl } from "../../common/api/config";
-import { Typography } from "@mui/material";
-import { Shredder } from "lucide-react";
+import { Box, Button, Typography } from "@mui/material";
+import { ArrowRight, Shredder } from "lucide-react";
 
 export const ProductsList = ({ products, loading }) => {
   const navigate = useNavigate();
 
   return (
     <>
-      <Typography variant="h4" sx={{ mb: 2, mt: 4 }}>
-        Products
-      </Typography>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          mb: 2,
+          mt: 4,
+        }}
+      >
+        <Typography variant="h4">Products</Typography>
+        <Button variant="outlined" onClick={() => navigate("/products")}>
+          View All <ArrowRight className="ms-2" />
+        </Button>
+      </Box>
 
       {loading ? (
         <div className="d-flex justify-content-center py-5">
@@ -58,7 +69,7 @@ export const ProductsList = ({ products, loading }) => {
         </div>
       ) : (
         <div className="text-center py-5">
-            <Shredder size={40} />
+          <Shredder size={40} />
           <p className="txt-lighter medium">
             No products available at the moment.
           </p>

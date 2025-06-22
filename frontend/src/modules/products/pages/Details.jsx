@@ -3,11 +3,12 @@ import { useProduct } from "../api/product";
 import { Container, Spinner } from "react-bootstrap";
 import { ReactComponent as ProductThumbnailPlaceholder } from "../../common/assets/img/vectors/product-thumbnail-placeholder-lg.svg";
 import { apiUrl } from "../../common/api/config";
+import { Typography } from "@mui/material";
 
-const View = () => {
+const Details = () => {
   const { id } = useParams();
 
- const {product} = useProduct(id);
+  const { product } = useProduct(id);
 
   if (!product) {
     return (
@@ -20,22 +21,29 @@ const View = () => {
   return (
     <div className="mt-3">
       <div className="row">
-        <div className="col-md-6">
-          <h1 className="bold mb-4 mt-4">{product.title}</h1>
+        <div className="col-md-7">
+          <Typography variant="h2" sx={{ fontWeight: "bold", mb: 2 }}>
+            {product.title}
+          </Typography>
+
           <p className="txt-lighter mb-5">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aliquid
-            dolor voluptate blanditiis minima repellendus voluptatem, sapiente
-            ex. Quo, id hic! Cumque provident similique quod accusantium
-            possimus, accusamus ad exercitationem itaque?
+            {product.description || "No description available."}
           </p>
         </div>
-        <div className="col-md-6">
-          <div className="card">
+        <div className="col-md-5">
+          <div>
             {product.thumbnail ? (
-              <div className="card-img-top" style={{ maxHeight: 650 }}>
+              <div style={{ maxHeight: 650, height: "auto" }}>
                 <img
-                  className="rounded"
-                  src={apiUrl + product.thumbnail}
+                  className="rounded-lg w-100"
+                  src={(() => {
+                    const url = product.thumbnail.replace("/media/", "");
+                    if (url.startsWith("https")) {
+                      return decodeURIComponent(url);
+                    } else {
+                      return apiUrl + product.thumbnail;
+                    }
+                  })()}
                   alt={product.title}
                 />
               </div>
@@ -51,4 +59,4 @@ const View = () => {
   );
 };
 
-export default View;
+export default Details;

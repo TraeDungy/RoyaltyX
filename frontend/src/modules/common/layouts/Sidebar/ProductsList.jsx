@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronDown, ChevronRight } from "react-bootstrap-icons";
+import { ChevronDown, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
 import { apiUrl } from "../../api/config";
@@ -18,7 +18,7 @@ const ProductsList = () => {
   return (
     <div className="sidebar-link-group">
       {products?.length > 0 && (
-        <h6 className="sidebar-link-group-title">Products</h6>
+        <span className="txt-lighter small ps-2">PRODUCTS</span>
       )}
       {loading ? (
         <div className="d-flex justify-content-center py-5">
@@ -54,11 +54,16 @@ const ProductsList = () => {
 
               <div className="d-flex justify-content-between align-items-center w-100">
                 <span className="ps-3 medium">{product.title}</span>
-                {activeMenu === product.id ? (
-                  <ChevronDown className="ms-1" />
-                ) : (
-                  <ChevronRight className="ms-1" />
-                )}
+                <div
+                  style={{ width: 30 }}
+                  className="d-flex justify-content-center align-items-center"
+                >
+                  {activeMenu === product.id ? (
+                    <ChevronDown size={18} className="ms-1" />
+                  ) : (
+                    <ChevronRight size={18} className="ms-1" />
+                  )}
+                </div>
               </div>
             </Link>
             {activeMenu === product.id && (
