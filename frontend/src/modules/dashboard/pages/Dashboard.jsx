@@ -2,6 +2,7 @@ import { Grid, Typography, Card, CardContent, Box } from "@mui/material";
 import { useAuth } from "../../common/contexts/AuthContext";
 import { AtSign, Film, Users } from "lucide-react";
 import React from "react";
+import { LinkedAccountsSection } from "../components/LinkedAccountsSection";
 
 function Dashboard() {
   const { name } = useAuth();
@@ -9,19 +10,19 @@ function Dashboard() {
   const stats = [
     {
       label: "Products",
-      value: 14,
+      value: 0,
       icon: <Film size={20} />,
       color: "#FF5722",
     },
     {
       label: "Project Members",
-      value: 12,
+      value: 1,
       icon: <Users size={20} />,
       color: "#3F51B5",
     },
     {
       label: "Connected Accounts",
-      value: 3,
+      value: 0,
       icon: <AtSign size={20} />,
       color: "#4CAF50",
     },
@@ -69,6 +70,8 @@ function Dashboard() {
           </Grid>
         ))}
       </Grid>
+
+      <LinkedAccountsSection />
     </>
   );
 }
