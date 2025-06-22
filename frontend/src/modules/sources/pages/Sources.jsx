@@ -12,13 +12,12 @@ export const Sources = () => {
 
   return (
     <Box sx={{ py: 3 }}>
-      <PageHeader
-        title="Sources"
-        description="Manage your data sources and link your platforms of choice."
-      />
-
-      <Grid container spacing={4} sx={{ mt: 4 }}>
+      <Grid container spacing={4} sx={{ mt: 2 }}>
         <Grid size={{ xs: 12, md: 7 }}>
+          <PageHeader
+            title="Sources"
+            description="Manage your data sources and link your platforms of choice."
+          />
           <Grid container spacing={4} sx={{ mt: 4 }}>
             {sources.map((source) => (
               <SourceItem key={source.id} source={source} />
@@ -34,12 +33,13 @@ export const Sources = () => {
                   display: "flex",
                   flexDirection: "column",
                   width: "100%",
+                  height: "60vh",
                   alignItems: "center",
                   justifyContent: "center",
                   mt: 4,
                 }}
               >
-                <WifiOff size={70} color="var(--color-text-lighter)" />
+                <WifiOff size={70} color="var(--color-primary)" />
                 <Typography sx={{ color: "text.secondary", mt: 1 }}>
                   No sources connected.
                 </Typography>
@@ -48,7 +48,7 @@ export const Sources = () => {
           </Grid>
         </Grid>
         <Grid size={{ xs: 12, md: 5 }}>
-          <Grid container spacing={4} sx={{ mt: 4 }}>
+          <Grid container spacing={4}>
             <LinkYoutubeCard createSource={createSource} />
             <Grid size={{ xs: 12, md: 12 }}>
               <Card sx={{ p: 3, borderRadius: 2, boxShadow: 3 }}>

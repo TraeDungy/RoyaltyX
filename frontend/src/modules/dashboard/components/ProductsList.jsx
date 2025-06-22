@@ -19,7 +19,9 @@ export const ProductsList = ({ products, loading }) => {
           mt: 4,
         }}
       >
-        <Typography variant="h4">Products</Typography>
+        <Typography variant="h4" sx={{ fontWeight: "bold" }}>
+          Products
+        </Typography>
         <Button variant="outlined" onClick={() => navigate("/products")}>
           View All <ArrowRight className="ms-2" />
         </Button>

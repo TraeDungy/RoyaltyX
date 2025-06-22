@@ -1,24 +1,23 @@
 import { Link, useNavigate } from "react-router-dom";
 import {
+  Box,
   Card,
   CardMedia,
-  CardContent,
-  Typography,
   IconButton,
+  Typography,
   Menu,
   MenuItem,
-  Box,
+  CardContent,
 } from "@mui/material";
-import { ReactComponent as ProductThumbnailPlaceholder } from "../../common/assets/img/vectors/product-thumbnail-placeholder-lg.svg";
+import { Edit3, BarChart2, EllipsisVertical } from "lucide-react";
 import { apiUrl } from "../../common/api/config";
 import { useState } from "react";
-import { EllipsisVertical } from "lucide-react";
+import { ReactComponent as ProductThumbnailPlaceholder } from "../../common/assets/img/vectors/product-thumbnail-placeholder-lg.svg";
 
 const ProductCard = ({ product }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
-  // const { removeProduct } = useProduct(product.id);
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -27,22 +26,6 @@ const ProductCard = ({ product }) => {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
-
-  // const handleDelete = async (product_id) => {
-  //   try {
-  //     const response = await removeProduct(product_id);
-
-  //     if (response.success) {
-  //       toast.success("Product successfully deleted");
-  //     } else {
-  //       throw new Error("Failed to delete the product");
-  //     }
-  //   } catch (error) {
-  //     toast.error(error.message || "Failed to delete the product");
-  //   } finally {
-  //     window.location.reload();
-  //   }
-  // };
 
   return (
     <div className="col-md-4 pb-4" key={product.id}>
@@ -127,7 +110,15 @@ const ProductCard = ({ product }) => {
                     handleMenuClose();
                   }}
                 >
-                  Edit
+                  <Edit3 size={16} style={{ marginRight: 15 }} /> Edit
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    navigate(`/products/${product.id}/analytics`);
+                    handleMenuClose();
+                  }}
+                >
+                  <BarChart2 size={16} style={{ marginRight: 15 }} /> Analytics
                 </MenuItem>
               </Menu>
             </div>

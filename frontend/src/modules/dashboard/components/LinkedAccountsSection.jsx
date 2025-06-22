@@ -16,7 +16,7 @@ export const LinkedAccountsSection = ({ sources, loading }) => {
   return (
     <Card sx={{ borderRadius: 2, boxShadow: 3 }}>
       <CardContent>
-        <Typography variant="h4" sx={{ mb: 1 }}>
+        <Typography variant="h4" sx={{ mb: 1, fontWeight: "bold" }}>
           Linked Accounts
         </Typography>
         <Typography variant="body1" color="textSecondary">

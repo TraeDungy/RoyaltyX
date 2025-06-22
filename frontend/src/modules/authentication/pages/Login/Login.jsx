@@ -37,11 +37,11 @@ export default function Login() {
         <img
           src={icon}
           style={{ maxWidth: 60 }}
-          className="mb-4"
+          className="mb-5"
           alt="Brand Icon"
         />
-        <Typography variant="h2" className="mb-4 bold">
-          Log In
+        <Typography variant="h2" className="mb-3 bold">
+          Login
         </Typography>
         {error && <span className="text-danger small">{error}</span>}
         <form onSubmit={handleSubmit}>

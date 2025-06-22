@@ -25,7 +25,7 @@ function Dashboard() {
       color: "#3F51B5",
     },
     {
-      label: "Connected Accounts",
+      label: "Linked Accounts",
       value: sources?.length || 0,
       icon: <AtSign size={20} />,
       color: "#4CAF50",
@@ -34,7 +34,7 @@ function Dashboard() {
 
   return (
     <>
-      <Typography variant="h3" sx={{ mt: 3, mb: 2 }}>
+      <Typography variant="h3" sx={{ mt: 3, mb: 2, fontWeight: "bold" }}>
         Hi, {name}!
       </Typography>
 

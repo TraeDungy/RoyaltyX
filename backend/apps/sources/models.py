@@ -18,6 +18,8 @@ class Source(BaseModel):
         (PLATFORM_AMAZON, "Amazon"),
     ]
 
+    account_name = models.CharField(max_length=50)
+
     platform = models.CharField(max_length=50, choices=PLATFORMS)
     project = models.ForeignKey(
         Project, on_delete=models.CASCADE, related_name="sources"

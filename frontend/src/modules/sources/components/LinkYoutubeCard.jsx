@@ -31,10 +31,9 @@ export const LinkYoutubeCard = ({ createSource }) => {
       if (event.data?.source === "google-oauth" && event.data.code) {
         const authCode = event.data.code;
         const googleTokenData = await requestAccessTokenFromGoogle(authCode);
-        console.log(googleTokenData.access_token);
-        console.log(googleTokenData.refresh_token);
         const expiresAt = Date.now() + googleTokenData.expires_in * 1000;
         const source = {
+          account_name: "Account Name",
           platform: "youtube",
           access_token: googleTokenData.access_token,
           refresh_token: googleTokenData.refresh_token,

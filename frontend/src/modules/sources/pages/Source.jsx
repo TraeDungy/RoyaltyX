@@ -59,7 +59,7 @@ export const Source = () => {
     <>
       <Box>
         <Typography variant="h2" sx={{ mb: 3, mt: 2, fontWeight: 600 }} gutterBottom>
-          {source.platform}
+          {source.account_name}
         </Typography>
         <Grid container spacing={2} sx={{ mb: 4 }}>
           <Grid size={{ xs: 12, md: 6 }}>
