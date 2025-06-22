@@ -280,6 +280,18 @@ function Sidebar() {
                 <span className="ps-3 medium">Reports</span>
               </Link>
             </li>
+            <li
+              className={`nav-item px-2 rounded my-1 ${currentPage === "/report-templates" ? "active" : ""}`}
+            >
+              <Link
+                to="/report-templates"
+                className="nav-link"
+                onClick={() => handlePageChange("/report-templates")}
+              >
+                <FileEarmarkPdf />
+                <span className="ps-3 medium">Report Templates</span>
+              </Link>
+            </li>
           </div>
 
           <ProductsList />
