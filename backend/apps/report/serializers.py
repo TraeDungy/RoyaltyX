@@ -34,3 +34,17 @@ class ReportTemplateUpdateSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'template_name': {'required': False}
         }
+
+
+class ReportRequestSerializer(serializers.Serializer):
+    period_start = serializers.DateField(required=False)
+    period_end = serializers.DateField(required=False)
+    template = serializers.IntegerField(required=True)
+
+    def validate_template(self, value):
+        project_id = self.context.get('project_id')
+        try:
+            template_obj = ReportTemplates.objects.get(project_id=project_id, id=value, is_deleted=False)
+        except ReportTemplates.DoesNotExist:
+            raise serializers.ValidationError("Invalid template for the current project.")
+        return template_obj

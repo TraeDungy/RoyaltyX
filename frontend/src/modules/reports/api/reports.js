@@ -25,17 +25,22 @@ export const getReports = async () => {
   }
 };
 
-export const createReport = async (period_range) => {
+export const createReport = async (payload) => {
   try {
     const token = localStorage.getItem("accessToken");
     const params = new URLSearchParams();
 
-    if (period_range.period_start) {
-      params.append("period_start", period_range.period_start);
+    if (payload.period_start) {
+      params.append("period_start", payload.period_start);
     }
-    if (period_range.period_end) {
-      params.append("period_end", period_range.period_end);
+    if (payload.period_end) {
+      params.append("period_end", payload.period_end);
     }
+    
+    if (payload.template) {
+      params.append("template", payload.template);
+    }
+
 
     const queryString = params.toString();
     const url = `${apiUrl}/reports/${queryString ? "?" + queryString : ""}`;

@@ -20,6 +20,13 @@ class ReportTemplates(BaseModel):
     class Meta:
         db_table = "report_templates"
 
+    def logo_absolute_url(self, request):
+        if self.logo:
+            print(self.logo)
+            print(request.build_absolute_uri(self.logo.url))
+            return request.build_absolute_uri(self.logo.url)
+        return None
+
 
 class Report(BaseModel):
     filename = models.CharField(max_length=50)

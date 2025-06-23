@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime
+from datetime import datetime, time
 
 from django.core.files.base import ContentFile
 from django.template.loader import render_to_string
@@ -16,7 +16,7 @@ from apps.product.models import Product
 from apps.project.models import Project
 from apps.project.utils import calculateProjectAnalytics
 from apps.report.models import Report
-from apps.report.serializers import ReportSerializer
+from apps.report.serializers import ReportSerializer, ReportRequestSerializer
 
 
 class ReportsView(APIView):
@@ -32,8 +32,12 @@ class ReportsView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
-        period_start = request.query_params.get("period_start")
-        period_end = request.query_params.get("period_end")
+        currently_selected_project_id = request.user.currently_selected_project_id
+        serializer = ReportRequestSerializer(data=request.query_params, context={'project_id': currently_selected_project_id})
+        serializer.is_valid(raise_exception=True)
+        period_start = serializer.validated_data.get('period_start', None)
+        period_end = serializer.validated_data.get('period_end', None)
+        template = serializer.validated_data.get('template', None)
 
         filters = {}
 
@@ -44,10 +48,10 @@ class ReportsView(APIView):
         if period_start and period_end:
             try:
                 start_date = timezone.make_aware(
-                    datetime.strptime(period_start, "%Y-%m-%d")
+                    datetime.combine(period_start, time.min)
                 )
                 end_date = timezone.make_aware(
-                    datetime.strptime(period_end, "%Y-%m-%d")
+                    datetime.combine(period_end, time.max)
                 )
                 filters["period_start__gte"] = start_date
                 filters["period_end__lte"] = end_date
@@ -63,11 +67,10 @@ class ReportsView(APIView):
                 )
 
         analytics = calculateProjectAnalytics(
-            request.user.currently_selected_project_id, filters, months
+            currently_selected_project_id, filters, months
         )
 
         user = request.user
-        currently_selected_project_id = user.currently_selected_project_id
         project = Project.objects.get(id=currently_selected_project_id)
         products = Product.objects.filter(project=project)
 
@@ -92,7 +95,6 @@ class ReportsView(APIView):
             )
 
         filename = f"rx_report_{uuid.uuid4().hex}.pdf"
-
         context = {
             "project": project,
             "products": product_data,
@@ -102,12 +104,15 @@ class ReportsView(APIView):
             "period_start": period_start,
             "period_end": period_end,
             "created_at": now(),
+            "template": template,
+            "logo_url": template.logo_absolute_url(request)
         }
 
         html_content = render_to_string("report_template.html", context)
         pdf_file = HTML(string=html_content).write_pdf()
 
         report = Report.objects.create(
+            template=template,
             filename=filename,
             project_id=currently_selected_project_id,
             created_by=user,
@@ -117,7 +122,7 @@ class ReportsView(APIView):
         report.file.save(filename, ContentFile(pdf_file))
 
         create_notification(
-            request.user, "Your requested report was successfully created!"
+            user, "Your requested report was successfully created!"
         )
 
         serializer = ReportSerializer(report)
