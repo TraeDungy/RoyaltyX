@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import { getProduct } from "../api/product";
+import { useProduct } from "../api/product";
 import { toast } from "react-toastify";
 import { Container, Spinner } from "react-bootstrap";
 import { apiUrl } from "../../common/api/config";
@@ -17,8 +17,8 @@ import { useSettings } from "../../common/contexts/SettingsContext";
 import { ReactComponent as ProductThumbnailPlaceholder } from "../../common/assets/img/vectors/product-thumbnail-placeholder.svg";
 
 function Analytics() {
-  const [product, setProduct] = useState(null);
   const { id } = useParams();
+  const { product } = useProduct(id);
   const {
     showSalesOverTime,
     showRentalsOverTime,
@@ -53,19 +53,6 @@ function Analytics() {
 
     fetchAnalytics();
   }, [location]);
-
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const fetchedProduct = await getProduct(id);
-        setProduct(fetchedProduct);
-      } catch (error) {
-        toast.error(error.message || "Failed to fetch product");
-      }
-    };
-
-    fetchProduct();
-  }, [id]);
 
   if (!product) {
     return (

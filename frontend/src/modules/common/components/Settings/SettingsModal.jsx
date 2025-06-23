@@ -1,15 +1,10 @@
 import { useState } from "react";
-import {
-  Gear,
-  Palette,
-  ExclamationCircle,
-  ColumnsGap,
-} from "react-bootstrap-icons";
 import Modal from "react-bootstrap/Modal";
 import GeneralSettings from "./GeneralSettings";
 import ThemeSettings from "./ThemeSettings";
 import DangerZone from "./DangerZone";
 import ViewSettings from "./ViewSettings";
+import { Settings, Palette, LayoutGrid, CircleAlert } from "lucide-react";
 
 function SettingsModal({ showSettingsModal, setShowSettingsModal }) {
   const [selectedTab, setSelectedTab] = useState("general");
@@ -35,8 +30,8 @@ function SettingsModal({ showSettingsModal, setShowSettingsModal }) {
                     onClick={() => setSelectedTab("general")}
                   >
                     <span className="nav-link">
-                      <Gear />
-                      <span className="ps-2 medium">General</span>
+                      <Settings size={18} color="var(--color-text-lighter)" />
+                      <span className="ps-3 medium">General</span>
                     </span>
                   </li>
 
@@ -45,8 +40,8 @@ function SettingsModal({ showSettingsModal, setShowSettingsModal }) {
                     onClick={() => setSelectedTab("theme")}
                   >
                     <span className="nav-link">
-                      <Palette />
-                      <span className="ps-2 medium">Theme</span>
+                      <Palette size={18} color="var(--color-text-lighter)" />
+                      <span className="ps-3 medium">Theme</span>
                     </span>
                   </li>
 
@@ -55,8 +50,8 @@ function SettingsModal({ showSettingsModal, setShowSettingsModal }) {
                     onClick={() => setSelectedTab("view")}
                   >
                     <span className="nav-link">
-                      <ColumnsGap />
-                      <span className="ps-2 medium">View</span>
+                      <LayoutGrid size={18} color="var(--color-text-lighter)" />
+                      <span className="ps-3 medium">View</span>
                     </span>
                   </li>
 
@@ -65,8 +60,10 @@ function SettingsModal({ showSettingsModal, setShowSettingsModal }) {
                     onClick={() => setSelectedTab("danger")}
                   >
                     <span className="nav-link text-danger">
-                      <ExclamationCircle />
-                      <span className="ps-2 medium">Danger Zone</span>
+                      <CircleAlert
+                        size={18}
+                      />
+                      <span className="ps-3 medium">Danger Zone</span>
                     </span>
                   </li>
                 </div>

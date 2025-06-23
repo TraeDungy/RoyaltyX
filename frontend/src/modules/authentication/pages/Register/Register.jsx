@@ -33,9 +33,9 @@ export default function Register() {
   return (
     <div className={styles.registerPageWrapper}>
       <div style={{ maxWidth: 470 }} className="w-100">
-        <img src={icon} style={{ maxWidth: 60 }} className="mb-4" alt="" />
+        <img src={icon} style={{ maxWidth: 60 }} className="mb-5" alt="" />
         <h2 className="bold">Sign up</h2>
-        <p className="mb-4 txt-lighter">Welcome! Please enter your details.</p>
+        <p className="mb-3 txt-lighter">Welcome! Please enter your details.</p>
         {error && <span className="text-danger small">{error}</span>} {}
         <form onSubmit={handleSubmit}>
           <div className="py-2">

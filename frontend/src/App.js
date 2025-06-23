@@ -25,12 +25,13 @@ import inboxRoutes from "./modules/inbox";
 import managementRoutes from "./modules/management";
 import productRoutes from "./modules/products";
 import { ProjectProvider } from "./modules/common/contexts/ProjectContext";
-import { ProductsProvider } from "./modules/common/contexts/ProductsContext";
 import helpDocumentationRoutes from "./modules/help_documentation";
 import InboxLayout from "./modules/inbox/layouts/InboxLayout";
 import { SettingsProvider } from "./modules/common/contexts/SettingsContext";
 import legalRoutes from "./modules/legal";
 import { MUIThemeWrapper } from "./modules/global/components/MUIThemeWrapper";
+import sourceRoutes from "./modules/sources";
+import oauthRoutes from "./modules/oauth";
 
 const PrivateRoutes = () => {
   const { authenticated, loading } = useAuth();
@@ -77,9 +78,7 @@ function App() {
                     path="/"
                     element={
                       <ProjectProvider>
-                        <ProductsProvider>
                           <AppLayout />
-                        </ProductsProvider>
                       </ProjectProvider>
                     }
                   >
@@ -91,6 +90,7 @@ function App() {
                       ...accountRoutes,
                       ...contentRoutes,
                       ...managementRoutes,
+                      ...sourceRoutes,
                       ...productRoutes,
                       ...legalRoutes,
                       ...helpDocumentationRoutes,
@@ -111,7 +111,7 @@ function App() {
                   </Route>
                 </Route>
 
-                {renderRoutes([...authRoutes])}
+                {renderRoutes([...authRoutes, ...oauthRoutes])}
 
                 <Route path="*" element={<PageNotFound />} />
               </Routes>

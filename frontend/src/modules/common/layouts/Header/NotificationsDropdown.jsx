@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { Bell, EnvelopeOpen } from "react-bootstrap-icons";
+import { EnvelopeOpen } from "react-bootstrap-icons";
 import icon from "../../assets/img/brand/icon.webp";
 import styles from "./NotificationsDropdown.module.css";
 import { getNotifications } from "../../api/notifications";
+import { Bell } from "lucide-react";
 
 const NotificationsDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,7 +33,7 @@ const NotificationsDropdown = () => {
         onClick={toggleDropdown}
         style={{ cursor: "pointer" }}
       >
-        <Bell style={{ fontSize: 19 }} className="txt-lighter" />
+        <Bell strokeWidth={1.5} size={20} className="txt-lighter" />
         <span
           className="badge badge-primary bg-danger position-absolute"
           style={{

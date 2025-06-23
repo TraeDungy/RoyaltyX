@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { ChevronDown, ChevronRight } from "react-bootstrap-icons";
+import { ChevronDown, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
-import { useProducts } from "../../contexts/ProductsContext";
 import { apiUrl } from "../../api/config";
 import { ReactComponent as ProductThumbnailPlaceholder } from "../../assets/img/vectors/product-thumbnail-placeholder.svg";
+import { useProducts } from "../../../products/api/products";
 
 const ProductsList = () => {
   const { products, loading } = useProducts();
@@ -17,7 +17,9 @@ const ProductsList = () => {
 
   return (
     <div className="sidebar-link-group">
-      <span className="txt-lighter small ps-2">PRODUCTS</span>
+      {products?.length > 0 && (
+        <span className="txt-lighter small ps-2">PRODUCTS</span>
+      )}
       {loading ? (
         <div className="d-flex justify-content-center py-5">
           <Spinner animation="border" />
@@ -29,12 +31,19 @@ const ProductsList = () => {
             className={`nav-item px-2 rounded my-1 ${activeMenu === product.id ? "menu-active" : ""}`}
             onClick={() => toggleSubMenu(product.id)}
           >
-            <Link className="nav-link d-flex">
+            <Link className="nav-link d-flex align-items-center">
               {product.thumbnail ? (
                 <img
                   className="img-fluid rounded"
-                  width="35"
-                  src={apiUrl + product.thumbnail}
+                  style={{ width: 45, height: 35, objectFit: "cover" }}
+                  src={(() => {
+                    const url = product.thumbnail.replace("/media/", "");
+                    if (url.startsWith("https")) {
+                      return decodeURIComponent(url);
+                    } else {
+                      return apiUrl + product.thumbnail;
+                    }
+                  })()}
                   alt={product.title}
                 />
               ) : (
@@ -45,11 +54,16 @@ const ProductsList = () => {
 
               <div className="d-flex justify-content-between align-items-center w-100">
                 <span className="ps-3 medium">{product.title}</span>
-                {activeMenu === product.id ? (
-                  <ChevronDown className="ms-1" />
-                ) : (
-                  <ChevronRight className="ms-1" />
-                )}
+                <div
+                  style={{ width: 30 }}
+                  className="d-flex justify-content-center align-items-center"
+                >
+                  {activeMenu === product.id ? (
+                    <ChevronDown size={18} className="ms-1" />
+                  ) : (
+                    <ChevronRight size={18} className="ms-1" />
+                  )}
+                </div>
               </div>
             </Link>
             {activeMenu === product.id && (

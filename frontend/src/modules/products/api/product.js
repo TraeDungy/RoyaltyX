@@ -1,128 +1,68 @@
+import { useEffect, useState } from "react";
+import useMutation from "../../global/hooks/useMutation";
+import useFetch from "../../global/hooks/useFetch";
 import { apiUrl } from "../../common/api/config";
 
-export const getProducts = async () => {
-  try {
-    const token = localStorage.getItem("accessToken");
+export const useProduct = (productId) => {
+  const [product, setProduct] = useState(null);
 
-    const response = await fetch(apiUrl + "/products/", {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-    });
+  const {
+    data,
+    loading,
+    error: fetchError,
+  } = useFetch(`/products/${productId}/`);
 
-    const responseData = await response.json();
-
-    if (response.ok) {
-      return responseData;
-    } else {
-      throw new Error(responseData.errors);
+  useEffect(() => {
+    if (data) {
+      setProduct(data);
     }
-  } catch (error) {
-    throw new Error(error);
-  }
+  }, [data]);
+  
+  const {
+    mutate: updateProductMutation,
+    loading: updating,
+    error: updateError,
+  } = useMutation(`/products/${productId}/`, "PUT");
+
+  const {
+    mutate: deleteProductMutation,
+    loading: deleting,
+    error: deleteError,
+  } = useMutation(`/products/${productId}/`, "DELETE");
+
+  const updateProduct = async (productData) => {
+    try {
+      const updated = await updateProductMutation(productData);
+      return updated;
+    } catch (error) {
+      console.error("Error updating product:", error);
+    }
+  };
+
+  const deleteProduct = async () => {
+    deleteProductMutation();
+  };
+
+  const error = updateError || deleteError;
+
+  useEffect(() => {
+    if (error) {
+      console.log(error.message);
+    }
+  }, [error]);
+
+  return {
+    product,
+    loading,
+    fetchError,
+    updateProduct,
+    updating,
+    deleteProduct,
+    deleting,
+    error,
+  };
 };
 
-export const getProduct = async (id) => {
-  try {
-    const token = localStorage.getItem("accessToken");
-
-    const response = await fetch(apiUrl + "/products/" + id + "/", {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-    });
-
-    const responseData = await response.json();
-
-    if (response.ok) {
-      return responseData;
-    } else {
-      throw new Error(responseData.errors);
-    }
-  } catch (error) {
-    throw new Error(error);
-  }
-};
-
-export const updateProduct = async (formData, productId) => {
-  try {
-    const token = localStorage.getItem("accessToken");
-
-    const response = await fetch(apiUrl + "/products/" + productId + "/", {
-      method: "PUT",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-      body: formData,
-    });
-
-    const responseData = await response.json();
-
-    return responseData;
-  } catch (error) {
-    return error;
-  }
-};
-
-export const createProduct = async (product) => {
-  try {
-    const token = localStorage.getItem("accessToken");
-
-    const response = await fetch(apiUrl + "/products/", {
-      method: "POST",
-      headers: {
-        Authorization: "Bearer " + token,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(product),
-    });
-
-    const responseData = await response.json();
-
-    if (!response.ok) {
-      throw new Error(responseData.message || "Failed to save product");
-    }
-
-    return responseData;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const removeProduct = async (id) => {
-  try {
-    const token = localStorage.getItem("accessToken");
-
-    const response = await fetch(`${apiUrl}/products/${id}/`, {
-      method: "DELETE",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-    });
-
-    if (response.ok && response.status === 204) {
-      return { success: true };
-    }
-
-    const responseData = await response.json();
-
-    if (response.ok) {
-      return responseData;
-    } else {
-      throw new Error(responseData.errors || "Failed to delete product");
-    }
-  } catch (error) {
-    throw new Error(error.message || "Something went wrong");
-  }
-};
 
 export const getTopPerformingProductsByImpressions = async () => {
   try {

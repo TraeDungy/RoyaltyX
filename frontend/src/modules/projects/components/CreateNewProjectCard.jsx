@@ -3,8 +3,8 @@ import CardActionArea from "@mui/material/CardActionArea";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import { Link as RouterLink } from "react-router-dom";
-import { PlusCircle } from "react-bootstrap-icons";
 import { Box } from "@mui/material";
+import { Plus } from "lucide-react";
 
 function CreateNewProjectCard() {
   return (
@@ -25,7 +25,7 @@ function CreateNewProjectCard() {
           }}
         >
           <Box sx={{ color: "primary.main", mb: 1 }}>
-            <PlusCircle size={48} />
+            <Plus size={48} />
           </Box>
           <Typography
             variant="subtitle1"
