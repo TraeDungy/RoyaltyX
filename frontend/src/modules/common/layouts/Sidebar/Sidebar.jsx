@@ -303,7 +303,7 @@ function Sidebar() {
                 className="nav-link"
                 onClick={() => handlePageChange("/report-templates")}
               >
-                <FileEarmarkPdf />
+                <FileText size={18} color="var(--color-text-lighter)" />
                 <span className="ps-3 medium">Report Templates</span>
               </Link>
             </li>
