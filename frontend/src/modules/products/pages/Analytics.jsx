@@ -152,7 +152,7 @@ function Analytics() {
               <tr>
                 <th>Revenue From Impressions</th>
                 <td className="text-end">
-                  ${analytics?.impression_revenue?.toLocaleString()}
+                  ${analytics?.total_impression_revenue?.toLocaleString()}
                 </td>
               </tr>
             </tbody>
@@ -176,7 +176,7 @@ function Analytics() {
           </tr>
         </thead>
         <tbody>
-          {product?.sales.map((sale, index) => (
+          {product?.sales?.map((sale, index) => (
             <tr key={index}>
               <td>{sale.type}</td>
               <td>{sale.unit_price}</td>
