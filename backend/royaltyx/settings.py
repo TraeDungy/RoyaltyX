@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "apps.notifications",
     "apps.inbox",
     "apps.sources",
+    "apps.analytics",
     "apps.oauth.google",
     "rest_framework",
     "rest_framework_simplejwt",
