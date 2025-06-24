@@ -8,7 +8,6 @@ from .views import (
     ProjectUserView,
     SwitchProjectView,
     deleteProject,
-    getProjectAnalytics,
     updateProject,
 )
 
@@ -20,6 +19,5 @@ urlpatterns = [
     path("users/<int:id>", ProjectUserView.as_view(), name="project-user"),
     path("my-projects/", MyProjectsView.as_view(), name="my-projects"),
     path("switch-project/", SwitchProjectView.as_view(), name="switch-project"),
-    path("analytics/", getProjectAnalytics, name="project-analytics"),
     path("delete/", deleteProject),
 ]
