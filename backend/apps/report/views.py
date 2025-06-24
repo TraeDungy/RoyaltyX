@@ -9,12 +9,12 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from apps.analytics.utils import calculateProjectAnalytics
 from weasyprint import HTML
 
 from apps.notifications.utils import create_notification
 from apps.product.models import Product
 from apps.project.models import Project
-from apps.project.utils import calculateProjectAnalytics
 
 from .models import Report
 from .serializers import ReportSerializer

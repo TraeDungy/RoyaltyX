@@ -3,7 +3,6 @@ from django.urls import path
 from .views import (
     ProductListCreateAPIView,
     ProductUserDetail,
-    getProductAnalytics,
     getTopPerformingContentByImpressions,
     getTopPerformingContentBySales,
     product_detail,
@@ -25,5 +24,4 @@ urlpatterns = [
         ProductUserDetail.as_view(),
         name="product_user_detail",
     ),
-    path("<int:product_id>/analytics", getProductAnalytics, name="product-analytics"),
 ]
