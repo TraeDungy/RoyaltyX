@@ -9,7 +9,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from apps.analytics.utils import calculateProjectAnalytics
+from apps.analytics.utils import calculate_analytics
 from weasyprint import HTML
 
 from apps.notifications.utils import create_notification
@@ -67,8 +67,8 @@ class ReportsView(APIView):
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
-        analytics = calculateProjectAnalytics(
-            currently_selected_project_id, filters, months
+        analytics = calculate_analytics(
+            request.user.currently_selected_project_id, filters, months
         )
 
         user = request.user

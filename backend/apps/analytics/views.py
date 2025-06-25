@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 
 from apps.analytics.serializers import AnalyticsSerializer
-from apps.analytics.utils import calculateProductAnalytics, calculateProjectAnalytics
+from apps.analytics.utils import calculate_analytics
 
 
 class AnalyticsView(APIView):
@@ -32,9 +32,6 @@ class AnalyticsView(APIView):
                 + 1
             )
 
-        if product_id:
-            data = calculateProductAnalytics(product_id, filters, months)
-        else:
-            data = calculateProjectAnalytics(project_id, filters, months)
-
+        data = calculate_analytics(project_id, filters, months, product_id)
+        
         return Response(data, status=status.HTTP_200_OK)
