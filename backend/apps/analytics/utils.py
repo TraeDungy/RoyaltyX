@@ -1,12 +1,19 @@
-from datetime import datetime, timedelta
+from typing import Optional, List, Dict, Any, Union
 
-from django.db.models import Count, DecimalField, ExpressionWrapper, F, Sum
+from datetime import datetime, timedelta, date
+
+from django.db.models import Count, DecimalField, ExpressionWrapper, F, Sum, QuerySet
 from django.db.models.functions import TruncMonth
 
 from apps.product.models import Product, ProductImpressions, ProductSale
 
 
-def calculate_monthly_stats(impressions_qs, sales_qs, months, period_end):
+def calculate_monthly_stats(
+        impressions_qs: QuerySet, 
+        sales_qs: QuerySet, 
+        months: int, 
+        period_end: Optional[date]
+    ) -> List[Dict[str, Any]]:
     now = datetime.now()
 
     # Monthly impressions
@@ -105,7 +112,10 @@ def calculate_monthly_stats(impressions_qs, sales_qs, months, period_end):
     return monthly_stats
 
 
-def calculate_totals(impressions_qs, sales_qs):
+def calculate_totals(
+        impressions_qs: QuerySet, 
+        sales_qs: QuerySet
+    ) -> Dict[str, Union[int, float]]:
     # Total calculations
     total_impressions = (
         impressions_qs.aggregate(Sum("impressions"))["impressions__sum"] or 0
@@ -159,38 +169,32 @@ def calculate_totals(impressions_qs, sales_qs):
     return data
 
 
-def calculateProductAnalytics(product_id: int, filters: dict, months: int):
-    impressions_qs = ProductImpressions.objects.filter(product_id=product_id)
+def calculate_analytics(
+        project_id: int, 
+        filters: Dict[str, Any], 
+        months: int, 
+        product_id: int = None
+    ) -> Dict[str, Any]:
+    if product_id:
+        impressions_qs = ProductImpressions.objects.filter(product_id=product_id)
+        sales_qs = ProductSale.objects.filter(product_id=product_id)
+    else:
+        impressions_qs = ProductImpressions.objects.filter(product__project_id=project_id)
+        sales_qs = ProductSale.objects.filter(product__project_id=project_id)
+
     if filters:
         impressions_qs = impressions_qs.filter(**filters)
-
-    sales_qs = ProductSale.objects.filter(product_id=product_id)
-    if filters:
         sales_qs = sales_qs.filter(**filters)
 
-    monthly_stats = calculate_monthly_stats(impressions_qs, sales_qs, months, filters.get("period_end__lte"))
+    monthly_stats = calculate_monthly_stats(
+        impressions_qs, sales_qs, months, filters.get("period_end__lte")
+    )
 
     data = calculate_totals(impressions_qs, sales_qs)
     data["monthly_stats"] = monthly_stats
 
-    return data
-
-
-def calculateProjectAnalytics(project_id: int, filters: dict, months: int):
-    impressions_qs = ProductImpressions.objects.filter(product__project_id=project_id)
-    if filters:
-        impressions_qs = impressions_qs.filter(**filters)
-
-    sales_qs = ProductSale.objects.filter(product__project_id=project_id)
-    if filters:
-        sales_qs = sales_qs.filter(**filters)
-
-    monthly_stats = calculate_monthly_stats(impressions_qs, sales_qs, months, filters.get("period_end__lte"))
-
-    product_count = Product.objects.filter(project_id=project_id).count()
-
-    data = calculate_totals(impressions_qs, sales_qs)
-    data["monthly_stats"] = monthly_stats
-    data["product_count"] = product_count
+    if not product_id:
+        # Only include product count for full project analytics
+        data["product_count"] = Product.objects.filter(project_id=project_id).count()
 
     return data
