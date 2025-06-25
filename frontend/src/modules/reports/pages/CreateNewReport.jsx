@@ -93,6 +93,15 @@ const CreateNewReport = () => {
             ))}
           </Select>
         </FormControl>
+        
+        <MuiButton
+          variant="outlined"
+          color="secondary"
+          onClick={() => navigate("/report-templates/create")}
+          sx={{ mt: -1 }}
+        >
+          + Create New Template
+        </MuiButton>
 
         <MuiButton
           variant="contained"
