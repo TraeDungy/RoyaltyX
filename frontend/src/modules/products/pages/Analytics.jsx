@@ -71,8 +71,8 @@ function Analytics() {
                 src={`${apiUrl}${product.thumbnail}`}
                 alt={product.title}
                 style={{
-                  height: 30,
-                  width: 35,
+                  height: 40,
+                  width: 55,
                   objectFit: "cover"
                 }}
                 />
