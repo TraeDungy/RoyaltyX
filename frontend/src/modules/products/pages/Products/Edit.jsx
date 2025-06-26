@@ -14,21 +14,17 @@ const EditProduct = () => {
   const [previewImage, setPreviewImage] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   const { id } = useParams();
-  const {product, updateProduct} = useProduct(id);
+  const { product, updateProduct } = useProduct(id);
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        setTitle(product.title);
-        setDescription(product.description);
-        setThumbnail(product.thumbnail);
-      } catch (error) {
-        toast.error(error.message || "Failed to fetch product");
-      }
+    const loadInitialProductValues = () => {
+      setTitle(product?.title);
+      setDescription(product?.description);
+      setThumbnail(product?.thumbnail);
     };
 
-    fetchProduct();
-  }, [id]);
+    loadInitialProductValues();
+  }, [id, product]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -75,7 +71,7 @@ const EditProduct = () => {
               <TextField
                 id="formProductTitle"
                 variant="outlined"
-                label="Title"
+                placeholder="Title"
                 fullWidth
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
@@ -87,7 +83,7 @@ const EditProduct = () => {
                 id="formProductDescription"
                 variant="outlined"
                 fullWidth
-                label="Description"
+                placeholder="Description"
                 multiline
                 rows={4}
                 value={description}
@@ -105,13 +101,19 @@ const EditProduct = () => {
             <Image src={previewImage} alt="Product Thumbnail" fluid />
           ) : thumbnail ? (
             <Image
-              src={`${apiUrl}${thumbnail}`}
+              src={(() => {
+                const url = thumbnail.replace("/media/", "");
+                if (url.startsWith("https")) {
+                  return decodeURIComponent(url);
+                } else {
+                  return apiUrl + thumbnail;
+                }
+              })()}
               alt="Product Thumbnail"
-              rounded
               fluid
             />
           ) : (
-            <div className="card card-img-top text-center">
+            <div className="card card-img-top rounded-0 text-center">
               <ProductThumbnailPlaceholder />
             </div>
           )}
