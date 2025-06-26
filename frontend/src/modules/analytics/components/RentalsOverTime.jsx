@@ -14,6 +14,7 @@ import { useState } from "react";
 import { EyeSlash, Palette, ThreeDotsVertical } from "react-bootstrap-icons";
 import { useSettings } from "../../common/contexts/SettingsContext";
 import { GraphColorPalette } from "./GraphColorPalette";
+import { Typography } from "@mui/material";
 
 ChartJS.register(
   CategoryScale,
@@ -23,7 +24,7 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  Filler,
+  Filler
 );
 
 const RentalsOverTime = ({ analytics }) => {
@@ -92,7 +93,9 @@ const RentalsOverTime = ({ analytics }) => {
       <div className="col-md-6">
         <div style={{ width: "100%", maxWidth: "1200px", margin: "auto" }}>
           <div className="py-4 d-flex justify-content-between align-items-center">
-            <h5 className="bold mb-0">Rentals Over Time</h5>
+            <Typography variant="h4" fontWeight="bold">
+              Rentals Over Time
+            </Typography>
             <div className="d-flex align-items-center">
               <div className="dropdown">
                 <button className="btn btn-basic" onClick={toggleDropdown}>

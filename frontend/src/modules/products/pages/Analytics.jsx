@@ -15,6 +15,7 @@ import ImpressionsOverTime from "../../analytics/components/ImpressionsOverTime"
 import ImpressionRevenueOverTime from "../../analytics/components/ImpressionRevenueOverTime";
 import { useSettings } from "../../common/contexts/SettingsContext";
 import { ReactComponent as ProductThumbnailPlaceholder } from "../../common/assets/img/vectors/product-thumbnail-placeholder.svg";
+import { Typography } from "@mui/material";
 
 function Analytics() {
   const { id } = useParams();
@@ -64,8 +65,8 @@ function Analytics() {
 
   return (
     <>
-      <div className="d-flex justify-content-between align-items-center mt-4 mb-3 ps-1">
-        <div className="d-flex align-items-center gap-2">
+      <div className="d-flex justify-content-between flex-wrap align-items-center mt-4 mb-3 ps-1">
+        <div className="d-flex align-items-center gap-2 mb-2">
           {product.thumbnail ? (
             <img
               src={(() => {
@@ -95,7 +96,9 @@ function Analytics() {
           )}
           <h2 className="bold">{product.title}</h2>
         </div>
-        <DateRangeSelector />
+        <div className="mb-2">
+          <DateRangeSelector />
+        </div>
       </div>
 
       <div className="row">
@@ -116,7 +119,9 @@ function Analytics() {
       </div>
       <div className="row">
         <div className="col-md-6">
-          <h4 className="bold mt-4 mb-4">Sales stats</h4>
+          <Typography variant="h4" fontWeight="bold" sx={{ mt: 4, mb: 2 }}>
+            Sales stats
+          </Typography>
           <table className="table table-bordered table-hover">
             <tbody>
               <tr>
@@ -147,7 +152,9 @@ function Analytics() {
           </table>
         </div>
         <div className="col-md-6">
-          <h4 className="bold mt-4 mb-4">General stats</h4>
+          <Typography variant="h4" fontWeight="bold" sx={{ mt: 4, mb: 2 }}>
+            General stats
+          </Typography>
           <table className="table table-bordered table-hover">
             <tbody>
               <tr>

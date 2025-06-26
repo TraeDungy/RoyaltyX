@@ -14,6 +14,7 @@ import { RevenueCard } from "../components/RevenueCard";
 import { useSettings } from "../../common/contexts/SettingsContext";
 import { TopPerfomingContentByImpressions } from "../components/TopPerfomingContentByImpressions";
 import { TopPerfomingContentBySales } from "../components/TopPerfomingContentBySales";
+import { Typography } from "@mui/material";
 
 function Analytics() {
   const [analytics, setAnalytics] = useState(null);
@@ -84,7 +85,9 @@ function Analytics() {
 
       <div className="row">
         <div className="col-md-6">
-          <h5 className="bold mt-4 mb-4">Sales stats</h5>
+          <Typography variant="h4" fontWeight="bold" sx={{ mt: 4, mb: 2 }}>
+            Sales stats
+          </Typography>
           <table className="table table-bordered table-hover">
             <tbody>
               <tr>
@@ -115,7 +118,9 @@ function Analytics() {
           </table>
         </div>
         <div className="col-md-6">
-          <h5 className="bold mt-4 mb-4">General stats</h5>
+          <Typography variant="h4" fontWeight="bold" sx={{ mt: 4, mb: 2 }}>
+            General stats
+          </Typography>
           <table className="table table-bordered table-hover">
             <tbody>
               <tr>
@@ -142,14 +147,16 @@ function Analytics() {
       </div>
 
       <div className="row">
-        <h5 className="bold mt-4 mb-4">
+        <Typography variant="h4" fontWeight="bold" sx={{ mt: 4, mb: 2 }}>
           Top Performing Content (by impressions)
-        </h5>
+        </Typography>
         <TopPerfomingContentByImpressions />
       </div>
 
       <div className="row">
-        <h5 className="bold mt-4 mb-4">Top Performing Content (by sales)</h5>
+        <Typography variant="h4" fontWeight="bold" sx={{ mt: 4, mb: 2 }}>
+          Top Performing Content (by sales)
+        </Typography>
         <TopPerfomingContentBySales />
       </div>
     </>

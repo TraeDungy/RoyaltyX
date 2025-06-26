@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import { useNavigate, useLocation } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
+import { Button } from "@mui/material";
 
 const DateRangeSelector = () => {
   const [dateRange, setDateRange] = useState([null, null]);
@@ -69,19 +70,13 @@ const DateRangeSelector = () => {
 
   return (
     <div className="d-flex gap-3 align-items-center">
-      <button
-        className="btn btn-outline-secondary txt-regular py-2"
-        onClick={setThisMonth}
-      >
+      <Button variant="outlined" onClick={setThisMonth} sx={{color: "var(--text-lighter)"}}>
         This Month
-      </button>
+      </Button>
 
-      <button
-        className="btn btn-outline-secondary txt-regular py-2"
-        onClick={setLastYear}
-      >
+      <Button variant="outlined" sx={{color: "var(--text-lighter)"}} onClick={setLastYear}>
         Last Year
-      </button>
+      </Button>
 
       <DatePicker
         selectsRange
