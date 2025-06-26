@@ -8,6 +8,7 @@
   --color-light-gray: #f2f2f2;
   --color-light-contrast: #fff;
   --color-power-contrast: #ffffff;
+  --color-very-subtle: #e7e7e7;
   --color-subtle: #dadada;
   --color-darker-gray: #d9d9d9;
   --color-danger: #ff0022;
@@ -32,6 +33,7 @@
   --content-over-widget-color: #2b2c2d;
   --scrollbar-color: #3a3c3d;
   --color-subtle: #4c5155;
+  --color-very-subtle: #405050;
 }
 
 #sidebar.active {
@@ -455,7 +457,7 @@ p {
 }
 
 .table > :not(caption) > * > * {
-  border: 1px solid var(--color-light-contrast) !important;
+  border: 1px solid var(--color-very-subtle) !important;
   background-color: var(--color-body-background) !important;
   color: var(--color-text) !important;
 }

@@ -61,31 +61,38 @@ function Analytics() {
       </Container>
     );
   }
-  
+
   return (
     <>
       <div className="d-flex justify-content-between align-items-center mt-4 mb-3 ps-1">
         <div className="d-flex align-items-center gap-2">
           {product.thumbnail ? (
-                <img
-                src={`${apiUrl}${product.thumbnail}`}
-                alt={product.title}
-                style={{
-                  height: 40,
-                  width: 55,
-                  objectFit: "cover"
-                }}
-                />
-              ) : (
-                <ProductThumbnailPlaceholder
-                  style={{ 
-                    width: 60, 
-                    height: 60, 
-                    objectFit: "cover",
-                    marginBottom: "0.25rem"
-                  }}
-                />
-              )}
+            <img
+              src={(() => {
+                const url = product.thumbnail.replace("/media/", "");
+                if (url.startsWith("https")) {
+                  return decodeURIComponent(url);
+                } else {
+                  return apiUrl + product.thumbnail;
+                }
+              })()}
+              alt={product.title}
+              style={{
+                height: 40,
+                width: 55,
+                objectFit: "cover",
+              }}
+            />
+          ) : (
+            <ProductThumbnailPlaceholder
+              style={{
+                width: 60,
+                height: 60,
+                objectFit: "cover",
+                marginBottom: "0.25rem",
+              }}
+            />
+          )}
           <h2 className="bold">{product.title}</h2>
         </div>
         <DateRangeSelector />
