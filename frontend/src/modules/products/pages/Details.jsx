@@ -1,12 +1,20 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useProduct } from "../api/product";
 import { Container, Spinner } from "react-bootstrap";
 import { ReactComponent as ProductThumbnailPlaceholder } from "../../common/assets/img/vectors/product-thumbnail-placeholder-lg.svg";
 import { apiUrl } from "../../common/api/config";
-import { Typography } from "@mui/material";
+import {
+  Typography,
+  Box,
+  Button as MUIButton,
+  Card,
+  CardContent,
+} from "@mui/material";
+import { ChartColumn, SquarePen } from "lucide-react";
 
 const Details = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const { product } = useProduct(id);
 
@@ -26,9 +34,45 @@ const Details = () => {
             {product.title}
           </Typography>
 
-          <p className="txt-lighter mb-5">
+          <Typography variant="body1" color="textSecondary">
             {product.description || "No description available."}
-          </p>
+          </Typography>
+
+          <Box sx={{ display: "flex", gap: 2, my: 3 }}>
+            <MUIButton
+              variant="contained"
+              color="primary"
+              onClick={() => navigate(`/products/${id}/analytics`)}
+            >
+              <ChartColumn style={{ marginRight: 10 }} /> View Analytics
+            </MUIButton>
+            <MUIButton
+              variant="outlined"
+              onClick={() => navigate(`/products/${id}/edit`)}
+            >
+              <SquarePen style={{ marginRight: 10 }} /> Edit Details
+            </MUIButton>
+          </Box>
+
+          <Card sx={{ mt: 3 }}>
+            <CardContent style={{ display: "flex", flexDirection: "column" }}>
+              <Typography variant="h5" sx={{ mb: 4 }}>
+                Product Details
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 2 }}>
+                <span style={{ fontWeight: 500 }}>Platform:</span>{" "}
+                {product.platform || "Unknown"}
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 2 }}>
+                <span style={{ fontWeight: 500 }}>Category:</span>{" "}
+                {product.category || "Uncategorized"}
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 2 }}>
+                <span style={{ fontWeight: 500 }}>Price:</span> $
+                {product.price || "N/A"}
+              </Typography>
+            </CardContent>
+          </Card>
         </div>
         <div className="col-md-5">
           <div>
