@@ -54,32 +54,43 @@ const Details = () => {
             </MUIButton>
           </Box>
 
-          <Card sx={{ mt: 3 }}>
+          <Card sx={{ mt: 5 }}>
             <CardContent style={{ display: "flex", flexDirection: "column" }}>
-              <Typography variant="h5" sx={{ mb: 4 }}>
-                Product Details
+              <Typography variant="h5" sx={{ mb: 3, fontWeight: 600 }}>
+                Product Metadata
               </Typography>
               <Typography variant="body1" sx={{ mb: 2 }}>
-                <span style={{ fontWeight: 500 }}>Platform:</span>{" "}
+                <span style={{ fontWeight: 500, paddingRight: 6 }}>Type:</span>
+                Video
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 2 }}>
+                <span style={{ fontWeight: 500, paddingRight: 6 }}>
+                  Platform:
+                </span>
                 {product.platform || "Unknown"}
               </Typography>
               <Typography variant="body1" sx={{ mb: 2 }}>
-                <span style={{ fontWeight: 500 }}>Category:</span>{" "}
-                {product.category || "Uncategorized"}
+                <span style={{ fontWeight: 500, paddingRight: 6 }}>
+                  Author:
+                </span>
+                Unknown
               </Typography>
-              <Typography variant="body1" sx={{ mb: 2 }}>
-                <span style={{ fontWeight: 500 }}>Price:</span> $
-                {product.price || "N/A"}
+              <Typography variant="body1">
+                <span style={{ fontWeight: 500, paddingRight: 6 }}>
+                  Created at:
+                </span>
+                {Date(product.created_at)}
               </Typography>
             </CardContent>
           </Card>
         </div>
         <div className="col-md-5">
-          <div>
+          <div className="px-3">
             {product.thumbnail ? (
-              <div style={{ maxHeight: 650, height: "auto" }}>
+              <div>
                 <img
-                  className="rounded-lg w-100"
+                  className="w-100"
+                  style={{ objectFit: "cover", maxHeight: 220, height: "auto" }}
                   src={(() => {
                     const url = product.thumbnail.replace("/media/", "");
                     if (url.startsWith("https")) {

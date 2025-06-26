@@ -1,5 +1,3 @@
-import { useState } from "react";
-import { ChevronDown, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
 import { apiUrl } from "../../api/config";
@@ -8,12 +6,6 @@ import { useProducts } from "../../../products/api/products";
 
 const ProductsList = () => {
   const { products, loading } = useProducts();
-
-  const [activeMenu, setActiveMenu] = useState(null);
-
-  const toggleSubMenu = (menuId) => {
-    setActiveMenu(activeMenu === menuId ? null : menuId);
-  };
 
   return (
     <div className="sidebar-link-group">
@@ -28,10 +20,12 @@ const ProductsList = () => {
         products?.map((product) => (
           <li
             key={product.id}
-            className={`nav-item px-2 rounded my-1 ${activeMenu === product.id ? "menu-active" : ""}`}
-            onClick={() => toggleSubMenu(product.id)}
+            className="nav-item px-2 rounded my-1"
           >
-            <Link className="nav-link d-flex align-items-center">
+            <Link
+              to={`/products/${product.id}`}
+              className="nav-link d-flex align-items-center"
+            >
               {product.thumbnail ? (
                 <img
                   className="img-fluid rounded"
@@ -52,37 +46,8 @@ const ProductsList = () => {
                 />
               )}
 
-              <div className="d-flex justify-content-between align-items-center w-100">
-                <span className="ps-3 medium">{product.title}</span>
-                <div
-                  style={{ width: 30 }}
-                  className="d-flex justify-content-center align-items-center"
-                >
-                  {activeMenu === product.id ? (
-                    <ChevronDown size={18} className="ms-1" />
-                  ) : (
-                    <ChevronRight size={18} className="ms-1" />
-                  )}
-                </div>
-              </div>
+              <span className="ps-3 medium">{product.title}</span>
             </Link>
-            {activeMenu === product.id && (
-              <ul className="submenu ps-5">
-                <li className="nav-item ps-2">
-                  <Link to={`/products/${product.id}`} className="nav-link">
-                    View
-                  </Link>
-                </li>
-                <li className="nav-item ps-2">
-                  <Link
-                    to={`/products/${product.id}/analytics`}
-                    className="nav-link"
-                  >
-                    Analytics
-                  </Link>
-                </li>
-              </ul>
-            )}
           </li>
         ))
       )}
