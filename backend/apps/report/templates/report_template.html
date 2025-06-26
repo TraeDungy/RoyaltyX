@@ -35,16 +35,22 @@
 
   <body>
     <div class="header">
-      <img
-        src="https://royaltyx.co/trial-x-fire-logo.png"
-        style="width: 370px; height: auto"
-        alt=""
-      />
+      {% if template.logo %}
+        <img src="{{ logo_url }}" style="max-width: 350px; height: auto; max-height: 100px;" alt="" />
+      {% else %}
+        <img src="https://royaltyx.co/trial-x-fire-logo.png" style="width: 370px; height: auto" alt="" />
+      {% endif %}
+      {% if template.address %}
+      <div>
+        <span>{{ template.address }}</span>
+      </div>
+      {% else %}
       <div>
         <span>455 Moreland Ave #5836</span>
         <br />
         <span>Atlanta, GA 31107</span>
       </div>
+      {% endif %}
     </div>
 
     <span>Report requested by: {{ user.name }}</span><br />
@@ -53,7 +59,9 @@
     <br />
     <br />
 
-    <h2 style="text-align: center">Summary Royalty Statement</h2>
+    <h2 style="text-align: center">
+      {{ template.title|default:"Summary Royalty Statement" }}
+    </h2>
     <br /><br />
 
     <div>
@@ -61,32 +69,45 @@
         <div class="col">
           <p><b>Title</b></p>
         </div>
-        <div class="col">
-          <p style="text-align: right"><b>Sales Revenue</b></p>
-        </div>
-        <div class="col">
-          <p style="text-align: right"><b>Impressions</b></p>
-        </div>
-        <div class="col">
-          <p style="text-align: right"><b>Impressions Revenue</b></p>
-        </div>
+        {% if template.include_sales_revenue %}
+          <div class="col">
+            <p style="text-align: right"><b>Sales Revenue</b></p>
+          </div>
+        {% endif %}
+        {% if template.include_impressions %}
+          <div class="col">
+            <p style="text-align: right"><b>Impressions</b></p>
+          </div>
+        {% endif %}
+        {% if template.include_impressions_revenue %}
+          <div class="col">
+            <p style="text-align: right"><b>Impressions Revenue</b></p>
+          </div>
+        {% endif %}
       </div>
       {% for product in products %}
       <div class="row">
         <div class="col">
           <p>{{ product.title }}</p>
         </div>
-        <div class="col">
-          <p style="text-align: right">${{ product.total_royalty }}</p>
-        </div>
-        <div class="col">
-          <p style="text-align: right">{{ product.total_impressions }}</p>
-        </div>
-        <div class="col">
-          <p style="text-align: right">
-            ${{ product.impressions_revenue|floatformat:2 }}
-          </p>
-        </div>
+        {% if template.include_sales_revenue %}
+          <div class="col">
+            <p style="text-align: right">${{ product.total_royalty }}</p>
+          </div>
+        {% endif %}
+        {% if template.include_impressions %}
+          <div class="col">
+            <p style="text-align: right">{{ product.total_impressions }}</p>
+          </div>
+        {% endif %}
+        {% if template.include_impressions_revenue %}
+          <div class="col">
+            <p style="text-align: right">
+              ${{ product.impressions_revenue|floatformat:2 }}
+            </p>
+          </div>
+        {% endif %}
+
       </div>
       {% endfor %}
 

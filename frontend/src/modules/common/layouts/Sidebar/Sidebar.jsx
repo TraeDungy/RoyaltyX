@@ -295,6 +295,18 @@ function Sidebar() {
                 <span className="ps-4 medium">Reports</span>
               </Link>
             </li>
+            <li
+              className={`nav-item px-2 rounded my-1 ${currentPage === "/report-templates" ? "active" : ""}`}
+            >
+              <Link
+                to="/report-templates"
+                className="nav-link"
+                onClick={() => handlePageChange("/report-templates")}
+              >
+                <FileText size={18} color="var(--color-text-lighter)" />
+                <span className="ps-3 medium">Report Templates</span>
+              </Link>
+            </li>
           </div>
 
           <ProductsList />
