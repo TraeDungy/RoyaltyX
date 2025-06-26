@@ -53,7 +53,7 @@ export default function ReportTemplateForm({
 
   return (
     <Box component="form" onSubmit={handleSubmit} sx={{ maxWidth: 500, mx: 'auto', my: 3 }}>
-      <Typography variant="h5" mb={2}>Report Template</Typography>
+      <Typography variant="h3" mb={2}>Report Template</Typography>
 
       <TextField
         required
@@ -109,7 +109,7 @@ export default function ReportTemplateForm({
           />
         </Box>
       )}
-      <Button variant="contained" component="label" sx={{ mt: 2, mr: 2 }}>
+      <Button variant="outlined" component="label" sx={{ mt: 2, mr: 2 }}>
         Upload Logo
         <input
           type="file"

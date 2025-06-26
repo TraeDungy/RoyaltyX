@@ -11,6 +11,7 @@ import {
   Database,
   AlignLeft,
   Package2,
+  LayoutPanelTop,
 } from "lucide-react";
 import { getUserInfo } from "../../../account/api/user";
 import { getMyProjects, switchProject } from "../../../projects/api/project";
@@ -303,8 +304,8 @@ function Sidebar() {
                 className="nav-link"
                 onClick={() => handlePageChange("/report-templates")}
               >
-                <FileText size={18} color="var(--color-text-lighter)" />
-                <span className="ps-3 medium">Report Templates</span>
+                <LayoutPanelTop size={18} color="var(--color-text-lighter)" />
+                <span className="ps-4 medium">Report Templates</span>
               </Link>
             </li>
           </div>

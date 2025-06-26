@@ -61,7 +61,7 @@ const CreateNewReport = () => {
   return (
     <Box sx={{ width: "100%", mx: "auto", my: 4 }}>
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
-        <Typography variant="h5" fontWeight="bold">
+        <Typography variant="h3" fontWeight="bold">
           Generate Report
         </Typography>
         <DateRangeSelector />
@@ -96,7 +96,6 @@ const CreateNewReport = () => {
         
         <MuiButton
           variant="outlined"
-          color="secondary"
           onClick={() => navigate("/report-templates/create")}
           sx={{ mt: -1 }}
         >
