@@ -29,6 +29,13 @@ services:
     env_file:
       - .env
 
+  landing:
+    image: nenad2807/royaltyx.landing:latest
+    ports:
+      - "80:80"
+    env_file:
+      - .env
+
   frontend:
     build:
        context: ./frontend
@@ -92,4 +99,3 @@ services:
 
 volumes:
   postgres_data:
-  

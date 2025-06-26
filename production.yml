@@ -29,6 +29,11 @@ services:
     env_file:
       - .env
 
+  landing:
+    image: nenad2807/royaltyx.landing:latest
+    env_file:
+      - .env
+
   frontend:
     build:
       context: ./frontend
@@ -41,6 +46,7 @@ services:
     depends_on:
       - backend
       - frontend
+      - landing
     restart: always
     build:
       dockerfile: Dockerfile
@@ -52,12 +58,12 @@ services:
 
   celery:
     build:
-      context: ./api
+      context: ./backend
       dockerfile: Dockerfile.local
-    command: celery -A momentum worker -l info -E
+    command: celery -A royaltyx worker -l info -E
     volumes:
-      - ./api:/api
-    working_dir: /api
+      - ./backend:/backend
+    working_dir: /backend
     depends_on:
       - redis
     env_file:
@@ -65,15 +71,15 @@ services:
 
   celery-beat:
     build:
-      context: ./api
+      context: ./backend
       dockerfile: Dockerfile.local
-    command: celery -A momentum beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    command: celery -A royaltyx beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
     volumes:
-      - ./api:/api
-    working_dir: /api
+      - ./backend:/backend
+    working_dir: /backend
     depends_on:
       - redis
-      - api
+      - backend
     env_file:
       - .env
 
@@ -84,14 +90,14 @@ services:
 
   flower:
     build:
-      context: ./api
+      context: ./backend
       dockerfile: Dockerfile.local
-    command: celery -A momentum flower --port=5555 --broker=redis://redis:6379/0
+    command: celery -A royaltyx flower --port=5555 --broker=redis://redis:6379/0
     ports:
       - "5555:5555"
     volumes:
-      - ./api:/api
-    working_dir: /api
+      - ./backend:/backend
+    working_dir: /backend
     depends_on:
       - redis
     env_file:
