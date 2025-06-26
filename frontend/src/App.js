@@ -28,7 +28,6 @@ import { ProjectProvider } from "./modules/common/contexts/ProjectContext";
 import helpDocumentationRoutes from "./modules/help_documentation";
 import InboxLayout from "./modules/inbox/layouts/InboxLayout";
 import { SettingsProvider } from "./modules/common/contexts/SettingsContext";
-import legalRoutes from "./modules/legal";
 import { MUIThemeWrapper } from "./modules/global/components/MUIThemeWrapper";
 import sourceRoutes from "./modules/sources";
 import oauthRoutes from "./modules/oauth";
@@ -92,7 +91,6 @@ function App() {
                       ...managementRoutes,
                       ...sourceRoutes,
                       ...productRoutes,
-                      ...legalRoutes,
                       ...helpDocumentationRoutes,
                     ])}
                     <Route path="/" element={<InboxLayout />}>
