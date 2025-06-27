@@ -1,11 +1,11 @@
 from django.urls import path
 
-from .views import NotificationListCreateView
+from .views import UserNotificationView
 
 urlpatterns = [
     path(
         "",
-        NotificationListCreateView.as_view(),
-        name="notifications-list-create",
+        UserNotificationView.as_view(),
+        name="notifications-list-update",
     ),
 ]
