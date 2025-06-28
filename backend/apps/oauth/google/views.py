@@ -42,11 +42,6 @@ class GoogleTokenExchange(APIView):
         print(f"Response from Google token exchange: {response.json()}")
 
         response.raise_for_status()
-        # except requests.exceptions.HTTPError as e:
-        #     return Response(
-        #         {"error": "Failed to fetch tokens", "details": str(e)},
-        #         status=status.HTTP_400_BAD_REQUEST,
-        #     )
 
         token_data = response.json()
 

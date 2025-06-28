@@ -10,7 +10,10 @@ class SourcesConfig(AppConfig):
         import os
 
         from django.db.utils import IntegrityError
-        from django_celery_beat.models import IntervalSchedule, PeriodicTask
+        from django_celery_beat.models import (
+            IntervalSchedule,
+            PeriodicTask,
+        )
 
         from . import tasks  # noqa: F401
 
@@ -21,15 +24,21 @@ class SourcesConfig(AppConfig):
             every=1, period=IntervalSchedule.MINUTES
         )
 
-        try:
-            PeriodicTask.objects.get_or_create(
-                name="Fetch Data From Connected Sources",
-                defaults={
-                    "interval": schedule,
-                    "task": "apps.sources.tasks.fetch_youtube_stats",
-                    "args": json.dumps([]),
-                },
-            )
-        except IntegrityError:
-            print("Integrity error", flush=True)
-            pass
+        PeriodicTask.objects.get_or_create(
+            name="Fetch Youtube Videos",
+            defaults={
+                "interval": schedule,
+                "task": "apps.sources.tasks.task_fetch_youtube_videos",
+                "args": json.dumps([]),
+            },
+        )
+    
+        PeriodicTask.objects.get_or_create(
+            name="Fetch YouTube Stats",
+            defaults={
+                "interval": schedule,
+                "task": "apps.sources.tasks.task_fetch_youtube_stats",
+                "args": json.dumps([]),
+            },
+        )
+    

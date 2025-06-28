@@ -3,11 +3,14 @@ from django.db.models import Sum
 
 from apps.data_imports.models import File
 from apps.project.models import Project
+from apps.sources.models import Source
 from common.models import BaseModel
 
 
 class Product(BaseModel):
+    external_id = models.CharField(max_length=255, null=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    source = models.ForeignKey(Source, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     statement_frequency = models.CharField(

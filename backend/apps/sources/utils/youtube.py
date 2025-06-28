@@ -1,6 +1,11 @@
-import requests
+from datetime import datetime, timedelta
 
+import requests
 from django.conf import settings
+from django.utils import timezone
+
+from apps.product.models import Product, ProductImpressions
+from apps.sources.models import Source
 
 
 def request_users_youtube_content(access_token: str) -> dict:
@@ -14,28 +19,6 @@ def request_users_youtube_content(access_token: str) -> dict:
         "type": "video",
         "order": "date",
         "maxResults": 50,
-    }
-    headers = {
-        "Authorization": f"Bearer {access_token}"
-    }
-
-    response = requests.get(url, headers=headers, params=params)
-
-    if response.status_code == 200:
-        return response.json()
-    else:
-        response.raise_for_status()
-
-def request_youtube_stats(access_token: str) -> dict:
-    """
-    Fetch YouTube stats using the provided access token.
-    """
-    url = "https://youtubeanalytics.googleapis.com/v2/reports"
-    params = {
-        "ids": "channel==UCJ3hMETsGkmAwviqgd2ICQw",
-        "startDate": "2024-01-01",
-        "endDate": "2024-06-01",
-        "metrics": "views,estimatedMinutesWatched"
     }
     headers = {
         "Authorization": f"Bearer {access_token}"
@@ -65,5 +48,92 @@ def refresh_access_token(refresh_token: str) -> str:
 
     if response.status_code == 200:
         return response.json().get("access_token")
+    else:
+        response.raise_for_status()
+
+
+def fetch_youtube_videos():
+    sources = Source.objects.filter(platform=Source.PLATFORM_YOUTUBE)
+
+    for source in sources:
+        if source.token_expires_at and timezone.now() > source.token_expires_at:
+            new_token = refresh_access_token(source.refresh_token)
+            source.access_token = new_token
+            source.save(update_fields=["_access_token"])
+
+        youtube_videos = request_users_youtube_content(access_token=source.access_token)
+        for video in youtube_videos.get("items", []):
+            existing_product = Product.objects.filter(
+                title=video["snippet"]["title"],
+                project=source.project,
+            ).first()
+            if not existing_product:
+                Product.objects.create(
+                    external_id=video["id"]["videoId"],
+                    title=video["snippet"]["title"],
+                    description=video["snippet"]["description"],
+                    thumbnail=video["snippet"]["thumbnails"]
+                    .get("high", {})
+                    .get("url", video["snippet"]["thumbnails"]["default"]["url"]),
+                    project=source.project,
+                    source=source
+                )
+        source.last_fetched_at = timezone.now()
+        source.save(update_fields=["last_fetched_at"])
+
+
+def fetch_youtube_stats():
+    sources = Source.objects.filter(platform=Source.PLATFORM_YOUTUBE)
+    end_date = datetime.now().date()
+    start_date = (end_date - timedelta(days=2 * 365)).isoformat()
+
+    for source in sources:
+        if source.token_expires_at and timezone.now() > source.token_expires_at:
+            new_token = refresh_access_token(source.refresh_token)
+            source.access_token = new_token
+            source.save(update_fields=["_access_token"])
+
+        products = Product.objects.filter(source=source)
+        for product in products:
+            stats = fetch_youtube_video_stats(product, source, start_date, end_date)
+            print(stats, flush=True)
+            rows = stats.get("rows", [])
+            if rows:
+                views = rows[0][0]
+                print(f"Views: {views}")
+            else:
+                print("No rows returned in stats.")
+                views = 0 
+
+            ProductImpressions.objects.create(
+                product=product,
+                impressions = views,
+                ecpm = 0,
+                period_start=start_date,
+                period_end=end_date,
+            )
+
+
+def fetch_youtube_video_stats(product, source, start_date, end_date):
+    """Gets Youtube Stats for the provided video"""
+    
+    url = "https://youtubeanalytics.googleapis.com/v2/reports"
+    
+
+    params = {
+        "ids": "channel==UCJ3hMETsGkmAwviqgd2ICQw",
+        "startDate": start_date,
+        "endDate": end_date.isoformat(),
+        "metrics": "views",
+        "filters": f"video=={product.external_id}"
+    }
+    headers = {
+        "Authorization": f"Bearer {source.access_token}"
+    }
+
+    response = requests.get(url, headers=headers, params=params)
+
+    if response.status_code == 200:
+        return response.json()
     else:
         response.raise_for_status()
