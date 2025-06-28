@@ -43,18 +43,35 @@ services:
       - "/app/node_modules"
 
   nginx:
+    image: nginx:latest
     depends_on:
       - backend
       - frontend
       - landing
-    restart: always
-    build:
-      dockerfile: Dockerfile
-      context: ./nginx
+      - flower
     ports:
       - "443:443"
+      - "80:80"
     volumes:
-      - ./media:/backend/media
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx/certificates:/etc/letsencrypt:ro
+      - ./nginx/html:/usr/share/nginx/html
+    restart: always
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./nginx/certificates:/etc/letsencrypt
+      - ./nginx/html:/usr/share/nginx/html
+    restart: always
+    entrypoint: >
+      sh -c "trap exit TERM;
+             while :; do
+               certbot renew --webroot -w /usr/share/nginx/html --quiet &&
+               nginx -s reload;
+               sleep 12h;
+             done"
 
   celery:
     build:
