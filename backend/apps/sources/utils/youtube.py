@@ -30,13 +30,14 @@ def request_users_youtube_content(access_token: str, channel_id: str) -> dict:
         response.raise_for_status()
 
 
-def fetch_youtube_channel_id(access_token: str) -> str:
+def fetch_youtube_channel_details(access_token: str) -> dict:
     """
-    Fetch the YouTube channel ID for the authenticated user.
+    Fetch the YouTube channel ID and name for the authenticated user.
+    Returns a dict with 'id' and 'name' keys.
     """
     url = "https://www.googleapis.com/youtube/v3/channels"
     params = {
-        "part": "id",
+        "part": "id,snippet",
         "mine": "true",
     }
     headers = {"Authorization": f"Bearer {access_token}"}
@@ -47,11 +48,24 @@ def fetch_youtube_channel_id(access_token: str) -> str:
         data = response.json()
         items = data.get("items", [])
         if items:
-            return items[0]["id"]
+            channel = items[0]
+            return {
+                "id": channel["id"],
+                "name": channel["snippet"]["title"]
+            }
         else:
             raise ValueError("No YouTube channel found for this account")
     else:
         response.raise_for_status()
+
+
+def fetch_youtube_channel_id(access_token: str) -> str:
+    """
+    Fetch the YouTube channel ID for the authenticated user.
+    (Kept for backward compatibility)
+    """
+    channel_details = fetch_youtube_channel_details(access_token)
+    return channel_details["id"]
 
 
 def refresh_access_token(refresh_token: str) -> str:
