@@ -94,7 +94,7 @@ function Analytics() {
               }}
             />
           )}
-          <h2 className="bold">{product.title}</h2>
+          <h2 className="bold mb-0">{product.title}</h2>
         </div>
         <div className="mb-2">
           <DateRangeSelector />
