@@ -16,7 +16,10 @@ import {
 import { MailOutline } from "@mui/icons-material";
 import icon from "../../assets/img/brand/icon.webp";
 import { Bell } from "lucide-react";
-import { getNotifications, markNotificationsAsRead } from "../../api/notifications";
+import {
+  getNotifications,
+  markNotificationsAsRead,
+} from "../../api/notifications";
 
 const NotificationsDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -75,19 +78,20 @@ const NotificationsDropdown = () => {
             aria-label="show notifications"
             sx={{ position: "relative", color: "text.secondary", p: 0 }}
           >
-            <Badge badgeContent={notificationCount}
-              showZero
+            <Badge
+              badgeContent={notificationCount}
+              showZero={false}
               color="error"
               overlap="circular"
               componentsProps={{
                 badge: {
                   sx: {
-                    top: 'auto',
+                    top: "auto",
                     bottom: 0,
                     right: 0,
                     transform: "translate(50%, 50%)",
                     fontSize: 9,
-                    borderRadius: '0.375rem',
+                    borderRadius: "0.375rem",
                     minWidth: 17,
                     height: 15.3,
                   },
@@ -150,7 +154,12 @@ const NotificationsDropdown = () => {
                 alignItems="center"
                 sx={{ px: 2, py: 1 }}
               >
-                <Stack direction="row" alignItems="center" spacing={0.5} sx={{ cursor: "pointer", color: "primary.main" }}>
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  spacing={0.5}
+                  sx={{ cursor: "pointer", color: "primary.main" }}
+                >
                   <MailOutline fontSize="small" />
                   <Typography variant="body2">Inbox</Typography>
                 </Stack>
