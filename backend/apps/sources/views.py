@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 
 from .models import Source
 from .serializers import SourceSerializer
+from .utils.youtube import fetch_youtube_stats, fetch_youtube_videos
 
 
 class SourceListCreateView(APIView):
@@ -32,6 +33,8 @@ class SourceListCreateView(APIView):
         serializer = SourceSerializer(data=data)
         if serializer.is_valid():
             source = serializer.save()
+            fetch_youtube_videos(source.id)
+            fetch_youtube_stats(source.id)
             return Response(
                 SourceSerializer(source).data, status=status.HTTP_201_CREATED
             )        

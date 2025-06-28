@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import date
 
 import requests
 from django.conf import settings
@@ -20,9 +20,7 @@ def request_users_youtube_content(access_token: str) -> dict:
         "order": "date",
         "maxResults": 50,
     }
-    headers = {
-        "Authorization": f"Bearer {access_token}"
-    }
+    headers = {"Authorization": f"Bearer {access_token}"}
 
     response = requests.get(url, headers=headers, params=params)
 
@@ -41,7 +39,7 @@ def refresh_access_token(refresh_token: str) -> str:
         "client_id": settings.GOOGLE_CLIENT_ID,
         "client_secret": settings.GOOGLE_CLIENT_SECRET,
         "refresh_token": refresh_token,
-        "grant_type": "refresh_token"
+        "grant_type": "refresh_token",
     }
 
     response = requests.post(url, data=data)
@@ -52,8 +50,10 @@ def refresh_access_token(refresh_token: str) -> str:
         response.raise_for_status()
 
 
-def fetch_youtube_videos():
+def fetch_youtube_videos(source_id=None):
     sources = Source.objects.filter(platform=Source.PLATFORM_YOUTUBE)
+    if source_id:
+        sources = sources.filter(id=source_id)
 
     for source in sources:
         if source.token_expires_at and timezone.now() > source.token_expires_at:
@@ -76,16 +76,19 @@ def fetch_youtube_videos():
                     .get("high", {})
                     .get("url", video["snippet"]["thumbnails"]["default"]["url"]),
                     project=source.project,
-                    source=source
+                    source=source,
                 )
         source.last_fetched_at = timezone.now()
         source.save(update_fields=["last_fetched_at"])
 
 
-def fetch_youtube_stats():
+def fetch_youtube_stats(source_id=None):
     sources = Source.objects.filter(platform=Source.PLATFORM_YOUTUBE)
-    end_date = datetime.now().date()
-    start_date = (end_date - timedelta(days=2 * 365)).isoformat()
+    if source_id:
+        sources = sources.filter(id=source_id)
+
+    start_date = date.today().isoformat()
+    end_date = date.today().isoformat()
 
     for source in sources:
         if source.token_expires_at and timezone.now() > source.token_expires_at:
@@ -103,33 +106,39 @@ def fetch_youtube_stats():
                 print(f"Views: {views}")
             else:
                 print("No rows returned in stats.")
-                views = 0 
+                views = 0
 
-            ProductImpressions.objects.create(
-                product=product,
-                impressions = views,
-                ecpm = 0,
-                period_start=start_date,
-                period_end=end_date,
+            existingProductImpressionsObjectWithSameDateRange = (
+                ProductImpressions.objects.filter(
+                    product=product, period_start=start_date, period_end=end_date
+                )
             )
+
+            if not existingProductImpressionsObjectWithSameDateRange:
+                ProductImpressions.objects.create(
+                    product=product,
+                    impressions=views,
+                    ecpm=0,
+                    period_start=start_date,
+                    period_end=end_date,
+                )
 
 
 def fetch_youtube_video_stats(product, source, start_date, end_date):
-    """Gets Youtube Stats for the provided video"""
-    
+    """
+    Gets Youtube Stats for the provided video
+    """
+
     url = "https://youtubeanalytics.googleapis.com/v2/reports"
-    
 
     params = {
         "ids": "channel==UCJ3hMETsGkmAwviqgd2ICQw",
         "startDate": start_date,
-        "endDate": end_date.isoformat(),
+        "endDate": end_date,
         "metrics": "views",
-        "filters": f"video=={product.external_id}"
+        "filters": f"video=={product.external_id}",
     }
-    headers = {
-        "Authorization": f"Bearer {source.access_token}"
-    }
+    headers = {"Authorization": f"Bearer {source.access_token}"}
 
     response = requests.get(url, headers=headers, params=params)
 

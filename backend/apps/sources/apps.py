@@ -21,7 +21,7 @@ class SourcesConfig(AppConfig):
             return
 
         schedule, created = IntervalSchedule.objects.get_or_create(
-            every=1, period=IntervalSchedule.MINUTES
+            every=24, period=IntervalSchedule.HOURS
         )
 
         PeriodicTask.objects.get_or_create(
