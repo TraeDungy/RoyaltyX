@@ -8,14 +8,14 @@ from apps.product.models import Product, ProductImpressions
 from apps.sources.models import Source
 
 
-def request_users_youtube_content(access_token: str) -> dict:
+def request_users_youtube_content(access_token: str, channel_id: str) -> dict:
     """
     Fetch YouTube list of videos that this account owns.
     """
     url = "https://www.googleapis.com/youtube/v3/search"
     params = {
         "part": "snippet",
-        "channelId": "UCJ3hMETsGkmAwviqgd2ICQw",
+        "channelId": channel_id,
         "type": "video",
         "order": "date",
         "maxResults": 50,
@@ -26,6 +26,30 @@ def request_users_youtube_content(access_token: str) -> dict:
 
     if response.status_code == 200:
         return response.json()
+    else:
+        response.raise_for_status()
+
+
+def fetch_youtube_channel_id(access_token: str) -> str:
+    """
+    Fetch the YouTube channel ID for the authenticated user.
+    """
+    url = "https://www.googleapis.com/youtube/v3/channels"
+    params = {
+        "part": "id",
+        "mine": "true",
+    }
+    headers = {"Authorization": f"Bearer {access_token}"}
+
+    response = requests.get(url, headers=headers, params=params)
+
+    if response.status_code == 200:
+        data = response.json()
+        items = data.get("items", [])
+        if items:
+            return items[0]["id"]
+        else:
+            raise ValueError("No YouTube channel found for this account")
     else:
         response.raise_for_status()
 
@@ -61,7 +85,13 @@ def fetch_youtube_videos(source_id=None):
             source.access_token = new_token
             source.save(update_fields=["_access_token"])
 
-        youtube_videos = request_users_youtube_content(access_token=source.access_token)
+        if not source.channel_id:
+            print(f"No channel_id set for source {source.id}, skipping video fetch")
+            continue
+
+        youtube_videos = request_users_youtube_content(
+            access_token=source.access_token, channel_id=source.channel_id
+        )
         for video in youtube_videos.get("items", []):
             existing_product = Product.objects.filter(
                 title=video["snippet"]["title"],
@@ -95,6 +125,10 @@ def fetch_youtube_stats(source_id=None):
             new_token = refresh_access_token(source.refresh_token)
             source.access_token = new_token
             source.save(update_fields=["_access_token"])
+
+        if not source.channel_id:
+            print(f"No channel_id set for source {source.id}, skipping stats fetch")
+            continue
 
         products = Product.objects.filter(source=source)
         for product in products:
@@ -132,7 +166,7 @@ def fetch_youtube_video_stats(product, source, start_date, end_date):
     url = "https://youtubeanalytics.googleapis.com/v2/reports"
 
     params = {
-        "ids": "channel==UCJ3hMETsGkmAwviqgd2ICQw",
+        "ids": f"channel=={source.channel_id}",
         "startDate": start_date,
         "endDate": end_date,
         "metrics": "views",

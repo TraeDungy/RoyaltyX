@@ -50,6 +50,7 @@ class Source(BaseModel):
 
     token_expires_at = models.DateTimeField(blank=True, null=True)
     last_fetched_at = models.DateTimeField(blank=True, null=True)
+    channel_id = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         db_table = "source"

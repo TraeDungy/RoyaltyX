@@ -6,7 +6,11 @@ from rest_framework.views import APIView
 
 from .models import Source
 from .serializers import SourceSerializer
-from .utils.youtube import fetch_youtube_stats, fetch_youtube_videos
+from .utils.youtube import (
+    fetch_youtube_channel_id,
+    fetch_youtube_stats,
+    fetch_youtube_videos,
+)
 
 
 class SourceListCreateView(APIView):
@@ -33,6 +37,17 @@ class SourceListCreateView(APIView):
         serializer = SourceSerializer(data=data)
         if serializer.is_valid():
             source = serializer.save()
+            
+            # For YouTube sources, fetch and store the channel ID
+            if source.platform == Source.PLATFORM_YOUTUBE and source.access_token:
+                try:
+                    channel_id = fetch_youtube_channel_id(source.access_token)
+                    source.channel_id = channel_id
+                    source.save(update_fields=["channel_id"])
+                except Exception as e:
+                    print(f"Failed to fetch YouTube channel ID: {e}")
+                    # Continue without channel ID - the fetch functions will skip this source
+            
             fetch_youtube_videos(source.id)
             fetch_youtube_stats(source.id)
             return Response(

@@ -72,7 +72,7 @@ export const ProductsList = ({ products, loading }) => {
       ) : (
         <div className="text-center py-5">
           <Shredder size={40} />
-          <p className="txt-lighter medium">
+          <p className="txt-lighter medium mt-3 mb-5">
             No products available at the moment.
           </p>
         </div>
