@@ -68,11 +68,9 @@ services:
     entrypoint: >
       sh -c "trap exit TERM;
              while :; do
-               certbot renew --webroot -w /usr/share/nginx/html --quiet &&
-               nginx -s reload;
+               certbot renew --webroot -w /usr/share/nginx/html --quiet;
                sleep 12h;
              done"
-
   celery:
     build:
       context: ./backend
@@ -119,7 +117,6 @@ services:
       - redis
     env_file:
       - .env
-
 
 volumes:
   postgres_data:
