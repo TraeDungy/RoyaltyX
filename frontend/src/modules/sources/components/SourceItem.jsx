@@ -25,7 +25,9 @@ export const SourceItem = ({ source }) => {
       minute: "2-digit",
     });
 
-    return isToday ? `today, ${formattedTime}` : `${date.toLocaleDateString()}, ${formattedTime}`;
+    return isToday
+      ? `today, ${formattedTime}`
+      : `${date.toLocaleDateString()}, ${formattedTime}`;
   };
 
   return (
@@ -39,8 +41,6 @@ export const SourceItem = ({ source }) => {
         >
           <Grid container spacing={2} alignItems="center">
             <Grid
-              item
-              xs={3}
               sx={{
                 display: "flex",
                 alignItems: "center",
@@ -54,9 +54,9 @@ export const SourceItem = ({ source }) => {
                 style={{ height: "40px", objectFit: "contain" }}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid>
               <Typography variant="h5" sx={{ fontWeight: "bold", mb: 1 }}>
-                Nenad Blagov
+                {source.account_name}
               </Typography>
               <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                 <Typography variant="body2" sx={{ color: "text.secondary" }}>
@@ -70,15 +70,17 @@ export const SourceItem = ({ source }) => {
             </Grid>
           </Grid>
           <Grid
-            item
-            xs={3}
             sx={{
               display: "flex",
               justifyContent: "flex-end",
               alignItems: "center",
             }}
           >
-            <Button variant="outlined" color="primary" onClick={handleViewClick}>
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={handleViewClick}
+            >
               View <ArrowRight className="ms-2" />
             </Button>
           </Grid>

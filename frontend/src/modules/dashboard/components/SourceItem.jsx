@@ -39,8 +39,6 @@ export const SourceItem = ({ source }) => {
         >
           <Grid container spacing={2} alignItems="center">
             <Grid
-              item
-              xs={3}
               sx={{
                 display: "flex",
                 alignItems: "center",
@@ -54,7 +52,7 @@ export const SourceItem = ({ source }) => {
                 style={{ height: "40px", objectFit: "contain" }}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid>
               <Typography variant="h5" sx={{ fontWeight: "bold", mb: 1 }}>
                 {source.account_name}
               </Typography>
@@ -70,8 +68,6 @@ export const SourceItem = ({ source }) => {
             </Grid>
           </Grid>
           <Grid
-            item
-            xs={3}
             sx={{
               display: "flex",
               justifyContent: "flex-end",

@@ -36,10 +36,6 @@ export const LinkedAccountsSection = ({ sources, loading }) => {
           </Grid>
         ) : (
           <Grid
-            item
-            md={12}
-            lg={12}
-            xs={12}
             sx={{
               display: "flex",
               flexDirection: "column",

@@ -25,10 +25,6 @@ export const Sources = () => {
 
             {sources.length === 0 && !loading && (
               <Grid
-                item
-                md={12}
-                lg={12}
-                xs={12}
                 sx={{
                   display: "flex",
                   flexDirection: "column",
@@ -54,8 +50,6 @@ export const Sources = () => {
               <Card sx={{ p: 3, borderRadius: 2, boxShadow: 2 }}>
                 <Grid container spacing={2}>
                   <Grid
-                    item
-                    xs={3}
                     sx={{
                       display: "flex",
                       alignItems: "center",
@@ -68,7 +62,7 @@ export const Sources = () => {
                       style={{ height: "70px", objectFit: "contain" }}
                     />
                   </Grid>
-                  <Grid item xs={9}>
+                  <Grid>
                     <Typography variant="h5" sx={{ fontWeight: "bold" }}>
                       Google Ads
                     </Typography>
@@ -80,7 +74,7 @@ export const Sources = () => {
                       ad campaigns, performance metrics, and insights all in one
                       place.
                     </Typography>
-                    <Grid item xs={12}>
+                    <Grid>
                       <Button
                         variant="outlined"
                         sx={{ mt: 2, display: "block" }}
@@ -97,8 +91,6 @@ export const Sources = () => {
               <Card sx={{ p: 3, borderRadius: 2, boxShadow: 2 }}>
                 <Grid container spacing={2}>
                   <Grid
-                    item
-                    xs={3}
                     sx={{
                       display: "flex",
                       alignItems: "center",
@@ -111,7 +103,7 @@ export const Sources = () => {
                       style={{ height: "70px", objectFit: "contain" }}
                     />
                   </Grid>
-                  <Grid item xs={9}>
+                  <Grid>
                     <Typography variant="h5" sx={{ fontWeight: "bold" }}>
                       Amazon
                     </Typography>
@@ -123,7 +115,7 @@ export const Sources = () => {
                       product performance, and streamline your e-commerce
                       operations.
                     </Typography>
-                    <Grid item xs={12}>
+                    <Grid>
                       <Button
                         variant="outlined"
                         sx={{ mt: 2, display: "block" }}

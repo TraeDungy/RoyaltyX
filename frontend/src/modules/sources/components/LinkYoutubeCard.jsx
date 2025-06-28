@@ -8,7 +8,8 @@ const openGoogleOAuthPopup = () => {
   const clientId =
     "357908321492-m6umfp34t5gcf7quhr2mqh1vhbsgr3hs.apps.googleusercontent.com";
   const redirectUri = `${appUrl}/google-oauth-callback`;
-  const scope = "https://www.googleapis.com/auth/yt-analytics.readonly https://www.googleapis.com/auth/youtube.readonly";
+  const scope =
+    "https://www.googleapis.com/auth/yt-analytics.readonly https://www.googleapis.com/auth/youtube.readonly";
   const oauthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}&access_type=offline&prompt=consent`;
 
   const width = 500;
@@ -56,8 +57,6 @@ export const LinkYoutubeCard = ({ createSource }) => {
       <Card sx={{ p: 3, borderRadius: 2, boxShadow: 2 }}>
         <Grid container spacing={2}>
           <Grid
-            item
-            xs={3}
             sx={{
               display: "flex",
               alignItems: "center",
@@ -70,7 +69,7 @@ export const LinkYoutubeCard = ({ createSource }) => {
               style={{ height: "70px", objectFit: "contain" }}
             />
           </Grid>
-          <Grid item xs={9}>
+          <Grid>
             <Typography variant="h5" sx={{ fontWeight: "bold" }}>
               YouTube
             </Typography>
@@ -79,7 +78,7 @@ export const LinkYoutubeCard = ({ createSource }) => {
               you to monitor your channel's performance and gain insights into
               your audience.
             </Typography>
-            <Grid item xs={12}>
+            <Grid>
               <Button
                 variant="outlined"
                 sx={{ mt: 2, display: "block" }}

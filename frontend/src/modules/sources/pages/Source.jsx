@@ -65,7 +65,7 @@ export const Source = () => {
           <Grid size={{ xs: 12, md: 6 }}>
             <Card elevation={3}>
               <CardContent>
-                <Typography variant="h5" sx={{ mb: 2, fontWeight: 600 }} gutterBottom>
+                <Typography variant="h5" sx={{ mb: 3, fontWeight: 600 }} gutterBottom>
                   Source Details
                 </Typography>
                 <Typography variant="subtitle2">Platform</Typography>
@@ -113,7 +113,7 @@ export const Source = () => {
           <Grid size={{ xs: 12, md: 6 }}>
             <Card elevation={3}>
               <CardContent>
-                <Typography variant="h5" sx={{ mb: 2, fontWeight: 600 }} gutterBottom>
+                <Typography variant="h5" sx={{ mb: 3, fontWeight: 600 }} gutterBottom>
                   Actions
                 </Typography>
                 <Box display="flex" gap={2}>
