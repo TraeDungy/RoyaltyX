@@ -9,6 +9,7 @@ import {
   Button as MUIButton,
   Card,
   CardContent,
+  capitalize,
 } from "@mui/material";
 import { ChartColumn, SquarePen } from "lucide-react";
 
@@ -67,7 +68,7 @@ const Details = () => {
                 <span style={{ fontWeight: 500, paddingRight: 6 }}>
                   Platform:
                 </span>
-                {product.platform || "Unknown"}
+                {capitalize(product?.source?.platform || "Unknown")}
               </Typography>
               <Typography variant="body1" sx={{ mb: 2 }}>
                 <span style={{ fontWeight: 500, paddingRight: 6 }}>

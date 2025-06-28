@@ -51,7 +51,7 @@ export const Sources = () => {
           <Grid container spacing={4}>
             <LinkYoutubeCard createSource={createSource} />
             <Grid size={{ xs: 12, md: 12 }}>
-              <Card sx={{ p: 3, borderRadius: 2, boxShadow: 3 }}>
+              <Card sx={{ p: 3, borderRadius: 2, boxShadow: 2 }}>
                 <Grid container spacing={2}>
                   <Grid
                     item
@@ -94,7 +94,7 @@ export const Sources = () => {
               </Card>
             </Grid>
             <Grid size={{ xs: 12, md: 12 }}>
-              <Card sx={{ p: 3, borderRadius: 2, boxShadow: 3 }}>
+              <Card sx={{ p: 3, borderRadius: 2, boxShadow: 2 }}>
                 <Grid container spacing={2}>
                   <Grid
                     item

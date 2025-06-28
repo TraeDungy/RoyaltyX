@@ -56,7 +56,7 @@ export const SourceItem = ({ source }) => {
             </Grid>
             <Grid item xs={6}>
               <Typography variant="h5" sx={{ fontWeight: "bold", mb: 1 }}>
-                Nenad Blagov
+                {source.account_name}
               </Typography>
               <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                 <Typography variant="body2" sx={{ color: "text.secondary" }}>

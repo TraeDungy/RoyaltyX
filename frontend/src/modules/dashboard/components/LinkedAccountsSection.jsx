@@ -14,7 +14,7 @@ export const LinkedAccountsSection = ({ sources, loading }) => {
   const navigate = useNavigate();
 
   return (
-    <Card sx={{ borderRadius: 2, boxShadow: 3 }}>
+    <Card sx={{ borderRadius: 2, boxShadow: 2 }}>
       <CardContent>
         <Typography variant="h4" sx={{ mb: 1, fontWeight: "bold" }}>
           Linked Accounts
