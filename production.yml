@@ -111,12 +111,12 @@ services:
     volumes:
       - ./nginx/certificates:/etc/letsencrypt
       - ./nginx/html:/usr/share/nginx/html
-    restart: always
-    entrypoint: >
+    depends_on:
+      - nginx
+    command: >
       sh -c "trap exit TERM;
              while :; do
-               certbot renew --webroot -w /usr/share/nginx/html --quiet &&
-               nginx -s reload;
+               certbot renew --webroot -w /usr/share/nginx/html --quiet;
                sleep 12h;
              done"
 
