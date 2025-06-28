@@ -25,11 +25,12 @@ import inboxRoutes from "./modules/inbox";
 import managementRoutes from "./modules/management";
 import productRoutes from "./modules/products";
 import { ProjectProvider } from "./modules/common/contexts/ProjectContext";
-import { ProductsProvider } from "./modules/common/contexts/ProductsContext";
 import helpDocumentationRoutes from "./modules/help_documentation";
 import InboxLayout from "./modules/inbox/layouts/InboxLayout";
 import { SettingsProvider } from "./modules/common/contexts/SettingsContext";
-import legalRoutes from "./modules/legal";
+import { MUIThemeWrapper } from "./modules/global/components/MUIThemeWrapper";
+import sourceRoutes from "./modules/sources";
+import oauthRoutes from "./modules/oauth";
 
 const PrivateRoutes = () => {
   const { authenticated, loading } = useAuth();
@@ -68,51 +69,51 @@ function App() {
       <SettingsProvider>
         <AuthProvider>
           <ThemeProvider>
-            <ScrollToTop />
-            <Routes>
-              <Route path="/" element={<PrivateRoutes />}>
-                <Route
-                  path="/"
-                  element={
-                    <ProjectProvider>
-                      <ProductsProvider>
-                        <AppLayout />
-                      </ProductsProvider>
-                    </ProjectProvider>
-                  }
-                >
-                  {renderRoutes([
-                    ...dashboardRoutes,
-                    ...analyticsRoutes,
-                    ...memberRoutes,
-                    ...reportRoutes,
-                    ...accountRoutes,
-                    ...contentRoutes,
-                    ...managementRoutes,
-                    ...productRoutes,
-                    ...legalRoutes,
-                    ...helpDocumentationRoutes,
-                  ])}
-                  <Route path="/" element={<InboxLayout />}>
-                    {renderRoutes([...inboxRoutes])}
+            <MUIThemeWrapper>
+              <ScrollToTop />
+              <Routes>
+                <Route path="/" element={<PrivateRoutes />}>
+                  <Route
+                    path="/"
+                    element={
+                      <ProjectProvider>
+                          <AppLayout />
+                      </ProjectProvider>
+                    }
+                  >
+                    {renderRoutes([
+                      ...dashboardRoutes,
+                      ...analyticsRoutes,
+                      ...memberRoutes,
+                      ...reportRoutes,
+                      ...accountRoutes,
+                      ...contentRoutes,
+                      ...managementRoutes,
+                      ...sourceRoutes,
+                      ...productRoutes,
+                      ...helpDocumentationRoutes,
+                    ])}
+                    <Route path="/" element={<InboxLayout />}>
+                      {renderRoutes([...inboxRoutes])}
+                    </Route>
+                  </Route>
+
+                  <Route path="/" element={<Layout />}>
+                    {renderRoutes([...projectRoutes])}
                   </Route>
                 </Route>
 
-                <Route path="/" element={<Layout />}>
-                  {renderRoutes([...projectRoutes])}
+                <Route path="/admin" element={<PrivateRoutes />}>
+                  <Route path="/admin" element={<AdminLayout />}>
+                    {renderRoutes([...adminRoutes])}
+                  </Route>
                 </Route>
-              </Route>
 
-              <Route path="/admin" element={<PrivateRoutes />}>
-                <Route path="/admin" element={<AdminLayout />}>
-                  {renderRoutes([...adminRoutes])}
-                </Route>
-              </Route>
+                {renderRoutes([...authRoutes, ...oauthRoutes])}
 
-              {renderRoutes([...authRoutes])}
-
-              <Route path="*" element={<PageNotFound />} />
-            </Routes>
+                <Route path="*" element={<PageNotFound />} />
+              </Routes>
+            </MUIThemeWrapper>
           </ThemeProvider>
         </AuthProvider>
       </SettingsProvider>

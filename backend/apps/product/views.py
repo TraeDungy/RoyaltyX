@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from django.db.models import Sum
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
@@ -11,7 +9,6 @@ from apps.project.models import ProjectUser
 
 from .models import Product, ProductUser
 from .serializers import ProductSerializer, ProductUserSerializer
-from .utils import calculateProductAnalytics
 
 
 class ProductListCreateAPIView(APIView):
@@ -137,36 +134,6 @@ class ProductUserDetail(APIView):
         return Response(
             {"detail": "ProductUser not found."}, status=status.HTTP_404_NOT_FOUND
         )
-
-
-@api_view(http_method_names=["GET"])
-def getProductAnalytics(request, product_id):
-    period_start = request.query_params.get("period_start")
-    period_end = request.query_params.get("period_end")
-
-    filters = {}
-    months = 12
-
-    if period_start and period_end:
-        try:
-            start_date = datetime.strptime(period_start, "%Y-%m-%d")
-            end_date = datetime.strptime(period_end, "%Y-%m-%d")
-            filters["period_start__gte"] = start_date
-            filters["period_end__lte"] = end_date
-            months = (
-                (end_date.year - start_date.year) * 12
-                + (end_date.month - start_date.month)
-                + 1
-            )
-        except ValueError:
-            return Response(
-                {"error": "Invalid date format. Use YYYY-MM-DD."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-    data = calculateProductAnalytics(product_id, filters, months)
-
-    return Response(data, status=status.HTTP_200_OK)
 
 
 @api_view(http_method_names=["GET"])

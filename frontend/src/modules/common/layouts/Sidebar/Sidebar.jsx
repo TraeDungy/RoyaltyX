@@ -1,25 +1,24 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
-  UiChecksGrid,
-  People,
-  List,
   ChevronDown,
-  Gear,
-  Speedometer,
+  Settings,
+  Gauge,
   Folder,
-  FileEarmarkPdf,
-  FilePdf,
-  Box2Heart,
-  Person,
-  QuestionCircle,
-} from "react-bootstrap-icons";
+  FileText,
+  User,
+  HelpCircle,
+  Database,
+  AlignLeft,
+  Package2,
+  LayoutPanelTop,
+} from "lucide-react";
 import { getUserInfo } from "../../../account/api/user";
 import { getMyProjects, switchProject } from "../../../projects/api/project";
-import AddProductModal from "../../../products/components/AddProductModal";
 import ProductsList from "./ProductsList";
 import { useProject } from "../../contexts/ProjectContext";
 import { useAuth } from "../../contexts/AuthContext";
+import { LayoutDashboard, Users } from "lucide-react";
 
 function Sidebar() {
   const [sidebarActive] = useState(true);
@@ -30,7 +29,7 @@ function Sidebar() {
   const { project } = useProject();
   const { email } = useAuth();
   const projectUser = project?.users?.find(
-    (user) => user.user_details.email === email,
+    (user) => user.user_details.email === email
   );
 
   useEffect(() => {
@@ -114,13 +113,17 @@ function Sidebar() {
                   aria-expanded={isDropdownOpen ? "true" : "false"}
                 >
                   <div className="d-flex justify-content-center align-items-center px-1">
-                    <Folder className="me-2" />{" "}
+                    <Folder
+                      className="me-2"
+                      size={18}
+                      color="var(--color-text-lighter)"
+                    />
                     <span className="fw-500">{userInfo?.project?.name}</span>
                     <p className="m-0 pe-2">
                       {userInfo?.currently_selected_project?.name}
                     </p>
                   </div>
-                  <ChevronDown className="ms-auto" />
+                  <ChevronDown className="ms-auto" size={18} />
                 </div>
                 <div
                   className={
@@ -158,7 +161,7 @@ function Sidebar() {
                   className="w-fit pointer rounded-lg"
                   onClick={toggleSidebar}
                 >
-                  <List className="h5 mb-0" />
+                  <AlignLeft size={18} />
                 </div>
               </span>
             </div>
@@ -175,8 +178,8 @@ function Sidebar() {
                   className="nav-link"
                   onClick={() => handlePageChange("/management/data/import")}
                 >
-                  <FilePdf />
-                  <span className="ps-3 medium">Data import</span>
+                  <FileText size={18} color="var(--color-text-lighter)" />
+                  <span className="ps-4 medium">Manual import</span>
                 </Link>
               </li>
               <li
@@ -187,32 +190,20 @@ function Sidebar() {
                   className="nav-link"
                   onClick={() => handlePageChange("/management/settings")}
                 >
-                  <Gear />
-                  <span className="ps-3 medium">Project Settings</span>
+                  <Settings size={18} color="var(--color-text-lighter)" />
+                  <span className="ps-4 medium">Project Settings</span>
                 </Link>
               </li>
               <li
-                className={`nav-item px-2 rounded my-1 ${currentPage === "/management/products" ? "active" : ""}`}
-              >
-                <Link
-                  to="/management/products"
-                  className="nav-link"
-                  onClick={() => handlePageChange("/management/products")}
-                >
-                  <Box2Heart />
-                  <span className="ps-3 medium">Products</span>
-                </Link>
-              </li>
-              <li
-                className={`nav-item px-2 rounded my-1 ${currentPage === "/management/producers" ? "active" : ""}`}
+                className={`nav-item px-2 rounded my-1 ${currentPage === "/producers" ? "active" : ""}`}
               >
                 <Link
                   to="/management/producers"
                   className="nav-link"
                   onClick={() => handlePageChange("/management/producers")}
                 >
-                  <Person />
-                  <span className="ps-3 medium">Producers</span>
+                  <User size={18} color="var(--color-text-lighter)" />
+                  <span className="ps-4 medium">Producers</span>
                 </Link>
               </li>
               <li
@@ -223,8 +214,8 @@ function Sidebar() {
                   className="nav-link"
                   onClick={() => handlePageChange("/documentation")}
                 >
-                  <QuestionCircle />
-                  <span className="ps-3 medium">Help Documentation</span>
+                  <HelpCircle size={18} color="var(--color-text-lighter)" />
+                  <span className="ps-4 medium">Help Documentation</span>
                 </Link>
               </li>
             </div>
@@ -240,8 +231,20 @@ function Sidebar() {
                 className="nav-link"
                 onClick={() => handlePageChange("/")}
               >
-                <UiChecksGrid />
-                <span className="ps-3 medium">Dashboard</span>
+                <LayoutDashboard size={18} color="var(--color-text-lighter)" />
+                <span className="ps-4 medium">Dashboard</span>
+              </Link>
+            </li>
+            <li
+              className={`nav-item px-2 rounded my-1 ${currentPage === "/sources" ? "active" : ""}`}
+            >
+              <Link
+                to="/sources"
+                className="nav-link"
+                onClick={() => handlePageChange("/sources")}
+              >
+                <Database size={18} color="var(--color-text-lighter)" />
+                <span className="ps-4 medium">Sources</span>
               </Link>
             </li>
             <li
@@ -252,8 +255,21 @@ function Sidebar() {
                 className="nav-link"
                 onClick={() => handlePageChange("/members")}
               >
-                <People />
-                <span className="ps-3 medium">Members</span>
+                <Users size={18} color="var(--color-text-lighter)" />
+
+                <span className="ps-4 medium">Members</span>
+              </Link>
+            </li>
+            <li
+              className={`nav-item px-2 rounded my-1 ${currentPage === "/products" ? "active" : ""}`}
+            >
+              <Link
+                to="/products"
+                className="nav-link"
+                onClick={() => handlePageChange("/products")}
+              >
+                <Package2 size={18} color="var(--color-text-lighter)" />
+                <span className="ps-4 medium">Products</span>
               </Link>
             </li>
             <li
@@ -264,8 +280,8 @@ function Sidebar() {
                 className="nav-link"
                 onClick={() => handlePageChange("/analytics")}
               >
-                <Speedometer />
-                <span className="ps-3 medium">Analytics</span>
+                <Gauge size={18} color="var(--color-text-lighter)" />
+                <span className="ps-4 medium">Analytics</span>
               </Link>
             </li>
             <li
@@ -276,14 +292,25 @@ function Sidebar() {
                 className="nav-link"
                 onClick={() => handlePageChange("/reports")}
               >
-                <FileEarmarkPdf />
-                <span className="ps-3 medium">Reports</span>
+                <FileText size={18} color="var(--color-text-lighter)" />
+                <span className="ps-4 medium">Reports</span>
+              </Link>
+            </li>
+            <li
+              className={`nav-item px-2 rounded my-1 ${currentPage === "/report-templates" ? "active" : ""}`}
+            >
+              <Link
+                to="/report-templates"
+                className="nav-link"
+                onClick={() => handlePageChange("/report-templates")}
+              >
+                <LayoutPanelTop size={18} color="var(--color-text-lighter)" />
+                <span className="ps-4 medium">Report Templates</span>
               </Link>
             </li>
           </div>
 
           <ProductsList />
-          <AddProductModal />
         </ul>
       </nav>
     </>

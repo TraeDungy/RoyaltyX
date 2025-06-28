@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import PageHeader from "../../common/components/PageHeader";
 import { useProject } from "../../common/contexts/ProjectContext";
 import { ExclamationTriangleFill } from "react-bootstrap-icons";
+import { TextField } from "@mui/material";
 
 const Settings = () => {
   const { project, setProject } = useProject();
@@ -54,25 +55,25 @@ const Settings = () => {
 
       {error && <span className="text-danger small">{error}</span>}
 
-      <label className="pb-2 mt-4">Name</label>
-      <input
-        type="text"
-        className="form-control medium bg-gray-light py-3"
-        placeholder="Project name"
+      <TextField
+        fullWidth
+        variant="outlined"
+        label="Name"
         value={name}
         autoComplete="new-password"
         onChange={(e) => setName(e.target.value)}
       />
 
-      <label className="mt-4 mb-2">Description</label>
-      <textarea
-        type="text"
-        className="form-control bg-gray-light py-2 medium"
-        placeholder="Project description"
+      <TextField
+        fullWidth
+        variant="outlined"
+        label="Description"
         value={description}
+        sx={{ mt: 3 }}
         autoComplete="new-password"
         onChange={(e) => setDescription(e.target.value)}
-        style={{ height: 130 }}
+        multiline
+        rows={4}
       />
 
       <div className="pt-4">

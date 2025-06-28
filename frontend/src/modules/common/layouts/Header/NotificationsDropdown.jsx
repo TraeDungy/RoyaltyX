@@ -1,91 +1,181 @@
 import { useState, useEffect } from "react";
-import { Bell, EnvelopeOpen } from "react-bootstrap-icons";
+import {
+  Badge,
+  Box,
+  ClickAwayListener,
+  Divider,
+  IconButton,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Typography,
+  Avatar,
+  Stack,
+} from "@mui/material";
+import { MailOutline } from "@mui/icons-material";
 import icon from "../../assets/img/brand/icon.webp";
-import styles from "./NotificationsDropdown.module.css";
-import { getNotifications } from "../../api/notifications";
+import { Bell } from "lucide-react";
+import {
+  getNotifications,
+  markNotificationsAsRead,
+} from "../../api/notifications";
 
 const NotificationsDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
+  const [notificationCount, setNotificationCount] = useState(0);
 
-  const toggleDropdown = () => {
+  const markReadIfOpen = async () => {
+    if (isOpen && notificationCount > 0) {
+      // Dropdown is open and user is closing it → mark as read
+      await handleMarkAllAsRead();
+    }
+  };
+
+  const toggleDropdown = async () => {
+    await markReadIfOpen();
     setIsOpen(!isOpen);
   };
 
+  const handleClickAway = async () => {
+    await markReadIfOpen();
+    setIsOpen(false);
+  };
+
   useEffect(() => {
-    const fetchReports = async () => {
+    const fetchNotifications = async () => {
       try {
         const response = await getNotifications();
-        setNotifications(response);
+        setNotifications(response.notifications);
+        setNotificationCount(response.unread_count);
       } catch (error) {
         console.error("Error fetching notifications:", error);
       }
     };
 
-    fetchReports();
+    fetchNotifications();
   }, []);
 
-  return (
-    <div className="ps-4 position-relative">
-      <div
-        className="position-relative"
-        onClick={toggleDropdown}
-        style={{ cursor: "pointer" }}
-      >
-        <Bell style={{ fontSize: 19 }} className="txt-lighter" />
-        <span
-          className="badge badge-primary bg-danger position-absolute"
-          style={{
-            right: 0,
-            bottom: 0,
-            transform: "translate(50%, 50%)",
-            fontSize: 9,
-          }}
-        >
-          {notifications.length}
-        </span>
-      </div>
+  const handleMarkAllAsRead = async () => {
+    try {
+      await markNotificationsAsRead();
+      const response = await getNotifications();
+      setNotifications(response.notifications);
+      setNotificationCount(response.unread_count);
+    } catch (error) {
+      console.error("Failed to mark notifications as read:", error);
+    }
+  };
 
-      {isOpen && (
-        <div
-          className="dropdown-menu rounded shadow show position-absolute"
-          style={{
-            top: "100%",
-            right: 0,
-            width: "350px",
-            maxHeight: "400px",
-            overflowY: "auto",
-            zIndex: 1050,
-          }}
-        >
-          <h6 className="px-3 py-2">Notifications ({notifications.length})</h6>
-          <div className="list-group" style={{ minHeight: 270 }}>
-            {notifications.map((notification) => (
-              <div className="list-group-item list-group-item-action">
-                <div className="d-flex justify-content-between align-items-center">
-                  <div className={styles.notificationIconWrapper}>
-                    <img
-                      className={styles.notificationIcon}
-                      src={icon}
-                      alt=""
+  return (
+    <Box sx={{ position: "relative", pl: "1.5rem" }}>
+      <ClickAwayListener onClickAway={handleClickAway}>
+        <Box>
+          <IconButton
+            onClick={toggleDropdown}
+            size="large"
+            aria-label="show notifications"
+            sx={{ position: "relative", color: "text.secondary", p: 0 }}
+          >
+            <Badge
+              badgeContent={notificationCount}
+              showZero={false}
+              color="error"
+              overlap="circular"
+              componentsProps={{
+                badge: {
+                  sx: {
+                    top: "auto",
+                    bottom: 0,
+                    right: 0,
+                    transform: "translate(50%, 50%)",
+                    fontSize: 9,
+                    borderRadius: "0.375rem",
+                    minWidth: 17,
+                    height: 15.3,
+                  },
+                },
+              }}
+            >
+              <Bell size={20} strokeWidth={1.5} />
+            </Badge>
+          </IconButton>
+
+          {isOpen && (
+            <Box
+              sx={{
+                position: "absolute",
+                top: "100%",
+                right: 0,
+                width: 350,
+                maxHeight: 400,
+                bgcolor: "background.paper",
+                boxShadow: 3,
+                borderRadius: 1,
+                mt: 1,
+                zIndex: 1300,
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <Typography variant="subtitle1" sx={{ px: 2, py: 1 }}>
+                Notifications ({notifications.length})
+              </Typography>
+              <Divider />
+              <List
+                sx={{
+                  overflowY: "auto",
+                  minHeight: 270,
+                }}
+              >
+                {notifications.map((notification, idx) => (
+                  <ListItem key={idx} alignItems="center" sx={{ py: 1 }}>
+                    <ListItemAvatar>
+                      <Avatar alt="icon" src={icon} />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={
+                        <Typography
+                          fontWeight={notification.is_read ? "normal" : "bold"}
+                          variant="body1"
+                        >
+                          {notification.title}
+                        </Typography>
+                      }
                     />
-                  </div>
-                  <span className="mb-0 ps-3">{notification.title}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="d-flex border-top justify-content-between pt-3 pb-2">
-            <span className="px-3 pointer medium txt-primary d-flex align-items-center">
-              <EnvelopeOpen className="me-1" /> Inbox
-            </span>
-            <span className="px-3 pointer medium txt-primary">
-              Mark all as read
-            </span>
-          </div>
-        </div>
-      )}
-    </div>
+                  </ListItem>
+                ))}
+              </List>
+              <Divider />
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+                sx={{ px: 2, py: 1 }}
+              >
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  spacing={0.5}
+                  sx={{ cursor: "pointer", color: "primary.main" }}
+                >
+                  <MailOutline fontSize="small" />
+                  <Typography variant="body2">Inbox</Typography>
+                </Stack>
+                <Typography
+                  variant="body2"
+                  sx={{ cursor: "pointer", color: "primary.main" }}
+                  onClick={handleMarkAllAsRead}
+                >
+                  Mark all as read
+                </Typography>
+              </Stack>
+            </Box>
+          )}
+        </Box>
+      </ClickAwayListener>
+    </Box>
   );
 };
 

@@ -13,7 +13,7 @@ export const getProjectAnalytics = async (period_range) => {
     }
 
     const queryString = params.toString();
-    const url = `${apiUrl}/projects/analytics/${queryString ? "?" + queryString : ""}`;
+    const url = `${apiUrl}/analytics/${queryString ? "?" + queryString : ""}`;
 
     const response = await fetch(url, {
       method: "GET",

@@ -2,9 +2,11 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../../../common/contexts/AuthContext";
-import Button from "../../../common/components/Button";
 import styles from "./Login.module.css";
 import icon from "../../../common/assets/img/brand/icon.webp";
+import TextField from "@mui/material/TextField";
+import Button from "../../../common/components/Button";
+import { Typography } from "@mui/material";
 
 export default function Login() {
   const [error, setError] = useState("");
@@ -32,25 +34,35 @@ export default function Login() {
   return (
     <div className={styles.loginPageWrapper}>
       <div style={{ maxWidth: 470 }} className="w-100">
-        <img src={icon} style={{ maxWidth: 60 }} className="mb-4" alt="" />
-        <h2 className="mb-4 bold">Log in</h2>
-        {error && <span className="text-danger small">{error}</span>} {}
+        <img
+          src={icon}
+          style={{ maxWidth: 60 }}
+          className="mb-5"
+          alt="Brand Icon"
+        />
+        <Typography variant="h2" className="mb-3 bold">
+          Login
+        </Typography>
+        {error && <span className="text-danger small">{error}</span>}
         <form onSubmit={handleSubmit}>
           <div className="py-2">
-            <label className="mb-1">Email</label>
-            <input
-              type="text"
+            <TextField
+              label="Email"
               name="email"
-              className="form-control py-3"
+              variant="outlined"
+              fullWidth
+              margin="normal"
               placeholder="Enter your email"
             />
           </div>
           <div className="py-2">
-            <label className="mb-1">Password</label>
-            <input
-              type="password"
+            <TextField
+              label="Password"
               name="password"
-              className="form-control py-3"
+              type="password"
+              variant="outlined"
+              fullWidth
+              margin="normal"
               placeholder="••••••••"
             />
           </div>
@@ -61,10 +73,14 @@ export default function Login() {
             </Button>
           </div>
 
-          <div className="d-flex justify-content-center py-4">
-            <span className="px-1 txt-lighter">Don't have an account?</span>
+          <div className="d-flex justify-content-center align-items-center py-4">
+            <Typography variant="body1" className="px-1 txt-lighter">
+              Don't have an account?
+            </Typography>
             <Link to="/register" className="px-1 fw-500 text-decoration-none">
-              Sign Up
+              <Typography variant="body1" color="primary">
+                Sign Up
+              </Typography>
             </Link>
           </div>
         </form>

@@ -30,3 +30,5 @@ yarn-error.log*
 backend/uploads/
 backend/media/uploads/
 backend/media/reports/
+backend/celerybeat-schedule
+backend/media/

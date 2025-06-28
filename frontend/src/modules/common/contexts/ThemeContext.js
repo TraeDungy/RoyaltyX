@@ -3,26 +3,23 @@ import { createContext, useContext, useEffect, useState } from "react";
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  const [darkMode, setDarkMode] = useState(() => {
+  const [theme, setTheme] = useState(() => {
     const savedThemePreference = localStorage.getItem("themePreference");
-    if (savedThemePreference !== null) {
-      return savedThemePreference === "dark";
-    }
-    return false;
+    return savedThemePreference || "light";
   });
 
   useEffect(() => {
-    localStorage.setItem("themePreference", darkMode ? "dark" : "light");
+    localStorage.setItem("themePreference", theme);
 
-    if (darkMode) {
+    if (theme === "dark") {
       document.body.classList.add("dark-mode");
     } else {
       document.body.classList.remove("dark-mode");
     }
-  }, [darkMode]);
+  }, [theme]);
 
   return (
-    <ThemeContext.Provider value={{ darkMode, setDarkMode }}>
+    <ThemeContext.Provider value={{ theme, setTheme }}>
       {children}
     </ThemeContext.Provider>
   );

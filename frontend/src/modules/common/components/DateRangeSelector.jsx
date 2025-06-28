@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import { useNavigate, useLocation } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
+import { Button } from "@mui/material";
 
 const DateRangeSelector = () => {
   const [dateRange, setDateRange] = useState([null, null]);
@@ -69,19 +70,21 @@ const DateRangeSelector = () => {
 
   return (
     <div className="d-flex gap-3 align-items-center">
-      <button
-        className="btn btn-outline-secondary txt-regular py-2"
+      <Button
+        variant="outlined"
         onClick={setThisMonth}
+        sx={{ color: "var(--text-lighter)" }}
       >
         This Month
-      </button>
+      </Button>
 
-      <button
-        className="btn btn-outline-secondary txt-regular py-2"
+      <Button
+        variant="outlined"
+        sx={{ color: "var(--text-lighter)" }}
         onClick={setLastYear}
       >
         Last Year
-      </button>
+      </Button>
 
       <DatePicker
         selectsRange
@@ -90,16 +93,17 @@ const DateRangeSelector = () => {
         onChange={handleDateChange}
         isClearable
         placeholderText="Select date range"
-        className="form-control py-2 px-4"
+        className="form-control px-4 py-2"
       />
 
       {startDate && endDate && (
-        <button
-          className="btn btn-outline-secondary txt-regular py-2"
+        <Button
+          variant="outlined"
           onClick={clearDates}
+          sx={{ color: "var(--text-lighter)" }}
         >
           Clear
-        </button>
+        </Button>
       )}
     </div>
   );

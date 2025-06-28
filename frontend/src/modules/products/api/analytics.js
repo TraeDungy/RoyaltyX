@@ -13,7 +13,7 @@ export const getProductAnalytics = async (product_id, period_range) => {
     }
 
     const queryString = params.toString();
-    const url = `${apiUrl}/products/${product_id}/analytics${queryString ? "?" + queryString : ""}`;
+    const url = `${apiUrl}/analytics/${product_id}/${queryString ? "?" + queryString : ""}`;
 
     const response = await fetch(url, {
       method: "GET",

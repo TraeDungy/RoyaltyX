@@ -1,31 +1,56 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import DateRangeSelector from "../../common/components/DateRangeSelector";
 import { createReport } from "../api/reports";
+import { getReportTemplates } from "../api/report-templates";
 import { toast } from "react-toastify";
-import Button from "../../common/components/Button";
+import {
+  Box,
+  Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Button as MuiButton,
+} from "@mui/material";
 
 const CreateNewReport = () => {
-  var periodStart = "";
-  var periodEnd = "";
+  const [periodStart, setPeriodStart] = useState("");
+  const [periodEnd, setPeriodEnd] = useState("");
+  const [templates, setTemplates] = useState([]);
+  const [selectedTemplate, setSelectedTemplate] = useState("");
+
 
   const location = useLocation();
   const navigate = useNavigate();
   const params = new URLSearchParams(location.search);
 
   useEffect(() => {
-    periodStart = params.get("period_start");
-    periodEnd = params.get("period_end");
+    setPeriodStart(params.get("period_start") || "");
+    setPeriodEnd(params.get("period_end") || "");
   }, [location.search]);
 
+  useEffect(() => {
+    const fetchTemplates = async () => {
+      try {
+        const response = await getReportTemplates();
+        setTemplates(response);
+      } catch (error) {
+        toast.error("Failed to load templates.");
+      }
+    };
+    fetchTemplates();
+  }, []);
+
   const handleCreateReport = async () => {
-    const period_range = {
+    const payload = {
       period_start: periodStart,
       period_end: periodEnd,
+      template: selectedTemplate || null,
     };
 
     try {
-      await createReport(period_range);
+      await createReport(payload);
       navigate("/reports");
       toast.success("Successfully generated a new report!");
     } catch (error) {
@@ -34,27 +59,60 @@ const CreateNewReport = () => {
   };
 
   return (
-    <>
-      <div className="d-flex justify-content-between align-items-center mt-4 mb-3 ps-1">
-        <h2 className="bold">Generate report</h2>
+    <Box sx={{ width: "100%", mx: "auto", my: 4 }}>
+      <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
+        <Typography variant="h3" fontWeight="bold">
+          Generate Report
+        </Typography>
         <DateRangeSelector />
-      </div>
+      </Box>
 
-      <p className="mb-4">
+      <Typography variant="body1" mb={3}>
         Before submitting this request, make sure to select the time range for
         which the details in the report should apply. If you don't select any
         time range, then the details in the report will be based on data from
         all time.
-      </p>
+      </Typography>
 
-      <Button
-        onClick={() => {
-          handleCreateReport();
-        }}
-      >
-        Submit Request
-      </Button>
-    </>
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 2 }}>
+        <FormControl fullWidth margin="normal"  sx={{ minWidth: 300, width: '50%' }}>
+          <InputLabel id="template-label">Select Report Template</InputLabel>
+          <Select
+            labelId="template-label"
+            value={selectedTemplate}
+            onChange={(e) => setSelectedTemplate(e.target.value)}
+            label="Select Report Template"
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            {templates.map((template) => (
+              <MenuItem key={template.id} value={template.id}>
+                {template.template_name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        
+        <MuiButton
+          variant="outlined"
+          onClick={() => navigate("/report-templates/create")}
+          sx={{ mt: -1 }}
+        >
+          + Create New Template
+        </MuiButton>
+
+        <MuiButton
+          variant="contained"
+          color="primary"
+          onClick={handleCreateReport}
+          sx={{ mt: 3 }}
+          disabled={!selectedTemplate}
+        >
+          Submit Request
+        </MuiButton>
+      </Box>
+    </Box>
   );
 };
 

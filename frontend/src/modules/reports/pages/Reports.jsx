@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { getReports } from "../api/reports";
 import { apiUrl } from "../../common/api/config";
 import { useNavigate } from "react-router-dom";
-import Button from "../../common/components/Button";
 import { formatDistanceToNow } from "date-fns";
 import PageHeader from "../../common/components/PageHeader";
+import { Button } from "@mui/material";
 
 const Reports = () => {
   const [reports, setReports] = useState([]);
@@ -32,7 +32,7 @@ const Reports = () => {
       />
 
       <div className="mb-3">
-        <Button variant="primary" onClick={() => navigate("/reports/create")}>
+        <Button variant="contained" onClick={() => navigate("/reports/create")}>
           Request a new report
         </Button>
       </div>
@@ -61,13 +61,16 @@ const Reports = () => {
                 })}
               </td>
               <td>
-                <a
-                  href={apiUrl + report.file}
-                  className="btn btn-primary"
-                  download
-                >
-                  Download
-                </a>
+                <span>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => {window.location.href = apiUrl + report.file}}
+                    download
+                  >
+                    Download
+                  </Button>
+                </span>
               </td>
             </tr>
           ))}

@@ -1,9 +1,11 @@
 import { RevenueInLastFourMonthsChart } from "./RevenueInLastFourMonthsChart";
 import { InfoPopover } from "../../common/components/InfoPopover";
 import { useState } from "react";
-import { EyeSlash, Palette, ThreeDotsVertical } from "react-bootstrap-icons";
+import { EyeSlash, Palette } from "react-bootstrap-icons";
 import { useSettings } from "../../common/contexts/SettingsContext";
 import { GraphColorPalette } from "./GraphColorPalette";
+import { IconButton } from "@mui/material";
+import { EllipsisVertical } from "lucide-react";
 
 export const RevenueCard = ({ analytics }) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -32,9 +34,9 @@ export const RevenueCard = ({ analytics }) => {
             </h6>
             <div className="d-flex align-items-center">
               <div className="dropdown">
-                <button className="btn btn-basic" onClick={toggleDropdown}>
-                  <ThreeDotsVertical className="txt-regular" />
-                </button>
+                <IconButton onClick={toggleDropdown}>
+                  <EllipsisVertical size={20} color="var(--color-text)" />
+                </IconButton>
                 {dropdownVisible && (
                   <div className="dropdown-menu shadow-sm dropdown-menu-end show">
                     <button

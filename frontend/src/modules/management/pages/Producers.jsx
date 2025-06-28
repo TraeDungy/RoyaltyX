@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import PageHeader from "../../common/components/PageHeader";
-import { useProducts } from "../../common/contexts/ProductsContext";
 import { removeProducer, updateProducer } from "../api/producers";
 import ProducerUploadInput from "../components/ProducerUploadInput";
 import { PersonXFill, Wrench } from "react-bootstrap-icons";
 import ModifyFeeModal from "../components/ModifyFeeModal";
+import { useProducts } from "../../products/api/products";
 
 const Producers = () => {
   const { products } = useProducts();

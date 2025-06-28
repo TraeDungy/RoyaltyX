@@ -24,3 +24,28 @@ export const getNotifications = async () => {
     throw new Error(error);
   }
 };
+
+export const markNotificationsAsRead = async () => {
+  try {
+    const token = localStorage.getItem("accessToken");
+
+    const response = await fetch(apiUrl + "/notifications/", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    });
+
+    if (response.ok) {
+      return true;
+    } else {
+      const errorData = await response.json();
+      throw new Error(errorData.errors);
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+

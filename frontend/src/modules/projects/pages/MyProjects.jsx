@@ -4,7 +4,9 @@ import { getMyProjects } from "../api/project";
 import { switchProject } from "../api/project";
 import CreateNewProjectCard from "../components/CreateNewProjectCard";
 import { useNavigate } from "react-router-dom";
-import { Plus } from "react-bootstrap-icons";
+import { Button } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import { Plus } from "lucide-react";
 
 function MyProjects() {
   const [projects, setProjects] = useState([]);
@@ -42,17 +44,18 @@ function MyProjects() {
             Find all your personal and shared projects
           </p>
         </div>
-        <button
+        <Button
+          variant="contained"
+          color="primary"
           onClick={() => {
             navigate("/projects/create");
           }}
-          className="btn btn-primary px-4 py-2"
         >
-          <Plus className="me-1 h4 mb-0" /> Create
-        </button>
+          <Plus size={18} className="me-2" /> Create
+        </Button>
       </div>
 
-      <div className="row">
+      <Grid container spacing={4} sx={{ display: "flex", pb: 5 }} >
         <CreateNewProjectCard />
         {projects.map((project) => (
           <ProjectCard
@@ -61,7 +64,7 @@ function MyProjects() {
             handleSwitchProject={handleSwitchProject}
           />
         ))}
-      </div>
+      </Grid>
     </div>
   );
 }

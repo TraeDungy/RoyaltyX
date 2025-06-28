@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import { getProduct } from "../api/product";
+import { useProduct } from "../api/product";
 import { toast } from "react-toastify";
 import { Container, Spinner } from "react-bootstrap";
 import { apiUrl } from "../../common/api/config";
@@ -15,10 +15,11 @@ import ImpressionsOverTime from "../../analytics/components/ImpressionsOverTime"
 import ImpressionRevenueOverTime from "../../analytics/components/ImpressionRevenueOverTime";
 import { useSettings } from "../../common/contexts/SettingsContext";
 import { ReactComponent as ProductThumbnailPlaceholder } from "../../common/assets/img/vectors/product-thumbnail-placeholder.svg";
+import { Typography } from "@mui/material";
 
 function Analytics() {
-  const [product, setProduct] = useState(null);
   const { id } = useParams();
+  const { product } = useProduct(id);
   const {
     showSalesOverTime,
     showRentalsOverTime,
@@ -54,19 +55,6 @@ function Analytics() {
     fetchAnalytics();
   }, [location]);
 
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const fetchedProduct = await getProduct(id);
-        setProduct(fetchedProduct);
-      } catch (error) {
-        toast.error(error.message || "Failed to fetch product");
-      }
-    };
-
-    fetchProduct();
-  }, [id]);
-
   if (!product) {
     return (
       <Container className="d-flex justify-content-center mt-5">
@@ -74,34 +62,43 @@ function Analytics() {
       </Container>
     );
   }
-  
+
   return (
     <>
-      <div className="d-flex justify-content-between align-items-center mt-4 mb-3 ps-1">
-        <div className="d-flex align-items-center gap-2">
+      <div className="d-flex justify-content-between flex-wrap align-items-center mt-4 mb-3 ps-1">
+        <div className="d-flex align-items-center gap-2 mb-2">
           {product.thumbnail ? (
-                <img
-                src={`${apiUrl}${product.thumbnail}`}
-                alt={product.title}
-                style={{
-                  height: 30,
-                  width: 35,
-                  objectFit: "cover"
-                }}
-                />
-              ) : (
-                <ProductThumbnailPlaceholder
-                  style={{ 
-                    width: 60, 
-                    height: 60, 
-                    objectFit: "cover",
-                    marginBottom: "0.25rem"
-                  }}
-                />
-              )}
-          <h2 className="bold">{product.title}</h2>
+            <img
+              src={(() => {
+                const url = product.thumbnail.replace("/media/", "");
+                if (url.startsWith("https")) {
+                  return decodeURIComponent(url);
+                } else {
+                  return apiUrl + product.thumbnail;
+                }
+              })()}
+              alt={product.title}
+              style={{
+                height: 40,
+                width: 55,
+                objectFit: "cover",
+              }}
+            />
+          ) : (
+            <ProductThumbnailPlaceholder
+              style={{
+                width: 60,
+                height: 60,
+                objectFit: "cover",
+                marginBottom: "0.25rem",
+              }}
+            />
+          )}
+          <h2 className="bold mb-0">{product.title}</h2>
         </div>
-        <DateRangeSelector />
+        <div className="mb-2">
+          <DateRangeSelector />
+        </div>
       </div>
 
       <div className="row">
@@ -122,7 +119,9 @@ function Analytics() {
       </div>
       <div className="row">
         <div className="col-md-6">
-          <h4 className="bold mt-4 mb-4">Sales stats</h4>
+          <Typography variant="h4" fontWeight="bold" sx={{ mt: 4, mb: 2 }}>
+            Sales stats
+          </Typography>
           <table className="table table-bordered table-hover">
             <tbody>
               <tr>
@@ -153,7 +152,9 @@ function Analytics() {
           </table>
         </div>
         <div className="col-md-6">
-          <h4 className="bold mt-4 mb-4">General stats</h4>
+          <Typography variant="h4" fontWeight="bold" sx={{ mt: 4, mb: 2 }}>
+            General stats
+          </Typography>
           <table className="table table-bordered table-hover">
             <tbody>
               <tr>
@@ -165,7 +166,7 @@ function Analytics() {
               <tr>
                 <th>Revenue From Impressions</th>
                 <td className="text-end">
-                  ${analytics?.impression_revenue?.toLocaleString()}
+                  ${analytics?.total_impression_revenue?.toLocaleString()}
                 </td>
               </tr>
             </tbody>
@@ -189,7 +190,7 @@ function Analytics() {
           </tr>
         </thead>
         <tbody>
-          {product?.sales.map((sale, index) => (
+          {product?.sales?.map((sale, index) => (
             <tr key={index}>
               <td>{sale.type}</td>
               <td>{sale.unit_price}</td>

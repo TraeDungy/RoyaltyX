@@ -11,9 +11,11 @@ import {
   Filler,
 } from "chart.js";
 import { useState } from "react";
-import { EyeSlash, Palette, ThreeDotsVertical } from "react-bootstrap-icons";
+import { EyeSlash, Palette } from "react-bootstrap-icons";
 import { useSettings } from "../../common/contexts/SettingsContext";
 import { GraphColorPalette } from "./GraphColorPalette";
+import { Typography, IconButton } from "@mui/material";
+import { EllipsisVertical } from "lucide-react";
 
 ChartJS.register(
   CategoryScale,
@@ -91,12 +93,12 @@ const SalesOverTime = ({ analytics }) => {
       <div className="col-md-6">
         <div style={{ width: "100%", maxWidth: "1200px", margin: "auto" }}>
           <div className="py-4 d-flex justify-content-between align-items-center">
-            <h5 className="bold mb-0">Sales Over Time</h5>
+            <Typography variant="h4" fontWeight="bold">Sales Over Time</Typography>
             <div className="d-flex align-items-center">
               <div className="dropdown">
-                <button className="btn btn-basic" onClick={toggleDropdown}>
-                  <ThreeDotsVertical className="txt-regular" />
-                </button>
+                <IconButton onClick={toggleDropdown}>
+                  <EllipsisVertical size={20} color="var(--color-text)" />
+                </IconButton>
                 {dropdownVisible && (
                   <div className="dropdown-menu shadow-sm show">
                     <button
