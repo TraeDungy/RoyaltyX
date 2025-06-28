@@ -16,6 +16,7 @@ import {
   DialogTitle,
   Card,
   CardContent,
+  capitalize,
 } from "@mui/material";
 import { useState } from "react";
 
@@ -69,7 +70,9 @@ export const Source = () => {
                   Source Details
                 </Typography>
                 <Typography variant="subtitle2">Platform</Typography>
-                <Typography variant="body1">{source.platform}</Typography>
+                <Typography variant="body1">{capitalize(source.platform || "Unknown")}</Typography>
+                <Typography variant="subtitle2" sx={{ mt: 2 }}>Account name</Typography>
+                <Typography variant="body1">{capitalize(source.account_name || "Unknown")}</Typography>
                 <Typography variant="subtitle2" sx={{ mt: 2 }}>
                   Created At
                 </Typography>
@@ -87,25 +90,12 @@ export const Source = () => {
                 <Typography variant="subtitle2" sx={{ mt: 2 }}>
                   Fetch Frequency
                 </Typography>
-                <Typography variant="body1">Every 24 hours</Typography>{" "}
-                {/* mockup */}
-                <Typography variant="subtitle2" sx={{ mt: 2 }}>
-                  Owner
-                </Typography>
-                <Typography variant="body1">John Doe</Typography> {/* mockup */}
+                <Typography variant="body1">24 hours</Typography>                
                 <Typography variant="subtitle2" sx={{ mt: 2 }}>
                   Status
                 </Typography>
                 <Typography variant="body1">Active</Typography> {/* mockup */}
-                <Typography variant="subtitle2" sx={{ mt: 2 }}>
-                  Data Points
-                </Typography>
-                <Typography variant="body1">1,234</Typography> {/* mockup */}
-                <Typography variant="subtitle2" sx={{ mt: 2 }}>
-                  Last Updated By
-                </Typography>
-                <Typography variant="body1">Jane Smith</Typography>{" "}
-                {/* mockup */}
+              
               </CardContent>
             </Card>
           </Grid>

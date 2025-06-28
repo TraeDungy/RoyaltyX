@@ -70,11 +70,19 @@ const DateRangeSelector = () => {
 
   return (
     <div className="d-flex gap-3 align-items-center">
-      <Button variant="outlined" onClick={setThisMonth} sx={{color: "var(--text-lighter)"}}>
+      <Button
+        variant="outlined"
+        onClick={setThisMonth}
+        sx={{ color: "var(--text-lighter)" }}
+      >
         This Month
       </Button>
 
-      <Button variant="outlined" sx={{color: "var(--text-lighter)"}} onClick={setLastYear}>
+      <Button
+        variant="outlined"
+        sx={{ color: "var(--text-lighter)" }}
+        onClick={setLastYear}
+      >
         Last Year
       </Button>
 
@@ -85,16 +93,17 @@ const DateRangeSelector = () => {
         onChange={handleDateChange}
         isClearable
         placeholderText="Select date range"
-        className="form-control py-2 px-4"
+        className="form-control px-4 py-2"
       />
 
       {startDate && endDate && (
-        <button
-          className="btn btn-outline-secondary txt-regular py-2"
+        <Button
+          variant="outlined"
           onClick={clearDates}
+          sx={{ color: "var(--text-lighter)" }}
         >
           Clear
-        </button>
+        </Button>
       )}
     </div>
   );

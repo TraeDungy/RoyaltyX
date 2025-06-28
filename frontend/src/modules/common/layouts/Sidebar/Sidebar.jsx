@@ -171,18 +171,6 @@ function Sidebar() {
             <div className="sidebar-link-group">
               <span className="txt-lighter small ps-2">MANAGEMENT</span>
               <li
-                className={`nav-item px-2 rounded my-1 ${currentPage === "/sources" ? "active" : ""}`}
-              >
-                <Link
-                  to="/sources"
-                  className="nav-link"
-                  onClick={() => handlePageChange("/sources")}
-                >
-                  <Database size={18} color="var(--color-text-lighter)" />
-                  <span className="ps-4 medium">Sources</span>
-                </Link>
-              </li>
-              <li
                 className={`nav-item px-2 rounded my-1 ${currentPage === "/management/data/import" ? "active" : ""}`}
               >
                 <Link
@@ -245,6 +233,18 @@ function Sidebar() {
               >
                 <LayoutDashboard size={18} color="var(--color-text-lighter)" />
                 <span className="ps-4 medium">Dashboard</span>
+              </Link>
+            </li>
+            <li
+              className={`nav-item px-2 rounded my-1 ${currentPage === "/sources" ? "active" : ""}`}
+            >
+              <Link
+                to="/sources"
+                className="nav-link"
+                onClick={() => handlePageChange("/sources")}
+              >
+                <Database size={18} color="var(--color-text-lighter)" />
+                <span className="ps-4 medium">Sources</span>
               </Link>
             </li>
             <li

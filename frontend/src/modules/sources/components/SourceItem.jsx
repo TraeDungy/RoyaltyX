@@ -1,4 +1,4 @@
-import { Box, Button, Card, Grid, Typography } from "@mui/material";
+import { Box, Button, capitalize, Card, Grid, Typography } from "@mui/material";
 import youtubeLogo from "../../common/assets/img/platform_logos/youtube.webp";
 import { ArrowRight } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
@@ -60,11 +60,11 @@ export const SourceItem = ({ source }) => {
               </Typography>
               <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                 <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                  <span className="fw-500">Last fetched:</span>{" "}
+                  <span className="fw-500">Last fetch:</span>{" "}
                   {formatLastFetchedTime(source.last_fetched_at)}
                 </Typography>
                 <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                  <span className="fw-500">Platform:</span> {source.platform}
+                  <span className="fw-500">Platform:</span> {capitalize(source.platform)}
                 </Typography>
               </Box>
             </Grid>
