@@ -9,7 +9,6 @@ class SourcesConfig(AppConfig):
         import json
         import os
 
-        from django.db.utils import IntegrityError
         from django_celery_beat.models import (
             IntervalSchedule,
             PeriodicTask,
