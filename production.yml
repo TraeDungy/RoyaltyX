@@ -113,12 +113,7 @@ services:
       - ./nginx/html:/usr/share/nginx/html
     depends_on:
       - nginx
-    command: >
-      sh -c "trap exit TERM;
-             while :; do
-               certbot renew --webroot -w /usr/share/nginx/html --quiet;
-               sleep 12h;
-             done"
+    command: sh -c "trap exit TERM; while :; do certbot renew --webroot -w /usr/share/nginx/html --quiet; sleep 12h; done"
 
 volumes:
   postgres_data:
