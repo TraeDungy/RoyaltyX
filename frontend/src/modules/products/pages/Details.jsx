@@ -95,7 +95,7 @@ const Details = () => {
                   src={(() => {
                     const url = product.thumbnail.replace("/media/", "");
                     if (url.startsWith("https")) {
-                      return decodeURIComponent(url);
+                      return decodeURIComponent(url).replace("https", "http");
                     } else {
                       return apiUrl + product.thumbnail;
                     }

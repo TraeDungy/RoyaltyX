@@ -104,7 +104,7 @@ const EditProduct = () => {
               src={(() => {
                 const url = thumbnail.replace("/media/", "");
                 if (url.startsWith("https")) {
-                  return decodeURIComponent(url);
+                  return decodeURIComponent(url).replace("https", "http");
                 } else {
                   return apiUrl + thumbnail;
                 }
