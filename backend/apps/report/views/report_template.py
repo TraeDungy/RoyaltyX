@@ -5,7 +5,11 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.report.models import ReportTemplates, Report
-from apps.report.serializers import ReportTemplateSerializer, ReportTemplateCreateSerializer, ReportTemplateUpdateSerializer
+from apps.report.serializers import (
+    ReportTemplateSerializer,
+    ReportTemplateCreateSerializer,
+    ReportTemplateUpdateSerializer,
+)
 
 
 class ReportTemplateView(APIView):
@@ -24,8 +28,7 @@ class ReportTemplateView(APIView):
         serializer = ReportTemplateCreateSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(
-                created_by=request.user,
-                project=request.user.currently_selected_project
+                created_by=request.user, project=request.user.currently_selected_project
             )
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -24,16 +24,14 @@ class ReportTemplateSerializer(serializers.ModelSerializer):
 class ReportTemplateCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReportTemplates
-        exclude = ['updated_at', 'project', 'created_by']
+        exclude = ["updated_at", "project", "created_by"]
 
 
 class ReportTemplateUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReportTemplates
-        exclude = ['updated_at', 'project', 'created_by']
-        extra_kwargs = {
-            'template_name': {'required': False}
-        }
+        exclude = ["updated_at", "project", "created_by"]
+        extra_kwargs = {"template_name": {"required": False}}
 
 
 class ReportRequestSerializer(serializers.Serializer):
@@ -42,9 +40,13 @@ class ReportRequestSerializer(serializers.Serializer):
     template = serializers.IntegerField(required=True)
 
     def validate_template(self, value):
-        project_id = self.context.get('project_id')
+        project_id = self.context.get("project_id")
         try:
-            template_obj = ReportTemplates.objects.get(project_id=project_id, id=value, is_deleted=False)
+            template_obj = ReportTemplates.objects.get(
+                project_id=project_id, id=value, is_deleted=False
+            )
         except ReportTemplates.DoesNotExist:
-            raise serializers.ValidationError("Invalid template for the current project.")
+            raise serializers.ValidationError(
+                "Invalid template for the current project."
+            )
         return template_obj

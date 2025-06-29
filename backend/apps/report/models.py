@@ -7,9 +7,7 @@ from common.models import BaseModel
 class ReportTemplates(BaseModel):
     template_name = models.CharField(max_length=255)
     title = models.CharField(max_length=100, blank=True, null=True)
-    logo = models.ImageField(
-        upload_to="report-templates/", blank=True, null=True
-    )
+    logo = models.ImageField(upload_to="report-templates/", blank=True, null=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     created_by = models.ForeignKey("user.User", on_delete=models.CASCADE)
     address = models.CharField(max_length=500, blank=True, null=True)

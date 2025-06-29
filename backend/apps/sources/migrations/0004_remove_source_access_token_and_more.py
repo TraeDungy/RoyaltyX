@@ -4,28 +4,31 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('sources', '0003_source_last_fetched_at'),
+        ("sources", "0003_source_last_fetched_at"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='source',
-            name='access_token',
+            model_name="source",
+            name="access_token",
         ),
         migrations.RemoveField(
-            model_name='source',
-            name='refresh_token',
+            model_name="source",
+            name="refresh_token",
         ),
         migrations.AddField(
-            model_name='source',
-            name='_access_token',
-            field=models.CharField(blank=True, db_column='access_token', max_length=255, null=True),
+            model_name="source",
+            name="_access_token",
+            field=models.CharField(
+                blank=True, db_column="access_token", max_length=255, null=True
+            ),
         ),
         migrations.AddField(
-            model_name='source',
-            name='_refresh_token',
-            field=models.CharField(blank=True, db_column='refresh_token', max_length=255, null=True),
+            model_name="source",
+            name="_refresh_token",
+            field=models.CharField(
+                blank=True, db_column="refresh_token", max_length=255, null=True
+            ),
         ),
     ]

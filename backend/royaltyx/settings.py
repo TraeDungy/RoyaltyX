@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt.token_blacklist",
     "corsheaders",
     "drf_spectacular",
-    'django_celery_beat',
+    "django_celery_beat",
 ]
 
 MIDDLEWARE = [
@@ -188,8 +188,8 @@ SPECTACULAR_SETTINGS = {
 }
 
 
-GOOGLE_CLIENT_ID=os.environ.get("GOOGLE_CLIENT_ID")
-GOOGLE_CLIENT_SECRET=os.environ.get("GOOGLE_CLIENT_SECRET")
-GOOGLE_REDIRECT_URI=os.environ.get("GOOGLE_REDIRECT_URI")
+GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")
+GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET")
+GOOGLE_REDIRECT_URI = os.environ.get("GOOGLE_REDIRECT_URI")
 
 CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL", "redis://localhost:6379/0")

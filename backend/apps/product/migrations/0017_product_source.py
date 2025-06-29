@@ -5,16 +5,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('product', '0016_product_external_id'),
-        ('sources', '0006_source_account_name'),
+        ("product", "0016_product_external_id"),
+        ("sources", "0006_source_account_name"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='product',
-            name='source',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='sources.source'),
+            model_name="product",
+            name="source",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="sources.source",
+            ),
         ),
     ]

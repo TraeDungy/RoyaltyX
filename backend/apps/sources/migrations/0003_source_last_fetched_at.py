@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('sources', '0002_remove_source_name'),
+        ("sources", "0002_remove_source_name"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='source',
-            name='last_fetched_at',
+            model_name="source",
+            name="last_fetched_at",
             field=models.DateTimeField(blank=True, null=True),
         ),
     ]

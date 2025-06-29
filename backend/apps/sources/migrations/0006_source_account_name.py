@@ -4,16 +4,15 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('sources', '0005_alter_source__access_token_and_more'),
+        ("sources", "0005_alter_source__access_token_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='source',
-            name='account_name',
-            field=models.CharField(default=' ', max_length=50),
+            model_name="source",
+            name="account_name",
+            field=models.CharField(default=" ", max_length=50),
             preserve_default=False,
         ),
     ]

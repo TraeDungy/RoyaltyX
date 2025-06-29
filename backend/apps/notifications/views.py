@@ -12,6 +12,7 @@ class UserNotificationView(APIView):
     GET: List notifications
     POST: Mark notifications as read.
     """
+
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -25,12 +26,14 @@ class UserNotificationView(APIView):
             "unread_count": unread_count,
             "notifications": serializer.data,
         }
-        
+
         return Response(data, status=status.HTTP_200_OK)
-    
+
     def post(self, request):
         """
         Mark all unread notifications as read
         """
-        Notification.objects.filter(user=request.user, is_read=False).update(is_read=True)
+        Notification.objects.filter(user=request.user, is_read=False).update(
+            is_read=True
+        )
         return Response(status=status.HTTP_200_OK)
