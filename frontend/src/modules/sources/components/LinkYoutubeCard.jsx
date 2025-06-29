@@ -53,42 +53,29 @@ export const LinkYoutubeCard = ({ createSource }) => {
   }, []);
 
   return (
-    <Grid size={{ xs: 12, md: 12 }}>
-      <Card sx={{ p: 3, borderRadius: 2, boxShadow: 2 }}>
-        <Grid container spacing={2}>
-          <Grid
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <img
-              src={youtubeLogo}
-              alt="YouTube Logo"
-              style={{ height: "70px", objectFit: "contain" }}
-            />
-          </Grid>
-          <Grid>
-            <Typography variant="h5" sx={{ fontWeight: "bold" }}>
-              YouTube
-            </Typography>
-            <Typography variant="body2" sx={{ color: "text.secondary", mb: 3 }}>
-              Link your YouTube account to fetch analytics data. This will allow
-              you to monitor your channel's performance and gain insights into
-              your audience.
-            </Typography>
-            <Grid>
-              <Button
-                variant="outlined"
-                sx={{ mt: 2, display: "block" }}
-                onClick={openGoogleOAuthPopup}
-              >
-                Link YouTube
-              </Button>
-            </Grid>
-          </Grid>
-        </Grid>
+    <Grid size={{ xs: 12, md: 6 }}>
+      <Card sx={{ p: 3, borderRadius: 2, boxShadow: 2, height: "100%", mt: 1 }}>
+        <img
+          src={youtubeLogo}
+          alt="YouTube Logo"
+          style={{ height: "70px", objectFit: "contain", marginBottom: 10 }}
+        />
+        <Typography variant="h6" sx={{ fontWeight: "bold", mb: 1 }}>
+          YouTube
+        </Typography>
+        <Typography variant="body2" sx={{ color: "text.secondary" }}>
+          Link your YouTube account to fetch analytics data. This will allow you
+          to monitor your channel's performance and gain insights into your
+          audience.
+        </Typography>
+        <Button
+          variant="outlined"
+          sx={{ mt: 3 }}
+          onClick={openGoogleOAuthPopup}
+          fullWidth
+        >
+          Link YouTube
+        </Button>
       </Card>
     </Grid>
   );

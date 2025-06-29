@@ -77,7 +77,6 @@ function CreateNewProject() {
           <div className="pt-4">
             <Button
               variant="primary"
-              size="sm"
               onClick={handleSubmit}
               loading={loading}
             >
