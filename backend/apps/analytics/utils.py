@@ -1,8 +1,7 @@
-from typing import Optional, List, Dict, Any, Union
+from datetime import date, datetime, timedelta
+from typing import Any, Dict, List, Optional, Union
 
-from datetime import datetime, timedelta, date
-
-from django.db.models import Count, DecimalField, ExpressionWrapper, F, Sum, QuerySet
+from django.db.models import Count, DecimalField, ExpressionWrapper, F, QuerySet, Sum
 from django.db.models.functions import TruncMonth
 
 from apps.product.models import Product, ProductImpressions, ProductSale

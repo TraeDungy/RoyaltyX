@@ -5,11 +5,11 @@ from datetime import date, timedelta
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
-from rest_framework.test import APIClient
 from rest_framework import status
+from rest_framework.test import APIClient
 
-from apps.project.models import Project, ProjectUser
 from apps.product.models import Product
+from apps.project.models import Project, ProjectUser
 
 
 class AnalyticsViewTests(TestCase):
@@ -171,7 +171,5 @@ class AnalyticsViewTests(TestCase):
 
         response = self.client.get(nonexistent_product_url)
 
-        # The endpoint should still return 200 OK even with non-existent product_id
-        # as the view doesn't validate product existence, it just passes the ID to calculate_analytics
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.data, dict)

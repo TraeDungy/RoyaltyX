@@ -1,2 +1,2 @@
 def setup_jobs():
-    from . import tasks
+    from . import tasks  # noqa: F401

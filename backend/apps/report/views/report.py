@@ -9,14 +9,14 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from apps.analytics.utils import calculate_analytics
 from weasyprint import HTML
 
+from apps.analytics.utils import calculate_analytics
 from apps.notifications.utils import create_notification
 from apps.product.models import Product
 from apps.project.models import Project
 from apps.report.models import Report
-from apps.report.serializers import ReportSerializer, ReportRequestSerializer
+from apps.report.serializers import ReportRequestSerializer, ReportSerializer
 
 
 class ReportsView(APIView):

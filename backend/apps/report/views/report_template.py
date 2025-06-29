@@ -4,10 +4,10 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from apps.report.models import ReportTemplates, Report
+from apps.report.models import Report, ReportTemplates
 from apps.report.serializers import (
-    ReportTemplateSerializer,
     ReportTemplateCreateSerializer,
+    ReportTemplateSerializer,
     ReportTemplateUpdateSerializer,
 )
 

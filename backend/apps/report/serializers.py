@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from apps.user.serializers import UserSerializer, UserLiteSerializer
+from apps.user.serializers import UserLiteSerializer, UserSerializer
 
 from .models import Report, ReportTemplates
 

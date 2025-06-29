@@ -1,6 +1,7 @@
+import base64
+
 from cryptography.fernet import Fernet
 from django.conf import settings
-import base64
 
 
 # Generate key only once and store in settings.SECRET_KEY or env var
