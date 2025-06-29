@@ -37,7 +37,7 @@ class SourceListCreateView(APIView):
         serializer = SourceSerializer(data=data)
         if serializer.is_valid():
             source = serializer.save()
-            
+
             # For YouTube sources, fetch and store the channel ID and name
             if source.platform == Source.PLATFORM_YOUTUBE and source.access_token:
                 try:
@@ -47,13 +47,14 @@ class SourceListCreateView(APIView):
                     source.save(update_fields=["channel_id", "account_name"])
                 except Exception as e:
                     print(f"Failed to fetch YouTube channel details: {e}")
-                    # Continue without channel details - the fetch functions will skip this source
-            
+                    # Continue without channel details.
+                    # The fetch functions will skip this source.
+
             fetch_youtube_videos(source.id)
             fetch_youtube_stats(source.id)
             return Response(
                 SourceSerializer(source).data, status=status.HTTP_201_CREATED
-            )        
+            )
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

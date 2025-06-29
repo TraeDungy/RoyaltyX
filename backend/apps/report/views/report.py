@@ -9,14 +9,14 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from apps.analytics.utils import calculate_analytics
 from weasyprint import HTML
 
+from apps.analytics.utils import calculate_analytics
 from apps.notifications.utils import create_notification
 from apps.product.models import Product
 from apps.project.models import Project
 from apps.report.models import Report
-from apps.report.serializers import ReportSerializer, ReportRequestSerializer
+from apps.report.serializers import ReportRequestSerializer, ReportSerializer
 
 
 class ReportsView(APIView):
@@ -33,11 +33,14 @@ class ReportsView(APIView):
 
     def post(self, request):
         currently_selected_project_id = request.user.currently_selected_project_id
-        serializer = ReportRequestSerializer(data=request.query_params, context={'project_id': currently_selected_project_id})
+        serializer = ReportRequestSerializer(
+            data=request.query_params,
+            context={"project_id": currently_selected_project_id},
+        )
         serializer.is_valid(raise_exception=True)
-        period_start = serializer.validated_data.get('period_start', None)
-        period_end = serializer.validated_data.get('period_end', None)
-        template = serializer.validated_data.get('template', None)
+        period_start = serializer.validated_data.get("period_start", None)
+        period_end = serializer.validated_data.get("period_end", None)
+        template = serializer.validated_data.get("template", None)
 
         filters = {}
 
@@ -50,9 +53,7 @@ class ReportsView(APIView):
                 start_date = timezone.make_aware(
                     datetime.combine(period_start, time.min)
                 )
-                end_date = timezone.make_aware(
-                    datetime.combine(period_end, time.max)
-                )
+                end_date = timezone.make_aware(datetime.combine(period_end, time.max))
                 filters["period_start__gte"] = start_date
                 filters["period_end__lte"] = end_date
                 months = (
@@ -105,7 +106,7 @@ class ReportsView(APIView):
             "period_end": period_end,
             "created_at": now(),
             "template": template,
-            "logo_url": template.logo_absolute_url(request)
+            "logo_url": template.logo_absolute_url(request),
         }
 
         html_content = render_to_string("report_template.html", context)
@@ -121,9 +122,7 @@ class ReportsView(APIView):
         )
         report.file.save(filename, ContentFile(pdf_file))
 
-        create_notification(
-            user, "Your requested report was successfully created!"
-        )
+        create_notification(user, "Your requested report was successfully created!")
 
         serializer = ReportSerializer(report)
         return Response(serializer.data, status=status.HTTP_201_CREATED)

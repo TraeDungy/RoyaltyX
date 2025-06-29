@@ -9,7 +9,6 @@ class SourcesConfig(AppConfig):
         import json
         import os
 
-        from django.db.utils import IntegrityError
         from django_celery_beat.models import (
             IntervalSchedule,
             PeriodicTask,
@@ -32,7 +31,7 @@ class SourcesConfig(AppConfig):
                 "args": json.dumps([]),
             },
         )
-    
+
         PeriodicTask.objects.get_or_create(
             name="Fetch YouTube Stats",
             defaults={
@@ -41,4 +40,3 @@ class SourcesConfig(AppConfig):
                 "args": json.dumps([]),
             },
         )
-    

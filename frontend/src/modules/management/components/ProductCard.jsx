@@ -36,7 +36,7 @@ const ProductCard = ({ product }) => {
             image={(() => {
               const url = product.thumbnail.replace("/media/", "");
               if (url.startsWith("https")) {
-                return decodeURIComponent(url);
+                return decodeURIComponent(url).replace("https", "http");
               } else {
                 return apiUrl + product.thumbnail;
               }
@@ -70,7 +70,6 @@ const ProductCard = ({ product }) => {
                 textDecoration: "none",
                 color: "inherit",
                 fontWeight: "bold",
-                mb: 2,
               }}
             >
               {product.title}
@@ -124,7 +123,7 @@ const ProductCard = ({ product }) => {
             </div>
           </Box>
 
-          <Typography variant="body2" color="textSecondary">
+          <Typography variant="body2" color="textSecondary" sx={{ mt: 2 }}>
             {product.description}
           </Typography>
         </CardContent>

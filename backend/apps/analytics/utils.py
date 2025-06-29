@@ -1,19 +1,18 @@
-from typing import Optional, List, Dict, Any, Union
+from datetime import date, datetime, timedelta
+from typing import Any, Dict, List, Optional, Union
 
-from datetime import datetime, timedelta, date
-
-from django.db.models import Count, DecimalField, ExpressionWrapper, F, Sum, QuerySet
+from django.db.models import Count, DecimalField, ExpressionWrapper, F, QuerySet, Sum
 from django.db.models.functions import TruncMonth
 
 from apps.product.models import Product, ProductImpressions, ProductSale
 
 
 def calculate_monthly_stats(
-        impressions_qs: QuerySet, 
-        sales_qs: QuerySet, 
-        months: int, 
-        period_end: Optional[date]
-    ) -> List[Dict[str, Any]]:
+    impressions_qs: QuerySet,
+    sales_qs: QuerySet,
+    months: int,
+    period_end: Optional[date],
+) -> List[Dict[str, Any]]:
     now = datetime.now()
 
     # Monthly impressions
@@ -113,9 +112,8 @@ def calculate_monthly_stats(
 
 
 def calculate_totals(
-        impressions_qs: QuerySet, 
-        sales_qs: QuerySet
-    ) -> Dict[str, Union[int, float]]:
+    impressions_qs: QuerySet, sales_qs: QuerySet
+) -> Dict[str, Union[int, float]]:
     # Total calculations
     total_impressions = (
         impressions_qs.aggregate(Sum("impressions"))["impressions__sum"] or 0
@@ -124,7 +122,7 @@ def calculate_totals(
     total_impression_revenue = (
         impressions_qs.annotate(
             revenue_expr=ExpressionWrapper(
-                F("impressions") * F("ecpm") / 1000, 
+                F("impressions") * F("ecpm") / 1000,
                 output_field=DecimalField(max_digits=30, decimal_places=18),
             )
         ).aggregate(total=Sum("revenue_expr"))["total"]
@@ -133,8 +131,7 @@ def calculate_totals(
 
     total_sales_count = sales_qs.count()
     total_royalty_revenue = (
-        sales_qs.aggregate(total_revenue=Sum("royalty_amount"))["total_revenue"]
-        or 0
+        sales_qs.aggregate(total_revenue=Sum("royalty_amount"))["total_revenue"] or 0
     )
 
     rentals_qs = sales_qs.filter(type=ProductSale.TYPE_RENTAL)
@@ -170,16 +167,15 @@ def calculate_totals(
 
 
 def calculate_analytics(
-        project_id: int, 
-        filters: Dict[str, Any], 
-        months: int, 
-        product_id: int = None
-    ) -> Dict[str, Any]:
+    project_id: int, filters: Dict[str, Any], months: int, product_id: int = None
+) -> Dict[str, Any]:
     if product_id:
         impressions_qs = ProductImpressions.objects.filter(product_id=product_id)
         sales_qs = ProductSale.objects.filter(product_id=product_id)
     else:
-        impressions_qs = ProductImpressions.objects.filter(product__project_id=project_id)
+        impressions_qs = ProductImpressions.objects.filter(
+            product__project_id=project_id
+        )
         sales_qs = ProductSale.objects.filter(product__project_id=project_id)
 
     if filters:

@@ -49,10 +49,7 @@ def fetch_youtube_channel_details(access_token: str) -> dict:
         items = data.get("items", [])
         if items:
             channel = items[0]
-            return {
-                "id": channel["id"],
-                "name": channel["snippet"]["title"]
-            }
+            return {"id": channel["id"], "name": channel["snippet"]["title"]}
         else:
             raise ValueError("No YouTube channel found for this account")
     else:
