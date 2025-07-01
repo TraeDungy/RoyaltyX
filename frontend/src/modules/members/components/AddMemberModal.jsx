@@ -22,7 +22,6 @@ import {
 import { getUsers } from "../../admin_panel/api/user";
 import { addProjectMember } from "../api/members";
 import { toast } from "react-toastify";
-import { useAuth } from "../../common/contexts/AuthContext";
 
 function AddMemberModal({
   project,
@@ -32,20 +31,30 @@ function AddMemberModal({
 }) {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { currentlySelectedProjectId } = useAuth();
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const fetchedUsers = await getUsers();
 
+        // Debug logging
+        console.log("Project users:", project?.users);
+        console.log("Fetched users:", fetchedUsers);
+
         // Filter out users who are already project members
-        const projectMemberIds =
-          project?.users?.map((user) => user.user_details?.id) || [];
+        // Try multiple possible ID mappings to be safe
+        const projectMemberIds = project?.users?.map((user) => {
+          // Check both user.user_details.id and user.user_details.user_id
+          return user.user_details?.id || user.user_details?.user_id || user.user_id;
+        }).filter(Boolean) || [];
+
+        console.log("Project member IDs:", projectMemberIds);
+
         const availableUsers = fetchedUsers.filter(
           (user) => !projectMemberIds.includes(user.id)
         );
 
+        console.log("Available users after filtering:", availableUsers);
         setUsers(availableUsers);
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -65,7 +74,6 @@ function AddMemberModal({
   const handleAddMember = async (user) => {
     const data = {
       user: user.id,
-      project: currentlySelectedProjectId,
     };
 
     setLoading(true);

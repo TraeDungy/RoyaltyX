@@ -11,7 +11,7 @@ export const colors = {
     powerContrast: "#f5f5f5",
     subtle: "#dadada",
     darkerGray: "#d9d9d9",
-    danger: "#ff0022",
+    danger: "#9c0015",
     success: "#0bb050",
   },
   dark: {
@@ -26,7 +26,7 @@ export const colors = {
     powerContrast: "#181a1b",
     subtle: "#4c5155",
     darkerGray: "#d9d9d9",
-    danger: "#ff0022",
+    danger: "#9c0015",
     success: "#0bb050",
   },
 };

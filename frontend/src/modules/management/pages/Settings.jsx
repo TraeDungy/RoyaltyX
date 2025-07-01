@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
-import Button from "../../common/components/Button";
 import { deleteProject, updateProjectInfo } from "../../projects/api/project";
 import { toast } from "react-toastify";
 import PageHeader from "../../common/components/PageHeader";
 import { useProject } from "../../common/contexts/ProjectContext";
-import { ExclamationTriangleFill } from "react-bootstrap-icons";
-import { TextField } from "@mui/material";
+import { Alert, Button, TextField } from "@mui/material";
 
 const Settings = () => {
   const { project, setProject } = useProject();
@@ -78,7 +76,8 @@ const Settings = () => {
 
       <div className="pt-4">
         <Button
-          variant="primary"
+          color="primary"
+          variant="contained"
           size="sm"
           onClick={handleSubmit}
           loading={loading}
@@ -90,20 +89,20 @@ const Settings = () => {
       <h4 className="bold mt-5">Danger zone</h4>
 
       <div className="mt-3 mb-5">
-        <div className="alert alert-danger mt-2 mb-3 d-flex align-items-center">
-          <div className="pe-3">
-            <ExclamationTriangleFill className="h5 mb-0" />
-          </div>
-          Deleting this project is a permanent action and cannot be undone. You
-          will lose all data associated with this project.
+        <div className="mt-2 mb-3">
+          <Alert severity="error">
+            Deleting this project is a permanent action and cannot be undone.
+            You will lose all data associated with this project.
+          </Alert>
         </div>
         <Button
-          variant="danger"
+          color="error"
           size="sm"
+          variant="contained"
           onClick={async () => {
             if (
               window.confirm(
-                "Are you sure you want to delete this project? This action cannot be undone.",
+                "Are you sure you want to delete this project? This action cannot be undone."
               )
             ) {
               try {

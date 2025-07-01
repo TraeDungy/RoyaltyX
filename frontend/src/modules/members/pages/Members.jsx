@@ -61,7 +61,6 @@ function Members() {
 
   return (
     <Box>
-      {/* Header */}
       <Box sx={{ 
         display: 'flex', 
         justifyContent: 'space-between', 
@@ -75,13 +74,11 @@ function Members() {
           variant="contained"
           startIcon={<PersonAddIcon />}
           onClick={handleOpenMembersModal}
-          sx={{ borderRadius: 2 }}
         >
           Add Member
         </Button>
       </Box>
 
-      {/* Members Grid */}
       {project?.users?.length > 0 ? (
         <Grid container spacing={3}>
           {project.users.map((user) => (
