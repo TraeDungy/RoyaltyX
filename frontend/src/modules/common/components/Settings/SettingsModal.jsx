@@ -1,90 +1,199 @@
 import { useState } from "react";
-import Modal from "react-bootstrap/Modal";
+import {
+  Dialog,
+  DialogContent,
+  Box,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+  IconButton,
+} from "@mui/material";
+import { Close as CloseIcon } from "@mui/icons-material";
+import { Settings, Palette, LayoutGrid, CircleAlert } from "lucide-react";
 import GeneralSettings from "./GeneralSettings";
 import ThemeSettings from "./ThemeSettings";
 import DangerZone from "./DangerZone";
 import ViewSettings from "./ViewSettings";
-import { Settings, Palette, LayoutGrid, CircleAlert } from "lucide-react";
 
 function SettingsModal({ showSettingsModal, setShowSettingsModal }) {
   const [selectedTab, setSelectedTab] = useState("general");
 
   const handleClose = () => setShowSettingsModal(false);
 
+  const settingsTabs = [
+    {
+      id: "general",
+      label: "General",
+      icon: Settings,
+      color: "inherit",
+    },
+    {
+      id: "theme",
+      label: "Theme",
+      icon: Palette,
+      color: "inherit",
+    },
+    {
+      id: "view",
+      label: "View",
+      icon: LayoutGrid,
+      color: "inherit",
+    },
+    {
+      id: "danger",
+      label: "Danger Zone",
+      icon: CircleAlert,
+      color: "error",
+    },
+  ];
+
+  const renderContent = () => {
+    switch (selectedTab) {
+      case "general":
+        return <GeneralSettings />;
+      case "theme":
+        return <ThemeSettings />;
+      case "view":
+        return <ViewSettings />;
+      case "danger":
+        return <DangerZone />;
+      default:
+        return <GeneralSettings />;
+    }
+  };
+
   return (
-    <Modal show={showSettingsModal} onHide={handleClose} size="lg" centered>
-      <Modal.Body className="rounded py-0 pe-0">
-        <div className="d-flex w-100">
-          <div style={{ maxWidth: 200 }} className="w-100">
-            <nav className="pe-3">
-              <ul className="list-unstyled">
-                <div className="sidebar-link-group">
-                  <div className="pb-4 pt-3">
-                    <span className="small bold text-secondary ps-2">
-                      SETTINGS
-                    </span>
-                  </div>
+    <Dialog
+      open={showSettingsModal}
+      onClose={handleClose}
+      maxWidth="md"
+      fullWidth
+      PaperProps={{
+        sx: { 
+          borderRadius: 3,
+          minHeight: '70vh',
+          maxHeight: '90vh',
+          backgroundColor: 'background.paper',
+        }
+      }}
+    >
+      <DialogContent sx={{ p: 0, display: 'flex', height: '100%' }}>
+        <Box
+          sx={{
+            width: 250,
+            borderRight: '1px solid',
+            borderColor: 'divider',
+            backgroundColor: 'background.default',
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
+          {/* Header */}
+          <Box sx={{ p: 3, pb: 2, borderBottom: '1px solid', borderColor: 'divider' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <Typography
+                variant="h6"
+                sx={{
+                  color: 'text.primary',
+                  fontWeight: 600,
+                }}
+              >
+                Settings
+              </Typography>
+              <IconButton
+                onClick={handleClose}
+                size="small"
+                sx={{ 
+                  color: 'text.secondary',
+                  '&:hover': {
+                    backgroundColor: 'action.hover',
+                  }
+                }}
+              >
+                <CloseIcon fontSize="small" />
+              </IconButton>
+            </Box>
+          </Box>
 
-                  <li
-                    className={`nav-item px-2 my-2 rounded pointer ${selectedTab === "general" ? "active" : ""}`}
-                    onClick={() => setSelectedTab("general")}
+          {/* Navigation List */}
+          <List sx={{ px: 2, py: 2, flex: 1 }}>
+            {settingsTabs.map((tab) => {
+              const IconComponent = tab.icon;
+              const isSelected = selectedTab === tab.id;
+              const isDanger = tab.color === "error";
+
+              return (
+                <ListItem key={tab.id} disablePadding sx={{ mb: 1 }}>
+                  <ListItemButton
+                    selected={isSelected}
+                    onClick={() => setSelectedTab(tab.id)}
+                    sx={{
+                      borderRadius: 2,
+                      py: 1.5,
+                      '&.Mui-selected': {
+                        backgroundColor: isDanger ? 'error.main' : 'primary.main',
+                        color: isDanger ? 'error.contrastText' : 'primary.contrastText',
+                        '&:hover': {
+                          backgroundColor: isDanger ? 'error.dark' : 'primary.dark',
+                        },
+                        '& .MuiListItemIcon-root': {
+                          color: isDanger ? 'error.contrastText' : 'primary.contrastText',
+                        },
+                      },
+                      '&:hover': {
+                        backgroundColor: isDanger ? 'error.light' : 'action.hover',
+                      },
+                    }}
                   >
-                    <span className="nav-link">
-                      <Settings size={18} color="var(--color-text-lighter)" />
-                      <span className="ps-3 medium">General</span>
-                    </span>
-                  </li>
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 40,
+                        color: isDanger && !isSelected ? 'error.main' : 'inherit',
+                      }}
+                    >
+                      <IconComponent size={18} />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={tab.label}
+                      primaryTypographyProps={{
+                        variant: 'body2',
+                        fontWeight: isSelected ? 600 : 500,
+                        color: isDanger && !isSelected ? 'error.main' : 'inherit',
+                      }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              );
+            })}
+          </List>
+        </Box>
 
-                  <li
-                    className={`nav-item px-2 my-2 rounded pointer ${selectedTab === "theme" ? "active" : ""}`}
-                    onClick={() => setSelectedTab("theme")}
-                  >
-                    <span className="nav-link">
-                      <Palette size={18} color="var(--color-text-lighter)" />
-                      <span className="ps-3 medium">Theme</span>
-                    </span>
-                  </li>
-
-                  <li
-                    className={`nav-item px-2 my-2 rounded pointer ${selectedTab === "view" ? "active" : ""}`}
-                    onClick={() => setSelectedTab("view")}
-                  >
-                    <span className="nav-link">
-                      <LayoutGrid size={18} color="var(--color-text-lighter)" />
-                      <span className="ps-3 medium">View</span>
-                    </span>
-                  </li>
-
-                  <li
-                    className={`nav-item px-2 my-2 rounded pointer ${selectedTab === "danger" ? "active" : ""}`}
-                    onClick={() => setSelectedTab("danger")}
-                  >
-                    <span className="nav-link text-danger">
-                      <CircleAlert
-                        size={18}
-                      />
-                      <span className="ps-3 medium">Danger Zone</span>
-                    </span>
-                  </li>
-                </div>
-              </ul>
-            </nav>
-          </div>
-
-          <div
-            className="w-100"
-            style={{ maxHeight: "70vh", overflowY: "auto" }}
+        {/* Content Area */}
+        <Box
+          sx={{
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            overflow: 'hidden',
+            backgroundColor: 'background.paper',
+          }}
+        >
+          {/* Content */}
+          <Box
+            sx={{
+              flex: 1,
+              overflow: 'auto',
+              p: 4,
+            }}
           >
-            <div className="w-100 pt-3 pb-5 px-5">
-              {selectedTab === "general" && <GeneralSettings />}
-              {selectedTab === "theme" && <ThemeSettings />}
-              {selectedTab === "view" && <ViewSettings />}
-              {selectedTab === "danger" && <DangerZone />}
-            </div>
-          </div>
-        </div>
-      </Modal.Body>
-    </Modal>
+            {renderContent()}
+          </Box>
+        </Box>
+      </DialogContent>
+    </Dialog>
   );
 }
 
