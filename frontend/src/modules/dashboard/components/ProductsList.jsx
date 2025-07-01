@@ -16,10 +16,10 @@ export const ProductsList = ({ products, loading }) => {
           justifyContent: "space-between",
           alignItems: "center",
           mb: 2,
-          mt: 4,
+          mt: 6,
         }}
       >
-        <Typography variant="h4" sx={{ fontWeight: "bold" }}>
+        <Typography variant="h5" sx={{ fontWeight: "bold" }}>
           Products
         </Typography>
         <Button variant="outlined" onClick={() => navigate("/products")}>
@@ -49,7 +49,10 @@ export const ProductsList = ({ products, loading }) => {
                       src={(() => {
                         const url = product.thumbnail.replace("/media/", "");
                         if (url.startsWith("https")) {
-                          return decodeURIComponent(url).replace("https", "http");
+                          return decodeURIComponent(url).replace(
+                            "https",
+                            "http"
+                          );
                         } else {
                           return apiUrl + product.thumbnail;
                         }
@@ -71,7 +74,7 @@ export const ProductsList = ({ products, loading }) => {
         </div>
       ) : (
         <div className="text-center py-5">
-          <Shredder size={40} />
+          <Shredder size={40} className="txt-lighter" />
           <p className="txt-lighter medium mt-3 mb-5">
             No products available at the moment.
           </p>

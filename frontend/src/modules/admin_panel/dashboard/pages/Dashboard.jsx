@@ -67,58 +67,6 @@ function Dashboard() {
           </div>
         </div>
       </div>
-      <h5 className="mt-4 mb-3">Top Performing Content</h5>
-
-      <div className="bgc-body shadow-sm">
-        <div className="table-responsive">
-          <table className="table table-striped table-hover mb-0">
-            <tbody>
-              <tr>
-                <th>Rank</th>
-                <th>Title</th>
-                <th>Views</th>
-                <th>Revenue</th>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>Summer Vibes</td>
-                <td>1,500,000</td>
-                <td>$65,000</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>Summer Vibes</td>
-                <td>1,500,000</td>
-                <td>$65,000</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>Summer Vibes</td>
-                <td>1,500,000</td>
-                <td>$65,000</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>Summer Vibes</td>
-                <td>1,500,000</td>
-                <td>$65,000</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>Summer Vibes</td>
-                <td>1,500,000</td>
-                <td>$65,000</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>Summer Vibes</td>
-                <td>1,500,000</td>
-                <td>$65,000</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
     </div>
   );
 }

@@ -1,16 +1,18 @@
 import { Outlet } from "react-router";
 import Sidebar from "./Sidebar";
-import "./AdminPanel.css";
+import { Box, Container } from "@mui/material";
 
 function AdminLayout() {
   return (
     <div className="page-content-wrapper">
       <Sidebar />
-      <div className="main-admin-content-wrapper">
-        <div className="main-admin-container">
-          <Outlet />
-        </div>
-      </div>
+      <Box sx={{ width: "100%" }}>
+        <Box>
+          <Container sx={{ px: 8 }}>
+            <Outlet />
+          </Container>
+        </Box>
+      </Box>
     </div>
   );
 }

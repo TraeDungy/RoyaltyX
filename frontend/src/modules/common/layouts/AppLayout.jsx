@@ -1,23 +1,20 @@
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar/Sidebar";
 import Header from "./Header/Header";
+import { Box, Container } from "@mui/material";
 
 function AppLayout() {
-  const location = useLocation();
-
   return (
     <div className="page-content-wrapper">
       <Sidebar />
-      <div className="main-content-wrapper">
+      <Box sx={{ width: "100%" }}>
         <Header />
-        <div className="main-container">
-          <div
-            className={`"container" ${!location.pathname.startsWith("/inbox") ? "px-5" : ""}`}
-          >
+        <Box>
+          <Container sx={{ px: 8 }}>
             <Outlet />
-          </div>
-        </div>
-      </div>
+          </Container>
+        </Box>
+      </Box>
     </div>
   );
 }
