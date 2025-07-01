@@ -1,9 +1,27 @@
 import { useEffect, useState } from "react";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  Button,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  ListItemSecondaryAction,
+  Avatar,
+  Typography,
+  Box,
+  IconButton,
+  Divider,
+} from "@mui/material";
+import {
+  PersonAdd as PersonAddIcon,
+  Close as CloseIcon,
+} from "@mui/icons-material";
 import { getUsers } from "../../admin_panel/api/user";
 import { addProjectMember } from "../api/members";
 import { toast } from "react-toastify";
-import { Plus } from "react-bootstrap-icons";
-import Modal from "react-bootstrap/Modal";
 import { useAuth } from "../../common/contexts/AuthContext";
 
 function AddMemberModal({
@@ -13,20 +31,32 @@ function AddMemberModal({
   setShowAddMemberModal,
 }) {
   const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
   const { currentlySelectedProjectId } = useAuth();
 
   useEffect(() => {
-    const fetchContacts = async () => {
+    const fetchUsers = async () => {
       try {
         const fetchedUsers = await getUsers();
-        setUsers(fetchedUsers);
+
+        // Filter out users who are already project members
+        const projectMemberIds =
+          project?.users?.map((user) => user.user_details?.id) || [];
+        const availableUsers = fetchedUsers.filter(
+          (user) => !projectMemberIds.includes(user.id)
+        );
+
+        setUsers(availableUsers);
       } catch (error) {
-        console.error("Error fetching :", error);
+        console.error("Error fetching users:", error);
+        toast.error("Error loading users");
       }
     };
 
-    fetchContacts();
-  }, []);
+    if (showAddMemberModal) {
+      fetchUsers();
+    }
+  }, [showAddMemberModal, project?.users]);
 
   const handleCloseAddMemberModal = () => {
     setShowAddMemberModal(false);
@@ -38,6 +68,7 @@ function AddMemberModal({
       project: currentlySelectedProjectId,
     };
 
+    setLoading(true);
     try {
       const createdProjectUser = await addProjectMember(data);
 
@@ -49,47 +80,151 @@ function AddMemberModal({
       setShowAddMemberModal(false);
       toast.success("Successfully added a new project member!");
     } catch (error) {
-      toast.error("Error while trying to add a member!");
+      console.error("Error adding member:", error);
+
+      // Handle specific error messages
+      if (error.response?.data?.non_field_errors) {
+        const errorMessage = error.response.data.non_field_errors[0];
+        if (errorMessage.includes("unique set")) {
+          toast.error("This user is already a member of the project!");
+        } else {
+          toast.error(errorMessage);
+        }
+      } else {
+        toast.error("Error while trying to add a member!");
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
+  const getAvatarColor = (name) => {
+    const colors = [
+      "#f44336",
+      "#e91e63",
+      "#9c27b0",
+      "#673ab7",
+      "#3f51b5",
+      "#2196f3",
+      "#03a9f4",
+      "#00bcd4",
+      "#009688",
+      "#4caf50",
+      "#8bc34a",
+      "#cddc39",
+      "#ffeb3b",
+      "#ffc107",
+      "#ff9800",
+      "#ff5722",
+    ];
+    const index = name?.charCodeAt(0) % colors.length || 0;
+    return colors[index];
+  };
+
   return (
-    <>
-      <Modal
-        centered
-        show={showAddMemberModal}
-        size="lg"
-        onHide={handleCloseAddMemberModal}
-      >
-        <Modal.Header className="border-0">
-          <Modal.Title className="h5">Add project member</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="table-responsive">
-            <table className="table table-hover table-bordered">
-              <tbody>
-                {users.map((user) => (
-                  <tr key={user.id}>
-                    <td className="medium">{user.name}</td>
-                    <td className="medium">{user.email}</td>
-                    <td className="text-center">
-                      <button
-                        className="btn btn-primary medium"
-                        onClick={() => {
-                          handleAddMember(user);
-                        }}
-                      >
-                        <Plus className="h4 mb-0 me-1" /> Add
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </Modal.Body>
-      </Modal>
-    </>
+    <Dialog
+      open={showAddMemberModal}
+      onClose={handleCloseAddMemberModal}
+      maxWidth="sm"
+      fullWidth
+      PaperProps={{
+        sx: { borderRadius: 3 },
+      }}
+    >
+      <DialogTitle sx={{ pb: 1 }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <Typography variant="h5" sx={{ fontWeight: 600 }}>
+            Add Project Member
+          </Typography>
+          <IconButton
+            onClick={handleCloseAddMemberModal}
+            size="small"
+            sx={{ color: "text.secondary" }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </Box>
+      </DialogTitle>
+
+      <DialogContent sx={{ px: 0 }}>
+        {users.length > 0 ? (
+          <List sx={{ width: "100%" }}>
+            {users.map((user, index) => (
+              <Box key={user.id}>
+                <ListItem
+                  sx={{
+                    px: 3,
+                    py: 2,
+                    "&:hover": {
+                      backgroundColor: "action.hover",
+                    },
+                  }}
+                >
+                  <ListItemAvatar>
+                    <Avatar
+                      src={user.avatar}
+                      sx={{
+                        bgcolor: !user.avatar
+                          ? getAvatarColor(user.name)
+                          : undefined,
+                        width: 40,
+                        height: 40,
+                      }}
+                    >
+                      {!user.avatar &&
+                        (user.name?.charAt(0)?.toUpperCase() || "U")}
+                    </Avatar>
+                  </ListItemAvatar>
+
+                  <ListItemText
+                    sx={{ flexDirection: "column", display: "flex" }}
+                    primary={
+                      <Typography variant="body1" sx={{ fontWeight: 500 }}>
+                        {user.name}
+                      </Typography>
+                    }
+                    secondary={
+                      <Typography variant="body2" color="text.secondary">
+                        {user.email}
+                      </Typography>
+                    }
+                  />
+
+                  <ListItemSecondaryAction>
+                    <Button
+                      variant="contained"
+                      size="small"
+                      startIcon={<PersonAddIcon />}
+                      onClick={() => handleAddMember(user)}
+                      disabled={loading}
+                    >
+                      Add
+                    </Button>
+                  </ListItemSecondaryAction>
+                </ListItem>
+                {index < users.length - 1 && <Divider />}
+              </Box>
+            ))}
+          </List>
+        ) : (
+          <Box sx={{ textAlign: "center", py: 6, px: 3 }}>
+            <Typography variant="h6" color="text.secondary" gutterBottom>
+              No available users
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              All users are already members of this project or no users exist in
+              the system.
+            </Typography>
+          </Box>
+        )}
+      </DialogContent>
+    </Dialog>
   );
 }
 

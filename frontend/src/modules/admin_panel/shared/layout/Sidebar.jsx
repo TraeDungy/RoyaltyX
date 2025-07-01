@@ -95,8 +95,8 @@ function Sidebar() {
           <ListItem disablePadding>
             <ListItemButton
               component={Link}
-              to="/"
-              selected={isActivePage("/")}
+              to="/admin/dashboard"
+              selected={isActivePage("/admin/dashboard")}
               sx={{
                 borderRadius: 2,
                 mb: 0.5,

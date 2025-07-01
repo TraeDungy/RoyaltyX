@@ -69,14 +69,19 @@ const NotificationsDropdown = () => {
   };
 
   return (
-    <Box sx={{ position: "relative", pl: "1.5rem" }}>
+    <Box sx={{ position: "relative" }}>
       <ClickAwayListener onClickAway={handleClickAway}>
         <Box>
           <IconButton
             onClick={toggleDropdown}
-            size="large"
             aria-label="show notifications"
-            sx={{ position: "relative", color: "text.secondary", p: 0 }}
+            size="small"
+            sx={{
+              color: 'text.secondary',
+              "&:hover": {
+                backgroundColor: "action.hover",
+              },
+            }}
           >
             <Badge
               badgeContent={notificationCount}

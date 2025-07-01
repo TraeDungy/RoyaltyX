@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Box, Typography, Card, CardContent, Grid } from "@mui/material";
 import { Box2Heart, CurrencyDollar, Person } from "react-bootstrap-icons";
 
 function Dashboard() {
@@ -11,63 +12,95 @@ function Dashboard() {
   });
 
   return (
-    <div className="container">
-      <h3 className="mt-4 mb-3 ps-2 bold">Dashboard</h3>
+    <Box className="container">
+      <Typography variant="h2" sx={{ mt: 5, mb: 3 }}>
+        Dashboard
+      </Typography>
 
-      <div className="row">
-        <div className="col-md-4 p-3">
-          <div className="card p-3 rounded">
-            <div className="d-flex align-items-center justify-content-between pb-2">
-              <span className="medium fw-500">Total users</span>
-              <Person className="txt-lighter" />
-            </div>
-            <div className="d-flex align-items-center">
-              <h2 className="m-0 pe-2">{stats.total_number_of_users}</h2>
-            </div>
-
-            <div className="pt-1">
-              <span className="small">
-                <span className="text-success">+00.0%</span> from last period
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-4 p-3">
-          <div className="card p-3 rounded">
-            <div className="d-flex align-items-center justify-content-between pb-2">
-              <span className="medium fw-500">Active users</span>
-              <CurrencyDollar className="txt-lighter" />
-            </div>
-            <div className="d-flex align-items-center">
-              <h2 className="m-0 pe-2">{stats.total_earnings}</h2>
-            </div>
-
-            <div className="pt-1">
-              <span className="small">
-                <span className="text-success">+00.0%</span> from last period
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-4 p-3">
-          <div className="card p-3 rounded">
-            <div className="d-flex align-items-center justify-content-between pb-2">
-              <span className="medium fw-500">Products</span>
-              <Box2Heart className="txt-lighter" />
-            </div>
-            <div className="d-flex align-items-center">
-              <h2 className="m-0 pe-2">{stats.number_of_subscribed_users}</h2>
-            </div>
-
-            <div className="pt-1">
-              <span className="small">
-                <span className="text-success">+00.0%</span> from last period
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+      <Grid container spacing={3}>
+        <Grid size={{ xs: 12, md: 4 }}>
+          <Card variant="outlined">
+            <CardContent>
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                pb={2}
+              >
+                <Typography variant="subtitle1" fontWeight="500">
+                  Total users
+                </Typography>
+                <Person className="txt-lighter" />
+              </Box>
+              <Box display="flex" alignItems="center">
+                <Typography variant="h4" component="h2" className="m-0 pe-2">
+                  {stats.total_number_of_users}
+                </Typography>
+              </Box>
+              <Box pt={1}>
+                <Typography variant="body2">
+                  <span className="text-success">+00.0%</span> from last period
+                </Typography>
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid size={{ xs: 12, md: 4 }}>
+          <Card variant="outlined">
+            <CardContent>
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                pb={2}
+              >
+                <Typography variant="subtitle1" fontWeight="500">
+                  Active users
+                </Typography>
+                <CurrencyDollar className="txt-lighter" />
+              </Box>
+              <Box display="flex" alignItems="center">
+                <Typography variant="h4" component="h2" className="m-0 pe-2">
+                  {stats.total_earnings}
+                </Typography>
+              </Box>
+              <Box pt={1}>
+                <Typography variant="body2">
+                  <span className="text-success">+00.0%</span> from last period
+                </Typography>
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid size={{ xs: 12, md: 4 }}>
+          <Card variant="outlined">
+            <CardContent>
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                pb={2}
+              >
+                <Typography variant="subtitle1" fontWeight="500">
+                  Products
+                </Typography>
+                <Box2Heart className="txt-lighter" />
+              </Box>
+              <Box display="flex" alignItems="center">
+                <Typography variant="h4" component="h2" className="m-0 pe-2">
+                  {stats.number_of_subscribed_users}
+                </Typography>
+              </Box>
+              <Box pt={1}>
+                <Typography variant="body2">
+                  <span className="text-success">+00.0%</span> from last period
+                </Typography>
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+    </Box>
   );
 }
 
