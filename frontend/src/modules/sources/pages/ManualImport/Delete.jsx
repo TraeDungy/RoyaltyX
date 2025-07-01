@@ -1,8 +1,8 @@
 import { useNavigate, useParams } from "react-router";
 import PageHeader from "../../../common/components/PageHeader";
 import { useEffect, useState } from "react";
-import { deleteFile, getFile } from "../../api/files";
 import { toast } from "react-toastify";
+import { deleteFile, getFile } from "../../../management/api/files";
 
 const DeleteData = () => {
   const { file_id } = useParams();

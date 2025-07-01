@@ -24,7 +24,6 @@ import {
   LayoutDashboard,
   Users,
 } from "lucide-react";
-import ProductsList from "./ProductsList";
 import { useProject } from "../../contexts/ProjectContext";
 import { useAuth } from "../../contexts/AuthContext";
 import { UpgradePlanButton } from "../../components/UpgradePlanButton";
@@ -114,32 +113,6 @@ function Sidebar() {
               >
                 Management
               </Typography>
-
-              <ListItem disablePadding>
-                <ListItemButton
-                  component={Link}
-                  to="/management/data/import"
-                  selected={isActivePage("/management/data/import")}
-                  sx={{
-                    borderRadius: 2,
-                    mb: 0.5,
-                    "&.Mui-selected": {
-                      backgroundColor: "action.selected",
-                    },
-                  }}
-                >
-                  <ListItemIcon sx={{ minWidth: 40 }}>
-                    <FileText size={18} color="var(--color-text-lighter)" />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary="Manual import"
-                    primaryTypographyProps={{
-                      variant: "body2",
-                      fontWeight: 500,
-                    }}
-                  />
-                </ListItemButton>
-              </ListItem>
 
               <ListItem disablePadding>
                 <ListItemButton
@@ -374,8 +347,6 @@ function Sidebar() {
             <UpgradePlanButton />
           </ListItem>
         </List>
-
-        <ProductsList />
       </Box>
     </Box>
   );
@@ -393,7 +364,6 @@ function Sidebar() {
           "& .MuiDrawer-paper": {
             boxSizing: "border-box",
             width: SIDEBAR_WIDTH,
-            border: "none",
           },
         }}
       >
@@ -413,11 +383,6 @@ function Sidebar() {
         "& .MuiDrawer-paper": {
           width: SIDEBAR_WIDTH,
           boxSizing: "border-box",
-          border: "none",
-          transition: theme.transitions.create("width", {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-          }),
         },
       }}
     >

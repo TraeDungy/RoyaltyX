@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import Papa from "papaparse";
-import { getFiles } from "../../api/files";
 import FileUploadInput from "../../components/FileUploadInput";
 import PageHeader from "../../../common/components/PageHeader";
 import { apiUrl } from "../../../common/api/config";
@@ -8,6 +7,7 @@ import { Download, Trash } from "react-bootstrap-icons";
 import ViewFileModal from "../../components/ViewFileModal";
 import { ReactComponent as GoogleSheetsIcon } from "../../../common/assets/img/vectors/google_sheets_icon.svg";
 import { Link } from "react-router-dom";
+import { getFiles } from "../../../management/api/files";
 
 const ImportData = () => {
   const [files, setFiles] = useState([]);
@@ -53,7 +53,7 @@ const ImportData = () => {
   return (
     <div className="py-3">
       <PageHeader
-        title="Data Import"
+        title="Manual Data Import"
         description="Manage your data sources and reports from different platforms all in one place."
       />
 
