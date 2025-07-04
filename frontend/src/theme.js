@@ -14,7 +14,7 @@ export const getMuiTheme = (mode) => {
       },
       background: {
         default: colors[mode].bodyBackground,
-        paper: colors[mode].bodyBackground,
+        paper: colors[mode].paper,
       },
       text: {
         primary: colors[mode].text,
@@ -61,6 +61,13 @@ export const getMuiTheme = (mode) => {
             subtitle2: "h2",
             body1: "span",
             body2: "span",
+          },
+        },
+      },
+      MuiCard: {
+        styleOverrides: {
+          root: {
+            boxShadow: mode === "dark" ? "none" : 3,
           },
         },
       },

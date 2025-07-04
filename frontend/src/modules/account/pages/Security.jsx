@@ -156,11 +156,12 @@ function SecurityPage() {
                   Password
                 </Typography>
               </Box>
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+              <Typography variant="body2" color="text.secondary">
                 Keep your account secure with a strong password
               </Typography>
               <Button
                 variant="outlined"
+                sx={{ mt: 3 }}
                 fullWidth
                 onClick={() => setChangePasswordDialog(true)}
               >

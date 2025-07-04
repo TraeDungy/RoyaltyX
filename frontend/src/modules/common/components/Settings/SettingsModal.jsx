@@ -100,8 +100,8 @@ function SettingsModal({ showSettingsModal, setShowSettingsModal }) {
             width: 250,
             borderRight: "1px solid",
             borderColor: "divider",
-            backgroundColor: "background.default",
             display: "flex",
+            backgroundColor: "background.paper",
             flexDirection: "column",
           }}
         >
@@ -121,27 +121,10 @@ function SettingsModal({ showSettingsModal, setShowSettingsModal }) {
                       borderRadius: 2,
                       py: 1.5,
                       "&.Mui-selected": {
-                        backgroundColor: isDanger
-                          ? "error.main"
-                          : "action.selected",
-                        color: isDanger
-                          ? "error.contrastText"
-                          : "primary.contrastText",
+                        backgroundColor: "action.selected",
                         "&:hover": {
-                          backgroundColor: isDanger
-                            ? "error.dark"
-                            : "primary.dark",
+                          backgroundColor: "action.selected",
                         },
-                        "& .MuiListItemIcon-root": {
-                          color: isDanger
-                            ? "error.contrastText"
-                            : "primary.contrastText",
-                        },
-                      },
-                      "&:hover": {
-                        backgroundColor: isDanger
-                          ? "error.light"
-                          : "action.hover",
                       },
                     }}
                   >
@@ -160,7 +143,7 @@ function SettingsModal({ showSettingsModal, setShowSettingsModal }) {
                         variant: "body2",
                         fontWeight: isSelected ? 600 : 500,
                         color:
-                          isDanger && !isSelected ? "error.main" : "inherit",
+                          isDanger ? "error.main" : "inherit",
                       }}
                     />
                   </ListItemButton>

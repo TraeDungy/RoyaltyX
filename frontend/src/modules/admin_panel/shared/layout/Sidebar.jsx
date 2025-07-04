@@ -16,7 +16,7 @@ import {
 import { LayoutDashboard, HelpCircle } from "lucide-react";
 import icon from "../../../common/assets/img/brand/icon.webp";
 
-const SIDEBAR_WIDTH = 236;
+const SIDEBAR_WIDTH = 240;
 
 function Sidebar() {
   const theme = useTheme();

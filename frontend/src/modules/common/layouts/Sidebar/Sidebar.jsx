@@ -29,7 +29,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { UpgradePlanButton } from "../../components/UpgradePlanButton";
 import { ProjectSelector } from "../../../global/components/ProjectSelector";
 
-const SIDEBAR_WIDTH = 236;
+const SIDEBAR_WIDTH = 240;
 
 function Sidebar() {
   const theme = useTheme();
@@ -364,6 +364,8 @@ function Sidebar() {
           "& .MuiDrawer-paper": {
             boxSizing: "border-box",
             width: SIDEBAR_WIDTH,
+            pb: 0,
+            backgroundColor: theme.palette.background.default,
           },
         }}
       >
@@ -383,6 +385,7 @@ function Sidebar() {
         "& .MuiDrawer-paper": {
           width: SIDEBAR_WIDTH,
           boxSizing: "border-box",
+          backgroundColor: theme.palette.background.default,
         },
       }}
     >
