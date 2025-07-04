@@ -76,13 +76,13 @@ function Overview() {
 
   return (
     <Box sx={{ p: 3, maxWidth: 1200, mx: "auto" }}>
-      <Typography variant="h4" sx={{ mb: 4, fontWeight: 600 }}>
+      <Typography variant="h3" sx={{ mb: 4, fontWeight: 600 }}>
         Account Overview
       </Typography>
 
       <Grid container spacing={3}>
         {/* Profile Card */}
-        <Grid item xs={12} md={4}>
+        <Grid size={{ xs: 12, md: 4 }}>
           <Card sx={{ height: "100%" }}>
             <CardContent sx={{ textAlign: "center", p: 3 }}>
               <Avatar
@@ -103,12 +103,6 @@ function Overview() {
               <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
                 {userInfo.email || "user@example.com"}
               </Typography>
-              <Chip
-                label={userInfo.role?.name || "User"}
-                color="primary"
-                variant="outlined"
-                sx={{ mb: 2 }}
-              />
               <Box sx={{ mt: 2 }}>
                 <Chip
                   icon={<Mail size={16} />}
@@ -123,7 +117,7 @@ function Overview() {
         </Grid>
 
         {/* Account Details */}
-        <Grid size={{ xs: 12 }}>
+        <Grid size={{ xs: 12, md: 8 }}>
           <Card sx={{ height: "100%" }}>
             <CardContent sx={{ p: 3 }}>
               <Typography variant="h6" sx={{ mb: 3, fontWeight: 500 }}>
@@ -154,7 +148,7 @@ function Overview() {
                     </Typography>
                   </Paper>
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <Paper
                     sx={{
                       p: 2,
@@ -178,7 +172,7 @@ function Overview() {
                     </Typography>
                   </Paper>
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <Paper
                     sx={{
                       p: 2,
@@ -202,7 +196,7 @@ function Overview() {
                     </Typography>
                   </Paper>
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <Paper
                     sx={{
                       p: 2,
@@ -248,13 +242,8 @@ function Overview() {
                       sx={{
                         px: 0,
                         py: 2,
-                        cursor: "pointer",
                         borderRadius: 1,
-                        "&:hover": {
-                          bgcolor: "action.hover",
-                        },
                       }}
-                      onClick={() => navigate(item.path)}
                     >
                       <ListItemIcon sx={{ minWidth: 40 }}>
                         {item.icon}

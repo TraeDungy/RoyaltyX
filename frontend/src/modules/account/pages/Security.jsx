@@ -32,10 +32,8 @@ import {
   AlertTriangle,
   CheckCircle,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 
 function SecurityPage() {
-  const navigate = useNavigate();
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -96,9 +94,9 @@ function SecurityPage() {
   ];
 
   const handlePasswordChange = (field, value) => {
-    setPasswordForm(prev => ({
+    setPasswordForm((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
@@ -137,13 +135,7 @@ function SecurityPage() {
 
   return (
     <Box sx={{ p: 3, maxWidth: 1200, mx: "auto" }}>
-      <Box sx={{ display: "flex", alignItems: "center", mb: 4 }}>
-        <Button
-          onClick={() => navigate("/account")}
-          sx={{ mr: 2, minWidth: "auto", p: 1 }}
-        >
-          ← Back
-        </Button>
+      <Box sx={{ mb: 4 }}>
         <Typography variant="h4" sx={{ fontWeight: 600 }}>
           Security Settings
         </Typography>
@@ -151,11 +143,15 @@ function SecurityPage() {
 
       <Grid container spacing={3}>
         {/* Password Section */}
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Card>
             <CardContent sx={{ p: 3 }}>
               <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
-                <Lock size={20} color="currentColor" style={{ marginRight: 16, color: "primary.main" }} />
+                <Lock
+                  size={20}
+                  color="currentColor"
+                  style={{ marginRight: 16, color: "primary.main" }}
+                />
                 <Typography variant="h6" sx={{ fontWeight: 500 }}>
                   Password
                 </Typography>
@@ -175,11 +171,15 @@ function SecurityPage() {
         </Grid>
 
         {/* Security Features */}
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Card>
             <CardContent sx={{ p: 3 }}>
               <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
-                <Shield size={20} color="currentColor" style={{ marginRight: 16, color: "primary.main" }} />
+                <Shield
+                  size={20}
+                  color="currentColor"
+                  style={{ marginRight: 16, color: "primary.main" }}
+                />
                 <Typography variant="h6" sx={{ fontWeight: 500 }}>
                   Security Features
                 </Typography>
@@ -193,7 +193,10 @@ function SecurityPage() {
                       </ListItemIcon>
                       <ListItemText
                         primary={
-                          <Typography variant="subtitle2" sx={{ fontWeight: 500 }}>
+                          <Typography
+                            variant="subtitle2"
+                            sx={{ fontWeight: 500 }}
+                          >
                             {feature.title}
                           </Typography>
                         }
@@ -220,14 +223,14 @@ function SecurityPage() {
         </Grid>
 
         {/* Security Status */}
-        <Grid item xs={12}>
+        <Grid size={{ xs: 12 }}>
           <Card>
             <CardContent sx={{ p: 3 }}>
               <Typography variant="h6" sx={{ mb: 3, fontWeight: 500 }}>
                 Security Status
               </Typography>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={4}>
+                <Grid size={{ xs: 12, sm: 4 }}>
                   <Alert severity="success" sx={{ height: "100%" }}>
                     <Typography variant="subtitle2" sx={{ fontWeight: 500 }}>
                       Strong Password
@@ -237,8 +240,11 @@ function SecurityPage() {
                     </Typography>
                   </Alert>
                 </Grid>
-                <Grid item xs={12} sm={4}>
-                  <Alert severity={twoFactorEnabled ? "success" : "warning"} sx={{ height: "100%" }}>
+                <Grid size={{ xs: 12, sm: 4 }}>
+                  <Alert
+                    severity={twoFactorEnabled ? "success" : "warning"}
+                    sx={{ height: "100%" }}
+                  >
                     <Typography variant="subtitle2" sx={{ fontWeight: 500 }}>
                       Two-Factor Authentication
                     </Typography>
@@ -247,7 +253,7 @@ function SecurityPage() {
                     </Typography>
                   </Alert>
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid size={{ xs: 12, sm: 4 }}>
                   <Alert severity="info" sx={{ height: "100%" }}>
                     <Typography variant="subtitle2" sx={{ fontWeight: 500 }}>
                       Account Activity
@@ -263,7 +269,7 @@ function SecurityPage() {
         </Grid>
 
         {/* Recent Activity */}
-        <Grid item xs={12}>
+        <Grid size={{ xs: 12 }}>
           <Card>
             <CardContent sx={{ p: 3 }}>
               <Typography variant="h6" sx={{ mb: 3, fontWeight: 500 }}>
@@ -278,13 +284,17 @@ function SecurityPage() {
                       </ListItemIcon>
                       <ListItemText
                         primary={
-                          <Typography variant="subtitle2" sx={{ fontWeight: 500 }}>
+                          <Typography
+                            variant="subtitle2"
+                            sx={{ fontWeight: 500 }}
+                          >
                             {activity.action}
                           </Typography>
                         }
                         secondary={
                           <Typography variant="body2" color="text.secondary">
-                            {activity.location} • {new Date(activity.date).toLocaleDateString()}
+                            {activity.location} •{" "}
+                            {new Date(activity.date).toLocaleDateString()}
                           </Typography>
                         }
                       />
@@ -321,7 +331,9 @@ function SecurityPage() {
               label="Current Password"
               type={showCurrentPassword ? "text" : "password"}
               value={passwordForm.currentPassword}
-              onChange={(e) => handlePasswordChange("currentPassword", e.target.value)}
+              onChange={(e) =>
+                handlePasswordChange("currentPassword", e.target.value)
+              }
               sx={{ mb: 2 }}
               InputProps={{
                 endAdornment: (
@@ -329,7 +341,11 @@ function SecurityPage() {
                     onClick={() => setShowCurrentPassword(!showCurrentPassword)}
                     sx={{ minWidth: "auto", p: 1 }}
                   >
-                    {showCurrentPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                    {showCurrentPassword ? (
+                      <EyeOff size={16} />
+                    ) : (
+                      <Eye size={16} />
+                    )}
                   </Button>
                 ),
               }}
@@ -339,7 +355,9 @@ function SecurityPage() {
               label="New Password"
               type={showNewPassword ? "text" : "password"}
               value={passwordForm.newPassword}
-              onChange={(e) => handlePasswordChange("newPassword", e.target.value)}
+              onChange={(e) =>
+                handlePasswordChange("newPassword", e.target.value)
+              }
               sx={{ mb: 2 }}
               InputProps={{
                 endAdornment: (
@@ -357,14 +375,20 @@ function SecurityPage() {
               label="Confirm New Password"
               type={showConfirmPassword ? "text" : "password"}
               value={passwordForm.confirmPassword}
-              onChange={(e) => handlePasswordChange("confirmPassword", e.target.value)}
+              onChange={(e) =>
+                handlePasswordChange("confirmPassword", e.target.value)
+              }
               InputProps={{
                 endAdornment: (
                   <Button
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                     sx={{ minWidth: "auto", p: 1 }}
                   >
-                    {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                    {showConfirmPassword ? (
+                      <EyeOff size={16} />
+                    ) : (
+                      <Eye size={16} />
+                    )}
                   </Button>
                 ),
               }}
@@ -372,9 +396,7 @@ function SecurityPage() {
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setChangePasswordDialog(false)}>
-            Cancel
-          </Button>
+          <Button onClick={() => setChangePasswordDialog(false)}>Cancel</Button>
           <Button
             onClick={handlePasswordSubmit}
             variant="contained"
