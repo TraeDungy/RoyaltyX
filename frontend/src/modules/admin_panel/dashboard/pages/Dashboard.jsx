@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { Box, Typography, Card, CardContent, Grid } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Card,
+  CardContent,
+  Grid,
+  Container,
+} from "@mui/material";
 import { Box2Heart, CurrencyDollar, Person } from "react-bootstrap-icons";
 
 function Dashboard() {
@@ -12,7 +19,7 @@ function Dashboard() {
   });
 
   return (
-    <Box className="container">
+    <Container>
       <Typography variant="h2" sx={{ mt: 5, mb: 3 }}>
         Dashboard
       </Typography>
@@ -100,7 +107,7 @@ function Dashboard() {
           </Card>
         </Grid>
       </Grid>
-    </Box>
+    </Container>
   );
 }
 

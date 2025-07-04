@@ -13,7 +13,10 @@ import {
   Divider,
   Paper,
 } from "@mui/material";
-import { Delete as DeleteIcon, PersonAdd as PersonAddIcon } from "@mui/icons-material";
+import {
+  Delete as DeleteIcon,
+  PersonAdd as PersonAddIcon,
+} from "@mui/icons-material";
 import { toast } from "react-toastify";
 import AddMemberModal from "../components/AddMemberModal";
 import { removeProjectMember } from "../api/members";
@@ -42,31 +45,50 @@ function Members() {
 
   const getRoleColor = (role) => {
     switch (role?.toLowerCase()) {
-      case 'owner':
-        return 'primary';
-      case 'admin':
-        return 'secondary';
-      case 'member':
-        return 'default';
+      case "owner":
+        return "primary";
+      case "admin":
+        return "secondary";
+      case "member":
+        return "default";
       default:
-        return 'default';
+        return "default";
     }
   };
 
   const getAvatarColor = (name) => {
-    const colors = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4caf50', '#8bc34a', '#cddc39', '#ffeb3b', '#ffc107', '#ff9800', '#ff5722'];
+    const colors = [
+      "#f44336",
+      "#e91e63",
+      "#9c27b0",
+      "#673ab7",
+      "#3f51b5",
+      "#2196f3",
+      "#03a9f4",
+      "#00bcd4",
+      "#009688",
+      "#4caf50",
+      "#8bc34a",
+      "#cddc39",
+      "#ffeb3b",
+      "#ffc107",
+      "#ff9800",
+      "#ff5722",
+    ];
     const index = name?.charCodeAt(0) % colors.length || 0;
     return colors[index];
   };
 
   return (
     <Box>
-      <Box sx={{ 
-        display: 'flex', 
-        justifyContent: 'space-between', 
-        alignItems: 'center',
-        mb: 4
-      }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          mb: 4,
+        }}
+      >
         <Typography variant="h4" component="h1" sx={{ fontWeight: 600 }}>
           Project Members
         </Typography>
@@ -82,32 +104,31 @@ function Members() {
       {project?.users?.length > 0 ? (
         <Grid container spacing={3}>
           {project.users.map((user) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={user.id}>
+            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={user.id}>
               <Card
-                elevation={2}
                 sx={{
-                  height: '100%',
+                  height: "100%",
                   borderRadius: 3,
-                  transition: 'all 0.2s ease-in-out',
-                  '&:hover': {
+                  transition: "all 0.2s ease-in-out",
+                  "&:hover": {
                     elevation: 4,
-                    transform: 'translateY(-2px)',
+                    transform: "translateY(-2px)",
                   },
                 }}
               >
                 <CardContent sx={{ p: 3 }}>
                   <Stack spacing={2} alignItems="center">
-                    {/* Avatar */}
                     <Avatar
                       sx={{
                         width: 64,
                         height: 64,
                         bgcolor: getAvatarColor(user?.user_details?.name),
-                        fontSize: '1.5rem',
+                        fontSize: "1.5rem",
                         fontWeight: 600,
                       }}
                     >
-                      {user?.user_details?.name?.charAt(0)?.toUpperCase() || 'U'}
+                      {user?.user_details?.name?.charAt(0)?.toUpperCase() ||
+                        "U"}
                     </Avatar>
 
                     {/* Name */}
@@ -116,11 +137,11 @@ function Members() {
                       component="h3"
                       sx={{
                         fontWeight: 600,
-                        textAlign: 'center',
+                        textAlign: "center",
                         lineHeight: 1.2,
                       }}
                     >
-                      {user?.user_details?.name || 'Unknown User'}
+                      {user?.user_details?.name || "Unknown User"}
                     </Typography>
 
                     {/* Email */}
@@ -128,8 +149,8 @@ function Members() {
                       variant="body2"
                       color="text.secondary"
                       sx={{
-                        textAlign: 'center',
-                        wordBreak: 'break-word',
+                        textAlign: "center",
+                        wordBreak: "break-word",
                       }}
                     >
                       {user?.user_details?.email}
@@ -137,27 +158,33 @@ function Members() {
 
                     {/* Role Chip */}
                     <Chip
-                      label={user?.role || 'Member'}
+                      label={user?.role || "Member"}
                       color={getRoleColor(user?.role)}
                       size="small"
                       sx={{
                         fontWeight: 500,
-                        textTransform: 'capitalize',
+                        textTransform: "capitalize",
                       }}
                     />
 
-                    <Divider sx={{ width: '100%', my: 1 }} />
+                    <Divider sx={{ width: "100%", my: 1 }} />
 
                     {/* Actions */}
-                    <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        width: "100%",
+                      }}
+                    >
                       <IconButton
                         onClick={() => handleRemoveProjectMember(user)}
                         color="error"
                         size="small"
                         sx={{
-                          '&:hover': {
-                            backgroundColor: 'error.light',
-                            color: 'white',
+                          "&:hover": {
+                            backgroundColor: "error.light",
+                            color: "white",
                           },
                         }}
                       >
@@ -175,9 +202,9 @@ function Members() {
           elevation={1}
           sx={{
             p: 6,
-            textAlign: 'center',
+            textAlign: "center",
             borderRadius: 3,
-            backgroundColor: 'grey.50',
+            backgroundColor: "grey.50",
           }}
         >
           <Typography variant="h6" color="text.secondary" gutterBottom>

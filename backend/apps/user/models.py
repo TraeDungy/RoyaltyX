@@ -33,7 +33,7 @@ class MyUserManager(BaseUserManager):
     def generate_avatar_url(self, name):
         """Generate a DiceBear avatar based on the user's name or username."""
         base_url = "https://api.dicebear.com/7.x/initials/svg"
-        return f"{base_url}?seed={name}&backgroundColor=6b11cb,c0aede,6b11cb"
+        return f"{base_url}?seed={name}&backgroundColor=ff9800,00bcd4,6b11cb"
 
 
 class User(AbstractBaseUser):

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import Button from "../../../common/components/Button";
+import TextField from "@mui/material/TextField";
 import styles from "./Register.module.css";
 import { register } from "../../api/auth";
 import icon from "../../../common/assets/img/brand/icon.webp";
@@ -36,32 +37,36 @@ export default function Register() {
         <img src={icon} style={{ maxWidth: 60 }} className="mb-5" alt="" />
         <h2 className="bold">Sign up</h2>
         <p className="mb-3 txt-lighter">Welcome! Please enter your details.</p>
-        {error && <span className="text-danger small">{error}</span>} {}
+        {error && <span className="text-danger small">{error}</span>}
         <form onSubmit={handleSubmit}>
           <div className="py-2">
-            <label className="mb-1">Name</label>
-            <input
-              type="text"
+            <TextField
+              label="Name"
               name="name"
-              className="form-control py-3"
+              fullWidth
+              variant="outlined"
+              margin="normal"
               placeholder="Enter your name"
             />
           </div>
           <div className="py-2">
-            <label className="mb-1">Email</label>
-            <input
-              type="text"
+            <TextField
+              label="Email"
               name="email"
-              className="form-control py-3"
+              fullWidth
+              variant="outlined"
+              margin="normal"
               placeholder="Enter your email"
             />
           </div>
           <div className="py-2">
-            <label className="mb-1">Password</label>
-            <input
-              type="password"
+            <TextField
+              label="Password"
               name="password"
-              className="form-control py-3"
+              type="password"
+              fullWidth
+              variant="outlined"
+              margin="normal"
               placeholder="••••••••"
             />
           </div>
