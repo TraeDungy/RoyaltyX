@@ -1,5 +1,5 @@
 import { Box, Button, Grid, Typography } from "@mui/material";
-import { ArrowRight, Plus, WifiOff } from "lucide-react";
+import { ArrowRight, WifiOff } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { SourceItem } from "./SourceItem";
 
@@ -12,8 +12,8 @@ export const LinkedAccountsSection = ({ sources, loading }) => {
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          mt: 3,
-          mb: 1,
+          mt: 5,
+          mb: 5,
         }}
       >
         <Typography variant="h5" sx={{ fontWeight: "bold" }}>
@@ -50,19 +50,11 @@ export const LinkedAccountsSection = ({ sources, loading }) => {
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
-              mt: 4,
+              py: 10
             }}
           >
             <WifiOff size={40} className="txt-lighter" />
             <Typography sx={{ mt: 1 }}>No accounts linked yet.</Typography>
-            <Button
-              variant="contained"
-              color="primary"
-              sx={{ mt: 2 }}
-              onClick={() => navigate("/sources")}
-            >
-              <Plus className="me-2" /> Add data source
-            </Button>
           </Box>
         </Grid>
       )}

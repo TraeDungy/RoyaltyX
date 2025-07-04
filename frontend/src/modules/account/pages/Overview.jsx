@@ -123,14 +123,14 @@ function Overview() {
         </Grid>
 
         {/* Account Details */}
-        <Grid item xs={12} md={8}>
+        <Grid size={{ xs: 12 }}>
           <Card sx={{ height: "100%" }}>
             <CardContent sx={{ p: 3 }}>
               <Typography variant="h6" sx={{ mb: 3, fontWeight: 500 }}>
                 Account Information
               </Typography>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <Paper
                     sx={{
                       p: 2,
@@ -140,7 +140,11 @@ function Overview() {
                     }}
                   >
                     <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-                      <User size={16} color="currentColor" style={{ marginRight: 8, color: "text.secondary" }} />
+                      <User
+                        size={16}
+                        color="currentColor"
+                        style={{ marginRight: 8, color: "text.secondary" }}
+                      />
                       <Typography variant="subtitle2" color="text.secondary">
                         Full Name
                       </Typography>
@@ -160,7 +164,11 @@ function Overview() {
                     }}
                   >
                     <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-                      <Mail size={16} color="currentColor" style={{ marginRight: 8, color: "text.secondary" }} />
+                      <Mail
+                        size={16}
+                        color="currentColor"
+                        style={{ marginRight: 8, color: "text.secondary" }}
+                      />
                       <Typography variant="subtitle2" color="text.secondary">
                         Email Address
                       </Typography>
@@ -180,7 +188,11 @@ function Overview() {
                     }}
                   >
                     <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-                      <Calendar size={16} color="currentColor" style={{ marginRight: 8, color: "text.secondary" }} />
+                      <Calendar
+                        size={16}
+                        color="currentColor"
+                        style={{ marginRight: 8, color: "text.secondary" }}
+                      />
                       <Typography variant="subtitle2" color="text.secondary">
                         Member Since
                       </Typography>
@@ -200,7 +212,11 @@ function Overview() {
                     }}
                   >
                     <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-                      <CheckCircle size={16} color="currentColor" style={{ marginRight: 8, color: "text.secondary" }} />
+                      <CheckCircle
+                        size={16}
+                        color="currentColor"
+                        style={{ marginRight: 8, color: "text.secondary" }}
+                      />
                       <Typography variant="subtitle2" color="text.secondary">
                         Account Status
                       </Typography>
@@ -219,7 +235,7 @@ function Overview() {
         </Grid>
 
         {/* Quick Actions */}
-        <Grid item xs={12}>
+        <Grid size={{ xs: 12 }}>
           <Card>
             <CardContent sx={{ p: 3 }}>
               <Typography variant="h6" sx={{ mb: 3, fontWeight: 500 }}>
@@ -245,7 +261,10 @@ function Overview() {
                       </ListItemIcon>
                       <ListItemText
                         primary={
-                          <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
+                          <Typography
+                            variant="subtitle1"
+                            sx={{ fontWeight: 500 }}
+                          >
                             {item.title}
                           </Typography>
                         }
