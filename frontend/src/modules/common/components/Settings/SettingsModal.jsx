@@ -8,11 +8,9 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Typography,
   IconButton,
 } from "@mui/material";
-import { Close as CloseIcon } from "@mui/icons-material";
-import { Settings, Palette, LayoutGrid, CircleAlert } from "lucide-react";
+import { Settings, Palette, LayoutGrid, CircleAlert, X } from "lucide-react";
 import GeneralSettings from "./GeneralSettings";
 import ThemeSettings from "./ThemeSettings";
 import DangerZone from "./DangerZone";
@@ -72,52 +70,41 @@ function SettingsModal({ showSettingsModal, setShowSettingsModal }) {
       maxWidth="md"
       fullWidth
       PaperProps={{
-        sx: { 
+        sx: {
           borderRadius: 3,
-          minHeight: '70vh',
-          maxHeight: '90vh',
-          backgroundColor: 'background.paper',
-        }
+          minHeight: "60vh",
+          maxHeight: "90vh",
+        },
       }}
     >
-      <DialogContent sx={{ p: 0, display: 'flex', height: '100%' }}>
+      <DialogContent
+        sx={{ p: 0, display: "flex", height: "100%", position: "relative" }}
+      >
+        <IconButton
+          onClick={handleClose}
+          size="small"
+          sx={{
+            position: "absolute",
+            top: "1rem",
+            right: "1rem",
+            color: "text.secondary",
+            "&:hover": {
+              backgroundColor: "action.hover",
+            },
+          }}
+        >
+          <X />
+        </IconButton>
         <Box
           sx={{
             width: 250,
-            borderRight: '1px solid',
-            borderColor: 'divider',
-            backgroundColor: 'background.default',
-            display: 'flex',
-            flexDirection: 'column',
+            borderRight: "1px solid",
+            borderColor: "divider",
+            backgroundColor: "background.default",
+            display: "flex",
+            flexDirection: "column",
           }}
         >
-          {/* Header */}
-          <Box sx={{ p: 3, pb: 2, borderBottom: '1px solid', borderColor: 'divider' }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <Typography
-                variant="h6"
-                sx={{
-                  color: 'text.primary',
-                  fontWeight: 600,
-                }}
-              >
-                Settings
-              </Typography>
-              <IconButton
-                onClick={handleClose}
-                size="small"
-                sx={{ 
-                  color: 'text.secondary',
-                  '&:hover': {
-                    backgroundColor: 'action.hover',
-                  }
-                }}
-              >
-                <CloseIcon fontSize="small" />
-              </IconButton>
-            </Box>
-          </Box>
-
           {/* Navigation List */}
           <List sx={{ px: 2, py: 2, flex: 1 }}>
             {settingsTabs.map((tab) => {
@@ -133,25 +120,36 @@ function SettingsModal({ showSettingsModal, setShowSettingsModal }) {
                     sx={{
                       borderRadius: 2,
                       py: 1.5,
-                      '&.Mui-selected': {
-                        backgroundColor: isDanger ? 'error.main' : 'primary.main',
-                        color: isDanger ? 'error.contrastText' : 'primary.contrastText',
-                        '&:hover': {
-                          backgroundColor: isDanger ? 'error.dark' : 'primary.dark',
+                      "&.Mui-selected": {
+                        backgroundColor: isDanger
+                          ? "error.main"
+                          : "action.selected",
+                        color: isDanger
+                          ? "error.contrastText"
+                          : "primary.contrastText",
+                        "&:hover": {
+                          backgroundColor: isDanger
+                            ? "error.dark"
+                            : "primary.dark",
                         },
-                        '& .MuiListItemIcon-root': {
-                          color: isDanger ? 'error.contrastText' : 'primary.contrastText',
+                        "& .MuiListItemIcon-root": {
+                          color: isDanger
+                            ? "error.contrastText"
+                            : "primary.contrastText",
                         },
                       },
-                      '&:hover': {
-                        backgroundColor: isDanger ? 'error.light' : 'action.hover',
+                      "&:hover": {
+                        backgroundColor: isDanger
+                          ? "error.light"
+                          : "action.hover",
                       },
                     }}
                   >
                     <ListItemIcon
                       sx={{
                         minWidth: 40,
-                        color: isDanger && !isSelected ? 'error.main' : 'inherit',
+                        color:
+                          isDanger && !isSelected ? "error.main" : "inherit",
                       }}
                     >
                       <IconComponent size={18} />
@@ -159,9 +157,10 @@ function SettingsModal({ showSettingsModal, setShowSettingsModal }) {
                     <ListItemText
                       primary={tab.label}
                       primaryTypographyProps={{
-                        variant: 'body2',
+                        variant: "body2",
                         fontWeight: isSelected ? 600 : 500,
-                        color: isDanger && !isSelected ? 'error.main' : 'inherit',
+                        color:
+                          isDanger && !isSelected ? "error.main" : "inherit",
                       }}
                     />
                   </ListItemButton>
@@ -175,17 +174,17 @@ function SettingsModal({ showSettingsModal, setShowSettingsModal }) {
         <Box
           sx={{
             flex: 1,
-            display: 'flex',
-            flexDirection: 'column',
-            overflow: 'hidden',
-            backgroundColor: 'background.paper',
+            display: "flex",
+            flexDirection: "column",
+            overflow: "hidden",
+            backgroundColor: "background.paper",
           }}
         >
           {/* Content */}
           <Box
             sx={{
               flex: 1,
-              overflow: 'auto',
+              overflow: "auto",
               p: 4,
             }}
           >

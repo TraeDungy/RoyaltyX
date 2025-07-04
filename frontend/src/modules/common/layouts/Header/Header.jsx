@@ -21,11 +21,6 @@ function Header() {
   const [showSettingsModal, setShowSettingsModal] = useState(false);
   const { project } = useProject();
 
-  const getAvatarColor = (name) => {
-    const colors = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4caf50', '#8bc34a', '#cddc39', '#ffeb3b', '#ffc107', '#ff9800', '#ff5722'];
-    const index = name?.charCodeAt(0) % colors.length || 0;
-    return colors[index];
-  };
 
   return (
     <>
@@ -69,11 +64,10 @@ function Header() {
                     <Avatar
                       src={user?.user_details?.avatar}
                       sx={{
-                        bgcolor: !user?.user_details?.avatar ? getAvatarColor(user?.user_details?.name) : undefined,
                         cursor: 'pointer',
                       }}
                     >
-                      {!user?.user_details?.avatar && (user?.user_details?.name?.charAt(0)?.toUpperCase() || 'U')}
+                      {user?.user_details?.name?.charAt(0)?.toUpperCase() || 'U'}
                     </Avatar>
                   </Tooltip>
                 ))}

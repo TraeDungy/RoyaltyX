@@ -56,28 +56,6 @@ function Members() {
     }
   };
 
-  const getAvatarColor = (name) => {
-    const colors = [
-      "#f44336",
-      "#e91e63",
-      "#9c27b0",
-      "#673ab7",
-      "#3f51b5",
-      "#2196f3",
-      "#03a9f4",
-      "#00bcd4",
-      "#009688",
-      "#4caf50",
-      "#8bc34a",
-      "#cddc39",
-      "#ffeb3b",
-      "#ffc107",
-      "#ff9800",
-      "#ff5722",
-    ];
-    const index = name?.charCodeAt(0) % colors.length || 0;
-    return colors[index];
-  };
 
   return (
     <Box>
@@ -119,10 +97,10 @@ function Members() {
                 <CardContent sx={{ p: 3 }}>
                   <Stack spacing={2} alignItems="center">
                     <Avatar
+                      src={user?.user_details?.avatar}
                       sx={{
                         width: 64,
                         height: 64,
-                        bgcolor: getAvatarColor(user?.user_details?.name),
                         fontSize: "1.5rem",
                         fontWeight: 600,
                       }}

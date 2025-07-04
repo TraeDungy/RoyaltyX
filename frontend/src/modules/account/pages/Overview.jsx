@@ -86,12 +86,12 @@ function Overview() {
           <Card sx={{ height: "100%" }}>
             <CardContent sx={{ textAlign: "center", p: 3 }}>
               <Avatar
+                src={userInfo.avatar}
                 sx={{
                   width: 80,
                   height: 80,
                   mx: "auto",
                   mb: 2,
-                  bgcolor: "primary.main",
                   fontSize: "2rem",
                 }}
               >
