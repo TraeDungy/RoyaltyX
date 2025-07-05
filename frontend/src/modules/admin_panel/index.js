@@ -6,11 +6,16 @@ import DataUpload from "./help_documentation/pages/DataUpload";
 import ReportGeneration from "./help_documentation/pages/ReportGeneration";
 import Dashboard from "./dashboard/pages/Dashboard";
 import Support from "./support/pages/Support";
+import Users from "./users/pages/Users";
 
 const adminRoutes = [
   {
     path: "/admin/dashboard",
     element: <Dashboard />,
+  },
+  {
+    path: "/admin/users",
+    element: <Users />,
   },
   {
     path: "/admin/support",

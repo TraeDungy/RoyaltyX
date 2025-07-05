@@ -19,6 +19,7 @@ urlpatterns = [
     path("notifications/", include("apps.notifications.urls")),
     path("support/", include("apps.support.urls")),
     path("sources/", include("apps.sources.urls")),
+    path("admin-panel/", include("apps.admin_panel.urls")),
     ## OAuth2
     path("oauth/google/", include("apps.oauth.google.urls")),
     ## API documentation urls

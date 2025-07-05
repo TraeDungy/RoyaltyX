@@ -8,12 +8,16 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Typography,
   useTheme,
   useMediaQuery,
   Divider,
 } from "@mui/material";
-import { LayoutDashboard, HelpCircle, MessageSquare } from "lucide-react";
+import {
+  LayoutDashboard,
+  HelpCircle,
+  MessageSquare,
+  Users,
+} from "lucide-react";
 import icon from "../../../common/assets/img/brand/icon.webp";
 
 const SIDEBAR_WIDTH = 240;
@@ -78,21 +82,7 @@ function Sidebar() {
             <img src={icon} alt="logo" style={{ height: 50 }} />
           </Box>
           <Divider />
-          <Typography
-            variant="caption"
-            sx={{
-              color: "text.secondary",
-              fontWeight: 500,
-              px: 2,
-              pt: 2,
-              pb: 1,
-              display: "block",
-            }}
-          >
-            Project
-          </Typography>
-
-          <ListItem disablePadding>
+          <ListItem disablePadding sx={{ mt: 3 }}>
             <ListItemButton
               component={Link}
               to="/admin/dashboard"
@@ -110,6 +100,29 @@ function Sidebar() {
               </ListItemIcon>
               <ListItemText
                 primary="Dashboard"
+                primaryTypographyProps={{ variant: "body2", fontWeight: 500 }}
+              />
+            </ListItemButton>
+          </ListItem>
+
+          <ListItem disablePadding>
+            <ListItemButton
+              component={Link}
+              to="/admin/users"
+              selected={isActivePage("/admin/users")}
+              sx={{
+                borderRadius: 2,
+                mb: 0.5,
+                "&.Mui-selected": {
+                  backgroundColor: "action.selected",
+                },
+              }}
+            >
+              <ListItemIcon sx={{ minWidth: 40 }}>
+                <Users size={18} color="var(--color-text-lighter)" />
+              </ListItemIcon>
+              <ListItemText
+                primary="Users"
                 primaryTypographyProps={{ variant: "body2", fontWeight: 500 }}
               />
             </ListItemButton>
@@ -204,11 +217,7 @@ function Sidebar() {
         "& .MuiDrawer-paper": {
           width: SIDEBAR_WIDTH,
           boxSizing: "border-box",
-          border: "none",
-          transition: theme.transitions.create("width", {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-          }),
+          backgroundColor: theme.palette.background.default,
         },
       }}
     >
