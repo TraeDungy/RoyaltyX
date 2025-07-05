@@ -71,7 +71,7 @@ function Users() {
       case "admin":
         return "error";
       case "user":
-        return "primary";
+        return "success";
       default:
         return "default";
     }

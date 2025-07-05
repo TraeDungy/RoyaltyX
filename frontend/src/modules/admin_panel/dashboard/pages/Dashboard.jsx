@@ -190,45 +190,48 @@ function Dashboard() {
                 sx={{
                   p: 2,
                   borderRadius: 2,
-                  backgroundColor: "primary.light",
-                  color: "primary.contrastText",
+                  backgroundColor: "#1976d2",
+                  color: "#fff",
                 }}
               >
                 <Typography variant="h4" sx={{ fontWeight: 600 }}>
                   {stats?.recent_activity?.new_users_last_30_days || 0}
                 </Typography>
-                <Typography variant="body2">New Users</Typography>
-                <Typography variant="caption">Last 30 days</Typography>
+                <Typography variant="body2">
+                  New users in last 30 days
+                </Typography>
               </Box>
 
               <Box
                 sx={{
                   p: 2,
                   borderRadius: 2,
-                  backgroundColor: "warning.light",
-                  color: "warning.contrastText",
+                  backgroundColor: "#1976d2",
+                  color: "#fff",
                 }}
               >
                 <Typography variant="h4" sx={{ fontWeight: 600 }}>
                   {stats?.recent_activity?.new_projects_last_30_days || 0}
                 </Typography>
-                <Typography variant="body2">New Projects</Typography>
-                <Typography variant="caption">Last 30 days</Typography>
+                <Typography variant="body2">
+                  New projects in last 30 days
+                </Typography>
               </Box>
 
               <Box
                 sx={{
                   p: 2,
                   borderRadius: 2,
-                  backgroundColor: "success.light",
-                  color: "success.contrastText",
+                  backgroundColor: "#1976d2",
+                  color: "#fff",
                 }}
               >
                 <Typography variant="h4" sx={{ fontWeight: 600 }}>
                   {stats?.recent_activity?.new_sources_last_30_days || 0}
                 </Typography>
-                <Typography variant="body2">New Sources</Typography>
-                <Typography variant="caption">Last 30 days</Typography>
+                <Typography variant="body2">
+                  New sources in last 30 days
+                </Typography>
               </Box>
             </Box>
           </Paper>
@@ -236,7 +239,7 @@ function Dashboard() {
       </Grid>
 
       {/* Quick Actions */}
-      <Box sx={{ mt: 4 }}>
+      <Box sx={{ my: 4 }}>
         <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
           Quick Actions
         </Typography>

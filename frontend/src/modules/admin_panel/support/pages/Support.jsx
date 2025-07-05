@@ -27,13 +27,13 @@ import {
 } from "@mui/material";
 import {
   Search,
-  MoreHorizontal,
   MessageSquare,
   UserCheck,
   HelpCircle,
   TrendingUp,
   Users,
   Timer,
+  MoreVertical,
 } from "lucide-react";
 import { toast } from "react-toastify";
 import {
@@ -453,7 +453,7 @@ function Support() {
                         onClick={(e) => handleMenuClick(e, ticket)}
                         size="small"
                       >
-                        <MoreHorizontal size={16} />
+                        <MoreVertical size={16} />
                       </IconButton>
                     </TableCell>
                   </TableRow>

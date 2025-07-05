@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import { ExclamationCircleFill } from "react-bootstrap-icons";
 
 function PageNotFound() {
@@ -16,13 +17,9 @@ function PageNotFound() {
               <p className="mb-5">
                 The page you are looking for was not found.
               </p>
-              <a
-                className="btn btn-primary rounded-lg text-white px-5 fs-6 m-0"
-                href="/"
-                role="button"
-              >
+              <Button variant="contained" color="primary">
                 Back to Home
-              </a>
+              </Button>
             </div>
           </div>
         </div>
