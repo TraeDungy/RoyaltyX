@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { 
-  AppBar, 
-  Toolbar, 
-  Box, 
-  IconButton, 
-  Badge, 
-  Avatar, 
-  AvatarGroup, 
-  Tooltip 
+import {
+  AppBar,
+  Toolbar,
+  Box,
+  IconButton,
+  Badge,
+  Avatar,
+  AvatarGroup,
+  Tooltip,
 } from "@mui/material";
 import { Settings, MessageSquare } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -21,7 +21,6 @@ function Header() {
   const [showSettingsModal, setShowSettingsModal] = useState(false);
   const { project } = useProject();
 
-
   return (
     <>
       <AppBar
@@ -34,40 +33,39 @@ function Header() {
           color: "text.primary",
         }}
       >
-        <Toolbar sx={{ px: { xs: 2, sm: 4 }, py: 1 }}>
-          {/* Left side - Breadcrumbs */}
+        <Toolbar sx={{ px: { xs: 2, sm: 4 }, py: 1, height: 66.77 }}>
           <Box sx={{ display: "flex", alignItems: "center", flex: 1 }}>
             <Breadcrumbs />
           </Box>
 
-          {/* Center - Project Member Avatars */}
           {project?.users && project.users.length > 0 && (
             <Box sx={{ display: "flex", alignItems: "center", mx: 2 }}>
-              <AvatarGroup 
-                max={5} 
-                sx={{ 
-                  '& .MuiAvatar-root': { 
-                    width: 23, 
-                    height: 23, 
-                    fontSize: '0.875rem',
-                    border: '2px solid',
-                    borderColor: 'background.paper',
-                  }
+              <AvatarGroup
+                max={5}
+                sx={{
+                  "& .MuiAvatar-root": {
+                    width: 23,
+                    height: 23,
+                    fontSize: "0.875rem",
+                    border: "2px solid",
+                    borderColor: "divider",
+                  },
                 }}
               >
                 {project.users.map((user) => (
-                  <Tooltip 
-                    key={user.id} 
-                    title={`${user?.user_details?.name || 'Unknown'} (${user?.role || 'Member'})`}
+                  <Tooltip
+                    key={user.id}
+                    title={`${user?.user_details?.name || "Unknown"} (${user?.role || "Member"})`}
                     arrow
                   >
                     <Avatar
                       src={user?.user_details?.avatar}
                       sx={{
-                        cursor: 'pointer',
+                        cursor: "pointer",
                       }}
                     >
-                      {user?.user_details?.name?.charAt(0)?.toUpperCase() || 'U'}
+                      {user?.user_details?.name?.charAt(0)?.toUpperCase() ||
+                        "U"}
                     </Avatar>
                   </Tooltip>
                 ))}

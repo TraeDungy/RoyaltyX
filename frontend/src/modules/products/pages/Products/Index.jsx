@@ -33,7 +33,7 @@ const Products = () => {
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            height: "calc(100vh - 64px)",
+            height: "calc(100vh - 66.77px)",
           }}
         >
           <Shredder size={60} className="txt-lighter" />

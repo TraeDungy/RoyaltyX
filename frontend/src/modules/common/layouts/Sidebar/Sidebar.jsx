@@ -92,9 +92,9 @@ function Sidebar() {
         flexDirection: "column",
       }}
     >
-      <ProjectSelector />
-
-      <Divider />
+      <Box sx={{ borderBottom: "1px solid", borderColor: "divider" }}>
+        <ProjectSelector />
+      </Box>
 
       <Box sx={{ flex: 1, overflow: "auto" }}>
         <List sx={{ px: 2 }}>
