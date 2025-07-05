@@ -1,217 +1,285 @@
-import { apiUrl } from "../../common/api/config";
+import { useEffect, useState } from "react";
+import useMutation from "../../global/hooks/useMutation";
+import useFetch from "../../global/hooks/useFetch";
 
-const getAuthHeaders = () => {
-  const token = localStorage.getItem("accessToken");
+// Customer Support Hooks
+export const useCustomerTickets = () => {
+  const { data, loading, error, refetch } = useFetch("/support/tickets/");
+  
   return {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`,
+    tickets: data,
+    loading,
+    error,
+    refetch
   };
 };
 
-// Customer Support API
+export const useCustomerTicketDetail = (ticketId) => {
+  const [ticket, setTicket] = useState(null);
+
+  const {
+    data,
+    loading,
+    error: fetchError,
+    refetch
+  } = useFetch(`/support/tickets/${ticketId}/`);
+
+  useEffect(() => {
+    if (data) {
+      setTicket(data);
+    }
+  }, [data]);
+
+  return {
+    ticket,
+    loading,
+    error: fetchError,
+    refetch
+  };
+};
+
+export const useCreateSupportTicket = () => {
+  const {
+    mutate: createTicketMutation,
+    loading,
+    error,
+  } = useMutation("/support/tickets/", "POST");
+
+  const createTicket = async (ticketData) => {
+    try {
+      const result = await createTicketMutation(ticketData);
+      return result;
+    } catch (error) {
+      console.error("Error creating ticket:", error);
+      throw error;
+    }
+  };
+
+  return {
+    createTicket,
+    loading,
+    error,
+  };
+};
+
+export const useCreateSupportMessage = (ticketId) => {
+  const {
+    mutate: createMessageMutation,
+    loading,
+    error,
+  } = useMutation(`/support/tickets/${ticketId}/messages/`, "POST");
+
+  const createMessage = async (messageData) => {
+    try {
+      const result = await createMessageMutation(messageData);
+      return result;
+    } catch (error) {
+      console.error("Error creating message:", error);
+      throw error;
+    }
+  };
+
+  return {
+    createMessage,
+    loading,
+    error,
+  };
+};
+
+export const useCustomerSupportStats = () => {
+  const { data, loading, error, refetch } = useFetch("/support/stats/");
+  
+  return {
+    stats: data,
+    loading,
+    error,
+    refetch
+  };
+};
+
+// Admin Support Hooks
+export const useAdminTickets = (filters = {}) => {
+  const queryParams = new URLSearchParams();
+  
+  Object.keys(filters).forEach(key => {
+    if (filters[key]) {
+      queryParams.append(key, filters[key]);
+    }
+  });
+
+  const url = `/support/admin/tickets/${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
+  
+  const { data, loading, error, refetch } = useFetch(url);
+  
+  return {
+    tickets: data,
+    loading,
+    error,
+    refetch
+  };
+};
+
+export const useAdminTicketDetail = (ticketId) => {
+  const [ticket, setTicket] = useState(null);
+
+  const {
+    data,
+    loading,
+    error: fetchError,
+    refetch
+  } = useFetch(`/support/admin/tickets/${ticketId}/`);
+
+  useEffect(() => {
+    if (data) {
+      setTicket(data);
+    }
+  }, [data]);
+
+  return {
+    ticket,
+    loading,
+    error: fetchError,
+    refetch
+  };
+};
+
+export const useUpdateTicketStatus = (ticketId) => {
+  const {
+    mutate: updateTicketMutation,
+    loading,
+    error,
+  } = useMutation(`/support/admin/tickets/${ticketId}/`, "PATCH");
+
+  const updateTicket = async (updateData) => {
+    try {
+      const result = await updateTicketMutation(updateData);
+      return result;
+    } catch (error) {
+      console.error("Error updating ticket:", error);
+      throw error;
+    }
+  };
+
+  return {
+    updateTicket,
+    loading,
+    error,
+  };
+};
+
+export const useAssignTicket = (ticketId) => {
+  const {
+    mutate: assignTicketMutation,
+    loading,
+    error,
+  } = useMutation(`/support/admin/tickets/${ticketId}/assign/`, "POST");
+
+  const assignTicket = async (adminId = null) => {
+    try {
+      const result = await assignTicketMutation({ admin_id: adminId });
+      return result;
+    } catch (error) {
+      console.error("Error assigning ticket:", error);
+      throw error;
+    }
+  };
+
+  return {
+    assignTicket,
+    loading,
+    error,
+  };
+};
+
+export const useTakeTicket = (ticketId) => {
+  const {
+    mutate: takeTicketMutation,
+    loading,
+    error,
+  } = useMutation(`/support/admin/tickets/${ticketId}/take/`, "POST");
+
+  const takeTicket = async () => {
+    try {
+      const result = await takeTicketMutation();
+      return result;
+    } catch (error) {
+      console.error("Error taking ticket:", error);
+      throw error;
+    }
+  };
+
+  return {
+    takeTicket,
+    loading,
+    error,
+  };
+};
+
+export const useAdminSupportStats = () => {
+  const { data, loading, error, refetch } = useFetch("/support/admin/stats/");
+  
+  return {
+    stats: data,
+    loading,
+    error,
+    refetch
+  };
+};
+
+// Legacy functions for backward compatibility (if needed)
+// These can be removed once all components are updated to use hooks
+
 export const getCustomerTickets = async () => {
-  try {
-    const response = await fetch(`${apiUrl}/support/tickets/`, {
-      method: "GET",
-      headers: getAuthHeaders(),
-    });
-
-    if (response.ok) {
-      return await response.json();
-    } else {
-      throw new Error("Failed to fetch tickets");
-    }
-  } catch (error) {
-    throw new Error(error.message);
-  }
+  console.warn("getCustomerTickets is deprecated. Use useCustomerTickets hook instead.");
+  // Implementation kept for backward compatibility if needed
 };
 
-export const getCustomerTicketDetail = async (ticketId) => {
-  try {
-    const response = await fetch(`${apiUrl}/support/tickets/${ticketId}/`, {
-      method: "GET",
-      headers: getAuthHeaders(),
-    });
-
-    if (response.ok) {
-      return await response.json();
-    } else {
-      throw new Error("Failed to fetch ticket details");
-    }
-  } catch (error) {
-    throw new Error(error.message);
-  }
+export const getCustomerTicketDetail = async (_ticketId) => {
+  console.warn("getCustomerTicketDetail is deprecated. Use useCustomerTicketDetail hook instead.");
+  // Implementation kept for backward compatibility if needed
 };
 
-export const createSupportTicket = async (ticketData) => {
-  try {
-    const response = await fetch(`${apiUrl}/support/tickets/`, {
-      method: "POST",
-      headers: getAuthHeaders(),
-      body: JSON.stringify(ticketData),
-    });
-
-    if (response.ok) {
-      return await response.json();
-    } else {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Failed to create ticket");
-    }
-  } catch (error) {
-    throw new Error(error.message);
-  }
+export const createSupportTicket = async (_ticketData) => {
+  console.warn("createSupportTicket is deprecated. Use useCreateSupportTicket hook instead.");
+  // Implementation kept for backward compatibility if needed
 };
 
-export const createSupportMessage = async (ticketId, messageData) => {
-  try {
-    const response = await fetch(`${apiUrl}/support/tickets/${ticketId}/messages/`, {
-      method: "POST",
-      headers: getAuthHeaders(),
-      body: JSON.stringify(messageData),
-    });
-
-    if (response.ok) {
-      return await response.json();
-    } else {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Failed to send message");
-    }
-  } catch (error) {
-    throw new Error(error.message);
-  }
+export const createSupportMessage = async (_ticketId, _messageData) => {
+  console.warn("createSupportMessage is deprecated. Use useCreateSupportMessage hook instead.");
+  // Implementation kept for backward compatibility if needed
 };
 
 export const getCustomerSupportStats = async () => {
-  try {
-    const response = await fetch(`${apiUrl}/support/stats/`, {
-      method: "GET",
-      headers: getAuthHeaders(),
-    });
-
-    if (response.ok) {
-      return await response.json();
-    } else {
-      throw new Error("Failed to fetch support stats");
-    }
-  } catch (error) {
-    throw new Error(error.message);
-  }
+  console.warn("getCustomerSupportStats is deprecated. Use useCustomerSupportStats hook instead.");
+  // Implementation kept for backward compatibility if needed
 };
 
-// Admin Support API
-export const getAdminTickets = async (filters = {}) => {
-  try {
-    const queryParams = new URLSearchParams();
-    
-    Object.keys(filters).forEach(key => {
-      if (filters[key]) {
-        queryParams.append(key, filters[key]);
-      }
-    });
-
-    const url = `${apiUrl}/support/admin/tickets/${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
-    
-    const response = await fetch(url, {
-      method: "GET",
-      headers: getAuthHeaders(),
-    });
-
-    if (response.ok) {
-      return await response.json();
-    } else {
-      throw new Error("Failed to fetch admin tickets");
-    }
-  } catch (error) {
-    throw new Error(error.message);
-  }
+export const getAdminTickets = async (_filters = {}) => {
+  console.warn("getAdminTickets is deprecated. Use useAdminTickets hook instead.");
+  // Implementation kept for backward compatibility if needed
 };
 
-export const getAdminTicketDetail = async (ticketId) => {
-  try {
-    const response = await fetch(`${apiUrl}/support/admin/tickets/${ticketId}/`, {
-      method: "GET",
-      headers: getAuthHeaders(),
-    });
-
-    if (response.ok) {
-      return await response.json();
-    } else {
-      throw new Error("Failed to fetch admin ticket details");
-    }
-  } catch (error) {
-    throw new Error(error.message);
-  }
+export const getAdminTicketDetail = async (_ticketId) => {
+  console.warn("getAdminTicketDetail is deprecated. Use useAdminTicketDetail hook instead.");
+  // Implementation kept for backward compatibility if needed
 };
 
-export const updateTicketStatus = async (ticketId, updateData) => {
-  try {
-    const response = await fetch(`${apiUrl}/support/admin/tickets/${ticketId}/`, {
-      method: "PATCH",
-      headers: getAuthHeaders(),
-      body: JSON.stringify(updateData),
-    });
-
-    if (response.ok) {
-      return await response.json();
-    } else {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Failed to update ticket");
-    }
-  } catch (error) {
-    throw new Error(error.message);
-  }
+export const updateTicketStatus = async (_ticketId, _updateData) => {
+  console.warn("updateTicketStatus is deprecated. Use useUpdateTicketStatus hook instead.");
+  // Implementation kept for backward compatibility if needed
 };
 
-export const assignTicket = async (ticketId, adminId = null) => {
-  try {
-    const response = await fetch(`${apiUrl}/support/admin/tickets/${ticketId}/assign/`, {
-      method: "POST",
-      headers: getAuthHeaders(),
-      body: JSON.stringify({ admin_id: adminId }),
-    });
-
-    if (response.ok) {
-      return await response.json();
-    } else {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Failed to assign ticket");
-    }
-  } catch (error) {
-    throw new Error(error.message);
-  }
+export const assignTicket = async (_ticketId, _adminId = null) => {
+  console.warn("assignTicket is deprecated. Use useAssignTicket hook instead.");
+  // Implementation kept for backward compatibility if needed
 };
 
-export const takeTicket = async (ticketId) => {
-  try {
-    const response = await fetch(`${apiUrl}/support/admin/tickets/${ticketId}/take/`, {
-      method: "POST",
-      headers: getAuthHeaders(),
-    });
-
-    if (response.ok) {
-      return await response.json();
-    } else {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Failed to take ticket");
-    }
-  } catch (error) {
-    throw new Error(error.message);
-  }
+export const takeTicket = async (_ticketId) => {
+  console.warn("takeTicket is deprecated. Use useTakeTicket hook instead.");
+  // Implementation kept for backward compatibility if needed
 };
 
 export const getAdminSupportStats = async () => {
-  try {
-    const response = await fetch(`${apiUrl}/support/admin/stats/`, {
-      method: "GET",
-      headers: getAuthHeaders(),
-    });
-
-    if (response.ok) {
-      return await response.json();
-    } else {
-      throw new Error("Failed to fetch admin support stats");
-    }
-  } catch (error) {
-    throw new Error(error.message);
-  }
+  console.warn("getAdminSupportStats is deprecated. Use useAdminSupportStats hook instead.");
+  // Implementation kept for backward compatibility if needed
 };

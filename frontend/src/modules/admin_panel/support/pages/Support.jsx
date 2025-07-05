@@ -39,16 +39,13 @@ import {
 } from "lucide-react";
 import { toast } from "react-toastify";
 import {
-  getAdminTickets,
-  getAdminSupportStats,
-  takeTicket,
-  updateTicketStatus,
-} from "../../support/api/support";
+  useAdminTickets,
+  useAdminSupportStats,
+  useTakeTicket,
+  useUpdateTicketStatus,
+} from "../../../support/api/support";
 
-function SupportDashboard() {
-  const [tickets, setTickets] = useState([]);
-  const [stats, setStats] = useState({});
-  const [loading, setLoading] = useState(true);
+function Support() {
   const [filters, setFilters] = useState({
     status: "",
     priority: "",
@@ -60,32 +57,39 @@ function SupportDashboard() {
   const [statusDialog, setStatusDialog] = useState(false);
   const [newStatus, setNewStatus] = useState("");
 
+  // Use hooks for data fetching
+  const { tickets, loading: ticketsLoading, error: ticketsError, refetch: refetchTickets } = useAdminTickets(filters);
+  const { stats, loading: statsLoading, error: statsError, refetch: refetchStats } = useAdminSupportStats();
+  const { takeTicket, loading: _takingTicket, error: takeError } = useTakeTicket(selectedTicket?.id);
+  const { updateTicket, loading: _updatingTicket, error: updateError } = useUpdateTicketStatus(selectedTicket?.id);
+
+  const loading = ticketsLoading || statsLoading;
+
   useEffect(() => {
-    fetchData();
-  }, [filters]);
-
-  const fetchData = async () => {
-    try {
-      setLoading(true);
-      const [ticketsData, statsData] = await Promise.all([
-        getAdminTickets(filters),
-        getAdminSupportStats(),
-      ]);
-      setTickets(ticketsData);
-      setStats(statsData);
-    } catch (error) {
-      toast.error("Failed to load support data");
-      console.error("Error fetching support data:", error);
-    } finally {
-      setLoading(false);
+    if (ticketsError) {
+      toast.error("Failed to load tickets");
+      console.error("Error fetching tickets:", ticketsError);
     }
-  };
+    if (statsError) {
+      toast.error("Failed to load support stats");
+      console.error("Error fetching stats:", statsError);
+    }
+    if (takeError) {
+      toast.error("Failed to take ticket");
+      console.error("Error taking ticket:", takeError);
+    }
+    if (updateError) {
+      toast.error("Failed to update ticket status");
+      console.error("Error updating status:", updateError);
+    }
+  }, [ticketsError, statsError, takeError, updateError]);
 
-  const handleTakeTicket = async (ticketId) => {
+  const handleTakeTicket = async (_ticketId) => {
     try {
-      await takeTicket(ticketId);
+      await takeTicket();
       toast.success("Ticket assigned to you successfully!");
-      fetchData();
+      refetchTickets();
+      refetchStats();
       handleMenuClose();
     } catch (error) {
       toast.error("Failed to take ticket");
@@ -95,12 +99,13 @@ function SupportDashboard() {
 
   const handleStatusUpdate = async () => {
     try {
-      await updateTicketStatus(selectedTicket.id, { status: newStatus });
+      await updateTicket({ status: newStatus });
       toast.success("Ticket status updated successfully!");
       setStatusDialog(false);
       setSelectedTicket(null);
       setNewStatus("");
-      fetchData();
+      refetchTickets();
+      refetchStats();
     } catch (error) {
       toast.error("Failed to update ticket status");
       console.error("Error updating status:", error);
@@ -511,4 +516,4 @@ function SupportDashboard() {
   );
 }
 
-export default SupportDashboard;
+export default Support;

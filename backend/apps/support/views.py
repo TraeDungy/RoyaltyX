@@ -52,8 +52,16 @@ class AdminSupportTicketListView(generics.ListAPIView):
     """
     Admin view: List all support tickets with filtering
     """
-    permission_classes = [permissions.IsAuthenticated, permissions.IsAdminUser]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = SupportTicketListSerializer
+    
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.role == 'admin':
+            return Response(
+                {'error': 'You do not have permission to perform this action.'},
+                status=status.HTTP_403_FORBIDDEN
+            )
+        return super().dispatch(request, *args, **kwargs)
     
     def get_queryset(self):
         queryset = SupportTicket.objects.all().prefetch_related(
@@ -94,10 +102,18 @@ class AdminSupportTicketDetailView(generics.RetrieveUpdateAPIView):
     """
     Admin view: Get and update ticket details
     """
-    permission_classes = [permissions.IsAuthenticated, permissions.IsAdminUser]
+    permission_classes = [permissions.IsAuthenticated]
     queryset = SupportTicket.objects.all().prefetch_related(
         'customer', 'assigned_admin', 'messages__sender'
     )
+    
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.role == 'admin':
+            return Response(
+                {'error': 'You do not have permission to perform this action.'},
+                status=status.HTTP_403_FORBIDDEN
+            )
+        return super().dispatch(request, *args, **kwargs)
     
     def get_serializer_class(self):
         if self.request.method in ['PUT', 'PATCH']:
@@ -113,8 +129,7 @@ def create_support_message(request, ticket_id):
     """
     ticket = get_object_or_404(SupportTicket, id=ticket_id)
     
-    # Check permissions
-    if not request.user.is_staff and ticket.customer != request.user:
+    if not request.user.role == "admin":
         return Response(
             {'error': 'You do not have permission to access this ticket'},
             status=status.HTTP_403_FORBIDDEN
@@ -136,16 +151,22 @@ def create_support_message(request, ticket_id):
 
 
 @api_view(['POST'])
-@permission_classes([permissions.IsAuthenticated, permissions.IsAdminUser])
+@permission_classes([permissions.IsAuthenticated])
 def assign_ticket(request, ticket_id):
     """
     Assign a ticket to an admin
     """
+    if not request.user.role == 'admin':
+        return Response(
+            {'error': 'You do not have permission to perform this action.'},
+            status=status.HTTP_403_FORBIDDEN
+        )
+    
     ticket = get_object_or_404(SupportTicket, id=ticket_id)
     admin_id = request.data.get('admin_id')
     
     if admin_id:
-        admin = get_object_or_404(User, id=admin_id, is_staff=True)
+        admin = get_object_or_404(User, id=admin_id, role='admin')
         ticket.assigned_admin = admin
     else:
         # Assign to current user
@@ -164,11 +185,17 @@ def assign_ticket(request, ticket_id):
 
 
 @api_view(['POST'])
-@permission_classes([permissions.IsAuthenticated, permissions.IsAdminUser])
+@permission_classes([permissions.IsAuthenticated])
 def take_ticket(request, ticket_id):
     """
     Admin takes an unassigned ticket
     """
+    if not request.user.role == 'admin':
+        return Response(
+            {'error': 'You do not have permission to perform this action.'},
+            status=status.HTTP_403_FORBIDDEN
+        )
+    
     ticket = get_object_or_404(SupportTicket, id=ticket_id)
     
     if ticket.assigned_admin:
@@ -193,11 +220,17 @@ def take_ticket(request, ticket_id):
 
 
 @api_view(['GET'])
-@permission_classes([permissions.IsAuthenticated, permissions.IsAdminUser])
+@permission_classes([permissions.IsAuthenticated])
 def support_dashboard_stats(request):
     """
     Get dashboard statistics for admin panel
     """
+    if not request.user.role == 'admin':
+        return Response(
+            {'error': 'You do not have permission to perform this action.'},
+            status=status.HTTP_403_FORBIDDEN
+        )
+    
     stats = {
         'total_tickets': SupportTicket.objects.count(),
         'open_tickets': SupportTicket.objects.filter(status='open').count(),

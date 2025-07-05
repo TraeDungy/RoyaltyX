@@ -24,7 +24,7 @@ import {
 import { useAuth } from "../../contexts/AuthContext";
 
 function UserDropdown() {
-  const { name, email, avatar } = useAuth();
+  const { name, email, avatar, role } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleToggle = () => {
@@ -99,31 +99,33 @@ function UserDropdown() {
 
               {/* Menu Items */}
               <List sx={{ py: 1 }}>
-                <ListItem disablePadding>
-                  <ListItemButton
-                    component={Link}
-                    to="/admin/dashboard"
-                    onClick={handleClose}
-                    sx={{ 
-                      borderRadius: 1,
-                      mx: 1,
-                      '&:hover': {
-                        backgroundColor: 'action.hover',
-                      }
-                    }}
-                  >
-                    <ListItemIcon sx={{ minWidth: 40 }}>
-                      <Grid size={18} color="var(--color-text-lighter)" />
-                    </ListItemIcon>
-                    <ListItemText 
-                      primary="Admin Panel"
-                      primaryTypographyProps={{ 
-                        variant: 'body2',
-                        fontWeight: 500
+                {role === 'admin' && (
+                  <ListItem disablePadding>
+                    <ListItemButton
+                      component={Link}
+                      to="/admin/dashboard"
+                      onClick={handleClose}
+                      sx={{ 
+                        borderRadius: 1,
+                        mx: 1,
+                        '&:hover': {
+                          backgroundColor: 'action.hover',
+                        }
                       }}
-                    />
-                  </ListItemButton>
-                </ListItem>
+                    >
+                      <ListItemIcon sx={{ minWidth: 40 }}>
+                        <Grid size={18} color="var(--color-text-lighter)" />
+                      </ListItemIcon>
+                      <ListItemText 
+                        primary="Admin Panel"
+                        primaryTypographyProps={{ 
+                          variant: 'body2',
+                          fontWeight: 500
+                        }}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                )}
 
                 <ListItem disablePadding>
                   <ListItemButton

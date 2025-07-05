@@ -17,6 +17,7 @@ export const AuthProvider = ({ children }) => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [avatar, setAvatar] = useState("");
+  const [role, setRole] = useState("");
 
   const [currentlySelectedProjectId, setCurrentlySelectedProjectId] =
     useState(null);
@@ -35,6 +36,7 @@ export const AuthProvider = ({ children }) => {
       setEmail(decodedToken.email);
       setName(decodedToken.name);
       setAvatar(decodedToken.avatar);
+      setRole(decodedToken.role);
       setCurrentlySelectedProjectId(decodedToken.currently_selected_project_id);
       setToken(response.access);
 
@@ -52,6 +54,7 @@ export const AuthProvider = ({ children }) => {
     setEmail("");
     setName("");
     setAvatar("");
+    setRole("");
     setCurrentlySelectedProjectId(null);
     setToken("");
     localStorage.removeItem("accessToken");
@@ -77,6 +80,7 @@ export const AuthProvider = ({ children }) => {
       setEmail(decodedToken.email);
       setName(decodedToken.name);
       setAvatar(decodedToken.avatar);
+      setRole(decodedToken.role);
       setCurrentlySelectedProjectId(decodedToken.currently_selected_project_id);
     }
     setLoading(false);
@@ -88,6 +92,7 @@ export const AuthProvider = ({ children }) => {
     email,
     name,
     avatar,
+    role,
     currentlySelectedProjectId,
     token,
     login: handleLogin,

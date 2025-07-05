@@ -31,15 +31,12 @@ import {
 } from "lucide-react";
 import { toast } from "react-toastify";
 import {
-  getCustomerTickets,
-  createSupportTicket,
-  getCustomerSupportStats,
+  useCustomerTickets,
+  useCreateSupportTicket,
+  useCustomerSupportStats,
 } from "../api/support";
 
 function CustomerSupport() {
-  const [tickets, setTickets] = useState([]);
-  const [stats, setStats] = useState({});
-  const [loading, setLoading] = useState(true);
   const [createTicketDialog, setCreateTicketDialog] = useState(false);
   const [newTicket, setNewTicket] = useState({
     subject: "",
@@ -47,26 +44,27 @@ function CustomerSupport() {
     initial_message: "",
   });
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // Use hooks for data fetching
+  const { tickets, loading: ticketsLoading, error: ticketsError, refetch: refetchTickets } = useCustomerTickets();
+  const { stats, loading: statsLoading, error: statsError, refetch: refetchStats } = useCustomerSupportStats();
+  const { createTicket, loading: _creatingTicket, error: createError } = useCreateSupportTicket();
 
-  const fetchData = async () => {
-    try {
-      setLoading(true);
-      const [ticketsData, statsData] = await Promise.all([
-        getCustomerTickets(),
-        getCustomerSupportStats(),
-      ]);
-      setTickets(ticketsData);
-      setStats(statsData);
-    } catch (error) {
-      toast.error("Failed to load support data");
-      console.error("Error fetching support data:", error);
-    } finally {
-      setLoading(false);
+  const loading = ticketsLoading || statsLoading;
+
+  useEffect(() => {
+    if (ticketsError) {
+      toast.error("Failed to load tickets");
+      console.error("Error fetching tickets:", ticketsError);
     }
-  };
+    if (statsError) {
+      toast.error("Failed to load support stats");
+      console.error("Error fetching stats:", statsError);
+    }
+    if (createError) {
+      toast.error("Failed to create support ticket");
+      console.error("Error creating ticket:", createError);
+    }
+  }, [ticketsError, statsError, createError]);
 
   const handleCreateTicket = async () => {
     try {
@@ -75,7 +73,7 @@ function CustomerSupport() {
         return;
       }
 
-      await createSupportTicket(newTicket);
+      await createTicket(newTicket);
       toast.success("Support ticket created successfully!");
       setCreateTicketDialog(false);
       setNewTicket({
@@ -83,7 +81,9 @@ function CustomerSupport() {
         priority: "medium",
         initial_message: "",
       });
-      fetchData();
+      // Refetch data to show the new ticket
+      refetchTickets();
+      refetchStats();
     } catch (error) {
       toast.error("Failed to create support ticket");
       console.error("Error creating ticket:", error);

@@ -5,7 +5,7 @@ import ProductsListView from "./help_documentation/pages/ProductsListView";
 import DataUpload from "./help_documentation/pages/DataUpload";
 import ReportGeneration from "./help_documentation/pages/ReportGeneration";
 import Dashboard from "./dashboard/pages/Dashboard";
-import SupportDashboard from "./pages/SupportDashboard";
+import Support from "./support/pages/Support";
 
 const adminRoutes = [
   {
@@ -14,7 +14,7 @@ const adminRoutes = [
   },
   {
     path: "/admin/support",
-    element: <SupportDashboard />,
+    element: <Support />,
   },
   {
     path: "/admin/documentation",
