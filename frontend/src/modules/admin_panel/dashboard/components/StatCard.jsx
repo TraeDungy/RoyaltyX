@@ -5,7 +5,6 @@ export const StatCard = ({
   value,
   icon: Icon,
   color,
-  subtitle,
   trend,
 }) => (
   <Card sx={{ height: "100%" }}>
@@ -21,18 +20,9 @@ export const StatCard = ({
             {title}
           </Typography>
 
-          <Typography
-            variant="h3"
-            component="div"
-            sx={{ fontWeight: 600 }}
-          >
+          <Typography variant="h3" component="div" sx={{ fontWeight: 600 }}>
             {value?.toLocaleString() || 0}
           </Typography>
-          {subtitle && (
-            <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-              {subtitle}
-            </Typography>
-          )}
         </Box>
         <Box
           sx={{

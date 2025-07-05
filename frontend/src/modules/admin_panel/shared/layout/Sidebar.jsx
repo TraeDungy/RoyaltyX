@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 import icon from "../../../common/assets/img/brand/icon.webp";
 
-const SIDEBAR_WIDTH = 240;
+const SIDEBAR_WIDTH = 242;
 
 function Sidebar() {
   const theme = useTheme();

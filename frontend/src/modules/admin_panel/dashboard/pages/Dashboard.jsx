@@ -55,8 +55,8 @@ function Dashboard() {
       {
         label: "New Users",
         data: stats?.users_growth_data?.map((item) => item.count) || [],
-        borderColor: "rgb(75, 192, 192)",
-        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        borderColor: "#1976d2",
+        backgroundColor: "#1976d2aa",
         tension: 0.1,
         fill: true,
       },
@@ -118,7 +118,6 @@ function Dashboard() {
             value={stats?.total_users}
             icon={Users}
             color="#1976d2"
-            subtitle="Registered users"
             trend={stats?.recent_activity?.new_users_last_30_days}
           />
         </Grid>
@@ -128,7 +127,6 @@ function Dashboard() {
             value={stats?.total_projects}
             icon={FolderOpen}
             color="#ed6c02"
-            subtitle="Active projects"
             trend={stats?.recent_activity?.new_projects_last_30_days}
           />
         </Grid>
@@ -138,7 +136,6 @@ function Dashboard() {
             value={stats?.total_sources}
             icon={Database}
             color="#2e7d32"
-            subtitle="Data sources"
             trend={stats?.recent_activity?.new_sources_last_30_days}
           />
         </Grid>

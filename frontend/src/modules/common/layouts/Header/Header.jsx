@@ -4,13 +4,11 @@ import {
   Toolbar,
   Box,
   IconButton,
-  Badge,
   Avatar,
   AvatarGroup,
   Tooltip,
 } from "@mui/material";
-import { Settings, MessageSquare } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Settings } from "lucide-react";
 import UserDropdown from "./UserDropdown";
 import SettingsModal from "../../components/Settings/SettingsModal";
 import NotificationsDropdown from "./NotificationsDropdown";
@@ -39,7 +37,7 @@ function Header() {
           </Box>
 
           {project?.users && project.users.length > 0 && (
-            <Box sx={{ display: "flex", alignItems: "center", mx: 2 }}>
+            <Box sx={{ display: "flex", alignItems: "center", mr: 4 }}>
               <AvatarGroup
                 max={5}
                 sx={{
@@ -87,46 +85,6 @@ function Header() {
               }}
             >
               <Settings size={20} strokeWidth={1.5} />
-            </IconButton>
-
-            <IconButton
-              component={Link}
-              to="/inbox"
-              size="small"
-              sx={{
-                color: "text.secondary",
-                position: "relative",
-                "&:hover": {
-                  backgroundColor: "action.hover",
-                },
-              }}
-            >
-              <Badge
-                badgeContent={0}
-                showZero={false}
-                color="error"
-                overlap="circular"
-                componentsProps={{
-                  badge: {
-                    sx: {
-                      top: "auto",
-                      bottom: 0,
-                      right: 0,
-                      transform: "translate(50%, 50%)",
-                      fontSize: 9,
-                      borderRadius: "0.375rem",
-                      minWidth: 17,
-                      height: 15.3,
-                    },
-                  },
-                }}
-              >
-                <MessageSquare
-                  size={20}
-                  strokeWidth={1.5}
-                  color="var(--color-text-lighter)"
-                />
-              </Badge>
             </IconButton>
 
             <NotificationsDropdown />
