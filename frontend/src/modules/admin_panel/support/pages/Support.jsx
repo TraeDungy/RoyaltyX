@@ -171,7 +171,7 @@ function Support() {
   return (
     <Container>
       <Typography variant="h2" sx={{ mt: 4, mb: 3 }}>
-        Support
+        Support Tickets
       </Typography>
 
       {/* Stats Cards */}

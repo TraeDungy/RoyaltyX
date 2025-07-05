@@ -132,7 +132,7 @@ function Sidebar() {
                 <MessageSquare size={18} color="var(--color-text-lighter)" />
               </ListItemIcon>
               <ListItemText
-                primary="Support"
+                primary="Support Tickets"
                 primaryTypographyProps={{
                   variant: "body2",
                   fontWeight: 500,
