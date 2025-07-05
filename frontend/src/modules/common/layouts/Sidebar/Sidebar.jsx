@@ -165,10 +165,10 @@ function Sidebar() {
                   />
                 </ListItemButton>
               </ListItem>
+              <Divider />
             </>
           )}
 
-          <Divider />
           <Typography
             variant="caption"
             sx={{
