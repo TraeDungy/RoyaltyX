@@ -23,15 +23,13 @@ import {
   DialogContent,
   DialogActions,
   Avatar,
+  Container,
 } from "@mui/material";
 import {
   Search,
   MoreHorizontal,
   MessageSquare,
   UserCheck,
-  Clock,
-  CheckCircle,
-  AlertCircle,
   HelpCircle,
   TrendingUp,
   Users,
@@ -58,12 +56,20 @@ function Support() {
   const [newStatus, setNewStatus] = useState("");
 
   // Use hooks for data fetching
-  const { tickets, loading: ticketsLoading, error: ticketsError, refetch: refetchTickets } = useAdminTickets(filters);
-  const { stats, loading: statsLoading, error: statsError, refetch: refetchStats } = useAdminSupportStats();
-  const { takeTicket, loading: _takingTicket, error: takeError } = useTakeTicket(selectedTicket?.id);
-  const { updateTicket, loading: _updatingTicket, error: updateError } = useUpdateTicketStatus(selectedTicket?.id);
-
-  const loading = ticketsLoading || statsLoading;
+  const {
+    tickets,
+    error: ticketsError,
+    refetch: refetchTickets,
+  } = useAdminTickets(filters);
+  const {
+    stats,
+    error: statsError,
+    refetch: refetchStats,
+  } = useAdminSupportStats();
+  const { takeTicket, error: takeError } = useTakeTicket(selectedTicket?.id);
+  const { updateTicket, error: updateError } = useUpdateTicketStatus(
+    selectedTicket?.id
+  );
 
   useEffect(() => {
     if (ticketsError) {
@@ -122,21 +128,6 @@ function Support() {
     setSelectedTicket(null);
   };
 
-  const getStatusIcon = (status) => {
-    switch (status) {
-      case "open":
-        return <HelpCircle size={16} color="orange" />;
-      case "in_progress":
-        return <Clock size={16} color="blue" />;
-      case "resolved":
-        return <CheckCircle size={16} color="green" />;
-      case "closed":
-        return <AlertCircle size={16} color="gray" />;
-      default:
-        return <HelpCircle size={16} color="gray" />;
-    }
-  };
-
   const getStatusColor = (status) => {
     switch (status) {
       case "open":
@@ -177,18 +168,10 @@ function Support() {
     });
   };
 
-  if (loading) {
-    return (
-      <Box sx={{ p: 3 }}>
-        <Typography>Loading...</Typography>
-      </Box>
-    );
-  }
-
   return (
-    <Box sx={{ p: 3, maxWidth: 1400, mx: "auto" }}>
-      <Typography variant="h4" sx={{ fontWeight: 600, mb: 4 }}>
-        Support Dashboard
+    <Container>
+      <Typography variant="h2" sx={{ mt: 4, mb: 3 }}>
+        Support
       </Typography>
 
       {/* Stats Cards */}
@@ -197,7 +180,10 @@ function Support() {
           <Card>
             <CardContent sx={{ display: "flex", alignItems: "center", p: 2 }}>
               <Box sx={{ flexGrow: 1 }}>
-                <Typography variant="h4" sx={{ fontWeight: 600, color: "primary.main" }}>
+                <Typography
+                  variant="h4"
+                  sx={{ fontWeight: 600 }}
+                >
                   {stats.total_tickets || 0}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
@@ -212,7 +198,10 @@ function Support() {
           <Card>
             <CardContent sx={{ display: "flex", alignItems: "center", p: 2 }}>
               <Box sx={{ flexGrow: 1 }}>
-                <Typography variant="h4" sx={{ fontWeight: 600, color: "warning.main" }}>
+                <Typography
+                  variant="h4"
+                  sx={{ fontWeight: 600 }}
+                >
                   {stats.open_tickets || 0}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
@@ -227,7 +216,10 @@ function Support() {
           <Card>
             <CardContent sx={{ display: "flex", alignItems: "center", p: 2 }}>
               <Box sx={{ flexGrow: 1 }}>
-                <Typography variant="h4" sx={{ fontWeight: 600, color: "info.main" }}>
+                <Typography
+                  variant="h4"
+                  sx={{ fontWeight: 600 }}
+                >
                   {stats.unassigned_tickets || 0}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
@@ -242,7 +234,10 @@ function Support() {
           <Card>
             <CardContent sx={{ display: "flex", alignItems: "center", p: 2 }}>
               <Box sx={{ flexGrow: 1 }}>
-                <Typography variant="h4" sx={{ fontWeight: 600, color: "success.main" }}>
+                <Typography
+                  variant="h4"
+                  sx={{ fontWeight: 600 }}
+                >
                   {stats.my_tickets || 0}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
@@ -264,7 +259,9 @@ function Support() {
                 fullWidth
                 placeholder="Search tickets..."
                 value={filters.search}
-                onChange={(e) => setFilters({ ...filters, search: e.target.value })}
+                onChange={(e) =>
+                  setFilters({ ...filters, search: e.target.value })
+                }
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -281,7 +278,9 @@ function Support() {
                 fullWidth
                 label="Status"
                 value={filters.status}
-                onChange={(e) => setFilters({ ...filters, status: e.target.value })}
+                onChange={(e) =>
+                  setFilters({ ...filters, status: e.target.value })
+                }
                 size="small"
               >
                 <MenuItem value="">All Statuses</MenuItem>
@@ -297,7 +296,9 @@ function Support() {
                 fullWidth
                 label="Priority"
                 value={filters.priority}
-                onChange={(e) => setFilters({ ...filters, priority: e.target.value })}
+                onChange={(e) =>
+                  setFilters({ ...filters, priority: e.target.value })
+                }
                 size="small"
               >
                 <MenuItem value="">All Priorities</MenuItem>
@@ -313,7 +314,9 @@ function Support() {
                 fullWidth
                 label="Assignment"
                 value={filters.assignment}
-                onChange={(e) => setFilters({ ...filters, assignment: e.target.value })}
+                onChange={(e) =>
+                  setFilters({ ...filters, assignment: e.target.value })
+                }
                 size="small"
               >
                 <MenuItem value="">All Tickets</MenuItem>
@@ -325,7 +328,14 @@ function Support() {
               <Button
                 variant="outlined"
                 fullWidth
-                onClick={() => setFilters({ status: "", priority: "", assignment: "", search: "" })}
+                onClick={() =>
+                  setFilters({
+                    status: "",
+                    priority: "",
+                    assignment: "",
+                    search: "",
+                  })
+                }
               >
                 Clear Filters
               </Button>
@@ -355,7 +365,10 @@ function Support() {
                   <TableRow key={ticket.id} hover>
                     <TableCell>
                       <Box>
-                        <Typography variant="subtitle2" sx={{ fontWeight: 500 }}>
+                        <Typography
+                          variant="subtitle2"
+                          sx={{ fontWeight: 500 }}
+                        >
                           {ticket.subject}
                         </Typography>
                         <Typography variant="caption" color="text.secondary">
@@ -364,14 +377,17 @@ function Support() {
                       </Box>
                     </TableCell>
                     <TableCell>
-                      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                      <Box
+                        sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                      >
                         <Avatar
                           src={ticket.customer?.avatar}
                           sx={{ width: 32, height: 32 }}
                         >
-                          {ticket.customer?.name?.charAt(0)?.toUpperCase() || "U"}
+                          {ticket.customer?.name?.charAt(0)?.toUpperCase() ||
+                            "U"}
                         </Avatar>
-                        <Box>
+                        <Box sx={{ display: "flex", flexDirection: "column" }}>
                           <Typography variant="body2" sx={{ fontWeight: 500 }}>
                             {ticket.customer?.name}
                           </Typography>
@@ -383,15 +399,20 @@ function Support() {
                     </TableCell>
                     <TableCell>
                       <Chip
-                        icon={getStatusIcon(ticket.status)}
-                        label={ticket.status.charAt(0).toUpperCase() + ticket.status.slice(1)}
+                        label={
+                          ticket.status.charAt(0).toUpperCase() +
+                          ticket.status.slice(1)
+                        }
                         color={getStatusColor(ticket.status)}
                         size="small"
                       />
                     </TableCell>
                     <TableCell>
                       <Chip
-                        label={ticket.priority.charAt(0).toUpperCase() + ticket.priority.slice(1)}
+                        label={
+                          ticket.priority.charAt(0).toUpperCase() +
+                          ticket.priority.slice(1)
+                        }
                         color={getPriorityColor(ticket.priority)}
                         size="small"
                         variant="outlined"
@@ -399,19 +420,27 @@ function Support() {
                     </TableCell>
                     <TableCell>
                       {ticket.assigned_admin ? (
-                        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                        <Box
+                          sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                        >
                           <Avatar
                             src={ticket.assigned_admin?.avatar}
                             sx={{ width: 24, height: 24 }}
                           >
-                            {ticket.assigned_admin?.name?.charAt(0)?.toUpperCase() || "A"}
+                            {ticket.assigned_admin?.name
+                              ?.charAt(0)
+                              ?.toUpperCase() || "A"}
                           </Avatar>
                           <Typography variant="body2">
                             {ticket.assigned_admin?.name}
                           </Typography>
                         </Box>
                       ) : (
-                        <Chip label="Unassigned" size="small" variant="outlined" />
+                        <Chip
+                          label="Unassigned"
+                          size="small"
+                          variant="outlined"
+                        />
                       )}
                     </TableCell>
                     <TableCell>
@@ -454,7 +483,12 @@ function Support() {
         onClose={handleMenuClose}
       >
         <MenuItem
-          onClick={() => window.open(`/admin/support/tickets/${selectedTicket?.id}`, '_blank')}
+          onClick={() =>
+            window.open(
+              `/admin/support/tickets/${selectedTicket?.id}`,
+              "_blank"
+            )
+          }
         >
           <MessageSquare size={16} style={{ marginRight: 8 }} />
           View Conversation
@@ -512,7 +546,7 @@ function Support() {
           </Button>
         </DialogActions>
       </Dialog>
-    </Box>
+    </Container>
   );
 }
 

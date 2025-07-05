@@ -20,7 +20,7 @@ function Dashboard() {
 
   return (
     <Container>
-      <Typography variant="h2" sx={{ mt: 5, mb: 3 }}>
+      <Typography variant="h2" sx={{ mt: 4, mb: 3 }}>
         Dashboard
       </Typography>
 
