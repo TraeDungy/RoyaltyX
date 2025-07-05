@@ -14,13 +14,7 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import {
-  LogOut,
-  Folder,
-  User,
-  Grid,
-  HelpCircle,
-} from "lucide-react";
+import { LogOut, Folder, User, Grid, HelpCircle, Flame } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 
 function UserDropdown() {
@@ -39,18 +33,14 @@ function UserDropdown() {
     <Box sx={{ position: "relative" }}>
       <ClickAwayListener onClickAway={handleClose}>
         <Box>
-          <IconButton
-            onClick={handleToggle}
-            size="small"
-            sx={{ p: 0 }}
-          >
+          <IconButton onClick={handleToggle} size="small" sx={{ p: 0 }}>
             <Avatar
               src={avatar}
               alt="Profile"
-              sx={{ 
-                width: 23, 
+              sx={{
+                width: 23,
                 height: 23,
-                cursor: 'pointer'
+                cursor: "pointer",
               }}
             />
           </IconButton>
@@ -66,11 +56,11 @@ function UserDropdown() {
                 mt: 1,
                 borderRadius: 2,
                 zIndex: 1300,
-                backgroundColor: 'background.paper',
+                backgroundColor: "background.paper",
               }}
             >
               {/* User Info Header */}
-              <Box sx={{ display: 'flex', alignItems: 'center', p: 2 }}>
+              <Box sx={{ display: "flex", alignItems: "center", p: 2 }}>
                 <Avatar
                   src={avatar}
                   alt="Profile"
@@ -79,16 +69,15 @@ function UserDropdown() {
                 <Box sx={{ ml: 1.5, display: "flex", flexDirection: "column" }}>
                   <Typography
                     variant="body2"
-                    sx={{ 
-                      fontWeight: 500,
-                      color: 'text.primary'
+                    sx={{
+                      color: "text.primary",
                     }}
                   >
                     {name}
                   </Typography>
                   <Typography
                     variant="caption"
-                    sx={{ color: 'text.secondary' }}
+                    sx={{ color: "text.secondary" }}
                   >
                     {email}
                   </Typography>
@@ -99,28 +88,27 @@ function UserDropdown() {
 
               {/* Menu Items */}
               <List sx={{ py: 1 }}>
-                {role === 'admin' && (
+                {role === "admin" && (
                   <ListItem disablePadding>
                     <ListItemButton
                       component={Link}
                       to="/admin/dashboard"
                       onClick={handleClose}
-                      sx={{ 
+                      sx={{
                         borderRadius: 1,
                         mx: 1,
-                        '&:hover': {
-                          backgroundColor: 'action.hover',
-                        }
+                        "&:hover": {
+                          backgroundColor: "action.hover",
+                        },
                       }}
                     >
                       <ListItemIcon sx={{ minWidth: 40 }}>
                         <Grid size={18} color="var(--color-text-lighter)" />
                       </ListItemIcon>
-                      <ListItemText 
+                      <ListItemText
                         primary="Admin Panel"
-                        primaryTypographyProps={{ 
-                          variant: 'body2',
-                          fontWeight: 500
+                        primaryTypographyProps={{
+                          variant: "body2",
                         }}
                       />
                     </ListItemButton>
@@ -132,22 +120,21 @@ function UserDropdown() {
                     component={Link}
                     to="/account"
                     onClick={handleClose}
-                    sx={{ 
+                    sx={{
                       borderRadius: 1,
                       mx: 1,
-                      '&:hover': {
-                        backgroundColor: 'action.hover',
-                      }
+                      "&:hover": {
+                        backgroundColor: "action.hover",
+                      },
                     }}
                   >
                     <ListItemIcon sx={{ minWidth: 40 }}>
                       <User size={18} color="var(--color-text-lighter)" />
                     </ListItemIcon>
-                    <ListItemText 
+                    <ListItemText
                       primary="My Account"
-                      primaryTypographyProps={{ 
-                        variant: 'body2',
-                        fontWeight: 500
+                      primaryTypographyProps={{
+                        variant: "body2",
                       }}
                     />
                   </ListItemButton>
@@ -158,22 +145,21 @@ function UserDropdown() {
                     component={Link}
                     to="/my-projects"
                     onClick={handleClose}
-                    sx={{ 
+                    sx={{
                       borderRadius: 1,
                       mx: 1,
-                      '&:hover': {
-                        backgroundColor: 'action.hover',
-                      }
+                      "&:hover": {
+                        backgroundColor: "action.hover",
+                      },
                     }}
                   >
                     <ListItemIcon sx={{ minWidth: 40 }}>
                       <Folder size={18} color="var(--color-text-lighter)" />
                     </ListItemIcon>
-                    <ListItemText 
+                    <ListItemText
                       primary="My Projects"
-                      primaryTypographyProps={{ 
-                        variant: 'body2',
-                        fontWeight: 500
+                      primaryTypographyProps={{
+                        variant: "body2",
                       }}
                     />
                   </ListItemButton>
@@ -184,22 +170,45 @@ function UserDropdown() {
                     component={Link}
                     to="/support"
                     onClick={handleClose}
-                    sx={{ 
+                    sx={{
                       borderRadius: 1,
                       mx: 1,
-                      '&:hover': {
-                        backgroundColor: 'action.hover',
-                      }
+                      "&:hover": {
+                        backgroundColor: "action.hover",
+                      },
                     }}
                   >
                     <ListItemIcon sx={{ minWidth: 40 }}>
                       <HelpCircle size={18} color="var(--color-text-lighter)" />
                     </ListItemIcon>
-                    <ListItemText 
+                    <ListItemText
                       primary="Contact Support"
-                      primaryTypographyProps={{ 
-                        variant: 'body2',
-                        fontWeight: 500
+                      primaryTypographyProps={{
+                        variant: "body2",
+                      }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                  <ListItemButton
+                    component={Link}
+                    to="/account/membership"
+                    onClick={handleClose}
+                    sx={{
+                      borderRadius: 1,
+                      mx: 1,
+                      "&:hover": {
+                        backgroundColor: "action.hover",
+                      },
+                    }}
+                  >
+                    <ListItemIcon sx={{ minWidth: 40 }}>
+                      <Flame size={18} color="var(--color-text-lighter)" />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary="Explore Premium"
+                      primaryTypographyProps={{
+                        variant: "body2",
                       }}
                     />
                   </ListItemButton>
@@ -215,23 +224,22 @@ function UserDropdown() {
                     component={Link}
                     to="/logout"
                     onClick={handleClose}
-                    sx={{ 
+                    sx={{
                       borderRadius: 1,
                       mx: 1,
-                      '&:hover': {
-                        backgroundColor: 'action.hover',
-                      }
+                      "&:hover": {
+                        backgroundColor: "action.hover",
+                      },
                     }}
                   >
                     <ListItemIcon sx={{ minWidth: 40 }}>
                       <LogOut size={18} color="#dc3545" />
                     </ListItemIcon>
-                    <ListItemText 
+                    <ListItemText
                       primary="Logout"
-                      primaryTypographyProps={{ 
-                        variant: 'body2',
-                        fontWeight: 500,
-                        color: '#dc3545'
+                      primaryTypographyProps={{
+                        variant: "body2",
+                        color: "#dc3545",
                       }}
                     />
                   </ListItemButton>

@@ -106,7 +106,7 @@ function Dashboard() {
 
   return (
     <Container>
-      <Typography variant="h2" sx={{ mt: 4, mb: 3 }}>
+      <Typography variant="h4" sx={{ mt: 4, mb: 3 }}>
         Admin Dashboard
       </Typography>
 

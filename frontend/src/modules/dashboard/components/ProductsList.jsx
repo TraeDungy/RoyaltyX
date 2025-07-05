@@ -19,9 +19,7 @@ export const ProductsList = ({ products, loading }) => {
           mt: 6,
         }}
       >
-        <Typography variant="h5" sx={{ fontWeight: "bold" }}>
-          Products
-        </Typography>
+        <Typography variant="h5">Products</Typography>
         <Button variant="outlined" onClick={() => navigate("/products")}>
           View All <ArrowRight className="ms-2" />
         </Button>
@@ -91,8 +89,8 @@ export const ProductsList = ({ products, loading }) => {
               py: 10,
             }}
           >
-            <Shredder size={40} className="txt-lighter" />
-            <Typography sx={{ mt: 1 }}>
+            <Shredder size={60} color="var(--color-subtle)" />
+            <Typography sx={{ mt: 1, color: "text.secondary" }}>
               No products available at the moment.
             </Typography>
           </Box>

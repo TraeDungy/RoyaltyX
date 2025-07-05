@@ -90,14 +90,34 @@ function Sidebar() {
         height: "100%",
         display: "flex",
         flexDirection: "column",
+        overflow: "hidden",
       }}
     >
-      <Box sx={{ borderBottom: "1px solid", borderColor: "divider" }}>
+      <Box
+        sx={{
+          borderBottom: "1px solid",
+          borderColor: "divider",
+          flexShrink: 0,
+          overflow: "hidden",
+        }}
+      >
         <ProjectSelector />
       </Box>
 
-      <Box sx={{ flex: 1, overflow: "auto" }}>
-        <List sx={{ px: 2 }}>
+      <Box
+        sx={{
+          flex: 1,
+          overflow: "auto",
+          overflowX: "hidden",
+        }}
+      >
+        <List
+          sx={{
+            px: 2,
+            width: "100%",
+            boxSizing: "border-box",
+          }}
+        >
           {/* Management Section */}
           {projectUser?.role === "owner" && (
             <>
@@ -105,7 +125,6 @@ function Sidebar() {
                 variant="caption"
                 sx={{
                   color: "text.secondary",
-                  fontWeight: 500,
                   px: 2,
                   py: 1,
                   display: "block",
@@ -134,7 +153,8 @@ function Sidebar() {
                     primary="Project Settings"
                     primaryTypographyProps={{
                       variant: "body2",
-                      fontWeight: 500,
+
+                      noWrap: true,
                     }}
                   />
                 </ListItemButton>
@@ -160,7 +180,6 @@ function Sidebar() {
                     primary="Producers"
                     primaryTypographyProps={{
                       variant: "body2",
-                      fontWeight: 500,
                     }}
                   />
                 </ListItemButton>
@@ -173,7 +192,6 @@ function Sidebar() {
             variant="caption"
             sx={{
               color: "text.secondary",
-              fontWeight: 500,
               px: 2,
               pt: 2,
               pb: 1,
@@ -201,7 +219,9 @@ function Sidebar() {
               </ListItemIcon>
               <ListItemText
                 primary="Dashboard"
-                primaryTypographyProps={{ variant: "body2", fontWeight: 500 }}
+                primaryTypographyProps={{
+                  variant: "body2",
+                }}
               />
             </ListItemButton>
           </ListItem>
@@ -224,7 +244,9 @@ function Sidebar() {
               </ListItemIcon>
               <ListItemText
                 primary="Sources"
-                primaryTypographyProps={{ variant: "body2", fontWeight: 500 }}
+                primaryTypographyProps={{
+                  variant: "body2",
+                }}
               />
             </ListItemButton>
           </ListItem>
@@ -247,7 +269,9 @@ function Sidebar() {
               </ListItemIcon>
               <ListItemText
                 primary="Members"
-                primaryTypographyProps={{ variant: "body2", fontWeight: 500 }}
+                primaryTypographyProps={{
+                  variant: "body2",
+                }}
               />
             </ListItemButton>
           </ListItem>
@@ -270,7 +294,9 @@ function Sidebar() {
               </ListItemIcon>
               <ListItemText
                 primary="Products"
-                primaryTypographyProps={{ variant: "body2", fontWeight: 500 }}
+                primaryTypographyProps={{
+                  variant: "body2",
+                }}
               />
             </ListItemButton>
           </ListItem>
@@ -293,7 +319,9 @@ function Sidebar() {
               </ListItemIcon>
               <ListItemText
                 primary="Analytics"
-                primaryTypographyProps={{ variant: "body2", fontWeight: 500 }}
+                primaryTypographyProps={{
+                  variant: "body2",
+                }}
               />
             </ListItemButton>
           </ListItem>
@@ -316,7 +344,9 @@ function Sidebar() {
               </ListItemIcon>
               <ListItemText
                 primary="Reports"
-                primaryTypographyProps={{ variant: "body2", fontWeight: 500 }}
+                primaryTypographyProps={{
+                  variant: "body2",
+                }}
               />
             </ListItemButton>
           </ListItem>
@@ -339,7 +369,10 @@ function Sidebar() {
               </ListItemIcon>
               <ListItemText
                 primary="Report Templates"
-                primaryTypographyProps={{ variant: "body2", fontWeight: 500 }}
+                primaryTypographyProps={{
+                  variant: "body2",
+                  noWrap: true,
+                }}
               />
             </ListItemButton>
           </ListItem>
@@ -385,8 +418,12 @@ function Sidebar() {
         flexShrink: 0,
         "& .MuiDrawer-paper": {
           width: SIDEBAR_WIDTH,
+          minWidth: SIDEBAR_WIDTH,
+          maxWidth: SIDEBAR_WIDTH,
           boxSizing: "border-box",
           backgroundColor: theme.palette.background.default,
+          overflow: "hidden",
+          overflowY: "auto",
         },
       }}
     >

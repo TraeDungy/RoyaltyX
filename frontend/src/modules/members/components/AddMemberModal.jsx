@@ -43,10 +43,17 @@ function AddMemberModal({
 
         // Filter out users who are already project members
         // Try multiple possible ID mappings to be safe
-        const projectMemberIds = project?.users?.map((user) => {
-          // Check both user.user_details.id and user.user_details.user_id
-          return user.user_details?.id || user.user_details?.user_id || user.user_id;
-        }).filter(Boolean) || [];
+        const projectMemberIds =
+          project?.users
+            ?.map((user) => {
+              // Check both user.user_details.id and user.user_details.user_id
+              return (
+                user.user_details?.id ||
+                user.user_details?.user_id ||
+                user.user_id
+              );
+            })
+            .filter(Boolean) || [];
 
         console.log("Project member IDs:", projectMemberIds);
 
@@ -106,16 +113,12 @@ function AddMemberModal({
     }
   };
 
-
   return (
     <Dialog
       open={showAddMemberModal}
       onClose={handleCloseAddMemberModal}
       maxWidth="sm"
       fullWidth
-      PaperProps={{
-        sx: { borderRadius: 3 },
-      }}
     >
       <DialogTitle sx={{ pb: 1 }}>
         <Box

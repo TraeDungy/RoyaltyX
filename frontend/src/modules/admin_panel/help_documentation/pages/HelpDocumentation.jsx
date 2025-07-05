@@ -4,12 +4,16 @@ import { Alert, AlertTitle, Typography } from "@mui/material";
 
 const HelpDocumentation = () => {
   return (
-    <div className="pt-4 pb-5">
-      <Typography variant="h2" sx={{ fontWeight: "bold" }}>
+    <div className="pb-5">
+      <Typography variant="h2" sx={{ fontWeight: "bold", mt: 4 }}>
         Project Documentation
       </Typography>
-      <div className="my-5">
-        <Alert severity="info" variant="outlined" icon={<InfoCircleFill className="h5 mb-0" />}>
+      <div className="mt-4 mb-5">
+        <Alert
+          severity="info"
+          variant="outlined"
+          icon={<InfoCircleFill className="h5 mb-0" />}
+        >
           <AlertTitle>Information</AlertTitle>
           This page will contain multiple topics all containing instructions and
           rules on how to use particular features as a project owner. As we make

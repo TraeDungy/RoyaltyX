@@ -137,12 +137,10 @@ function Users() {
   );
 
   return (
-    <Container maxWidth="xl" sx={{ py: 4 }}>
-      <Box mb={4}>
-        <Typography variant="h4" sx={{ fontWeight: 600 }}>
-          Users Management
-        </Typography>
-      </Box>
+    <Container>
+      <Typography variant="h4" sx={{ mt: 4, mb: 3 }}>
+        Users Management
+      </Typography>
 
       {/* Stats Cards */}
       <Grid container spacing={3} sx={{ mb: 4 }}>

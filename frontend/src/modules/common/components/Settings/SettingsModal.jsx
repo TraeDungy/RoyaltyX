@@ -141,9 +141,7 @@ function SettingsModal({ showSettingsModal, setShowSettingsModal }) {
                       primary={tab.label}
                       primaryTypographyProps={{
                         variant: "body2",
-                        fontWeight: isSelected ? 600 : 500,
-                        color:
-                          isDanger ? "error.main" : "inherit",
+                        color: isDanger ? "error.main" : "inherit",
                       }}
                     />
                   </ListItemButton>

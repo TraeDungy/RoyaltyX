@@ -46,12 +46,13 @@ export const ProjectSelector = () => {
   }, []);
 
   return (
-    <Box sx={{ p: 2 }}>
+    <Box sx={{ p: 2, width: "100%", boxSizing: "border-box" }}>
       <Box
         sx={{
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
+          width: "100%",
         }}
       >
         <Paper
@@ -64,26 +65,42 @@ export const ProjectSelector = () => {
             cursor: "pointer",
             display: "flex",
             alignItems: "center",
-            flex: 1,
-            mr: 1,
+            width: "100%",
+            maxWidth: "100%",
+            overflow: "hidden",
             "&:hover": {
               backgroundColor: "action.selected",
             },
           }}
           onClick={handleProjectMenuOpen}
         >
-          <Box sx={{ display: "flex", alignItems: "center", px: 1 }}>
+          <Box sx={{ 
+            display: "flex", 
+            alignItems: "center", 
+            px: 1,
+            flex: 1,
+            minWidth: 0,
+            overflow: "hidden"
+          }}>
             <Folder
               size={18}
               color="var(--color-text-lighter)"
-              style={{ marginRight: 8 }}
+              style={{ marginRight: 8, flexShrink: 0 }}
             />
-            <Typography variant="body2" sx={{ fontWeight: 500 }}>
+            <Typography 
+              variant="body2" 
+              sx={{ 
+                fontWeight: 500,
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap"
+              }}
+            >
               {userInfo?.project?.name ||
                 userInfo?.currently_selected_project?.name}
             </Typography>
           </Box>
-          <ChevronDown size={18} style={{ marginLeft: "auto" }} />
+          <ChevronDown size={18} style={{ flexShrink: 0 }} />
         </Paper>
       </Box>
 

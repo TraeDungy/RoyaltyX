@@ -11,25 +11,14 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Divider,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
   Alert,
-  LinearProgress,
   Container,
 } from "@mui/material";
-import {
-  Check,
-  X,
-  ArrowUp,
-  X as Cancel,
-  TrendingUp,
-  HardDrive,
-  Zap,
-  ArrowLeft,
-} from "lucide-react";
+import { Check, X, ArrowUp, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 function MembershipPage() {
@@ -125,233 +114,24 @@ function MembershipPage() {
     setSelectedPlan(null);
   };
 
-  const handleCancel = () => {
-    setCancelDialog(true);
-  };
-
   const confirmCancel = () => {
     console.log("Cancelling subscription");
     setCancelDialog(false);
   };
 
-  const getUsagePercentage = (used, total) => {
-    return (used / total) * 100;
-  };
-
-  const getUsageColor = (percentage) => {
-    if (percentage >= 90) return "error";
-    if (percentage >= 70) return "warning";
-    return "primary";
-  };
-
   return (
     <Container>
-      <Box sx={{ display: "flex", alignItems: "center", mb: 4 }}>
+      <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
         <Button
           onClick={() => navigate("/account")}
-          sx={{ mr: 2, minWidth: "auto", p: 1 }}
+          sx={{ mr: 2, minWidth: "auto", p: 0 }}
         >
           <ArrowLeft style={{ marginRight: 8 }} /> Return to account
         </Button>
       </Box>
 
-      <Grid container spacing={3}>
-        {/* Current Subscription */}
-        <Grid size={{ xs: 12, md: 4 }}>
-          <Card>
-            <CardContent sx={{ p: 3 }}>
-              <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
-                <Typography variant="h6" sx={{ fontWeight: 500 }}>
-                  Current Plan
-                </Typography>
-              </Box>
-
-              <Box sx={{ textAlign: "center", mb: 3 }}>
-                <Typography variant="h4" sx={{ fontWeight: 600, mb: 1 }}>
-                  {currentSubscription.plan}
-                </Typography>
-                <Chip
-                  label={currentSubscription.status}
-                  color="success"
-                  sx={{ mb: 2 }}
-                />
-                <Typography variant="h5" sx={{ fontWeight: 500, mb: 1 }}>
-                  {currentSubscription.amount}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  billed {currentSubscription.period}
-                </Typography>
-              </Box>
-
-              <Divider sx={{ my: 2 }} />
-
-              <Typography variant="subtitle2" sx={{ mb: 2, fontWeight: 500 }}>
-                Next billing date
-              </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-                {new Date(currentSubscription.nextBilling).toLocaleDateString(
-                  "en-US",
-                  {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  }
-                )}
-              </Typography>
-
-              <Button
-                variant="outlined"
-                color="error"
-                fullWidth
-                startIcon={<Cancel />}
-                onClick={handleCancel}
-              >
-                Cancel Subscription
-              </Button>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        {/* Usage Statistics */}
-        <Grid size={{ xs: 12, md: 8 }}>
-          <Card>
-            <CardContent sx={{ p: 3 }}>
-              <Typography variant="h6" sx={{ mb: 3, fontWeight: 500 }}>
-                Usage Overview
-              </Typography>
-
-              <Grid container spacing={3}>
-                <Grid size={{ md: 4, xs: 12 }}>
-                  <Box>
-                    <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-                      <HardDrive
-                        size={16}
-                        color="currentColor"
-                        style={{ marginRight: 8, color: "text.secondary" }}
-                      />
-                      <Typography variant="subtitle2" sx={{ fontWeight: 500 }}>
-                        Storage
-                      </Typography>
-                    </Box>
-                    <Typography
-                      variant="body2"
-                      color="text.secondary"
-                      sx={{ mb: 1 }}
-                    >
-                      {currentSubscription.usage.storage.used} /{" "}
-                      {currentSubscription.usage.storage.total}{" "}
-                      {currentSubscription.usage.storage.unit}
-                    </Typography>
-                    <LinearProgress
-                      variant="determinate"
-                      value={getUsagePercentage(
-                        currentSubscription.usage.storage.used,
-                        currentSubscription.usage.storage.total
-                      )}
-                      color={getUsageColor(
-                        getUsagePercentage(
-                          currentSubscription.usage.storage.used,
-                          currentSubscription.usage.storage.total
-                        )
-                      )}
-                      sx={{ height: 8, borderRadius: 4 }}
-                    />
-                  </Box>
-                </Grid>
-
-                <Grid size={{ md: 4, xs: 12 }}>
-                  <Box>
-                    <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-                      <TrendingUp sx={{ mr: 1, color: "text.secondary" }} />
-                      <Typography variant="subtitle2" sx={{ fontWeight: 500 }}>
-                        Projects
-                      </Typography>
-                    </Box>
-                    <Typography
-                      variant="body2"
-                      color="text.secondary"
-                      sx={{ mb: 1 }}
-                    >
-                      {currentSubscription.usage.projects.used} /{" "}
-                      {currentSubscription.usage.projects.total}
-                    </Typography>
-                    <LinearProgress
-                      variant="determinate"
-                      value={getUsagePercentage(
-                        currentSubscription.usage.projects.used,
-                        currentSubscription.usage.projects.total
-                      )}
-                      color={getUsageColor(
-                        getUsagePercentage(
-                          currentSubscription.usage.projects.used,
-                          currentSubscription.usage.projects.total
-                        )
-                      )}
-                      sx={{ height: 8, borderRadius: 4 }}
-                    />
-                  </Box>
-                </Grid>
-
-                <Grid size={{ md: 4, xs: 12 }}>
-                  <Box>
-                    <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-                      <Zap
-                        size={16}
-                        color="currentColor"
-                        style={{ marginRight: 8, color: "text.secondary" }}
-                      />
-                      <Typography variant="subtitle2" sx={{ fontWeight: 500 }}>
-                        Reports
-                      </Typography>
-                    </Box>
-                    <Typography
-                      variant="body2"
-                      color="text.secondary"
-                      sx={{ mb: 1 }}
-                    >
-                      {currentSubscription.usage.reports.used} /{" "}
-                      {currentSubscription.usage.reports.total}
-                    </Typography>
-                    <LinearProgress
-                      variant="determinate"
-                      value={getUsagePercentage(
-                        currentSubscription.usage.reports.used,
-                        currentSubscription.usage.reports.total
-                      )}
-                      color={getUsageColor(
-                        getUsagePercentage(
-                          currentSubscription.usage.reports.used,
-                          currentSubscription.usage.reports.total
-                        )
-                      )}
-                      sx={{ height: 8, borderRadius: 4 }}
-                    />
-                  </Box>
-                </Grid>
-              </Grid>
-
-              <Alert severity="info" sx={{ mt: 3 }}>
-                <Typography variant="body2">
-                  You're using{" "}
-                  {Math.round(
-                    getUsagePercentage(
-                      currentSubscription.usage.storage.used,
-                      currentSubscription.usage.storage.total
-                    )
-                  )}
-                  % of your storage limit. Consider upgrading if you need more
-                  space.
-                </Typography>
-              </Alert>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        {/* Available Plans */}
-      </Grid>
-
       <Box>
-        <Typography variant="h3" sx={{ mt: 8, mb: 3 }}>
+        <Typography variant="h3" sx={{ mb: 4 }}>
           Available Plans
         </Typography>
         <Grid container spacing={3}>
@@ -380,7 +160,7 @@ function MembershipPage() {
                       top: 0,
                       left: "50%",
                       transform: "translate(-50%, -50%)",
-                      zIndex: 9
+                      zIndex: 9,
                     }}
                   />
                 )}

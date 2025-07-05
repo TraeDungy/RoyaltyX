@@ -1,8 +1,8 @@
 export const colors = {
   light: {
-    primary: "#f74610",
-    primaryLighter: "#f7461040",
-    primaryHover: "#f74610d3",
+    primary: "#1976d2",
+    primaryLighter: "#1976d240",
+    primaryHover: "#1976d2d3",
     text: "#1e1f21",
     textLighter: "#5d5e5f",
     bodyBackground: "#fff",
@@ -16,9 +16,9 @@ export const colors = {
     success: "#0bb050",
   },
   dark: {
-    primary: "#f74610",
+    primary: "#1976d2",
     primaryLighter: "#0bb050b1",
-    primaryHover: "#f74610d3",
+    primaryHover: "#1976d2d3",
     text: "#ffffff",
     textLighter: "#a5b0b9",
     bodyBackground: "#1a1b1c",

@@ -250,10 +250,7 @@ function Overview() {
                       </ListItemIcon>
                       <ListItemText
                         primary={
-                          <Typography
-                            variant="subtitle1"
-                            sx={{ fontWeight: 500 }}
-                          >
+                          <Typography variant="subtitle1">
                             {item.title}
                           </Typography>
                         }

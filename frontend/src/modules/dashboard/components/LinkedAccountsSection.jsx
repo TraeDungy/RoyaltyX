@@ -16,9 +16,7 @@ export const LinkedAccountsSection = ({ sources, loading }) => {
           mb: 5,
         }}
       >
-        <Typography variant="h5" sx={{ fontWeight: "bold" }}>
-          Linked Accounts
-        </Typography>
+        <Typography variant="h5">Linked Accounts</Typography>
         <Button variant="outlined" onClick={() => navigate("/sources")}>
           View All <ArrowRight className="ms-2" />
         </Button>
@@ -50,11 +48,13 @@ export const LinkedAccountsSection = ({ sources, loading }) => {
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
-              py: 10
+              py: 10,
             }}
           >
-            <WifiOff size={40} className="txt-lighter" />
-            <Typography sx={{ mt: 1 }}>No accounts linked yet.</Typography>
+            <WifiOff size={60} color="var(--color-subtle)" />
+            <Typography sx={{ mt: 1, color: "text.secondary" }}>
+              No accounts linked yet.
+            </Typography>
           </Box>
         </Grid>
       )}

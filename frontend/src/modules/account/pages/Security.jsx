@@ -194,10 +194,7 @@ function SecurityPage() {
                       </ListItemIcon>
                       <ListItemText
                         primary={
-                          <Typography
-                            variant="subtitle2"
-                            sx={{ fontWeight: 500 }}
-                          >
+                          <Typography variant="subtitle2">
                             {feature.title}
                           </Typography>
                         }
@@ -285,10 +282,7 @@ function SecurityPage() {
                       </ListItemIcon>
                       <ListItemText
                         primary={
-                          <Typography
-                            variant="subtitle2"
-                            sx={{ fontWeight: 500 }}
-                          >
+                          <Typography variant="subtitle2">
                             {activity.action}
                           </Typography>
                         }

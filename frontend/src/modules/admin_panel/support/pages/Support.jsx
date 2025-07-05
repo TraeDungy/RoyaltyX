@@ -170,7 +170,7 @@ function Support() {
 
   return (
     <Container>
-      <Typography variant="h2" sx={{ mt: 4, mb: 3 }}>
+      <Typography variant="h4" sx={{ mt: 4, mb: 3 }}>
         Support Tickets
       </Typography>
 
@@ -180,10 +180,7 @@ function Support() {
           <Card>
             <CardContent sx={{ display: "flex", alignItems: "center", p: 2 }}>
               <Box sx={{ flexGrow: 1 }}>
-                <Typography
-                  variant="h4"
-                  sx={{ fontWeight: 600 }}
-                >
+                <Typography variant="h4" sx={{ fontWeight: 600 }}>
                   {stats.total_tickets || 0}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
@@ -198,10 +195,7 @@ function Support() {
           <Card>
             <CardContent sx={{ display: "flex", alignItems: "center", p: 2 }}>
               <Box sx={{ flexGrow: 1 }}>
-                <Typography
-                  variant="h4"
-                  sx={{ fontWeight: 600 }}
-                >
+                <Typography variant="h4" sx={{ fontWeight: 600 }}>
                   {stats.open_tickets || 0}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
@@ -216,10 +210,7 @@ function Support() {
           <Card>
             <CardContent sx={{ display: "flex", alignItems: "center", p: 2 }}>
               <Box sx={{ flexGrow: 1 }}>
-                <Typography
-                  variant="h4"
-                  sx={{ fontWeight: 600 }}
-                >
+                <Typography variant="h4" sx={{ fontWeight: 600 }}>
                   {stats.unassigned_tickets || 0}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
@@ -234,10 +225,7 @@ function Support() {
           <Card>
             <CardContent sx={{ display: "flex", alignItems: "center", p: 2 }}>
               <Box sx={{ flexGrow: 1 }}>
-                <Typography
-                  variant="h4"
-                  sx={{ fontWeight: 600 }}
-                >
+                <Typography variant="h4" sx={{ fontWeight: 600 }}>
                   {stats.my_tickets || 0}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">

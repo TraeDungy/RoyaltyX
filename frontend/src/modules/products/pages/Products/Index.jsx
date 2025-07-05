@@ -37,7 +37,7 @@ const Products = () => {
           }}
         >
           <Shredder size={60} className="txt-lighter" />
-          <Typography sx={{ mt: 2 }}>
+          <Typography sx={{ mt: 1, color: "text.secondary" }}>
             No products available at the moment.
           </Typography>
         </Box>
