@@ -328,7 +328,7 @@ function Sidebar() {
               selected={isActivePage("/report-templates")}
               sx={{
                 borderRadius: 2,
-                mb: 1,
+                mb: 0.5,
                 "&.Mui-selected": {
                   backgroundColor: "action.selected",
                 },
@@ -343,6 +343,7 @@ function Sidebar() {
               />
             </ListItemButton>
           </ListItem>
+
           <ListItem disablePadding>
             <UpgradePlanButton />
           </ListItem>

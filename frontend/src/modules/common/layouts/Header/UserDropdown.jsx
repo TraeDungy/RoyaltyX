@@ -19,6 +19,7 @@ import {
   Folder,
   User,
   Grid,
+  HelpCircle,
 } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 
@@ -168,6 +169,32 @@ function UserDropdown() {
                     </ListItemIcon>
                     <ListItemText 
                       primary="My Projects"
+                      primaryTypographyProps={{ 
+                        variant: 'body2',
+                        fontWeight: 500
+                      }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+
+                <ListItem disablePadding>
+                  <ListItemButton
+                    component={Link}
+                    to="/support"
+                    onClick={handleClose}
+                    sx={{ 
+                      borderRadius: 1,
+                      mx: 1,
+                      '&:hover': {
+                        backgroundColor: 'action.hover',
+                      }
+                    }}
+                  >
+                    <ListItemIcon sx={{ minWidth: 40 }}>
+                      <HelpCircle size={18} color="var(--color-text-lighter)" />
+                    </ListItemIcon>
+                    <ListItemText 
+                      primary="Contact Support"
                       primaryTypographyProps={{ 
                         variant: 'body2',
                         fontWeight: 500

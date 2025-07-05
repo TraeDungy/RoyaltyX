@@ -13,7 +13,7 @@ import {
   useMediaQuery,
   Divider,
 } from "@mui/material";
-import { LayoutDashboard, HelpCircle } from "lucide-react";
+import { LayoutDashboard, HelpCircle, MessageSquare } from "lucide-react";
 import icon from "../../../common/assets/img/brand/icon.webp";
 
 const SIDEBAR_WIDTH = 240;
@@ -111,6 +111,32 @@ function Sidebar() {
               <ListItemText
                 primary="Dashboard"
                 primaryTypographyProps={{ variant: "body2", fontWeight: 500 }}
+              />
+            </ListItemButton>
+          </ListItem>
+
+          <ListItem disablePadding>
+            <ListItemButton
+              component={Link}
+              to="/admin/support"
+              selected={isActivePage("/admin/support")}
+              sx={{
+                borderRadius: 2,
+                mb: 0.5,
+                "&.Mui-selected": {
+                  backgroundColor: "action.selected",
+                },
+              }}
+            >
+              <ListItemIcon sx={{ minWidth: 40 }}>
+                <MessageSquare size={18} color="var(--color-text-lighter)" />
+              </ListItemIcon>
+              <ListItemText
+                primary="Support"
+                primaryTypographyProps={{
+                  variant: "body2",
+                  fontWeight: 500,
+                }}
               />
             </ListItemButton>
           </ListItem>

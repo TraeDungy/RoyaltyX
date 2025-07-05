@@ -21,11 +21,10 @@ import reportRoutes from "./modules/reports";
 import accountRoutes from "./modules/account";
 import contentRoutes from "./modules/content";
 import analyticsRoutes from "./modules/analytics";
-import inboxRoutes from "./modules/inbox";
+import supportRoutes from "./modules/support/routes";
 import managementRoutes from "./modules/management";
 import productRoutes from "./modules/products";
 import { ProjectProvider } from "./modules/common/contexts/ProjectContext";
-import InboxLayout from "./modules/inbox/layouts/InboxLayout";
 import { SettingsProvider } from "./modules/common/contexts/SettingsContext";
 import { MUIThemeWrapper } from "./modules/global/components/MUIThemeWrapper";
 import sourceRoutes from "./modules/sources";
@@ -90,10 +89,8 @@ function App() {
                       ...managementRoutes,
                       ...sourceRoutes,
                       ...productRoutes,
+                      ...supportRoutes,
                     ])}
-                    <Route path="/" element={<InboxLayout />}>
-                      {renderRoutes([...inboxRoutes])}
-                    </Route>
                   </Route>
 
                   <Route path="/" element={<Layout />}>

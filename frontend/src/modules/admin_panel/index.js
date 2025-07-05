@@ -5,11 +5,16 @@ import ProductsListView from "./help_documentation/pages/ProductsListView";
 import DataUpload from "./help_documentation/pages/DataUpload";
 import ReportGeneration from "./help_documentation/pages/ReportGeneration";
 import Dashboard from "./dashboard/pages/Dashboard";
+import SupportDashboard from "./pages/SupportDashboard";
 
 const adminRoutes = [
   {
     path: "/admin/dashboard",
     element: <Dashboard />,
+  },
+  {
+    path: "/admin/support",
+    element: <SupportDashboard />,
   },
   {
     path: "/admin/documentation",

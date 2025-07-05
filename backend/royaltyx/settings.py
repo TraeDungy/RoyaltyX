@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     "apps.product",
     "apps.report",
     "apps.notifications",
-    "apps.inbox",
+    "apps.support",
     "apps.sources",
     "apps.analytics",
     "apps.oauth.google",
