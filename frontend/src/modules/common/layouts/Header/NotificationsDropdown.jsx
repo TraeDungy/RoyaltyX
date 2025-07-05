@@ -10,11 +10,10 @@ import {
   ListItemAvatar,
   ListItemText,
   Typography,
-  Avatar,
   Stack,
 } from "@mui/material";
 import { MailOutline } from "@mui/icons-material";
-import icon from "../../assets/img/brand/icon.webp";
+import icon from "../../assets/img/brand/icon-2.webp";
 import { Bell } from "lucide-react";
 import {
   getNotifications,
@@ -77,7 +76,7 @@ const NotificationsDropdown = () => {
             aria-label="show notifications"
             size="small"
             sx={{
-              color: 'text.secondary',
+              color: "text.secondary",
               "&:hover": {
                 backgroundColor: "action.hover",
               },
@@ -136,8 +135,8 @@ const NotificationsDropdown = () => {
               >
                 {notifications.map((notification, idx) => (
                   <ListItem key={idx} alignItems="center" sx={{ py: 1 }}>
-                    <ListItemAvatar>
-                      <Avatar alt="icon" src={icon} />
+                    <ListItemAvatar sx={{ pr: 2 }}>
+                      <img alt="icon" src={icon} style={{ height: 35 }} />
                     </ListItemAvatar>
                     <ListItemText
                       primary={

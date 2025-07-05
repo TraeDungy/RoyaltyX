@@ -1,7 +1,7 @@
 :root {
-  --color-primary: #f74610;
-  --color-primary-lighter: #f7461040;
-  --color-primary-hover: #f74610d3;
+  --color-primary: #1976d2;
+  --color-primary-lighter: #1976d240;
+  --color-primary-hover: #1976d2d3;
   --color-text: #1e1f21;
   --color-text-lighter: #5d5e5f;
   --color-body-background: #ffffff;
@@ -603,7 +603,7 @@ table.table.dataTable > :not(caption) > * > * {
 }
 
 input:checked + .slider {
-  background-color: var(--color-primary);
+  background-color: var(--color-text);
 }
 
 input:checked + .slider:before {

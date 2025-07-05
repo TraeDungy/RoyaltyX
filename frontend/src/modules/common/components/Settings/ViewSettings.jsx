@@ -1,3 +1,4 @@
+import { Typography } from "@mui/material";
 import { useSettings } from "../../contexts/SettingsContext";
 
 const ViewSettings = () => {
@@ -45,9 +46,9 @@ const ViewSettings = () => {
 
   return (
     <div>
-      <p className="bold mb-3" style={{ fontSize: 19 }}>
+      <Typography variant="h5" sx={{ fontWeight: 600, mb: 1 }}>
         View Settings
-      </p>
+      </Typography>
 
       <div className="py-4">
         <label className="switch">

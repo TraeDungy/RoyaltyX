@@ -131,7 +131,7 @@ function MembershipPage() {
       </Box>
 
       <Box>
-        <Typography variant="h3" sx={{ mb: 4 }}>
+        <Typography variant="h3" sx={{ mb: 5, fontWeight: "bold" }}>
           Available Plans
         </Typography>
         <Grid container spacing={3}>

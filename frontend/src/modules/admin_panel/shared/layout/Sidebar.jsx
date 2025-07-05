@@ -18,7 +18,7 @@ import {
   MessageSquare,
   Users,
 } from "lucide-react";
-import icon from "../../../common/assets/img/brand/icon.webp";
+import icon from "../../../common/assets/img/brand/icon-2.webp";
 
 const SIDEBAR_WIDTH = 242;
 

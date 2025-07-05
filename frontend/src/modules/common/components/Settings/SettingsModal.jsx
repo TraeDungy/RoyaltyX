@@ -10,27 +10,19 @@ import {
   ListItemText,
   IconButton,
 } from "@mui/material";
-import { Settings, Palette, LayoutGrid, CircleAlert, X } from "lucide-react";
-import GeneralSettings from "./GeneralSettings";
+import { Palette, LayoutGrid, X } from "lucide-react";
 import ThemeSettings from "./ThemeSettings";
-import DangerZone from "./DangerZone";
 import ViewSettings from "./ViewSettings";
 
 function SettingsModal({ showSettingsModal, setShowSettingsModal }) {
-  const [selectedTab, setSelectedTab] = useState("general");
+  const [selectedTab, setSelectedTab] = useState("theme");
 
   const handleClose = () => setShowSettingsModal(false);
 
   const settingsTabs = [
     {
-      id: "general",
-      label: "General",
-      icon: Settings,
-      color: "inherit",
-    },
-    {
       id: "theme",
-      label: "Theme",
+      label: "Appearance",
       icon: Palette,
       color: "inherit",
     },
@@ -40,26 +32,16 @@ function SettingsModal({ showSettingsModal, setShowSettingsModal }) {
       icon: LayoutGrid,
       color: "inherit",
     },
-    {
-      id: "danger",
-      label: "Danger Zone",
-      icon: CircleAlert,
-      color: "error",
-    },
   ];
 
   const renderContent = () => {
     switch (selectedTab) {
-      case "general":
-        return <GeneralSettings />;
       case "theme":
         return <ThemeSettings />;
       case "view":
         return <ViewSettings />;
-      case "danger":
-        return <DangerZone />;
       default:
-        return <GeneralSettings />;
+        return <ThemeSettings />;
     }
   };
 
@@ -71,7 +53,6 @@ function SettingsModal({ showSettingsModal, setShowSettingsModal }) {
       fullWidth
       PaperProps={{
         sx: {
-          borderRadius: 3,
           minHeight: "60vh",
           maxHeight: "90vh",
         },
@@ -85,8 +66,8 @@ function SettingsModal({ showSettingsModal, setShowSettingsModal }) {
           size="small"
           sx={{
             position: "absolute",
-            top: "1rem",
-            right: "1rem",
+            top: "1.6rem",
+            right: "1.3rem",
             color: "text.secondary",
             "&:hover": {
               backgroundColor: "action.hover",
@@ -110,7 +91,6 @@ function SettingsModal({ showSettingsModal, setShowSettingsModal }) {
             {settingsTabs.map((tab) => {
               const IconComponent = tab.icon;
               const isSelected = selectedTab === tab.id;
-              const isDanger = tab.color === "error";
 
               return (
                 <ListItem key={tab.id} disablePadding sx={{ mb: 1 }}>
@@ -131,8 +111,6 @@ function SettingsModal({ showSettingsModal, setShowSettingsModal }) {
                     <ListItemIcon
                       sx={{
                         minWidth: 40,
-                        color:
-                          isDanger && !isSelected ? "error.main" : "inherit",
                       }}
                     >
                       <IconComponent size={18} />
@@ -141,7 +119,6 @@ function SettingsModal({ showSettingsModal, setShowSettingsModal }) {
                       primary={tab.label}
                       primaryTypographyProps={{
                         variant: "body2",
-                        color: isDanger ? "error.main" : "inherit",
                       }}
                     />
                   </ListItemButton>
@@ -151,7 +128,6 @@ function SettingsModal({ showSettingsModal, setShowSettingsModal }) {
           </List>
         </Box>
 
-        {/* Content Area */}
         <Box
           sx={{
             flex: 1,
@@ -161,7 +137,6 @@ function SettingsModal({ showSettingsModal, setShowSettingsModal }) {
             backgroundColor: "background.paper",
           }}
         >
-          {/* Content */}
           <Box
             sx={{
               flex: 1,

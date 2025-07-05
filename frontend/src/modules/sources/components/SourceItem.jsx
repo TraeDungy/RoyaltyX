@@ -32,7 +32,7 @@ export const SourceItem = ({ source }) => {
 
   return (
     <Grid sx={{ width: "100%" }}>
-      <Card sx={{ p: 3, borderRadius: 2, boxShadow: 0 }}>
+      <Card sx={{ p: 3, boxShadow: 0 }}>
         <Grid
           container
           spacing={2}

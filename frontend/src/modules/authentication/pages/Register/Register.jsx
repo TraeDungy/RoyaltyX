@@ -5,7 +5,7 @@ import Button from "../../../common/components/Button";
 import TextField from "@mui/material/TextField";
 import styles from "./Register.module.css";
 import { register } from "../../api/auth";
-import icon from "../../../common/assets/img/brand/icon.webp";
+import icon from "../../../common/assets/img/brand/icon-2.webp";
 
 export default function Register() {
   const [error, setError] = useState("");
