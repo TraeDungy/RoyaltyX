@@ -33,10 +33,15 @@ class MyUserManager(BaseUserManager):
     def generate_avatar_url(self, name):
         """Generate a DiceBear avatar based on the user's name or username."""
         base_url = "https://api.dicebear.com/7.x/initials/svg"
-        return f"{base_url}?seed={name}&backgroundColor=6b11cb,c0aede,6b11cb"
+        return f"{base_url}?seed={name}&backgroundColor=ff9800,00bcd4,6b11cb"
 
 
 class User(AbstractBaseUser):
+    ROLE_CHOICES = [
+        ("user", "User"),
+        ("admin", "Admin"),
+    ]
+
     email = models.EmailField(max_length=60, unique=True, null=False)
     username = models.CharField(max_length=50, unique=True, null=False)
     name = models.CharField(max_length=30)
@@ -45,6 +50,7 @@ class User(AbstractBaseUser):
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default="user")
     date_joined = models.DateTimeField(auto_now=True)
     is_deleted = models.BooleanField(default=False)
     is_email_verified = models.BooleanField(default=False)

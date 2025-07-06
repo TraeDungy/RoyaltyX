@@ -11,7 +11,7 @@ import PageNotFound from "./modules/common/pages/PageNotFound";
 import authRoutes from "./modules/authentication";
 import adminRoutes from "./modules/admin_panel";
 import { AuthProvider, useAuth } from "./modules/common/contexts/AuthContext";
-import AdminLayout from "./modules/admin_panel/layout/AdminLayout";
+import AdminLayout from "./modules/admin_panel/shared/layout/AdminLayout";
 import { ThemeProvider } from "./modules/common/contexts/ThemeContext";
 import dashboardRoutes from "./modules/dashboard";
 import projectRoutes from "./modules/projects";
@@ -21,12 +21,10 @@ import reportRoutes from "./modules/reports";
 import accountRoutes from "./modules/account";
 import contentRoutes from "./modules/content";
 import analyticsRoutes from "./modules/analytics";
-import inboxRoutes from "./modules/inbox";
+import supportRoutes from "./modules/support/routes";
 import managementRoutes from "./modules/management";
 import productRoutes from "./modules/products";
 import { ProjectProvider } from "./modules/common/contexts/ProjectContext";
-import helpDocumentationRoutes from "./modules/help_documentation";
-import InboxLayout from "./modules/inbox/layouts/InboxLayout";
 import { SettingsProvider } from "./modules/common/contexts/SettingsContext";
 import { MUIThemeWrapper } from "./modules/global/components/MUIThemeWrapper";
 import sourceRoutes from "./modules/sources";
@@ -91,11 +89,8 @@ function App() {
                       ...managementRoutes,
                       ...sourceRoutes,
                       ...productRoutes,
-                      ...helpDocumentationRoutes,
+                      ...supportRoutes,
                     ])}
-                    <Route path="/" element={<InboxLayout />}>
-                      {renderRoutes([...inboxRoutes])}
-                    </Route>
                   </Route>
 
                   <Route path="/" element={<Layout />}>

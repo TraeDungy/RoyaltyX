@@ -1,52 +1,98 @@
 import { useState } from "react";
-import styles from "./Header.module.css";
+import {
+  AppBar,
+  Toolbar,
+  Box,
+  IconButton,
+  Avatar,
+  AvatarGroup,
+  Tooltip,
+} from "@mui/material";
+import { Settings } from "lucide-react";
 import UserDropdown from "./UserDropdown";
-import { MessageSquare, Settings } from "lucide-react";
 import SettingsModal from "../../components/Settings/SettingsModal";
 import NotificationsDropdown from "./NotificationsDropdown";
-import { Link } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
+import { useProject } from "../../contexts/ProjectContext";
 
 function Header() {
   const [showSettingsModal, setShowSettingsModal] = useState(false);
+  const { project } = useProject();
 
   return (
     <>
-      <nav className={`${styles.navbar}`}>
-        <div className="ps-2 d-flex align-items-center">
-          <Breadcrumbs />
-        </div>
-        <div className="ms-auto d-flex align-items-center pe-2">
-          <div className="ps-4">
-            <Settings
-              onClick={() => {
-                setShowSettingsModal(true);
-              }}
-              strokeWidth={1.5} size={20}
-              className="pointer txt-lighter"
-            />
-          </div>
-          <Link to="/inbox" className="ps-4 position-relative">
-          
-            <MessageSquare strokeWidth={1.5} size={20} className="pointer txt-lighter" />
-            <span
-              className="badge badge-primary bg-danger position-absolute"
-              style={{
-                right: 0,
-                bottom: 0,
-                transform: "translate(50%, 50%)",
-                fontSize: 9,
+      <AppBar
+        position="sticky"
+        elevation={0}
+        sx={{
+          backgroundColor: "background.default",
+          borderBottom: "1px solid",
+          borderColor: "divider",
+          color: "text.primary",
+        }}
+      >
+        <Toolbar sx={{ px: { xs: 2, sm: 4 }, py: 1, height: 66.77 }}>
+          <Box sx={{ display: "flex", alignItems: "center", flex: 1 }}>
+            <Breadcrumbs />
+          </Box>
+
+          {project?.users && project.users.length > 0 && (
+            <Box sx={{ display: "flex", alignItems: "center", mr: 4 }}>
+              <AvatarGroup
+                max={5}
+                sx={{
+                  "& .MuiAvatar-root": {
+                    width: 23,
+                    height: 23,
+                    fontSize: "0.875rem",
+                    border: "2px solid",
+                    borderColor: "divider",
+                  },
+                }}
+              >
+                {project.users.map((user) => (
+                  <Tooltip
+                    key={user.id}
+                    title={`${user?.user_details?.name || "Unknown"} (${user?.role || "Member"})`}
+                    arrow
+                  >
+                    <Avatar
+                      src={user?.user_details?.avatar}
+                      sx={{
+                        cursor: "pointer",
+                      }}
+                    >
+                      {user?.user_details?.name?.charAt(0)?.toUpperCase() ||
+                        "U"}
+                    </Avatar>
+                  </Tooltip>
+                ))}
+              </AvatarGroup>
+            </Box>
+          )}
+
+          {/* Right side - Actions */}
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+            {/* Settings Icon */}
+            <IconButton
+              onClick={() => setShowSettingsModal(true)}
+              size="small"
+              sx={{
+                color: "text.secondary",
+                "&:hover": {
+                  backgroundColor: "action.hover",
+                },
               }}
             >
-              0
-            </span>
-          </Link>
-          <NotificationsDropdown />
-          <div className="ps-4 position-relative">
+              <Settings size={20} strokeWidth={1.5} />
+            </IconButton>
+
+            <NotificationsDropdown />
             <UserDropdown />
-          </div>
-        </div>
-      </nav>
+          </Box>
+        </Toolbar>
+      </AppBar>
+
       <SettingsModal
         showSettingsModal={showSettingsModal}
         setShowSettingsModal={setShowSettingsModal}

@@ -1,319 +1,434 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
-  ChevronDown,
+  Box,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+  useTheme,
+  useMediaQuery,
+  Divider,
+} from "@mui/material";
+import {
   Settings,
   Gauge,
-  Folder,
   FileText,
   User,
-  HelpCircle,
   Database,
-  AlignLeft,
   Package2,
   LayoutPanelTop,
+  LayoutDashboard,
+  Users,
 } from "lucide-react";
-import { getUserInfo } from "../../../account/api/user";
-import { getMyProjects, switchProject } from "../../../projects/api/project";
-import ProductsList from "./ProductsList";
 import { useProject } from "../../contexts/ProjectContext";
 import { useAuth } from "../../contexts/AuthContext";
-import { LayoutDashboard, Users } from "lucide-react";
+import { UpgradePlanButton } from "../../components/UpgradePlanButton";
+import { ProjectSelector } from "../../../global/components/ProjectSelector";
+
+const SIDEBAR_WIDTH = 242;
 
 function Sidebar() {
-  const [sidebarActive] = useState(true);
-  const [currentPage, setCurrentPage] = useState(window.location.pathname);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [userInfo, setUserInfo] = useState(null);
-  const [myProjects, setMyProjects] = useState([]);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const location = useLocation();
+
+  const [sidebarOpen, setSidebarOpen] = useState(!isMobile);
+
   const { project } = useProject();
   const { email } = useAuth();
+
   const projectUser = project?.users?.find(
     (user) => user.user_details.email === email
   );
 
   useEffect(() => {
-    function handleResize() {
+    const handleResize = () => {
       if (window.innerWidth < 855) {
-        const sidebar = document.getElementById("sidebar");
-        if (!sidebar.classList.contains("active")) {
-          sidebar.classList.toggle("active");
-        }
+        setSidebarOpen(false);
         document.documentElement.style.setProperty("--sidebar-width", "0");
+      } else {
+        setSidebarOpen(true);
+        document.documentElement.style.setProperty(
+          "--sidebar-width",
+          `${SIDEBAR_WIDTH}px`
+        );
       }
-    }
+    };
 
     window.addEventListener("resize", handleResize);
     handleResize();
+
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
 
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const fetchedUserInfo = await getUserInfo();
-        setUserInfo(fetchedUserInfo);
-      } catch (error) {
-        console.error("Error fetching :", error);
-      }
-
-      try {
-        const fetchedMyProjects = await getMyProjects();
-        setMyProjects(fetchedMyProjects);
-      } catch (error) {
-        console.error("Error fetching :", error);
-      }
-    };
-
-    fetchUserInfo();
-  }, []);
-
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
-
   const toggleSidebar = () => {
-    const sidebar = document.getElementById("sidebar");
-    sidebar.classList.toggle("active");
-    if (sidebar.classList.contains("active")) {
-      document.documentElement.style.setProperty("--sidebar-width", "0");
+    setSidebarOpen(!sidebarOpen);
+    if (!sidebarOpen) {
+      document.documentElement.style.setProperty(
+        "--sidebar-width",
+        `${SIDEBAR_WIDTH}px`
+      );
     } else {
-      document.documentElement.style.setProperty("--sidebar-width", "236px");
+      document.documentElement.style.setProperty("--sidebar-width", "0");
     }
   };
 
-  const handleSwitchProject = async (project_id) => {
-    try {
-      await switchProject(project_id);
-      window.location.reload();
-    } catch (error) {
-      console.error("Error fetching :", error);
-    }
+  const isActivePage = (path) => {
+    return location.pathname === path;
   };
 
-  return (
-    <>
-      <nav id="sidebar" className={!sidebarActive ? "active" : ""}>
-        <ul className="list-unstyled">
-          <div className="sidebar-link-group">
-            <div className="d-flex justify-content-between align-items-center">
-              <div className="dropdown show">
-                <div
-                  className="dropdown-toggle rounded-lg p-1 pe-2 bgc-light-contrast hover-lg d-flex align-items-center"
-                  type="button"
-                  id="projectsDropdown"
-                  onClick={toggleDropdown}
-                  aria-haspopup="true"
-                  aria-expanded={isDropdownOpen ? "true" : "false"}
-                >
-                  <div className="d-flex justify-content-center align-items-center px-1">
-                    <Folder
-                      className="me-2"
-                      size={18}
-                      color="var(--color-text-lighter)"
-                    />
-                    <span className="fw-500">{userInfo?.project?.name}</span>
-                    <p className="m-0 pe-2">
-                      {userInfo?.currently_selected_project?.name}
-                    </p>
-                  </div>
-                  <ChevronDown className="ms-auto" size={18} />
-                </div>
-                <div
-                  className={
-                    "dropdown-menu border-0 shadow pt-2 pb-3" +
-                    (isDropdownOpen ? " show" : "")
-                  }
-                  aria-labelledby="projectsDropdown"
-                  style={{ width: 230 }}
-                >
-                  {myProjects.map((myProject) => (
-                    <span
-                      className="dropdown-item py-2 pointer"
-                      key={myProject.id}
-                      onClick={() => {
-                        handleSwitchProject(myProject.id);
-                      }}
-                    >
-                      {myProject?.name}
-                    </span>
-                  ))}
-                  <hr />
-                  <Link
-                    to="/my-projects"
-                    className="dropdown-item medium txt-primary pointer"
-                  >
-                    View all
-                  </Link>
-                </div>
-              </div>
+  const SidebarContent = () => (
+    <Box
+      sx={{
+        width: SIDEBAR_WIDTH,
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        overflow: "hidden",
+      }}
+    >
+      <Box
+        sx={{
+          borderBottom: "1px solid",
+          borderColor: "divider",
+          flexShrink: 0,
+          overflow: "hidden",
+        }}
+      >
+        <ProjectSelector />
+      </Box>
 
-              <span
-                className={`d-flex justify-content-end align-items-center rounded`}
-              >
-                <div
-                  className="w-fit pointer rounded-lg"
-                  onClick={toggleSidebar}
-                >
-                  <AlignLeft size={18} />
-                </div>
-              </span>
-            </div>
-          </div>
-
+      <Box
+        sx={{
+          flex: 1,
+          overflow: "auto",
+          overflowX: "hidden",
+        }}
+      >
+        <List
+          sx={{
+            px: 2,
+            width: "100%",
+            boxSizing: "border-box",
+          }}
+        >
+          {/* Management Section */}
           {projectUser?.role === "owner" && (
-            <div className="sidebar-link-group">
-              <span className="txt-lighter small ps-2">MANAGEMENT</span>
-              <li
-                className={`nav-item px-2 rounded my-1 ${currentPage === "/management/data/import" ? "active" : ""}`}
+            <>
+              <Typography
+                variant="caption"
+                sx={{
+                  color: "text.secondary",
+                  px: 2,
+                  py: 1,
+                  display: "block",
+                }}
               >
-                <Link
-                  to="/management/data/import"
-                  className="nav-link"
-                  onClick={() => handlePageChange("/management/data/import")}
-                >
-                  <FileText size={18} color="var(--color-text-lighter)" />
-                  <span className="ps-4 medium">Manual import</span>
-                </Link>
-              </li>
-              <li
-                className={`nav-item px-2 rounded my-1 ${currentPage === "/management/settings" ? "active" : ""}`}
-              >
-                <Link
+                Management
+              </Typography>
+
+              <ListItem disablePadding>
+                <ListItemButton
+                  component={Link}
                   to="/management/settings"
-                  className="nav-link"
-                  onClick={() => handlePageChange("/management/settings")}
+                  selected={isActivePage("/management/settings")}
+                  sx={{
+                    borderRadius: 2,
+                    mb: 0.5,
+                    "&.Mui-selected": {
+                      backgroundColor: "action.selected",
+                    },
+                  }}
                 >
-                  <Settings size={18} color="var(--color-text-lighter)" />
-                  <span className="ps-4 medium">Project Settings</span>
-                </Link>
-              </li>
-              <li
-                className={`nav-item px-2 rounded my-1 ${currentPage === "/producers" ? "active" : ""}`}
-              >
-                <Link
+                  <ListItemIcon sx={{ minWidth: 40 }}>
+                    <Settings size={18} color="var(--color-text-lighter)" />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="Project Settings"
+                    primaryTypographyProps={{
+                      variant: "body2",
+
+                      noWrap: true,
+                    }}
+                  />
+                </ListItemButton>
+              </ListItem>
+
+              <ListItem disablePadding>
+                <ListItemButton
+                  component={Link}
                   to="/management/producers"
-                  className="nav-link"
-                  onClick={() => handlePageChange("/management/producers")}
+                  selected={isActivePage("/management/producers")}
+                  sx={{
+                    borderRadius: 2,
+                    mb: 0.5,
+                    "&.Mui-selected": {
+                      backgroundColor: "action.selected",
+                    },
+                  }}
                 >
-                  <User size={18} color="var(--color-text-lighter)" />
-                  <span className="ps-4 medium">Producers</span>
-                </Link>
-              </li>
-              <li
-                className={`nav-item px-2 rounded my-1 ${currentPage === "/documentation" ? "active" : ""}`}
-              >
-                <Link
-                  to="/documentation"
-                  className="nav-link"
-                  onClick={() => handlePageChange("/documentation")}
-                >
-                  <HelpCircle size={18} color="var(--color-text-lighter)" />
-                  <span className="ps-4 medium">Help Documentation</span>
-                </Link>
-              </li>
-            </div>
+                  <ListItemIcon sx={{ minWidth: 40 }}>
+                    <User size={18} color="var(--color-text-lighter)" />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="Producers"
+                    primaryTypographyProps={{
+                      variant: "body2",
+                    }}
+                  />
+                </ListItemButton>
+              </ListItem>
+              <Divider />
+            </>
           )}
 
-          <div className="sidebar-link-group">
-            <span className="txt-lighter small ps-2">PROJECT</span>
-            <li
-              className={`nav-item px-2 rounded my-1 ${currentPage === "/" ? "active" : ""}`}
+          <Typography
+            variant="caption"
+            sx={{
+              color: "text.secondary",
+              px: 2,
+              pt: 2,
+              pb: 1,
+              display: "block",
+            }}
+          >
+            Project
+          </Typography>
+
+          <ListItem disablePadding>
+            <ListItemButton
+              component={Link}
+              to="/"
+              selected={isActivePage("/")}
+              sx={{
+                borderRadius: 2,
+                mb: 0.5,
+                "&.Mui-selected": {
+                  backgroundColor: "action.selected",
+                },
+              }}
             >
-              <Link
-                to="/"
-                className="nav-link"
-                onClick={() => handlePageChange("/")}
-              >
+              <ListItemIcon sx={{ minWidth: 40 }}>
                 <LayoutDashboard size={18} color="var(--color-text-lighter)" />
-                <span className="ps-4 medium">Dashboard</span>
-              </Link>
-            </li>
-            <li
-              className={`nav-item px-2 rounded my-1 ${currentPage === "/sources" ? "active" : ""}`}
+              </ListItemIcon>
+              <ListItemText
+                primary="Dashboard"
+                primaryTypographyProps={{
+                  variant: "body2",
+                }}
+              />
+            </ListItemButton>
+          </ListItem>
+
+          <ListItem disablePadding>
+            <ListItemButton
+              component={Link}
+              to="/sources"
+              selected={isActivePage("/sources")}
+              sx={{
+                borderRadius: 2,
+                mb: 0.5,
+                "&.Mui-selected": {
+                  backgroundColor: "action.selected",
+                },
+              }}
             >
-              <Link
-                to="/sources"
-                className="nav-link"
-                onClick={() => handlePageChange("/sources")}
-              >
+              <ListItemIcon sx={{ minWidth: 40 }}>
                 <Database size={18} color="var(--color-text-lighter)" />
-                <span className="ps-4 medium">Sources</span>
-              </Link>
-            </li>
-            <li
-              className={`nav-item px-2 rounded my-1 ${currentPage === "/members" ? "active" : ""}`}
+              </ListItemIcon>
+              <ListItemText
+                primary="Sources"
+                primaryTypographyProps={{
+                  variant: "body2",
+                }}
+              />
+            </ListItemButton>
+          </ListItem>
+
+          <ListItem disablePadding>
+            <ListItemButton
+              component={Link}
+              to="/members"
+              selected={isActivePage("/members")}
+              sx={{
+                borderRadius: 2,
+                mb: 0.5,
+                "&.Mui-selected": {
+                  backgroundColor: "action.selected",
+                },
+              }}
             >
-              <Link
-                to="/members"
-                className="nav-link"
-                onClick={() => handlePageChange("/members")}
-              >
+              <ListItemIcon sx={{ minWidth: 40 }}>
                 <Users size={18} color="var(--color-text-lighter)" />
+              </ListItemIcon>
+              <ListItemText
+                primary="Members"
+                primaryTypographyProps={{
+                  variant: "body2",
+                }}
+              />
+            </ListItemButton>
+          </ListItem>
 
-                <span className="ps-4 medium">Members</span>
-              </Link>
-            </li>
-            <li
-              className={`nav-item px-2 rounded my-1 ${currentPage === "/products" ? "active" : ""}`}
+          <ListItem disablePadding>
+            <ListItemButton
+              component={Link}
+              to="/products"
+              selected={isActivePage("/products")}
+              sx={{
+                borderRadius: 2,
+                mb: 0.5,
+                "&.Mui-selected": {
+                  backgroundColor: "action.selected",
+                },
+              }}
             >
-              <Link
-                to="/products"
-                className="nav-link"
-                onClick={() => handlePageChange("/products")}
-              >
+              <ListItemIcon sx={{ minWidth: 40 }}>
                 <Package2 size={18} color="var(--color-text-lighter)" />
-                <span className="ps-4 medium">Products</span>
-              </Link>
-            </li>
-            <li
-              className={`nav-item px-2 rounded my-1 ${currentPage === "/analytics" ? "active" : ""}`}
-            >
-              <Link
-                to="/analytics"
-                className="nav-link"
-                onClick={() => handlePageChange("/analytics")}
-              >
-                <Gauge size={18} color="var(--color-text-lighter)" />
-                <span className="ps-4 medium">Analytics</span>
-              </Link>
-            </li>
-            <li
-              className={`nav-item px-2 rounded my-1 ${currentPage === "/reports" ? "active" : ""}`}
-            >
-              <Link
-                to="/reports"
-                className="nav-link"
-                onClick={() => handlePageChange("/reports")}
-              >
-                <FileText size={18} color="var(--color-text-lighter)" />
-                <span className="ps-4 medium">Reports</span>
-              </Link>
-            </li>
-            <li
-              className={`nav-item px-2 rounded my-1 ${currentPage === "/report-templates" ? "active" : ""}`}
-            >
-              <Link
-                to="/report-templates"
-                className="nav-link"
-                onClick={() => handlePageChange("/report-templates")}
-              >
-                <LayoutPanelTop size={18} color="var(--color-text-lighter)" />
-                <span className="ps-4 medium">Report Templates</span>
-              </Link>
-            </li>
-          </div>
+              </ListItemIcon>
+              <ListItemText
+                primary="Products"
+                primaryTypographyProps={{
+                  variant: "body2",
+                }}
+              />
+            </ListItemButton>
+          </ListItem>
 
-          <ProductsList />
-        </ul>
-      </nav>
-    </>
+          <ListItem disablePadding>
+            <ListItemButton
+              component={Link}
+              to="/analytics"
+              selected={isActivePage("/analytics")}
+              sx={{
+                borderRadius: 2,
+                mb: 0.5,
+                "&.Mui-selected": {
+                  backgroundColor: "action.selected",
+                },
+              }}
+            >
+              <ListItemIcon sx={{ minWidth: 40 }}>
+                <Gauge size={18} color="var(--color-text-lighter)" />
+              </ListItemIcon>
+              <ListItemText
+                primary="Analytics"
+                primaryTypographyProps={{
+                  variant: "body2",
+                }}
+              />
+            </ListItemButton>
+          </ListItem>
+
+          <ListItem disablePadding>
+            <ListItemButton
+              component={Link}
+              to="/reports"
+              selected={isActivePage("/reports")}
+              sx={{
+                borderRadius: 2,
+                mb: 0.5,
+                "&.Mui-selected": {
+                  backgroundColor: "action.selected",
+                },
+              }}
+            >
+              <ListItemIcon sx={{ minWidth: 40 }}>
+                <FileText size={18} color="var(--color-text-lighter)" />
+              </ListItemIcon>
+              <ListItemText
+                primary="Reports"
+                primaryTypographyProps={{
+                  variant: "body2",
+                }}
+              />
+            </ListItemButton>
+          </ListItem>
+
+          <ListItem disablePadding>
+            <ListItemButton
+              component={Link}
+              to="/report-templates"
+              selected={isActivePage("/report-templates")}
+              sx={{
+                borderRadius: 2,
+                mb: 0.5,
+                "&.Mui-selected": {
+                  backgroundColor: "action.selected",
+                },
+              }}
+            >
+              <ListItemIcon sx={{ minWidth: 40 }}>
+                <LayoutPanelTop size={18} color="var(--color-text-lighter)" />
+              </ListItemIcon>
+              <ListItemText
+                primary="Report Templates"
+                primaryTypographyProps={{
+                  variant: "body2",
+                  noWrap: true,
+                }}
+              />
+            </ListItemButton>
+          </ListItem>
+
+          <ListItem disablePadding>
+            <UpgradePlanButton />
+          </ListItem>
+        </List>
+      </Box>
+    </Box>
+  );
+
+  if (isMobile) {
+    return (
+      <Drawer
+        variant="temporary"
+        open={sidebarOpen}
+        onClose={toggleSidebar}
+        ModalProps={{
+          keepMounted: true,
+        }}
+        sx={{
+          "& .MuiDrawer-paper": {
+            boxSizing: "border-box",
+            width: SIDEBAR_WIDTH,
+            pb: 0,
+            backgroundColor: theme.palette.background.default,
+          },
+        }}
+      >
+        <SidebarContent />
+      </Drawer>
+    );
+  }
+
+  return (
+    <Drawer
+      variant="persistent"
+      anchor="left"
+      open={sidebarOpen}
+      sx={{
+        width: sidebarOpen ? SIDEBAR_WIDTH : 0,
+        flexShrink: 0,
+        "& .MuiDrawer-paper": {
+          width: SIDEBAR_WIDTH,
+          minWidth: SIDEBAR_WIDTH,
+          maxWidth: SIDEBAR_WIDTH,
+          boxSizing: "border-box",
+          backgroundColor: theme.palette.background.default,
+          overflow: "hidden",
+          overflowY: "auto",
+        },
+      }}
+    >
+      <SidebarContent />
+    </Drawer>
   );
 }
 

@@ -72,15 +72,15 @@ const DateRangeSelector = () => {
     <div className="d-flex gap-3 align-items-center">
       <Button
         variant="outlined"
+        color="inherit"
         onClick={setThisMonth}
-        sx={{ color: "var(--text-lighter)" }}
       >
         This Month
       </Button>
 
       <Button
         variant="outlined"
-        sx={{ color: "var(--text-lighter)" }}
+        color="inherit"
         onClick={setLastYear}
       >
         Last Year
@@ -99,9 +99,9 @@ const DateRangeSelector = () => {
       {startDate && endDate && (
         <Button
           variant="outlined"
+          color="inherit"
           onClick={clearDates}
-          sx={{ color: "var(--text-lighter)" }}
-        >
+          >
           Clear
         </Button>
       )}

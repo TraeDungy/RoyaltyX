@@ -1,7 +1,7 @@
-import { Box, Button, capitalize, Card, Grid, Typography } from "@mui/material";
+import { Box, capitalize, Card, Grid, IconButton, Typography } from "@mui/material";
 import youtubeLogo from "../../common/assets/img/platform_logos/youtube.webp";
-import { ArrowRight } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 
 export const SourceItem = ({ source }) => {
   const navigate = useNavigate();
@@ -74,9 +74,9 @@ export const SourceItem = ({ source }) => {
               alignItems: "center",
             }}
           >
-            <Button variant="outlined" color="primary" onClick={handleViewClick}>
-              View <ArrowRight className="ms-2" />
-            </Button>
+            <IconButton color="primary" onClick={handleViewClick}>
+             <ArrowRight />
+            </IconButton>
           </Grid>
         </Grid>
       </Card>

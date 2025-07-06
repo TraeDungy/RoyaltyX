@@ -10,11 +10,10 @@ import {
   ListItemAvatar,
   ListItemText,
   Typography,
-  Avatar,
   Stack,
 } from "@mui/material";
 import { MailOutline } from "@mui/icons-material";
-import icon from "../../assets/img/brand/icon.webp";
+import icon from "../../assets/img/brand/favicon.ico";
 import { Bell } from "lucide-react";
 import {
   getNotifications,
@@ -69,14 +68,19 @@ const NotificationsDropdown = () => {
   };
 
   return (
-    <Box sx={{ position: "relative", pl: "1.5rem" }}>
+    <Box sx={{ position: "relative" }}>
       <ClickAwayListener onClickAway={handleClickAway}>
         <Box>
           <IconButton
             onClick={toggleDropdown}
-            size="large"
             aria-label="show notifications"
-            sx={{ position: "relative", color: "text.secondary", p: 0 }}
+            size="small"
+            sx={{
+              color: "text.secondary",
+              "&:hover": {
+                backgroundColor: "action.hover",
+              },
+            }}
           >
             <Badge
               badgeContent={notificationCount}
@@ -132,7 +136,7 @@ const NotificationsDropdown = () => {
                 {notifications.map((notification, idx) => (
                   <ListItem key={idx} alignItems="center" sx={{ py: 1 }}>
                     <ListItemAvatar>
-                      <Avatar alt="icon" src={icon} />
+                      <img alt="icon" src={icon} style={{ width: 30 }} />
                     </ListItemAvatar>
                     <ListItemText
                       primary={

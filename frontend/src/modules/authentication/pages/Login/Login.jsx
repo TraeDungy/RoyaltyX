@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../../../common/contexts/AuthContext";
 import styles from "./Login.module.css";
-import icon from "../../../common/assets/img/brand/icon.webp";
+import icon from "../../../common/assets/img/brand/icon-2.webp";
 import TextField from "@mui/material/TextField";
 import Button from "../../../common/components/Button";
 import { Typography } from "@mui/material";

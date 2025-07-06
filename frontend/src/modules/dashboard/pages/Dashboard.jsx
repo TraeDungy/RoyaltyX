@@ -1,5 +1,4 @@
 import { Grid, Typography, Card, CardContent, Box } from "@mui/material";
-import { useAuth } from "../../common/contexts/AuthContext";
 import { AtSign, Film, Users } from "lucide-react";
 import React from "react";
 import { LinkedAccountsSection } from "../components/LinkedAccountsSection";
@@ -8,7 +7,6 @@ import { ProductsList } from "../components/ProductsList";
 import { useSources } from "../../sources/api/sources";
 
 function Dashboard() {
-  const { name } = useAuth();
   const { products, loading } = useProducts();
   const { sources } = useSources();
   const stats = [
@@ -25,7 +23,7 @@ function Dashboard() {
       color: "#3F51B5",
     },
     {
-      label: "Linked Accounts",
+      label: "Sources",
       value: sources?.length || 0,
       icon: <AtSign size={20} />,
       color: "#4CAF50",
@@ -34,14 +32,10 @@ function Dashboard() {
 
   return (
     <>
-      <Typography variant="h3" sx={{ mt: 3, mb: 2, fontWeight: "bold" }}>
-        Hi, {name}!
-      </Typography>
-
-      <Grid container spacing={3} sx={{ mb: 4 }}>
+      <Grid container spacing={3} sx={{ mt: 1, mb: 4 }}>
         {stats.map((stat, index) => (
           <Grid key={index} size={{ xs: 12, md: 4 }}>
-            <Card sx={{ borderRadius: 2, boxShadow: 2 }}>
+            <Card sx={{ borderRadius: 2 }}>
               <CardContent>
                 <div
                   style={{

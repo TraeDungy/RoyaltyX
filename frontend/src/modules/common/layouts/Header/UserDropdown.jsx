@@ -1,76 +1,255 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Dropdown } from "react-bootstrap";
 import {
-  LogOut,
-  Folder,
-  User,
-  Grid,
-} from "lucide-react";
+  Avatar,
+  Box,
+  ClickAwayListener,
+  Divider,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Paper,
+  Typography,
+} from "@mui/material";
+import { LogOut, Folder, User, Grid, HelpCircle, Flame } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 
 function UserDropdown() {
-  const { name, email, avatar } = useAuth();
+  const { name, email, avatar, role } = useAuth();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleToggle = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+  };
 
   return (
-    <Dropdown className="d-flex align-items-center">
-      <Dropdown.Toggle
-        variant="basic"
-        id="dropdown-basic"
-        className="p-0 border-0 bg-transparent"
-      >
-        <img
-          src={avatar}
-          className="rounded pointer"
-          style={{ width: 23, height: 23, objectFit: "cover" }}
-          alt="Profile"
-        />
-      </Dropdown.Toggle>
-
-      <Dropdown.Menu
-        className="border-0 shadow rounded-lg mt-2 px-2"
-        align="end"
-        style={{ width: 290, background: "var(--color-body-background)" }}
-      >
-        <div className="d-flex align-items-center pt-1 px-2">
-          <div className="position-relative">
-            <img
+    <Box sx={{ position: "relative" }}>
+      <ClickAwayListener onClickAway={handleClose}>
+        <Box>
+          <IconButton onClick={handleToggle} size="small" sx={{ p: 0 }}>
+            <Avatar
               src={avatar}
-              className="rounded"
-              style={{ width: 30, height: 30, objectFit: "cover" }}
-              alt=""
+              alt="Profile"
+              sx={{
+                width: 23,
+                height: 23,
+                cursor: "pointer",
+              }}
             />
-          </div>
-          <div className="d-flex flex-column ps-3">
-            <span
-              className="medium fw-500"
-              style={{ color: "var(--color-text)" }}
+          </IconButton>
+
+          {isOpen && (
+            <Paper
+              elevation={3}
+              sx={{
+                position: "absolute",
+                top: "100%",
+                right: 0,
+                width: 290,
+                mt: 1,
+                borderRadius: 2,
+                zIndex: 1300,
+                backgroundColor: "background.paper",
+              }}
             >
-              {name}
-            </span>
-            <span className="small txt-lighter">{email}</span>
-          </div>
-        </div>
+              {/* User Info Header */}
+              <Box sx={{ display: "flex", alignItems: "center", p: 2 }}>
+                <Avatar
+                  src={avatar}
+                  alt="Profile"
+                  sx={{ width: 30, height: 30 }}
+                />
+                <Box sx={{ ml: 1.5, display: "flex", flexDirection: "column" }}>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color: "text.primary",
+                    }}
+                  >
+                    {name}
+                  </Typography>
+                  <Typography
+                    variant="caption"
+                    sx={{ color: "text.secondary" }}
+                  >
+                    {email}
+                  </Typography>
+                </Box>
+              </Box>
 
-        <Dropdown.Divider />
+              <Divider />
 
-        <Dropdown.Item className="rounded" as={Link} to="/admin/dashboard">
-          <Grid size={18} className="txt-lighter" /> <span className="ps-3 medium">Admin Panel</span>
-        </Dropdown.Item>
-        <Dropdown.Item className="rounded" as={Link} to="/account">
-          <User size={18} className="txt-lighter" /> <span className="ps-3 medium">My Account</span>
-        </Dropdown.Item>
-        <Dropdown.Item className="rounded" as={Link} to="/my-projects">
-          <Folder size={18} className="txt-lighter" /> <span className="ps-3 medium">My Projects</span>
-        </Dropdown.Item>
+              {/* Menu Items */}
+              <List sx={{ py: 1 }}>
+                {role === "admin" && (
+                  <ListItem disablePadding>
+                    <ListItemButton
+                      component={Link}
+                      to="/admin/dashboard"
+                      onClick={handleClose}
+                      sx={{
+                        borderRadius: 1,
+                        mx: 1,
+                        "&:hover": {
+                          backgroundColor: "action.hover",
+                        },
+                      }}
+                    >
+                      <ListItemIcon sx={{ minWidth: 40 }}>
+                        <Grid size={18} color="var(--color-text-lighter)" />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary="Admin Panel"
+                        primaryTypographyProps={{
+                          variant: "body2",
+                        }}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                )}
 
-        <Dropdown.Divider />
+                <ListItem disablePadding>
+                  <ListItemButton
+                    component={Link}
+                    to="/account"
+                    onClick={handleClose}
+                    sx={{
+                      borderRadius: 1,
+                      mx: 1,
+                      "&:hover": {
+                        backgroundColor: "action.hover",
+                      },
+                    }}
+                  >
+                    <ListItemIcon sx={{ minWidth: 40 }}>
+                      <User size={18} color="var(--color-text-lighter)" />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary="My Account"
+                      primaryTypographyProps={{
+                        variant: "body2",
+                      }}
+                    />
+                  </ListItemButton>
+                </ListItem>
 
-        <Dropdown.Item className="rounded text-danger" as={Link} to="/logout">
-          <LogOut size={18} className="text-danger" />{" "}
-          <span className="ps-3 medium text-danger">Logout</span>
-        </Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
+                <ListItem disablePadding>
+                  <ListItemButton
+                    component={Link}
+                    to="/my-projects"
+                    onClick={handleClose}
+                    sx={{
+                      borderRadius: 1,
+                      mx: 1,
+                      "&:hover": {
+                        backgroundColor: "action.hover",
+                      },
+                    }}
+                  >
+                    <ListItemIcon sx={{ minWidth: 40 }}>
+                      <Folder size={18} color="var(--color-text-lighter)" />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary="My Projects"
+                      primaryTypographyProps={{
+                        variant: "body2",
+                      }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+
+                <ListItem disablePadding>
+                  <ListItemButton
+                    component={Link}
+                    to="/support"
+                    onClick={handleClose}
+                    sx={{
+                      borderRadius: 1,
+                      mx: 1,
+                      "&:hover": {
+                        backgroundColor: "action.hover",
+                      },
+                    }}
+                  >
+                    <ListItemIcon sx={{ minWidth: 40 }}>
+                      <HelpCircle size={18} color="var(--color-text-lighter)" />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary="Contact Support"
+                      primaryTypographyProps={{
+                        variant: "body2",
+                      }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                  <ListItemButton
+                    component={Link}
+                    to="/account/membership"
+                    onClick={handleClose}
+                    sx={{
+                      borderRadius: 1,
+                      mx: 1,
+                      "&:hover": {
+                        backgroundColor: "action.hover",
+                      },
+                    }}
+                  >
+                    <ListItemIcon sx={{ minWidth: 40 }}>
+                      <Flame size={18} color="var(--color-text-lighter)" />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary="Explore Premium"
+                      primaryTypographyProps={{
+                        variant: "body2",
+                      }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              </List>
+
+              <Divider />
+
+              {/* Logout */}
+              <List sx={{ py: 1 }}>
+                <ListItem disablePadding>
+                  <ListItemButton
+                    component={Link}
+                    to="/logout"
+                    onClick={handleClose}
+                    sx={{
+                      borderRadius: 1,
+                      mx: 1,
+                      "&:hover": {
+                        backgroundColor: "action.hover",
+                      },
+                    }}
+                  >
+                    <ListItemIcon sx={{ minWidth: 40 }}>
+                      <LogOut size={18} color="#dc3545" />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary="Logout"
+                      primaryTypographyProps={{
+                        variant: "body2",
+                        color: "#dc3545",
+                      }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              </List>
+            </Paper>
+          )}
+        </Box>
+      </ClickAwayListener>
+    </Box>
   );
 }
 

@@ -1,7 +1,7 @@
 :root {
-  --color-primary: #627fea;
-  --color-primary-lighter: #627fea40;
-  --color-primary-hover: #627fead3;
+  --color-primary: #1976d2;
+  --color-primary-lighter: #1976d240;
+  --color-primary-hover: #1976d2d3;
   --color-text: #1e1f21;
   --color-text-lighter: #5d5e5f;
   --color-body-background: #ffffff;
@@ -11,7 +11,7 @@
   --color-very-subtle: #e7e7e7;
   --color-subtle: #dadada;
   --color-darker-gray: #d9d9d9;
-  --color-danger: #ff0022;
+  --color-danger: #9c0015;
   --color-success: #0bb050 !important;
   --toastify-color-success: #0bb050 !important;
   --sidebar-background: #f6f6f6;
@@ -603,7 +603,7 @@ table.table.dataTable > :not(caption) > * > * {
 }
 
 input:checked + .slider {
-  background-color: var(--color-primary);
+  background-color: var(--color-text);
 }
 
 input:checked + .slider:before {

@@ -16,9 +16,15 @@ export const addProjectMember = async (data) => {
 
     const responseData = await response.json();
 
+    if (!response.ok) {
+      const error = new Error('API Error');
+      error.response = { data: responseData };
+      throw error;
+    }
+
     return responseData;
   } catch (error) {
-    return error;
+    throw error;
   }
 };
 

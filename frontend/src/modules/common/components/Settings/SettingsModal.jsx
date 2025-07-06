@@ -1,90 +1,154 @@
 import { useState } from "react";
-import Modal from "react-bootstrap/Modal";
-import GeneralSettings from "./GeneralSettings";
+import {
+  Dialog,
+  DialogContent,
+  Box,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  IconButton,
+} from "@mui/material";
+import { Palette, LayoutGrid, X } from "lucide-react";
 import ThemeSettings from "./ThemeSettings";
-import DangerZone from "./DangerZone";
 import ViewSettings from "./ViewSettings";
-import { Settings, Palette, LayoutGrid, CircleAlert } from "lucide-react";
 
 function SettingsModal({ showSettingsModal, setShowSettingsModal }) {
-  const [selectedTab, setSelectedTab] = useState("general");
+  const [selectedTab, setSelectedTab] = useState("theme");
 
   const handleClose = () => setShowSettingsModal(false);
 
+  const settingsTabs = [
+    {
+      id: "theme",
+      label: "Appearance",
+      icon: Palette,
+      color: "inherit",
+    },
+    {
+      id: "view",
+      label: "View",
+      icon: LayoutGrid,
+      color: "inherit",
+    },
+  ];
+
+  const renderContent = () => {
+    switch (selectedTab) {
+      case "theme":
+        return <ThemeSettings />;
+      case "view":
+        return <ViewSettings />;
+      default:
+        return <ThemeSettings />;
+    }
+  };
+
   return (
-    <Modal show={showSettingsModal} onHide={handleClose} size="lg" centered>
-      <Modal.Body className="rounded py-0 pe-0">
-        <div className="d-flex w-100">
-          <div style={{ maxWidth: 200 }} className="w-100">
-            <nav className="pe-3">
-              <ul className="list-unstyled">
-                <div className="sidebar-link-group">
-                  <div className="pb-4 pt-3">
-                    <span className="small bold text-secondary ps-2">
-                      SETTINGS
-                    </span>
-                  </div>
+    <Dialog
+      open={showSettingsModal}
+      onClose={handleClose}
+      maxWidth="md"
+      fullWidth
+      PaperProps={{
+        sx: {
+          minHeight: "60vh",
+          maxHeight: "90vh",
+        },
+      }}
+    >
+      <DialogContent
+        sx={{ p: 0, display: "flex", height: "100%", position: "relative" }}
+      >
+        <IconButton
+          onClick={handleClose}
+          size="small"
+          sx={{
+            position: "absolute",
+            top: "1.6rem",
+            right: "1.3rem",
+            color: "text.secondary",
+            "&:hover": {
+              backgroundColor: "action.hover",
+            },
+          }}
+        >
+          <X />
+        </IconButton>
+        <Box
+          sx={{
+            width: 250,
+            borderRight: "1px solid",
+            borderColor: "divider",
+            display: "flex",
+            backgroundColor: "background.paper",
+            flexDirection: "column",
+          }}
+        >
+          {/* Navigation List */}
+          <List sx={{ px: 2, py: 2, flex: 1 }}>
+            {settingsTabs.map((tab) => {
+              const IconComponent = tab.icon;
+              const isSelected = selectedTab === tab.id;
 
-                  <li
-                    className={`nav-item px-2 my-2 rounded pointer ${selectedTab === "general" ? "active" : ""}`}
-                    onClick={() => setSelectedTab("general")}
+              return (
+                <ListItem key={tab.id} disablePadding sx={{ mb: 1 }}>
+                  <ListItemButton
+                    selected={isSelected}
+                    onClick={() => setSelectedTab(tab.id)}
+                    sx={{
+                      borderRadius: 2,
+                      py: 1.5,
+                      "&.Mui-selected": {
+                        backgroundColor: "action.selected",
+                        "&:hover": {
+                          backgroundColor: "action.selected",
+                        },
+                      },
+                    }}
                   >
-                    <span className="nav-link">
-                      <Settings size={18} color="var(--color-text-lighter)" />
-                      <span className="ps-3 medium">General</span>
-                    </span>
-                  </li>
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 40,
+                      }}
+                    >
+                      <IconComponent size={18} />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={tab.label}
+                      primaryTypographyProps={{
+                        variant: "body2",
+                      }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              );
+            })}
+          </List>
+        </Box>
 
-                  <li
-                    className={`nav-item px-2 my-2 rounded pointer ${selectedTab === "theme" ? "active" : ""}`}
-                    onClick={() => setSelectedTab("theme")}
-                  >
-                    <span className="nav-link">
-                      <Palette size={18} color="var(--color-text-lighter)" />
-                      <span className="ps-3 medium">Theme</span>
-                    </span>
-                  </li>
-
-                  <li
-                    className={`nav-item px-2 my-2 rounded pointer ${selectedTab === "view" ? "active" : ""}`}
-                    onClick={() => setSelectedTab("view")}
-                  >
-                    <span className="nav-link">
-                      <LayoutGrid size={18} color="var(--color-text-lighter)" />
-                      <span className="ps-3 medium">View</span>
-                    </span>
-                  </li>
-
-                  <li
-                    className={`nav-item px-2 my-2 rounded pointer ${selectedTab === "danger" ? "active" : ""}`}
-                    onClick={() => setSelectedTab("danger")}
-                  >
-                    <span className="nav-link text-danger">
-                      <CircleAlert
-                        size={18}
-                      />
-                      <span className="ps-3 medium">Danger Zone</span>
-                    </span>
-                  </li>
-                </div>
-              </ul>
-            </nav>
-          </div>
-
-          <div
-            className="w-100"
-            style={{ maxHeight: "70vh", overflowY: "auto" }}
+        <Box
+          sx={{
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            overflow: "hidden",
+            backgroundColor: "background.paper",
+          }}
+        >
+          <Box
+            sx={{
+              flex: 1,
+              overflow: "auto",
+              p: 4,
+            }}
           >
-            <div className="w-100 pt-3 pb-5 px-5">
-              {selectedTab === "general" && <GeneralSettings />}
-              {selectedTab === "theme" && <ThemeSettings />}
-              {selectedTab === "view" && <ViewSettings />}
-              {selectedTab === "danger" && <DangerZone />}
-            </div>
-          </div>
-        </div>
-      </Modal.Body>
-    </Modal>
+            {renderContent()}
+          </Box>
+        </Box>
+      </DialogContent>
+    </Dialog>
   );
 }
 

@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { getReportTemplates } from "../../api/report-templates";
 import { Pencil, Trash } from "react-bootstrap-icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
 import PageHeader from "../../../common/components/PageHeader";
+import { Box, Button } from "@mui/material";
 
 const ReportTemplates = () => {
   const [templates, setTemplates] = useState([]);
@@ -21,6 +22,8 @@ const ReportTemplates = () => {
     fetchTemplates();
   }, []);
 
+  const navigate = useNavigate();
+
   return (
     <div className="py-3">
       <PageHeader
@@ -29,11 +32,15 @@ const ReportTemplates = () => {
         product."
       />
 
-      <div className="mb-3">
-        <Link className="btn btn-primary" to={"/report-templates/create"}>
+      <Box sx={{ mb: 3 }}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => navigate("/report-templates/create")}
+        >
           Create new Template
-        </Link>
-      </div>
+        </Button>
+      </Box>
 
       <table className="table table-bordered table-hover my-2">
         <thead>
@@ -55,12 +62,18 @@ const ReportTemplates = () => {
                 })}
               </td>
               <td className="d-flex align-items-center gap-2 justify-content-start">
-                <Link  className="btn btn-basic" to={`/report-templates/${template.id}/edit`}>
+                <Link
+                  className="btn btn-basic"
+                  to={`/report-templates/${template.id}/edit`}
+                >
                   <Pencil className="text-primary" />
-                </Link >
-                <Link  className="btn btn-basic" to={`/report-templates/${template.id}/delete`}>
+                </Link>
+                <Link
+                  className="btn btn-basic"
+                  to={`/report-templates/${template.id}/delete`}
+                >
                   <Trash className="text-danger" />
-                </Link >
+                </Link>
               </td>
             </tr>
           ))}
