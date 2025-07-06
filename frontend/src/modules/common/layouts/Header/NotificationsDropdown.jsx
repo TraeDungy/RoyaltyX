@@ -13,7 +13,7 @@ import {
   Stack,
 } from "@mui/material";
 import { MailOutline } from "@mui/icons-material";
-import icon from "../../assets/img/brand/icon-2.webp";
+import icon from "../../assets/img/brand/favicon.ico";
 import { Bell } from "lucide-react";
 import {
   getNotifications,
@@ -135,8 +135,8 @@ const NotificationsDropdown = () => {
               >
                 {notifications.map((notification, idx) => (
                   <ListItem key={idx} alignItems="center" sx={{ py: 1 }}>
-                    <ListItemAvatar sx={{ pr: 2 }}>
-                      <img alt="icon" src={icon} style={{ height: 35 }} />
+                    <ListItemAvatar>
+                      <img alt="icon" src={icon} style={{ width: 30 }} />
                     </ListItemAvatar>
                     <ListItemText
                       primary={

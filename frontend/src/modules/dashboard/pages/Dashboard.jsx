@@ -23,7 +23,7 @@ function Dashboard() {
       color: "#3F51B5",
     },
     {
-      label: "Linked Accounts",
+      label: "Sources",
       value: sources?.length || 0,
       icon: <AtSign size={20} />,
       color: "#4CAF50",

@@ -16,7 +16,7 @@ export const LinkedAccountsSection = ({ sources, loading }) => {
           mb: 5,
         }}
       >
-        <Typography variant="h5">Linked Accounts</Typography>
+        <Typography variant="h5">Sources</Typography>
         <Button variant="outlined" onClick={() => navigate("/sources")}>
           View All <ArrowRight className="ms-2" />
         </Button>
@@ -53,7 +53,7 @@ export const LinkedAccountsSection = ({ sources, loading }) => {
           >
             <WifiOff size={60} color="var(--color-subtle)" />
             <Typography sx={{ mt: 1, color: "text.secondary" }}>
-              No accounts linked yet.
+              No sources linked yet.
             </Typography>
           </Box>
         </Grid>

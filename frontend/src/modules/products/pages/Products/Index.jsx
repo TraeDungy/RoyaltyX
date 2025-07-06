@@ -36,7 +36,7 @@ const Products = () => {
             height: "calc(100vh - 66.77px)",
           }}
         >
-          <Shredder size={60} className="txt-lighter" />
+          <Shredder size={60} color="var(--color-subtle)" />
           <Typography sx={{ mt: 1, color: "text.secondary" }}>
             No products available at the moment.
           </Typography>
