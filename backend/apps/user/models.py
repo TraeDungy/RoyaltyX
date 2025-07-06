@@ -38,10 +38,10 @@ class MyUserManager(BaseUserManager):
 
 class User(AbstractBaseUser):
     ROLE_CHOICES = [
-        ('user', 'User'),
-        ('admin', 'Admin'),
+        ("user", "User"),
+        ("admin", "Admin"),
     ]
-    
+
     email = models.EmailField(max_length=60, unique=True, null=False)
     username = models.CharField(max_length=50, unique=True, null=False)
     name = models.CharField(max_length=30)
@@ -50,7 +50,7 @@ class User(AbstractBaseUser):
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
-    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='user')
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default="user")
     date_joined = models.DateTimeField(auto_now=True)
     is_deleted = models.BooleanField(default=False)
     is_email_verified = models.BooleanField(default=False)
