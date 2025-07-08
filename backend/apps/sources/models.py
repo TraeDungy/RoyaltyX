@@ -10,12 +10,14 @@ class Source(BaseModel):
     PLATFORM_GOOGLE_ADS = "google_ads"
     PLATFORM_FACEBOOK = "facebook"
     PLATFORM_AMAZON = "amazon"
+    PLATFORM_TIKTOK = "tiktok"
 
     PLATFORMS = [
         (PLATFORM_YOUTUBE, "YouTube"),
         (PLATFORM_GOOGLE_ADS, "Google Ads"),
         (PLATFORM_FACEBOOK, "Facebook"),
         (PLATFORM_AMAZON, "Amazon"),
+        (PLATFORM_TIKTOK, "TikTok"),
     ]
 
     account_name = models.CharField(max_length=50)
