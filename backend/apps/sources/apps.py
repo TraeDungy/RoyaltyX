@@ -40,3 +40,22 @@ class SourcesConfig(AppConfig):
                 "args": json.dumps([]),
             },
         )
+
+        PeriodicTask.objects.get_or_create(
+            name="Fetch TikTok Videos",
+            defaults={
+                "interval": schedule,
+                "task": "apps.sources.tasks.task_fetch_tiktok_videos",
+                "args": json.dumps([]),
+            },
+        )
+
+        PeriodicTask.objects.get_or_create(
+            name="Fetch TikTok Stats",
+            defaults={
+                "interval": schedule,
+                "task": "apps.sources.tasks.task_fetch_tiktok_stats",
+                "args": json.dumps([]),
+            },
+        )
+

@@ -11,8 +11,8 @@ import {
 import { LinkYoutubeCard } from "./LinkYoutubeCard";
 import googleAdsLogo from "../../common/assets/img/platform_logos/google_ads.webp";
 import amazonLogo from "../../common/assets/img/platform_logos/amazon.webp";
-import tiktokLogo from "../../common/assets/img/platform_logos/tiktok.webp";
 import { X } from "lucide-react";
+import { LinkTikTokCard } from "./LinkTikTokCard";
 
 export const AddSourceModal = ({ open, onClose, createSource }) => {
   return (
@@ -100,38 +100,7 @@ export const AddSourceModal = ({ open, onClose, createSource }) => {
               </Button>
             </Card>
           </Grid>
-          <Grid size={{ xs: 12, md: 6 }}>
-            <Card
-              sx={{
-                p: 3,
-                borderRadius: 2,
-                boxShadow: 2,
-                height: "100%",
-                mt: 1,
-              }}
-            >
-              <img
-                src={tiktokLogo}
-                alt="Amazon Logo"
-                style={{
-                  height: "70px",
-                  objectFit: "contain",
-                  marginBottom: 10,
-                }}
-              />
-              <Typography variant="h6" sx={{ fontWeight: "bold", mb: 1 }}>
-                TikTok
-              </Typography>
-              <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                Connect your TikTok account to analyze video performance,
-                audience engagement, and optimize your content strategy for
-                better reach.
-              </Typography>
-              <Button variant="outlined" sx={{ mt: 3 }} disabled fullWidth>
-                Link TikTok
-              </Button>
-            </Card>
-          </Grid>
+          <LinkTikTokCard createSource={createSource} />
         </Grid>
       </DialogContent>
     </Dialog>

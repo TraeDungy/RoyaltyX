@@ -1,10 +1,22 @@
 import { Box, Button, capitalize, Card, Grid, Typography } from "@mui/material";
 import youtubeLogo from "../../common/assets/img/platform_logos/youtube.webp";
+import tiktokLogo from "../../common/assets/img/platform_logos/tiktok.webp";
 import { ArrowRight } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
 
 export const SourceItem = ({ source }) => {
   const navigate = useNavigate();
+
+  const getPlatformLogo = (platform) => {
+    switch (platform) {
+      case "youtube":
+        return youtubeLogo;
+      case "tiktok":
+        return tiktokLogo;
+      default:
+        return youtubeLogo;
+    }
+  };
 
   const handleViewClick = () => {
     navigate(`/sources/${source.id}`);
@@ -49,8 +61,8 @@ export const SourceItem = ({ source }) => {
               }}
             >
               <img
-                src={youtubeLogo}
-                alt="YouTube Logo"
+                src={getPlatformLogo(source.platform)}
+                alt={`${source.platform} Logo`}
                 style={{ height: "40px", objectFit: "contain" }}
               />
             </Grid>

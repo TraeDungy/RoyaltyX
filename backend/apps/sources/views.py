@@ -1,3 +1,5 @@
+from apps.sources.utils.tiktok_service import TikTokService
+from apps.sources.utils.tiktok_sync import fetch_tiktok_stats, fetch_tiktok_videos
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
@@ -50,8 +52,21 @@ class SourceListCreateView(APIView):
                     # Continue without channel details.
                     # The fetch functions will skip this source.
 
-            fetch_youtube_videos(source.id)
-            fetch_youtube_stats(source.id)
+                fetch_youtube_videos(source.id)
+                fetch_youtube_stats(source.id)
+                
+            elif source.platform == Source.PLATFORM_TIKTOK and source.access_token:
+                try:
+                    service = TikTokService(source.access_token)
+                    user_info = service.fetch_user_info()
+                    source.channel_id = user_info["open_id"]
+                    source.account_name = user_info.get("display_name") or "TikTok User"
+                    source.save(update_fields=["channel_id", "account_name"])
+                except Exception as e:
+                    print(f"Failed to fetch Tiktok channel details: {e}")
+
+                fetch_tiktok_videos(source.id)
+                fetch_tiktok_stats(source.id)
             return Response(
                 SourceSerializer(source).data, status=status.HTTP_201_CREATED
             )
