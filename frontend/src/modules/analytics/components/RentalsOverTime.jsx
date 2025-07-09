@@ -42,23 +42,46 @@ const RentalsOverTime = ({ analytics }) => {
     setRentalsOverTimeGraphColor(color);
   };
 
-  if (!analytics || !analytics.monthly_stats) return <p>Loading...</p>;
+  if (!analytics ||  !analytics.time_stats) return <p>Loading...</p>;
 
-  const rentalsData = analytics.monthly_stats;
+  const granularity = analytics.granularity || 'monthly';
+  const rentalsData = analytics.time_stats;
 
   const labels = rentalsData.map((item) => {
-    const [year, month] = item.month.split("-");
-    const date = new Date(year, month - 1); // month is 0-indexed
-    return date.toLocaleString("default", { month: "short" }); // e.g., "Jan"
+    if (granularity === 'yearly') {
+      return item.year; // e.g., "2025"
+    } else if (granularity === 'monthly') {
+      const [year, month] = item.month.split("-");
+      const date = new Date(year, month - 1); // month is 0-indexed
+      return date.toLocaleString("default", { month: "short" }); // e.g., "Jan"
+    } else if (granularity === 'daily') {
+      const date = new Date(item.period);
+      return date.toLocaleDateString("en-US", { month: "short", day: "numeric" }); // e.g., "Jan 1"
+    } else if (granularity === 'hourly') {
+      const date = new Date(item.period);
+      return date.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }); // e.g., "12:00"
+    }
+    return item.period;
   });
 
   const dataValues = rentalsData.map((item) => item.rentals);
+
+  const getChartTitle = () => {
+    switch (granularity) {
+      case 'daily':
+        return 'Rentals Per Day';
+      case 'hourly':
+        return 'Rentals Per Hour';
+      default:
+        return 'Rentals Per Month';
+    }
+  };
 
   const data = {
     labels,
     datasets: [
       {
-        label: "Rentals Per Month",
+        label: getChartTitle(),
         data: dataValues,
         fill: true,
         backgroundColor: rentalsOverTimeGraphColor + "45",

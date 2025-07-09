@@ -1,4 +1,4 @@
-import { RevenueInLastFourMonthsChart } from "./RevenueInLastFourMonthsChart";
+import { RevenueChart } from "./RevenueChart";
 import { InfoPopover } from "../../common/components/InfoPopover";
 import { useState } from "react";
 import { EyeSlash, Palette } from "react-bootstrap-icons";
@@ -11,13 +11,13 @@ export const RevenueCard = ({ analytics }) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const { setShowTotalRevenueCard } = useSettings();
   const [showGraphColorPalette, setShowGraphColorPalette] = useState(false);
-  const { setRevenueOverFourMonthsGraphColor } = useSettings();
+  const { setrevenueGraphColor } = useSettings();
   const toggleDropdown = () => {
     setDropdownVisible(!dropdownVisible);
   };
 
   const onSelectColor = (color) => {
-    setRevenueOverFourMonthsGraphColor(color);
+    setrevenueGraphColor(color);
   };
 
   return (
@@ -72,7 +72,7 @@ export const RevenueCard = ({ analytics }) => {
             {analytics?.total_royalty_revenue?.toLocaleString()}
           </h1>
 
-          <RevenueInLastFourMonthsChart analytics={analytics} />
+          <RevenueChart analytics={analytics} />
         </div>
       </div>
       <GraphColorPalette
