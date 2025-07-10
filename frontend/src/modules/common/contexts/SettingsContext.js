@@ -68,34 +68,34 @@ export const SettingsProvider = ({ children }) => {
   });
 
   const [
-    impressionsOverFourMonthsGraphColor,
-    setImpressionsOverFourMonthsGraphColor,
+    impressionsGraphColor,
+    setimpressionsGraphColor,
   ] = useState(() => {
-    const savedImpressionsOverFourMonthsGraphColor = localStorage.getItem(
-      "impressionsOverFourMonthsGraphColor",
+    const savedimpressionsGraphColor = localStorage.getItem(
+      "impressionsGraphColor",
     );
-    return savedImpressionsOverFourMonthsGraphColor !== null
-      ? savedImpressionsOverFourMonthsGraphColor
+    return savedimpressionsGraphColor !== null
+      ? savedimpressionsGraphColor
       : "#009efd";
   });
 
-  const [salesOverFourMonthsGraphColor, setSalesOverFourMonthsGraphColor] =
+  const [salesGraphColor, setsalesGraphColor] =
     useState(() => {
-      const savedSalesOverFourMonthsGraphColor = localStorage.getItem(
-        "salesOverFourMonthsGraphColor",
+      const savedsalesGraphColor = localStorage.getItem(
+        "salesGraphColor",
       );
-      return savedSalesOverFourMonthsGraphColor !== null
-        ? savedSalesOverFourMonthsGraphColor
+      return savedsalesGraphColor !== null
+        ? savedsalesGraphColor
         : "#009efd";
     });
 
-  const [revenueOverFourMonthsGraphColor, setRevenueOverFourMonthsGraphColor] =
+  const [revenueGraphColor, setrevenueGraphColor] =
     useState(() => {
-      const savedRevenueOverFourMonthsGraphColor = localStorage.getItem(
-        "revenueOverFourMonthsGraphColor",
+      const savedrevenueGraphColor = localStorage.getItem(
+        "revenueGraphColor",
       );
-      return savedRevenueOverFourMonthsGraphColor !== null
-        ? savedRevenueOverFourMonthsGraphColor
+      return savedrevenueGraphColor !== null
+        ? savedrevenueGraphColor
         : "#009efd";
     });
 
@@ -183,24 +183,24 @@ export const SettingsProvider = ({ children }) => {
 
   useEffect(() => {
     localStorage.setItem(
-      "impressionsOverFourMonthsGraphColor",
-      impressionsOverFourMonthsGraphColor,
+      "impressionsGraphColor",
+      impressionsGraphColor,
     );
-  }, [impressionsOverFourMonthsGraphColor]);
+  }, [impressionsGraphColor]);
 
   useEffect(() => {
     localStorage.setItem(
-      "salesOverFourMonthsGraphColor",
-      salesOverFourMonthsGraphColor,
+      "salesGraphColor",
+      salesGraphColor,
     );
-  }, [salesOverFourMonthsGraphColor]);
+  }, [salesGraphColor]);
 
   useEffect(() => {
     localStorage.setItem(
-      "revenueOverFourMonthsGraphColor",
-      revenueOverFourMonthsGraphColor,
+      "revenueGraphColor",
+      revenueGraphColor,
     );
-  }, [revenueOverFourMonthsGraphColor]);
+  }, [revenueGraphColor]);
 
   useEffect(() => {
     localStorage.setItem(
@@ -251,12 +251,12 @@ export const SettingsProvider = ({ children }) => {
         setShowTotalSalesCard,
         showTotalRevenueCard,
         setShowTotalRevenueCard,
-        impressionsOverFourMonthsGraphColor,
-        setImpressionsOverFourMonthsGraphColor,
-        salesOverFourMonthsGraphColor,
-        setSalesOverFourMonthsGraphColor,
-        revenueOverFourMonthsGraphColor,
-        setRevenueOverFourMonthsGraphColor,
+        impressionsGraphColor,
+        setimpressionsGraphColor,
+        salesGraphColor,
+        setsalesGraphColor,
+        revenueGraphColor,
+        setrevenueGraphColor,
         salesOverTimeGraphColor,
         setSalesOverTimeGraphColor,
         rentalsOverTimeGraphColor,

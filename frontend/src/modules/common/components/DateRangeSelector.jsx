@@ -53,6 +53,16 @@ const DateRangeSelector = () => {
     setTimeout(() => updateURLParams(firstDay, lastDay), 0);
   };
 
+  const setLastFiveYears = () => {
+    const today = new Date();
+    const currentYear = today.getFullYear();
+
+    const firstDay = new Date(currentYear - 5, 0, 1);   // Jan 1, 5 years ago
+
+    setDateRange([firstDay, today]);
+    setTimeout(() => updateURLParams(firstDay, today), 0);
+  };
+
   const clearDates = () => {
     setDateRange([null, null]);
     updateURLParams(null, null);
@@ -84,6 +94,14 @@ const DateRangeSelector = () => {
         onClick={setLastYear}
       >
         Last Year
+      </Button>
+
+      <Button
+        variant="outlined"
+        color="inherit"
+        onClick={setLastFiveYears}
+      >
+        Last Five Years
       </Button>
 
       <DatePicker

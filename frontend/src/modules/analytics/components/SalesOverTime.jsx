@@ -41,23 +41,46 @@ const SalesOverTime = ({ analytics }) => {
     setSalesOverTimeGraphColor(color);
   };
 
-  if (!analytics || !analytics.monthly_stats) return <p>Loading...</p>;
+  if (!analytics ||  !analytics.time_stats) return <p>Loading...</p>;
 
-  const salesData = analytics.monthly_stats;
+  const granularity = analytics.granularity || 'monthly';
+  const salesData = analytics.time_stats;
 
   const labels = salesData.map((item) => {
-    const [year, month] = item.month.split("-");
-    const date = new Date(year, month - 1); // month is 0-indexed
-    return date.toLocaleString("default", { month: "short" }); // e.g., "Jan"
+    if (granularity === 'yearly') {
+      return item.year; // e.g., "2025"
+    } else if (granularity === 'monthly') {
+      const [year, month] = item.month.split("-");
+      const date = new Date(year, month - 1); // month is 0-indexed
+      return date.toLocaleString("default", { month: "short" }); // e.g., "Jan"
+    } else if (granularity === 'daily') {
+      const date = new Date(item.period);
+      return date.toLocaleDateString("en-US", { month: "short", day: "numeric" }); // e.g., "Jan 1"
+    } else if (granularity === 'hourly') {
+      const date = new Date(item.period);
+      return date.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }); // e.g., "12:00"
+    }
+    return item.period;
   });
 
   const dataValues = salesData.map((item) => item.sales);
+
+  const getChartTitle = () => {
+    switch (granularity) {
+      case 'daily':
+        return 'Sales Per Day';
+      case 'hourly':
+        return 'Sales Per Hour';
+      default:
+        return 'Sales Per Month';
+    }
+  };
 
   const data = {
     labels,
     datasets: [
       {
-        label: "Sales Per Month",
+        label: getChartTitle(),
         data: dataValues,
         fill: true,
         backgroundColor: salesOverTimeGraphColor + "45",

@@ -1,4 +1,4 @@
-import { ImpressionsInLastFourMonthsChart } from "./ImpressionsInLastFourMonthsChart";
+import { ImpressionsChart } from "./ImpressionsChart";
 import { InfoPopover } from "../../common/components/InfoPopover";
 import { useState } from "react";
 import { EyeSlash, Palette } from "react-bootstrap-icons";
@@ -11,14 +11,14 @@ export const ImpressionsCard = ({ analytics }) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const { setShowTotalImpressionsCard } = useSettings();
   const [showGraphColorPalette, setShowGraphColorPalette] = useState(false);
-  const { setImpressionsOverFourMonthsGraphColor } = useSettings();
+  const { setimpressionsGraphColor } = useSettings();
 
   const toggleDropdown = () => {
     setDropdownVisible(!dropdownVisible);
   };
 
   const onSelectColor = (color) => {
-    setImpressionsOverFourMonthsGraphColor(color);
+    setimpressionsGraphColor(color);
   };
 
   return (
@@ -68,7 +68,7 @@ export const ImpressionsCard = ({ analytics }) => {
             {analytics?.total_impressions.toLocaleString()}
           </h1>
 
-          <ImpressionsInLastFourMonthsChart analytics={analytics} />
+          <ImpressionsChart analytics={analytics} />
         </div>
       </div>
       <GraphColorPalette

@@ -1,4 +1,4 @@
-import { SalesInLastFourMonthsChart } from "./SalesInLastFourMonthsChart";
+import { SalesChart } from "./SalesChart";
 import { InfoPopover } from "../../common/components/InfoPopover";
 import { useState } from "react";
 import { EyeSlash, Palette } from "react-bootstrap-icons";
@@ -10,13 +10,13 @@ export const SalesCard = ({ analytics }) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const { setShowTotalSalesCard } = useSettings();
   const [showGraphColorPalette, setShowGraphColorPalette] = useState(false);
-  const { setSalesOverFourMonthsGraphColor } = useSettings();
+  const { setsalesGraphColor } = useSettings();
   const toggleDropdown = () => {
     setDropdownVisible(!dropdownVisible);
   };
 
   const onSelectColor = (color) => {
-    setSalesOverFourMonthsGraphColor(color);
+    setsalesGraphColor(color);
   };
 
   return (
@@ -65,7 +65,7 @@ export const SalesCard = ({ analytics }) => {
             {analytics?.total_sales_count}
           </h1>
 
-          <SalesInLastFourMonthsChart analytics={analytics} />
+          <SalesChart analytics={analytics} />
         </div>
       </div>
       <GraphColorPalette
