@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, timedelta
 from django.utils import timezone
 from apps.sources.models import Source
 from apps.product.models import Product, ProductImpressions
@@ -76,7 +76,20 @@ def fetch_tiktok_stats(source_id=None):
                 stats = stats_list[0] if stats_list else None
                 print(stats, flush=True)
                 
-                views = stats.get("view_count", 0)
+                current_view_count = stats.get("view_count", 0)
+                
+                # Get yesterday's view count from ProductImpressions
+                yesterday = date.today() - timedelta(days=1)
+                yesterday_impressions = ProductImpressions.objects.filter(
+                    product=product,
+                    period_start=yesterday.isoformat(),
+                    period_end=yesterday.isoformat()
+                ).first()
+                
+                yesterday_view_count = yesterday_impressions.impressions if yesterday_impressions else 0
+                
+                # Calculate the actual view count for today (current - yesterday)
+                views = current_view_count - yesterday_view_count
 
                 existing_stats = ProductImpressions.objects.filter(
                     product=product, period_start=start_date, period_end=end_date
@@ -93,4 +106,3 @@ def fetch_tiktok_stats(source_id=None):
 
             except Exception as e:
                 print(f"Failed to fetch stats for product {product.id}: {e}")
-
