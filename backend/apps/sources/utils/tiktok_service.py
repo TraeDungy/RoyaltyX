@@ -11,8 +11,8 @@ class TikTokService:
             "Authorization": f"Bearer {self.access_token}"
         }
 
-
-    def refresh_token(self, refresh_token: str) -> str:
+    @staticmethod
+    def refresh_token(refresh_token: str) -> str:
         """
         Get a new access token using refresh token.
         """
