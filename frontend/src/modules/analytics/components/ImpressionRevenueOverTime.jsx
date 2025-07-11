@@ -133,7 +133,7 @@ const ImpressionRevenueOverTime = ({ analytics }) => {
       <div className="col-md-6">
         <div style={{ width: "100%", maxWidth: "1200px", margin: "auto" }}>
           <div className="py-4 d-flex justify-content-between align-items-center">
-            <Typography variant="h4" fontWeight="bold">
+            <Typography variant="h5">
               Revenue From Impressions
             </Typography>
             <div className="d-flex align-items-center">

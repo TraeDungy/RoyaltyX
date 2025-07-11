@@ -25,7 +25,7 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  Filler,
+  Filler
 );
 
 const SalesOverTime = ({ analytics }) => {
@@ -41,24 +41,30 @@ const SalesOverTime = ({ analytics }) => {
     setSalesOverTimeGraphColor(color);
   };
 
-  if (!analytics ||  !analytics.time_stats) return <p>Loading...</p>;
+  if (!analytics || !analytics.time_stats) return <p>Loading...</p>;
 
-  const granularity = analytics.granularity || 'monthly';
+  const granularity = analytics.granularity || "monthly";
   const salesData = analytics.time_stats;
 
   const labels = salesData.map((item) => {
-    if (granularity === 'yearly') {
+    if (granularity === "yearly") {
       return item.year; // e.g., "2025"
-    } else if (granularity === 'monthly') {
+    } else if (granularity === "monthly") {
       const [year, month] = item.month.split("-");
       const date = new Date(year, month - 1); // month is 0-indexed
       return date.toLocaleString("default", { month: "short" }); // e.g., "Jan"
-    } else if (granularity === 'daily') {
+    } else if (granularity === "daily") {
       const date = new Date(item.period);
-      return date.toLocaleDateString("en-US", { month: "short", day: "numeric" }); // e.g., "Jan 1"
-    } else if (granularity === 'hourly') {
+      return date.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+      }); // e.g., "Jan 1"
+    } else if (granularity === "hourly") {
       const date = new Date(item.period);
-      return date.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }); // e.g., "12:00"
+      return date.toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+      }); // e.g., "12:00"
     }
     return item.period;
   });
@@ -67,12 +73,12 @@ const SalesOverTime = ({ analytics }) => {
 
   const getChartTitle = () => {
     switch (granularity) {
-      case 'daily':
-        return 'Sales Per Day';
-      case 'hourly':
-        return 'Sales Per Hour';
+      case "daily":
+        return "Sales Per Day";
+      case "hourly":
+        return "Sales Per Hour";
       default:
-        return 'Sales Per Month';
+        return "Sales Per Month";
     }
   };
 
@@ -116,7 +122,7 @@ const SalesOverTime = ({ analytics }) => {
       <div className="col-md-6">
         <div style={{ width: "100%", maxWidth: "1200px", margin: "auto" }}>
           <div className="py-4 d-flex justify-content-between align-items-center">
-            <Typography variant="h4" fontWeight="bold">Sales Over Time</Typography>
+            <Typography variant="h5">Sales Over Time</Typography>
             <div className="d-flex align-items-center">
               <div className="dropdown">
                 <IconButton onClick={toggleDropdown}>

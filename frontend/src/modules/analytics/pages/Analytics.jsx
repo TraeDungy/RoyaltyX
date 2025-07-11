@@ -85,7 +85,7 @@ function Analytics() {
 
       <div className="row">
         <div className="col-md-6">
-          <Typography variant="h4" fontWeight="bold" sx={{ mt: 4, mb: 2 }}>
+          <Typography variant="h5" sx={{ mt: 4, mb: 2 }}>
             Sales stats
           </Typography>
           <table className="table table-bordered table-hover">
@@ -118,7 +118,7 @@ function Analytics() {
           </table>
         </div>
         <div className="col-md-6">
-          <Typography variant="h4" fontWeight="bold" sx={{ mt: 4, mb: 2 }}>
+          <Typography variant="h5" sx={{ mt: 4, mb: 2 }}>
             General stats
           </Typography>
           <table className="table table-bordered table-hover">
