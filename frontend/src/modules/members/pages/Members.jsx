@@ -21,6 +21,7 @@ import { toast } from "react-toastify";
 import AddMemberModal from "../components/AddMemberModal";
 import { removeProjectMember } from "../api/members";
 import { useProject } from "../../common/contexts/ProjectContext";
+import PageHeader from "../../common/components/PageHeader";
 
 function Members() {
   const { project, setProject } = useProject();
@@ -56,28 +57,21 @@ function Members() {
     }
   };
 
-
   return (
     <Box>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          mb: 4,
-        }}
-      >
-        <Typography variant="h4" component="h1" sx={{ fontWeight: 600 }}>
-          Project Members
-        </Typography>
-        <Button
-          variant="contained"
-          startIcon={<PersonAddIcon />}
-          onClick={handleOpenMembersModal}
-        >
-          Add Member
-        </Button>
-      </Box>
+      <PageHeader
+        title="Project Members"
+        description="Add or remove users who are able to view this project."
+        action={
+          <Button
+            variant="contained"
+            startIcon={<PersonAddIcon />}
+            onClick={handleOpenMembersModal}
+          >
+            Add Member
+          </Button>
+        }
+      />
 
       {project?.users?.length > 0 ? (
         <Grid container spacing={3}>
@@ -86,7 +80,6 @@ function Members() {
               <Card
                 sx={{
                   height: "100%",
-                  borderRadius: 3,
                   transition: "all 0.2s ease-in-out",
                   "&:hover": {
                     elevation: 4,
@@ -181,7 +174,6 @@ function Members() {
           sx={{
             p: 6,
             textAlign: "center",
-            borderRadius: 3,
             backgroundColor: "grey.50",
           }}
         >

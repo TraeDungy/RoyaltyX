@@ -38,6 +38,7 @@ export const SalesCard = ({ analytics }) => {
     <>
       <Grid size={{ md: 4, xs: 12 }}>
         <Card
+          variant="outlined"
           sx={{
             height: "100%",
             display: "flex",
@@ -61,8 +62,8 @@ export const SalesCard = ({ analytics }) => {
                 />
               </Typography>
               <Box sx={{ display: "flex", alignItems: "center" }}>
-                <IconButton onClick={handleMenuOpen}>
-                  <EllipsisVertical size={20} color="var(--color-text)" />
+                <IconButton onClick={handleMenuOpen} size="sm">
+                  <EllipsisVertical size={16} color="var(--color-text)" />
                 </IconButton>
                 <Menu
                   anchorEl={anchorEl}

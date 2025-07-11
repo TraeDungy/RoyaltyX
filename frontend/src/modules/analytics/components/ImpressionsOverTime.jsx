@@ -73,8 +73,8 @@ const ImpressionsOverTime = ({ analytics }) => {
           >
             <Typography variant="h5">Impressions Over Time</Typography>
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <IconButton onClick={handleMenuOpen}>
-                <EllipsisVertical size={20} color="var(--color-text)" />
+              <IconButton onClick={handleMenuOpen} size="sm">
+                <EllipsisVertical size={16} color="var(--color-text)" />
               </IconButton>
               <Menu
                 anchorEl={anchorEl}
