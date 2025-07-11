@@ -3,7 +3,14 @@ import { useState } from "react";
 import { EyeSlash, Palette } from "react-bootstrap-icons";
 import { useSettings } from "../../common/contexts/SettingsContext";
 import { GraphColorPalette } from "./GraphColorPalette";
-import { Typography, IconButton, Box, Grid, Menu, MenuItem } from "@mui/material";
+import {
+  Typography,
+  IconButton,
+  Box,
+  Grid,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 import { EllipsisVertical } from "lucide-react";
 import {
   getBaseLineChartOptions,
@@ -34,7 +41,8 @@ const ImpressionRevenueOverTime = ({ analytics }) => {
     setImpressionRevenueOverTimeGraphColor(color);
   };
 
-  if (!analytics || !analytics.time_stats) return <Typography>Loading...</Typography>;
+  if (!analytics || !analytics.time_stats)
+    return <Typography>Loading...</Typography>;
 
   const granularity = analytics.granularity || "monthly";
   const impressionRevenueData = analytics.time_stats;
@@ -48,7 +56,11 @@ const ImpressionRevenueOverTime = ({ analytics }) => {
   const data = {
     labels,
     datasets: [
-      getBaseLineDataset(chartTitle, dataValues, impressionRevenueOverTimeGraphColor),
+      getBaseLineDataset(
+        chartTitle,
+        dataValues,
+        impressionRevenueOverTimeGraphColor
+      ),
     ],
   };
 
@@ -58,11 +70,17 @@ const ImpressionRevenueOverTime = ({ analytics }) => {
     <>
       <Grid size={{ xs: 12, md: 6 }}>
         <Box sx={{ width: "100%", maxWidth: "1200px", margin: "auto" }}>
-          <Box sx={{ py: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Typography variant="h5">
-              Revenue From Impressions
-            </Typography>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box
+            sx={{
+              pt: 4,
+              pb: 2,
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="h5">Revenue From Impressions</Typography>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
               <IconButton onClick={handleMenuOpen}>
                 <EllipsisVertical size={20} color="var(--color-text)" />
               </IconButton>
@@ -71,12 +89,12 @@ const ImpressionRevenueOverTime = ({ analytics }) => {
                 open={Boolean(anchorEl)}
                 onClose={handleMenuClose}
                 anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'right',
+                  vertical: "bottom",
+                  horizontal: "right",
                 }}
                 transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
+                  vertical: "top",
+                  horizontal: "right",
                 }}
               >
                 <MenuItem

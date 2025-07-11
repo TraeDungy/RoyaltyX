@@ -64,7 +64,8 @@ const RentalsOverTime = ({ analytics }) => {
         <Box sx={{ width: "100%", maxWidth: "1200px", margin: "auto" }}>
           <Box
             sx={{
-              py: 4,
+              pt: 4,
+              pb: 2,
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",

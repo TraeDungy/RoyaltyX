@@ -119,10 +119,10 @@ function Analytics() {
           <ImpressionRevenueOverTime analytics={analytics} />
         )}
       </Grid>
-      <div className="row">
+      <Grid container spacing={3}>
         <SalesStatsCard analytics={analytics} />
         <GeneralStatsCard analytics={analytics} showProductCount={false} />
-      </div>
+      </Grid>
 
       <h4 className="bold mt-4 mb-4">Sales</h4>
       <table className="table table-bordered table-hover">

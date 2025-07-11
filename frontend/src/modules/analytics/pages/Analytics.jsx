@@ -68,13 +68,13 @@ function Analytics() {
         <DateRangeSelector />
       </div>
 
-      <div className="row">
+      <Grid container spacing={3}>
         {showTotalImpressionsCard && <ImpressionsCard analytics={analytics} />}
         {showTotalSalesCard && <SalesCard analytics={analytics} />}
         {showTotalRevenueCard && <RevenueCard analytics={analytics} />}
-      </div>
+      </Grid>
 
-      <Grid container>
+      <Grid container spacing={3}>
         {showSalesOverTime && <SalesOverTime analytics={analytics} />}
         {showRentalsOverTime && <RentalsOverTime analytics={analytics} />}
         {showImpressionsOverTime && (
@@ -85,10 +85,10 @@ function Analytics() {
         )}
       </Grid>
 
-      <div className="row">
+      <Grid container spacing={3}>
         <SalesStatsCard analytics={analytics} />
         <GeneralStatsCard analytics={analytics} showProductCount={true} />
-      </div>
+      </Grid>
 
       <div className="row">
         <Typography variant="h4" fontWeight="bold" sx={{ mt: 4, mb: 2 }}>
