@@ -11,6 +11,7 @@ import {
   Filler,
 } from "chart.js";
 import { useSettings } from "../../common/contexts/SettingsContext";
+import { CHART_CONFIGS, getBaseLineChartOptions } from "../../common/config/chartConfig";
 
 ChartJS.register(
   CategoryScale,
@@ -74,26 +75,7 @@ export const ImpressionsChart = ({ analytics }) => {
     ],
   };
 
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: { display: false },
-      tooltip: { enabled: true },
-    },
-    scales: {
-      x: {
-        title: { display: true },
-        grid: { display: false },
-      },
-      y: {
-        title: { display: true },
-        beginAtZero: true,
-      },
-    },
-    layout: {
-      padding: { left: -24 },
-    },
-  };
+  const options = getBaseLineChartOptions(CHART_CONFIGS.scales);
 
   return (
     <div style={{ width: "100%", maxWidth: "700px", margin: "auto" }}>

@@ -103,13 +103,13 @@ function Analytics() {
         </div>
       </div>
 
-      <div className="row">
+      <Grid container spacing={3}>
         {showTotalImpressionsCard && <ImpressionsCard analytics={analytics} />}
         {showTotalSalesCard && <SalesCard analytics={analytics} />}
         {showTotalRevenueCard && <RevenueCard analytics={analytics} />}
-      </div>
+      </Grid>
 
-      <Grid container>
+      <Grid container spacing={3}>
         {showSalesOverTime && <SalesOverTime analytics={analytics} />}
         {showRentalsOverTime && <RentalsOverTime analytics={analytics} />}
         {showImpressionsOverTime && (
