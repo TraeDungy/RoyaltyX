@@ -3,7 +3,14 @@ import { useState } from "react";
 import { EyeSlash, Palette } from "react-bootstrap-icons";
 import { useSettings } from "../../common/contexts/SettingsContext";
 import { GraphColorPalette } from "./GraphColorPalette";
-import { Typography, IconButton } from "@mui/material";
+import {
+  Typography,
+  IconButton,
+  Box,
+  Grid,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 import { EllipsisVertical } from "lucide-react";
 import {
   getBaseLineChartOptions,
@@ -14,20 +21,26 @@ import {
 } from "../../common/config/chartConfig";
 
 const RentalsOverTime = ({ analytics }) => {
-  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
   const { setShowRentalsOverTime } = useSettings();
   const [showGraphColorPalette, setShowGraphColorPalette] = useState(false);
   const { setRentalsOverTimeGraphColor, rentalsOverTimeGraphColor } =
     useSettings();
-  const toggleDropdown = () => {
-    setDropdownVisible(!dropdownVisible);
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
   };
 
   const onSelectColor = (color) => {
     setRentalsOverTimeGraphColor(color);
   };
 
-  if (!analytics || !analytics.time_stats) return <p>Loading...</p>;
+  if (!analytics || !analytics.time_stats)
+    return <Typography>Loading...</Typography>;
 
   const granularity = analytics.granularity || "monthly";
   const rentalsData = analytics.time_stats;
@@ -47,45 +60,60 @@ const RentalsOverTime = ({ analytics }) => {
 
   return (
     <>
-      <div className="col-md-6">
-        <div style={{ width: "100%", maxWidth: "1200px", margin: "auto" }}>
-          <div className="py-4 d-flex justify-content-between align-items-center">
-            <Typography variant="h5">
-              Rentals Over Time
-            </Typography>
-            <div className="d-flex align-items-center">
-              <div className="dropdown">
-                <IconButton onClick={toggleDropdown}>
-                  <EllipsisVertical size={20} color="var(--color-text)" />
-                </IconButton>
-                {dropdownVisible && (
-                  <div className="dropdown-menu shadow-sm dropdown-menu-end show">
-                    <button
-                      className="dropdown-item py-2"
-                      onClick={() => {
-                        setShowRentalsOverTime(false);
-                        setDropdownVisible(false);
-                      }}
-                    >
-                      Hide <EyeSlash className="ms-1" />
-                    </button>
-                    <button
-                      className="dropdown-item py-2"
-                      onClick={() => {
-                        setShowGraphColorPalette(true);
-                        setDropdownVisible(false);
-                      }}
-                    >
-                      Customize color <Palette className="ms-2" />
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
+      <Grid size={{ xs: 12, md: 6 }}>
+        <Box sx={{ width: "100%", maxWidth: "1200px", margin: "auto" }}>
+          <Box
+            sx={{
+              py: 4,
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="h5">Rentals Over Time</Typography>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <IconButton onClick={handleMenuOpen}>
+                <EllipsisVertical size={20} color="var(--color-text)" />
+              </IconButton>
+              <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleMenuClose}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "right",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+              >
+                <MenuItem
+                  onClick={() => {
+                    setShowRentalsOverTime(false);
+                    handleMenuClose();
+                  }}
+                  sx={{ py: 1 }}
+                >
+                  <EyeSlash style={{ marginRight: 8 }} />
+                  Hide
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    setShowGraphColorPalette(true);
+                    handleMenuClose();
+                  }}
+                  sx={{ py: 1 }}
+                >
+                  <Palette style={{ marginRight: 8 }} />
+                  Customize color
+                </MenuItem>
+              </Menu>
+            </Box>
+          </Box>
           <Line data={data} options={options} />
-        </div>
-      </div>
+        </Box>
+      </Grid>
       <GraphColorPalette
         showGraphColorPalette={showGraphColorPalette}
         setShowGraphColorPalette={setShowGraphColorPalette}

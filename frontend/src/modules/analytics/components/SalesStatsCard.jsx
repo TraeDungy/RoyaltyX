@@ -4,7 +4,7 @@ const SalesStatsCard = ({ analytics }) => {
   return (
     <div className="col-md-6">
       <Typography variant="h5" sx={{ mt: 4, mb: 2, fontWeight: 600 }}>
-        SALES STATS
+        Sales Stats
       </Typography>
       <Card sx={{ mb: 3, borderRadius: 2, boxShadow: 2 }}>
         <CardContent sx={{ p: 3 }}>

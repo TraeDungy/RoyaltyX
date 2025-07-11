@@ -4,7 +4,7 @@ const GeneralStatsCard = ({ analytics, showProductCount = false }) => {
   return (
     <div className="col-md-6">
       <Typography variant="h5" sx={{ mt: 4, mb: 2, fontWeight: 600 }}>
-        GENERAL STATS
+        General Stats
       </Typography>
       <Card sx={{ mb: 3, borderRadius: 2, boxShadow: 2 }}>
         <CardContent sx={{ p: 3 }}>
