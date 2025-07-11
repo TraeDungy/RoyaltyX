@@ -536,10 +536,6 @@ table.table.dataTable > :not(caption) > * > * {
   border: 1px solid var(--color-darker-gray) !important;
 }
 
-.react-datepicker__close-icon {
-  display: none !important;
-}
-
 .breadcrumb {
   margin-bottom: 0 !important;
 }

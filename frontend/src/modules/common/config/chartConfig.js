@@ -40,6 +40,10 @@ export const getBaseLineChartOptions = (customOptions = {}) => {
       y: {
         title: { display: true },
         beginAtZero: true,
+        grid: {
+          opacity: .5,
+          lineWidth: .3,
+        },
         ...customOptions.scales?.y,
       },
     },

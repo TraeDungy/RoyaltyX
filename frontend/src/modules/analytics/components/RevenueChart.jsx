@@ -14,6 +14,9 @@ import { useSettings } from "../../common/contexts/SettingsContext";
 import {
   CHART_CONFIGS,
   getBaseLineChartOptions,
+  getBaseLineDataset,
+  formatChartLabels,
+  getChartTitle,
 } from "../../common/config/chartConfig";
 
 ChartJS.register(
@@ -35,57 +38,18 @@ export const RevenueChart = ({ analytics }) => {
   const granularity = analytics.granularity || "monthly";
   const revenueData = analytics.time_stats;
 
-  const labels = revenueData.map((item) => {
-    if (granularity === "yearly") {
-      return item.year; // e.g., "2025"
-    } else if (granularity === "monthly") {
-      const [year, month] = item.month.split("-");
-      const date = new Date(year, month - 1); // month is 0-indexed
-      return date.toLocaleString("default", { month: "short" }); // e.g., "Jan"
-    } else if (granularity === "daily") {
-      const date = new Date(item.period);
-      return date.toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-      }); // e.g., "Jan 1"
-    } else if (granularity === "hourly") {
-      const date = new Date(item.period);
-      return date.toLocaleTimeString("en-US", {
-        hour: "2-digit",
-        minute: "2-digit",
-      }); // e.g., "12:00"
-    }
-    return item.period;
-  });
-
+  const labels = formatChartLabels(revenueData, granularity);
   const dataValues = revenueData.map((item) => item.royalty_revenue);
-
-  const getChartTitle = () => {
-    switch (granularity) {
-      case "daily":
-        return "Revenue Per Day";
-      case "hourly":
-        return "Revenue Per Hour";
-      default:
-        return "Revenue Per Month";
-    }
-  };
+  const chartTitle = getChartTitle("impression_revenue", granularity);
 
   const data = {
     labels,
     datasets: [
-      {
-        label: getChartTitle(),
-        data: dataValues,
-        fill: true,
-        backgroundColor: revenueGraphColor + "45",
-        borderColor: revenueGraphColor,
-        tension: 0.4,
-      },
+      getBaseLineDataset(chartTitle, dataValues, revenueGraphColor),
     ],
   };
 
-  const options = getBaseLineChartOptions(CHART_CONFIGS.scales);
+  const options = getBaseLineChartOptions(CHART_CONFIGS.standard);
 
   return (
     <div style={{ width: "100%", maxWidth: "700px", margin: "auto" }}>

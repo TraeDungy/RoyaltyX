@@ -100,10 +100,11 @@ const DateRangeSelector = () => {
       sx={{
         display: "flex",
         alignItems: "center",
-        border: "1px solid #dadce0",
+        border: "1px solid",
+        borderColor: "divider",
         borderRadius: "4px",
         overflow: "hidden",
-        backgroundColor: "#fff",
+        backgroundColor: "transparent",
       }}
     >
       {periods.map((period, index) => (
@@ -136,7 +137,7 @@ const DateRangeSelector = () => {
               sx={{
                 width: "1px",
                 height: "20px",
-                backgroundColor: "#dadce0",
+                backgroundColor: "divider",
               }}
             />
           )}
