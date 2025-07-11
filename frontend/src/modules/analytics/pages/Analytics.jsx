@@ -14,6 +14,8 @@ import { RevenueCard } from "../components/RevenueCard";
 import { useSettings } from "../../common/contexts/SettingsContext";
 import { TopPerfomingContentByImpressions } from "../components/TopPerfomingContentByImpressions";
 import { TopPerfomingContentBySales } from "../components/TopPerfomingContentBySales";
+import SalesStatsCard from "../components/SalesStatsCard";
+import GeneralStatsCard from "../components/GeneralStatsCard";
 import { Typography } from "@mui/material";
 
 function Analytics() {
@@ -84,66 +86,8 @@ function Analytics() {
       </div>
 
       <div className="row">
-        <div className="col-md-6">
-          <Typography variant="h5" sx={{ mt: 4, mb: 2 }}>
-            Sales stats
-          </Typography>
-          <table className="table table-bordered table-hover">
-            <tbody>
-              <tr>
-                <th>Number of rentals</th>
-                <td className="text-end">
-                  {analytics?.rentals_count?.toLocaleString()}
-                </td>
-              </tr>
-              <tr>
-                <th>Number of purchases</th>
-                <td className="text-end">
-                  {analytics?.purchases_count?.toLocaleString()}
-                </td>
-              </tr>
-              <tr>
-                <th>Earnings from rentals</th>
-                <td className="text-end">
-                  {analytics?.rentals_revenue?.toLocaleString()} $
-                </td>
-              </tr>
-              <tr>
-                <th>Earnings from purchases</th>
-                <td className="text-end">
-                  {analytics?.purchases_revenue?.toLocaleString()} $
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div className="col-md-6">
-          <Typography variant="h5" sx={{ mt: 4, mb: 2 }}>
-            General stats
-          </Typography>
-          <table className="table table-bordered table-hover">
-            <tbody>
-              <tr>
-                <th>Impressions</th>
-                <td className="text-end">
-                  {analytics?.total_impressions?.toLocaleString()}
-                </td>
-              </tr>
-              <tr>
-                <th>Revenue From Impressions</th>
-                <td className="text-end">
-                  ${analytics?.total_impression_revenue?.toLocaleString()}
-                </td>
-              </tr>
-              <tr>
-                <th>Products</th>
-                <td className="text-end">
-                  {analytics?.product_count?.toLocaleString()}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <SalesStatsCard analytics={analytics} />
+        <GeneralStatsCard analytics={analytics} showProductCount={true} />
       </div>
 
       <div className="row">

@@ -15,7 +15,8 @@ import ImpressionsOverTime from "../../analytics/components/ImpressionsOverTime"
 import ImpressionRevenueOverTime from "../../analytics/components/ImpressionRevenueOverTime";
 import { useSettings } from "../../common/contexts/SettingsContext";
 import { ReactComponent as ProductThumbnailPlaceholder } from "../../common/assets/img/vectors/product-thumbnail-placeholder.svg";
-import { Typography } from "@mui/material";
+import SalesStatsCard from "../../analytics/components/SalesStatsCard";
+import GeneralStatsCard from "../../analytics/components/GeneralStatsCard";
 
 function Analytics() {
   const { id } = useParams();
@@ -118,60 +119,8 @@ function Analytics() {
         )}
       </div>
       <div className="row">
-        <div className="col-md-6">
-          <Typography variant="h5" sx={{ mt: 4, mb: 2 }}>
-            Sales stats
-          </Typography>
-          <table className="table table-bordered table-hover">
-            <tbody>
-              <tr>
-                <th>Number of rentals</th>
-                <td className="text-end">
-                  {analytics?.rentals_count?.toLocaleString()}
-                </td>
-              </tr>
-              <tr>
-                <th>Number of purchases</th>
-                <td className="text-end">
-                  {analytics?.purchases_count?.toLocaleString()}
-                </td>
-              </tr>
-              <tr>
-                <th>Earnings from rentals</th>
-                <td className="text-end">
-                  {analytics?.rentals_revenue?.toLocaleString()} $
-                </td>
-              </tr>
-              <tr>
-                <th>Earnings from purchases</th>
-                <td className="text-end">
-                  {analytics?.purchases_revenue?.toLocaleString()} $
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div className="col-md-6">
-          <Typography variant="h4" fontWeight="bold" sx={{ mt: 4, mb: 2 }}>
-            General stats
-          </Typography>
-          <table className="table table-bordered table-hover">
-            <tbody>
-              <tr>
-                <th>Impressions</th>
-                <td className="text-end">
-                  {analytics?.total_impressions?.toLocaleString()}
-                </td>
-              </tr>
-              <tr>
-                <th>Revenue From Impressions</th>
-                <td className="text-end">
-                  ${analytics?.total_impression_revenue?.toLocaleString()}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <SalesStatsCard analytics={analytics} />
+        <GeneralStatsCard analytics={analytics} showProductCount={false} />
       </div>
 
       <h4 className="bold mt-4 mb-4">Sales</h4>
