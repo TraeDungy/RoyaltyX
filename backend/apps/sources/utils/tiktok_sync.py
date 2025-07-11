@@ -13,7 +13,7 @@ def fetch_tiktok_videos(source_id=None):
     for source in sources:
         # Refresh token if expired
         if source.token_expires_at and timezone.now() > source.token_expires_at:
-            new_token = TikTokService().refresh_token(source.refresh_token)
+            new_token = TikTokService.refresh_token(source.refresh_token)
             source.access_token = new_token
             source.save(update_fields=["_access_token"])
 
@@ -59,7 +59,7 @@ def fetch_tiktok_stats(source_id=None):
     for source in sources:
         # Refresh token if expired
         if source.token_expires_at and timezone.now() > source.token_expires_at:
-            new_token = TikTokService().refresh_token(source.refresh_token)
+            new_token = TikTokService.refresh_token(source.refresh_token)
             source.access_token = new_token
             source.save(update_fields=["_access_token"])
 
