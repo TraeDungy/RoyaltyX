@@ -1,32 +1,17 @@
 import { Line } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler,
-} from "chart.js";
 import { useState } from "react";
 import { EyeSlash, Palette } from "react-bootstrap-icons";
 import { useSettings } from "../../common/contexts/SettingsContext";
 import { GraphColorPalette } from "./GraphColorPalette";
 import { Typography, IconButton } from "@mui/material";
 import { EllipsisVertical } from "lucide-react";
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler
-);
+import {
+  getBaseLineChartOptions,
+  getBaseLineDataset,
+  formatChartLabels,
+  getChartTitle,
+  CHART_CONFIGS,
+} from "../../common/config/chartConfig";
 
 const ImpressionRevenueOverTime = ({ analytics }) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -47,86 +32,23 @@ const ImpressionRevenueOverTime = ({ analytics }) => {
 
   if (!analytics || !analytics.time_stats) return <p>Loading...</p>;
 
-  const granularity = analytics.granularity || 'monthly';
+  const granularity = analytics.granularity || "monthly";
   const impressionRevenueData = analytics.time_stats;
 
-  const labels = impressionRevenueData.map((item) => {
-    if (granularity === 'yearly') {
-      return item.year; // e.g., "2025"
-    } else if (granularity === 'monthly') {
-      const [year, month] = item.month.split("-");
-      const date = new Date(year, month - 1); // month is 0-indexed
-      return date.toLocaleString("default", { month: "short" }); // e.g., "Jan"
-    } else if (granularity === 'daily') {
-      const date = new Date(item.period);
-      return date.toLocaleDateString("en-US", { month: "short", day: "numeric" }); // e.g., "Jan 1"
-    } else if (granularity === 'hourly') {
-      const date = new Date(item.period);
-      return date.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }); // e.g., "12:00"
-    }
-    return item.period;
-  });
-
+  const labels = formatChartLabels(impressionRevenueData, granularity);
   const dataValues = impressionRevenueData.map(
     (item) => item.impression_revenue
   );
-
-   const getChartTitle = () => {
-    switch (granularity) {
-      case 'daily':
-        return 'Impression Revenue Per Day';
-      case 'hourly':
-        return 'Impression Revenue Per Hour';
-      default:
-        return 'Impression Revenue Per Month';
-    }
-  };
+  const chartTitle = getChartTitle("impression_revenue", granularity);
 
   const data = {
     labels,
     datasets: [
-      {
-        label: getChartTitle(),
-        data: dataValues,
-        fill: true,
-        backgroundColor: impressionRevenueOverTimeGraphColor + "45",
-        borderColor: impressionRevenueOverTimeGraphColor,
-        tension: 0.4,
-      },
+      getBaseLineDataset(chartTitle, dataValues, impressionRevenueOverTimeGraphColor),
     ],
   };
 
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        enabled: true,
-        callbacks: {
-          label: (context) => {
-            const value = context.parsed.y ?? 0;
-            return `$${value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-          },
-        },
-      },
-    },
-    scales: {
-      x: {
-        title: { display: true },
-        grid: { display: false },
-      },
-      y: {
-        title: { display: true },
-        beginAtZero: true,
-        ticks: {
-          callback: (value) => `$${value}`,
-        },
-      },
-    },
-    layout: {
-      padding: { left: -24 },
-    },
-  };
+  const options = getBaseLineChartOptions(CHART_CONFIGS.currency);
 
   return (
     <>

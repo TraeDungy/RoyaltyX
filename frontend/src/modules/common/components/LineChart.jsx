@@ -1,8 +1,7 @@
 import { Line } from "react-chartjs-2";
 import { useState } from "react";
 import { EyeSlash, Palette } from "react-bootstrap-icons";
-import { useSettings } from "../../common/contexts/SettingsContext";
-import { GraphColorPalette } from "./GraphColorPalette";
+import { GraphColorPalette } from "../../analytics/components/GraphColorPalette";
 import { Typography, IconButton } from "@mui/material";
 import { EllipsisVertical } from "lucide-react";
 import {
@@ -10,49 +9,53 @@ import {
   getBaseLineDataset,
   formatChartLabels,
   getChartTitle,
-  CHART_CONFIGS,
-} from "../../common/config/chartConfig";
+} from "../config/chartConfig";
 
-const ImpressionsOverTime = ({ analytics }) => {
+const LineChart = ({
+  analytics,
+  title,
+  metric,
+  color,
+  onColorChange,
+  onHide,
+  customOptions = {},
+  customDatasetConfig = {},
+}) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
-  const { setShowImpressionsOverTime } = useSettings();
   const [showGraphColorPalette, setShowGraphColorPalette] = useState(false);
-  const { setImpressionsOverTimeGraphColor, impressionsOverTimeGraphColor } =
-    useSettings();
 
   const toggleDropdown = () => {
     setDropdownVisible(!dropdownVisible);
   };
 
-  const onSelectColor = (color) => {
-    setImpressionsOverTimeGraphColor(color);
+  const onSelectColor = (selectedColor) => {
+    onColorChange(selectedColor);
   };
+
   if (!analytics || !analytics.time_stats) return <p>Loading...</p>;
 
   const granularity = analytics.granularity || "monthly";
-  const impressionsData = analytics.time_stats;
+  const timeStats = analytics.time_stats;
 
-  const labels = formatChartLabels(impressionsData, granularity);
-  const dataValues = impressionsData.map((item) => item.impressions);
-  const chartTitle = getChartTitle("impressions", granularity);
+  const labels = formatChartLabels(timeStats, granularity);
+  const dataValues = timeStats.map((item) => item[metric]);
+  const chartTitle = getChartTitle(metric, granularity);
 
   const data = {
     labels,
     datasets: [
-      getBaseLineDataset(chartTitle, dataValues, impressionsOverTimeGraphColor),
+      getBaseLineDataset(chartTitle, dataValues, color, customDatasetConfig),
     ],
   };
 
-  const options = getBaseLineChartOptions(CHART_CONFIGS.standard);
+  const options = getBaseLineChartOptions(customOptions);
 
   return (
     <>
       <div className="col-md-6">
         <div style={{ width: "100%", maxWidth: "1200px", margin: "auto" }}>
           <div className="py-4 d-flex justify-content-between align-items-center">
-            <Typography variant="h5">
-              Impressions Over Time
-            </Typography>
+            <Typography variant="h5">{title}</Typography>
             <div className="d-flex align-items-center">
               <div className="dropdown">
                 <IconButton onClick={toggleDropdown}>
@@ -63,7 +66,7 @@ const ImpressionsOverTime = ({ analytics }) => {
                     <button
                       className="dropdown-item py-2"
                       onClick={() => {
-                        setShowImpressionsOverTime(false);
+                        onHide();
                         setDropdownVisible(false);
                       }}
                     >
@@ -95,4 +98,4 @@ const ImpressionsOverTime = ({ analytics }) => {
   );
 };
 
-export default ImpressionsOverTime;
+export default LineChart;
