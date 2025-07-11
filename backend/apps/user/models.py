@@ -42,6 +42,12 @@ class User(AbstractBaseUser):
         ("admin", "Admin"),
     ]
 
+    SUBSCRIPTION_PLAN_CHOICES = [
+        ("free", "Free"),
+        ("basic", "Basic"),
+        ("premium", "Premium"),
+    ]
+
     email = models.EmailField(max_length=60, unique=True, null=False)
     username = models.CharField(max_length=50, unique=True, null=False)
     name = models.CharField(max_length=30)
@@ -56,6 +62,9 @@ class User(AbstractBaseUser):
     is_email_verified = models.BooleanField(default=False)
     verification_code = models.CharField(max_length=30, null=True)
     avatar = models.CharField(null=True, max_length=300)
+    subscription_plan = models.CharField(
+        max_length=10, choices=SUBSCRIPTION_PLAN_CHOICES, default="free"
+    )
     currently_selected_project = models.ForeignKey(
         Project, null=True, default=None, on_delete=models.CASCADE
     )

@@ -3,7 +3,7 @@ import { deleteProject, updateProjectInfo } from "../../projects/api/project";
 import { toast } from "react-toastify";
 import PageHeader from "../../common/components/PageHeader";
 import { useProject } from "../../common/contexts/ProjectContext";
-import { Alert, Button, TextField } from "@mui/material";
+import { Alert, Box, Button, TextField } from "@mui/material";
 
 const Settings = () => {
   const { project, setProject } = useProject();
@@ -45,7 +45,7 @@ const Settings = () => {
   };
 
   return (
-    <div className="py-3">
+    <Box>
       <PageHeader
         title="Project Settings"
         description="This is a page where you will be able to edit all of the settings or preferences inside of this project."
@@ -121,7 +121,7 @@ const Settings = () => {
           Delete Project
         </Button>
       </div>
-    </div>
+    </Box>
   );
 };
 
