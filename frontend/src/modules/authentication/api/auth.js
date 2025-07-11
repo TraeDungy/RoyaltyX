@@ -36,12 +36,28 @@ export const register = async (user) => {
     const responseData = await response.json();
 
     if (response.ok) {
-      return { success: true, message: "Registration successful" };
+      return { success: true, message: "Registration successful", data: responseData };
     } else {
-      throw new Error(responseData.errors);
+      // Handle field-specific errors from Django serializer
+      if (responseData && typeof responseData === 'object') {
+        return { 
+          success: false, 
+          errors: responseData,
+          message: "Please fix the errors below"
+        };
+      } else {
+        return { 
+          success: false, 
+          message: responseData.detail || responseData.message || "Registration failed"
+        };
+      }
     }
   } catch (error) {
-    throw new Error(error);
+    // Handle network errors or other exceptions
+    return { 
+      success: false, 
+      message: error.message || "Network error. Please try again."
+    };
   }
 };
 

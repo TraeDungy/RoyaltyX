@@ -1,76 +1,115 @@
-import { ImpressionsInLastFourMonthsChart } from "./ImpressionsInLastFourMonthsChart";
+import { ImpressionsChart } from "./ImpressionsChart";
 import { InfoPopover } from "../../common/components/InfoPopover";
 import { useState } from "react";
 import { EyeSlash, Palette } from "react-bootstrap-icons";
 import { useSettings } from "../../common/contexts/SettingsContext";
 import { GraphColorPalette } from "./GraphColorPalette";
-import { IconButton } from "@mui/material";
+import {
+  IconButton,
+  Grid,
+  Card,
+  CardContent,
+  Box,
+  Typography,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 import { EllipsisVertical } from "lucide-react";
 
 export const ImpressionsCard = ({ analytics }) => {
-  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
   const { setShowTotalImpressionsCard } = useSettings();
   const [showGraphColorPalette, setShowGraphColorPalette] = useState(false);
-  const { setImpressionsOverFourMonthsGraphColor } = useSettings();
+  const { setimpressionsGraphColor } = useSettings();
 
-  const toggleDropdown = () => {
-    setDropdownVisible(!dropdownVisible);
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
   };
 
   const onSelectColor = (color) => {
-    setImpressionsOverFourMonthsGraphColor(color);
+    setimpressionsGraphColor(color);
   };
 
   return (
     <>
-      <div className="col-md-4 p-3">
-        <div className="p-3 d-flex justify-content-center rounded flex-column w-100 h-100 border-custom-regular">
-          <div className="d-flex justify-content-between align-items-center mb-2">
-            <h6 className="mb-2">
-              Impressions
-              <InfoPopover
-                title="Monthly impressions"
-                text="Impressions represent the number of times your content has been
-        displayed to users counted separately for each month."
-              />
-            </h6>
-            <div className="d-flex align-items-center">
-              <div className="dropdown">
-                <IconButton onClick={toggleDropdown}>
-                  <EllipsisVertical size={20} color="var(--color-text)" />
+      <Grid size={{ md: 4, xs: 12 }}>
+        <Card
+          variant="outlined"
+          sx={{
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <CardContent sx={{ flexGrow: 1 }}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                mb: 2,
+              }}
+            >
+              <Typography variant="h6" sx={{ mb: 1 }}>
+                Impressions
+                <InfoPopover
+                  title="Monthly impressions"
+                  text="Impressions represent the number of times your content has been
+          displayed to users counted separately for each month."
+                />
+              </Typography>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <IconButton onClick={handleMenuOpen} size="sm">
+                  <EllipsisVertical size={16} color="var(--color-text)" />
                 </IconButton>
-                {dropdownVisible && (
-                  <div className="dropdown-menu shadow-sm show">
-                    <button
-                      className="dropdown-item py-2"
-                      onClick={() => {
-                        setShowTotalImpressionsCard(false);
-                        setDropdownVisible(false);
-                      }}
-                    >
-                      Hide <EyeSlash className="ms-2" />
-                    </button>
-                    <button
-                      className="dropdown-item py-2"
-                      onClick={() => {
-                        setShowGraphColorPalette(true);
-                        setDropdownVisible(false);
-                      }}
-                    >
-                      Customize color <Palette className="ms-2" />
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-          <h1 className="bold mb-0 position-relative ps-3 mb-3">
-            {analytics?.total_impressions.toLocaleString()}
-          </h1>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onClose={handleMenuClose}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "right",
+                  }}
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                >
+                  <MenuItem
+                    onClick={() => {
+                      setShowTotalImpressionsCard(false);
+                      handleMenuClose();
+                    }}
+                    sx={{ py: 1 }}
+                  >
+                    <EyeSlash style={{ marginRight: 8 }} />
+                    Hide
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      setShowGraphColorPalette(true);
+                      handleMenuClose();
+                    }}
+                    sx={{ py: 1 }}
+                  >
+                    <Palette style={{ marginRight: 8 }} />
+                    Customize color
+                  </MenuItem>
+                </Menu>
+              </Box>
+            </Box>
+            <Typography variant="h3" sx={{ fontWeight: "bold", mb: 3, pl: 1 }}>
+              {analytics?.total_impressions.toLocaleString()}
+            </Typography>
 
-          <ImpressionsInLastFourMonthsChart analytics={analytics} />
-        </div>
-      </div>
+            <ImpressionsChart analytics={analytics} />
+          </CardContent>
+        </Card>
+      </Grid>
       <GraphColorPalette
         showGraphColorPalette={showGraphColorPalette}
         setShowGraphColorPalette={setShowGraphColorPalette}

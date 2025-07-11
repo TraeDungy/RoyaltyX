@@ -14,7 +14,9 @@ import { RevenueCard } from "../components/RevenueCard";
 import { useSettings } from "../../common/contexts/SettingsContext";
 import { TopPerfomingContentByImpressions } from "../components/TopPerfomingContentByImpressions";
 import { TopPerfomingContentBySales } from "../components/TopPerfomingContentBySales";
-import { Typography } from "@mui/material";
+import SalesStatsCard from "../components/SalesStatsCard";
+import GeneralStatsCard from "../components/GeneralStatsCard";
+import { Grid, Typography } from "@mui/material";
 
 function Analytics() {
   const [analytics, setAnalytics] = useState(null);
@@ -61,18 +63,20 @@ function Analytics() {
 
   return (
     <>
-      <div className="d-flex justify-content-between align-items-center mt-4 mb-3 ps-1">
-        <h2 className="bold mb-0">Analytics</h2>
+      <div className="d-flex justify-content-between align-items-center mb-4 pb-2 ps-1">
+        <Typography variant="h2" mb={0}>
+          Analytics
+        </Typography>
         <DateRangeSelector />
       </div>
 
-      <div className="row">
+      <Grid container spacing={3}>
         {showTotalImpressionsCard && <ImpressionsCard analytics={analytics} />}
         {showTotalSalesCard && <SalesCard analytics={analytics} />}
         {showTotalRevenueCard && <RevenueCard analytics={analytics} />}
-      </div>
+      </Grid>
 
-      <div className="row">
+      <Grid container spacing={3}>
         {showSalesOverTime && <SalesOverTime analytics={analytics} />}
         {showRentalsOverTime && <RentalsOverTime analytics={analytics} />}
         {showImpressionsOverTime && (
@@ -81,70 +85,12 @@ function Analytics() {
         {showImpressionRevenueOverTime && (
           <ImpressionRevenueOverTime analytics={analytics} />
         )}
-      </div>
+      </Grid>
 
-      <div className="row">
-        <div className="col-md-6">
-          <Typography variant="h4" fontWeight="bold" sx={{ mt: 4, mb: 2 }}>
-            Sales stats
-          </Typography>
-          <table className="table table-bordered table-hover">
-            <tbody>
-              <tr>
-                <th>Number of rentals</th>
-                <td className="text-end">
-                  {analytics?.rentals_count?.toLocaleString()}
-                </td>
-              </tr>
-              <tr>
-                <th>Number of purchases</th>
-                <td className="text-end">
-                  {analytics?.purchases_count?.toLocaleString()}
-                </td>
-              </tr>
-              <tr>
-                <th>Earnings from rentals</th>
-                <td className="text-end">
-                  {analytics?.rentals_revenue?.toLocaleString()} $
-                </td>
-              </tr>
-              <tr>
-                <th>Earnings from purchases</th>
-                <td className="text-end">
-                  {analytics?.purchases_revenue?.toLocaleString()} $
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div className="col-md-6">
-          <Typography variant="h4" fontWeight="bold" sx={{ mt: 4, mb: 2 }}>
-            General stats
-          </Typography>
-          <table className="table table-bordered table-hover">
-            <tbody>
-              <tr>
-                <th>Impressions</th>
-                <td className="text-end">
-                  {analytics?.total_impressions?.toLocaleString()}
-                </td>
-              </tr>
-              <tr>
-                <th>Revenue From Impressions</th>
-                <td className="text-end">
-                  ${analytics?.total_impression_revenue?.toLocaleString()}
-                </td>
-              </tr>
-              <tr>
-                <th>Products</th>
-                <td className="text-end">
-                  {analytics?.product_count?.toLocaleString()}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <Grid container spacing={3}>
+        <SalesStatsCard analytics={analytics} />
+        <GeneralStatsCard analytics={analytics} showProductCount={true} />
+      </Grid>
 
       <div className="row">
         <Typography variant="h4" fontWeight="bold" sx={{ mt: 4, mb: 2 }}>

@@ -1,12 +1,10 @@
 from django.contrib.auth.hashers import check_password
-from django.core.exceptions import ValidationError
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from apps.authentication.serializer import UserRegistrationSerializer
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-
-from .services import register_user
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -27,19 +25,16 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 class RegisterView(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
-        data = request.data
+        serializer = UserRegistrationSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            return Response(
+                {"user": {"email": user.email, "name": user.name}},
+                status=status.HTTP_201_CREATED,
+            )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        try:
-            user = register_user(data)
-        except ValidationError as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
-        return Response(
-            {"user": {"email": user.email, "name": user.name}},
-            status=status.HTTP_201_CREATED,
-        )
-
-
+        
 class ChangePasswordView(APIView):
     permission_classes = [IsAuthenticated]
 

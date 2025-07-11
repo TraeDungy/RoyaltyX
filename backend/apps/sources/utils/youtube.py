@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, timedelta
 
 import requests
 from django.conf import settings
@@ -147,11 +147,24 @@ def fetch_youtube_stats(source_id=None):
             print(stats, flush=True)
             rows = stats.get("rows", [])
             if rows:
-                views = rows[0][0]
-                print(f"Views: {views}")
+                current_view_count = rows[0][0]
+                print(f"Views: {current_view_count}")
             else:
                 print("No rows returned in stats.")
-                views = 0
+                current_view_count = 0
+            
+            # Get yesterday's view count from ProductImpressions
+            yesterday = date.today() - timedelta(days=1)
+            yesterday_impressions = ProductImpressions.objects.filter(
+                product=product, 
+                period_start=yesterday.isoformat(), 
+                period_end=yesterday.isoformat()
+            ).first()
+
+            yesterday_views = yesterday_impressions.impressions if yesterday_impressions else 0
+            
+            # Calculate the actual view count for today (current - yesterday)
+            views = current_view_count - yesterday_views
 
             existingProductImpressionsObjectWithSameDateRange = (
                 ProductImpressions.objects.filter(

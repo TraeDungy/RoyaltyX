@@ -1,35 +1,27 @@
 import { Line } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler,
-} from "chart.js";
 import { useState } from "react";
 import { EyeSlash, Palette } from "react-bootstrap-icons";
 import { useSettings } from "../../common/contexts/SettingsContext";
 import { GraphColorPalette } from "./GraphColorPalette";
-import { Typography, IconButton } from "@mui/material";
+import {
+  Typography,
+  IconButton,
+  Box,
+  Grid,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 import { EllipsisVertical } from "lucide-react";
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler
-);
+import {
+  getBaseLineChartOptions,
+  getBaseLineDataset,
+  formatChartLabels,
+  getChartTitle,
+  CHART_CONFIGS,
+} from "../../common/config/chartConfig";
 
 const ImpressionRevenueOverTime = ({ analytics }) => {
-  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
   const { setShowImpressionRevenueOverTime } = useSettings();
   const [showGraphColorPalette, setShowGraphColorPalette] = useState(false);
   const {
@@ -37,115 +29,100 @@ const ImpressionRevenueOverTime = ({ analytics }) => {
     impressionRevenueOverTimeGraphColor,
   } = useSettings();
 
-  const toggleDropdown = () => {
-    setDropdownVisible(!dropdownVisible);
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
   };
 
   const onSelectColor = (color) => {
     setImpressionRevenueOverTimeGraphColor(color);
   };
 
-  if (!analytics || !analytics.monthly_stats) return <p>Loading...</p>;
+  if (!analytics || !analytics.time_stats)
+    return <Typography>Loading...</Typography>;
 
-  const impressionRevenueData = analytics.monthly_stats;
+  const granularity = analytics.granularity || "monthly";
+  const impressionRevenueData = analytics.time_stats;
 
-  const labels = impressionRevenueData.map((item) => {
-    const [year, month] = item.month.split("-");
-    const date = new Date(year, month - 1); // month is 0-indexed
-    return date.toLocaleString("default", { month: "short" }); // e.g., "Jan"
-  });
-
+  const labels = formatChartLabels(impressionRevenueData, granularity);
   const dataValues = impressionRevenueData.map(
     (item) => item.impression_revenue
   );
+  const chartTitle = getChartTitle("impression_revenue", granularity);
 
   const data = {
     labels,
     datasets: [
-      {
-        label: "Impression Revenue",
-        data: dataValues,
-        fill: true,
-        backgroundColor: impressionRevenueOverTimeGraphColor + "45",
-        borderColor: impressionRevenueOverTimeGraphColor,
-        tension: 0.4,
-      },
+      getBaseLineDataset(
+        chartTitle,
+        dataValues,
+        impressionRevenueOverTimeGraphColor
+      ),
     ],
   };
 
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        enabled: true,
-        callbacks: {
-          label: (context) => {
-            const value = context.parsed.y ?? 0;
-            return `$${value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-          },
-        },
-      },
-    },
-    scales: {
-      x: {
-        title: { display: true },
-        grid: { display: false },
-      },
-      y: {
-        title: { display: true },
-        beginAtZero: true,
-        ticks: {
-          callback: (value) => `$${value}`,
-        },
-      },
-    },
-    layout: {
-      padding: { left: -24 },
-    },
-  };
+  const options = getBaseLineChartOptions(CHART_CONFIGS.currency);
 
   return (
     <>
-      <div className="col-md-6">
-        <div style={{ width: "100%", maxWidth: "1200px", margin: "auto" }}>
-          <div className="py-4 d-flex justify-content-between align-items-center">
-            <Typography variant="h4" fontWeight="bold">
-              Revenue From Impressions
-            </Typography>
-            <div className="d-flex align-items-center">
-              <div className="dropdown">
-                <IconButton onClick={toggleDropdown}>
-                  <EllipsisVertical size={20} color="var(--color-text)" />
-                </IconButton>
-                {dropdownVisible && (
-                  <div className="dropdown-menu shadow-sm dropdown-menu-end show">
-                    <button
-                      className="dropdown-item py-2"
-                      onClick={() => {
-                        setShowImpressionRevenueOverTime(false);
-                        setDropdownVisible(false);
-                      }}
-                    >
-                      Hide <EyeSlash className="ms-1" />
-                    </button>
-                    <button
-                      className="dropdown-item py-2"
-                      onClick={() => {
-                        setShowGraphColorPalette(true);
-                        setDropdownVisible(false);
-                      }}
-                    >
-                      Customize color <Palette className="ms-2" />
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
+      <Grid size={{ xs: 12, md: 6 }}>
+        <Box sx={{ width: "100%", maxWidth: "1200px", margin: "auto" }}>
+          <Box
+            sx={{
+              pt: 4,
+              pb: 2,
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="h5">Revenue From Impressions</Typography>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <IconButton onClick={handleMenuOpen} size="sm">
+                <EllipsisVertical size={16} color="var(--color-text)" />
+              </IconButton>
+              <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleMenuClose}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "right",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+              >
+                <MenuItem
+                  onClick={() => {
+                    setShowImpressionRevenueOverTime(false);
+                    handleMenuClose();
+                  }}
+                  sx={{ py: 1 }}
+                >
+                  <EyeSlash style={{ marginRight: 8 }} />
+                  Hide
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    setShowGraphColorPalette(true);
+                    handleMenuClose();
+                  }}
+                  sx={{ py: 1 }}
+                >
+                  <Palette style={{ marginRight: 8 }} />
+                  Customize color
+                </MenuItem>
+              </Menu>
+            </Box>
+          </Box>
           <Line data={data} options={options} />
-        </div>
-      </div>
+        </Box>
+      </Grid>
 
       <GraphColorPalette
         showGraphColorPalette={showGraphColorPalette}

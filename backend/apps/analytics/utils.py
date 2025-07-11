@@ -2,9 +2,107 @@ from datetime import date, datetime, timedelta
 from typing import Any, Dict, List, Optional, Union
 
 from django.db.models import Count, DecimalField, ExpressionWrapper, F, QuerySet, Sum
-from django.db.models.functions import TruncMonth
+from django.db.models.functions import TruncYear, TruncMonth, TruncDate, TruncHour
 
 from apps.product.models import Product, ProductImpressions, ProductSale
+
+def calculate_yearly_stats(
+    impressions_qs: QuerySet,
+    sales_qs: QuerySet,
+    years: int,
+    period_end: Optional[date],
+) -> List[Dict[str, Any]]:
+    now = datetime.now()
+
+    # Yearly impressions
+    yearly_impressions = (
+        impressions_qs.annotate(year=TruncYear("period_start"))
+        .values("year")
+        .annotate(impressions=Sum("impressions"))
+        .order_by("year")
+    )
+
+    # Yearly impression revenue
+    impression_revenue_qs = (
+        impressions_qs.annotate(year=TruncYear("period_start"))
+        .annotate(
+            revenue_expr=ExpressionWrapper(
+                F("impressions") * F("ecpm") / 1000,
+                output_field=DecimalField(max_digits=30, decimal_places=18),
+            )
+        )
+        .values("year")
+        .annotate(impression_revenue=Sum("revenue_expr"))
+        .order_by("year")
+    )
+
+    # Yearly royalty revenue
+    yearly_revenue = (
+        sales_qs.annotate(year=TruncYear("period_start"))
+        .values("year")
+        .annotate(royalty_revenue=Sum("royalty_amount"))
+        .order_by("year")
+    )
+
+    # Yearly sales count
+    yearly_sales = (
+        sales_qs.annotate(year=TruncYear("period_start"))
+        .values("year")
+        .annotate(count=Count("id"))
+        .order_by("year")
+    )
+
+    # Yearly rentals
+    yearly_rentals_qs = sales_qs.filter(type=ProductSale.TYPE_RENTAL)
+    yearly_rentals = (
+        yearly_rentals_qs.annotate(year=TruncYear("period_start"))
+        .values("year")
+        .annotate(count=Count("id"))
+        .order_by("year")
+    )
+
+    # Map results by year
+    impressions_map = {
+        entry["year"]: entry["impressions"] or 0 for entry in yearly_impressions
+    }
+    impression_revenue_map = {
+        entry["year"]: round(entry["impression_revenue"] or 0, 6)
+        for entry in impression_revenue_qs
+    }
+    royalty_revenue_map = {
+        entry["year"]: entry["royalty_revenue"] or 0 for entry in yearly_revenue
+    }
+    sales_map = {entry["year"]: entry["count"] for entry in yearly_sales}
+    rentals_map = {entry["year"]: entry["count"] for entry in yearly_rentals}
+
+    yearly_stats = []
+    single_year_adjustment = False
+    if years == 1:
+        years += 1
+        single_year_adjustment = True
+
+    for i in range(years):
+        if period_end:
+            year_date = (period_end.replace(month=1, day=1) - timedelta(days=i * 365)).replace(month=1, day=1).date()
+        else:
+            year_date = (now.replace(month=1, day=1) - timedelta(days=i * 365)).replace(month=1, day=1).date()
+
+        if single_year_adjustment:
+            year_date = (year_date + timedelta(days=365)).replace(month=1, day=1).date()
+   
+        yearly_stats.append(
+            {
+                "year": year_date.strftime("%Y"),
+                "impressions": impressions_map.get(year_date, 0),
+                "sales": sales_map.get(year_date, 0),
+                "rentals": rentals_map.get(year_date, 0),
+                "royalty_revenue": royalty_revenue_map.get(year_date, 0),
+                "impression_revenue": impression_revenue_map.get(year_date, 0),
+            }
+        )
+
+    yearly_stats.reverse()
+    return yearly_stats
 
 
 def calculate_monthly_stats(
@@ -111,6 +209,178 @@ def calculate_monthly_stats(
     return monthly_stats
 
 
+def calculate_daily_stats(
+    impressions_qs: QuerySet,
+    sales_qs: QuerySet,
+    period_start: date,
+    period_end: date,
+) -> List[Dict[str, Any]]:
+    # Daily impressions
+    daily_impressions = (
+        impressions_qs.annotate(day=TruncDate("period_start"))
+        .values("day")
+        .annotate(impressions=Sum("impressions"))
+        .order_by("day")
+    )
+
+    # Daily impression revenue
+    impression_revenue_qs = (
+        impressions_qs.annotate(day=TruncDate("period_start"))
+        .annotate(
+            revenue_expr=ExpressionWrapper(
+                F("impressions") * F("ecpm") / 1000,
+                output_field=DecimalField(max_digits=30, decimal_places=18),
+            )
+        )
+        .values("day")
+        .annotate(impression_revenue=Sum("revenue_expr"))
+        .order_by("day")
+    )
+
+    # Daily royalty revenue
+    daily_revenue = (
+        sales_qs.annotate(day=TruncDate("period_start"))
+        .values("day")
+        .annotate(royalty_revenue=Sum("royalty_amount"))
+        .order_by("day")
+    )
+
+    # Daily sales count
+    daily_sales = (
+        sales_qs.annotate(day=TruncDate("period_start"))
+        .values("day")
+        .annotate(count=Count("id"))
+        .order_by("day")
+    )
+
+    # Daily rentals
+    daily_rentals_qs = sales_qs.filter(type=ProductSale.TYPE_RENTAL)
+    daily_rentals = (
+        daily_rentals_qs.annotate(day=TruncDate("period_start"))
+        .values("day")
+        .annotate(count=Count("id"))
+        .order_by("day")
+    )
+
+    # Map results by day
+    impressions_map = {
+        entry["day"]: entry["impressions"] or 0 for entry in daily_impressions
+    }
+    impression_revenue_map = {
+        entry["day"]: round(entry["impression_revenue"] or 0, 6)
+        for entry in impression_revenue_qs
+    }
+    royalty_revenue_map = {
+        entry["day"]: entry["royalty_revenue"] or 0 for entry in daily_revenue
+    }
+    sales_map = {entry["day"]: entry["count"] for entry in daily_sales}
+    rentals_map = {entry["day"]: entry["count"] for entry in daily_rentals}
+
+    daily_stats = []
+    current_date = period_start
+    
+    while current_date <= period_end:
+        daily_stats.append(
+            {
+                "period": current_date.strftime("%Y-%m-%d"),
+                "impressions": impressions_map.get(current_date, 0),
+                "sales": sales_map.get(current_date, 0),
+                "rentals": rentals_map.get(current_date, 0),
+                "royalty_revenue": royalty_revenue_map.get(current_date, 0),
+                "impression_revenue": impression_revenue_map.get(current_date, 0),
+            }
+        )
+        current_date += timedelta(days=1)
+
+    return daily_stats
+
+
+def calculate_hourly_stats(
+    impressions_qs: QuerySet,
+    sales_qs: QuerySet,
+    period_start: datetime,
+    period_end: datetime,
+) -> List[Dict[str, Any]]:
+    # Hourly impressions
+    hourly_impressions = (
+        impressions_qs.annotate(hour=TruncHour("period_start"))
+        .values("hour")
+        .annotate(impressions=Sum("impressions"))
+        .order_by("hour")
+    )
+
+    # Hourly impression revenue
+    impression_revenue_qs = (
+        impressions_qs.annotate(hour=TruncHour("period_start"))
+        .annotate(
+            revenue_expr=ExpressionWrapper(
+                F("impressions") * F("ecpm") / 1000,
+                output_field=DecimalField(max_digits=30, decimal_places=18),
+            )
+        )
+        .values("hour")
+        .annotate(impression_revenue=Sum("revenue_expr"))
+        .order_by("hour")
+    )
+
+    # Hourly royalty revenue
+    hourly_revenue = (
+        sales_qs.annotate(hour=TruncHour("period_start"))
+        .values("hour")
+        .annotate(royalty_revenue=Sum("royalty_amount"))
+        .order_by("hour")
+    )
+
+    # Hourly sales count
+    hourly_sales = (
+        sales_qs.annotate(hour=TruncHour("period_start"))
+        .values("hour")
+        .annotate(count=Count("id"))
+        .order_by("hour")
+    )
+
+    # Hourly rentals
+    hourly_rentals_qs = sales_qs.filter(type=ProductSale.TYPE_RENTAL)
+    hourly_rentals = (
+        hourly_rentals_qs.annotate(hour=TruncHour("period_start"))
+        .values("hour")
+        .annotate(count=Count("id"))
+        .order_by("hour")
+    )
+
+    # Map results by hour
+    impressions_map = {
+        entry["hour"]: entry["impressions"] or 0 for entry in hourly_impressions
+    }
+    impression_revenue_map = {
+        entry["hour"]: round(entry["impression_revenue"] or 0, 6)
+        for entry in impression_revenue_qs
+    }
+    royalty_revenue_map = {
+        entry["hour"]: entry["royalty_revenue"] or 0 for entry in hourly_revenue
+    }
+    sales_map = {entry["hour"]: entry["count"] for entry in hourly_sales}
+    rentals_map = {entry["hour"]: entry["count"] for entry in hourly_rentals}
+
+    hourly_stats = []
+    current_hour = period_start.replace(minute=0, second=0, microsecond=0)
+    
+    while current_hour <= period_end:
+        hourly_stats.append(
+            {
+                "period": current_hour.strftime("%Y-%m-%d %H:00"),
+                "impressions": impressions_map.get(current_hour, 0),
+                "sales": sales_map.get(current_hour, 0),
+                "rentals": rentals_map.get(current_hour, 0),
+                "royalty_revenue": royalty_revenue_map.get(current_hour, 0),
+                "impression_revenue": impression_revenue_map.get(current_hour, 0),
+            }
+        )
+        current_hour += timedelta(hours=1)
+
+    return hourly_stats
+
+
 def calculate_totals(
     impressions_qs: QuerySet, sales_qs: QuerySet
 ) -> Dict[str, Union[int, float]]:
@@ -167,7 +437,7 @@ def calculate_totals(
 
 
 def calculate_analytics(
-    project_id: int, filters: Dict[str, Any], months: int, product_id: int = None
+    project_id: int, filters: Dict[str, Any], period_start: date, period_end: date, product_id: int = None, granularity: str = 'monthly'
 ) -> Dict[str, Any]:
     if product_id:
         impressions_qs = ProductImpressions.objects.filter(product_id=product_id)
@@ -182,12 +452,45 @@ def calculate_analytics(
         impressions_qs = impressions_qs.filter(**filters)
         sales_qs = sales_qs.filter(**filters)
 
-    monthly_stats = calculate_monthly_stats(
-        impressions_qs, sales_qs, months, filters.get("period_end__lte")
-    )
+    # Calculate time-based stats based on granularity
+    if granularity == 'daily':
+        if period_start and period_end:
+            time_stats = calculate_daily_stats(
+                impressions_qs, sales_qs, period_start, period_end
+            )
+    elif granularity == 'hourly':
+        period_start_time = filters.get("period_start__gte")
+        period_end_time = filters.get("period_end__lte")
+        if period_start_time and period_end_time:
+            time_stats = calculate_hourly_stats(
+                impressions_qs, sales_qs, period_start_time, period_end_time
+            )
+    elif granularity == 'monthly':  # monthly (default)
+        months = 12
+        if period_start and period_end:
+            months = (
+                    (period_end.year - period_start.year) * 12
+                    + (period_end.month - period_start.month)
+                    + 1
+                )
+        time_stats = calculate_monthly_stats(
+            impressions_qs, sales_qs, months, filters.get("period_end__lte")
+        )
+    else:
+        years = 5
+        if period_start and period_end:
+            years = period_end.year - period_start.year + 1
+        time_stats = calculate_yearly_stats(
+            impressions_qs, sales_qs, years, filters.get("period_end__lte")
+        )
+
 
     data = calculate_totals(impressions_qs, sales_qs)
-    data["monthly_stats"] = monthly_stats
+    
+    data["time_stats"] = time_stats
+    
+    # Include granularity information in response
+    data["granularity"] = granularity
 
     if not product_id:
         # Only include product count for full project analytics
