@@ -44,7 +44,7 @@ export const SourceItem = ({ source }) => {
 
   return (
     <Grid sx={{ width: "100%" }}>
-      <Card sx={{ p: 3 }}>
+      <Card sx={{ p: 3 }} variant="outlined">
         <Grid
           container
           spacing={2}
@@ -76,7 +76,8 @@ export const SourceItem = ({ source }) => {
                   {formatLastFetchedTime(source.last_fetched_at)}
                 </Typography>
                 <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                  <span className="fw-500">Platform:</span> {capitalize(source.platform)}
+                  <span className="fw-500">Platform:</span>{" "}
+                  {capitalize(source.platform)}
                 </Typography>
               </Box>
             </Grid>
