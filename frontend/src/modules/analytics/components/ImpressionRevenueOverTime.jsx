@@ -48,7 +48,7 @@ const ImpressionRevenueOverTime = ({ analytics }) => {
     ],
   };
 
-  const options = getBaseLineChartOptions(CHART_CONFIGS.currency);
+  const options = getBaseLineChartOptions(CHART_CONFIGS.scales);
 
   return (
     <>

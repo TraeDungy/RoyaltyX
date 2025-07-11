@@ -9,7 +9,6 @@ const DateRangeSelector = () => {
   const location = useLocation();
 
   const periods = [
-    { label: "1D", value: "1D" },
     { label: "5D", value: "5D" },
     { label: "1M", value: "1M" },
     { label: "6M", value: "6M" },
@@ -38,10 +37,6 @@ const DateRangeSelector = () => {
     let startDate, endDate = today;
 
     switch (period) {
-      case "1D":
-        startDate = new Date(today);
-        startDate.setDate(today.getDate() - 1);
-        break;
       case "5D":
         startDate = new Date(today);
         startDate.setDate(today.getDate() - 5);
@@ -89,8 +84,7 @@ const DateRangeSelector = () => {
       const diffTime = Math.abs(endDate - startDate);
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
       
-      if (diffDays <= 1) setSelectedPeriod("1D");
-      else if (diffDays <= 5) setSelectedPeriod("5D");
+      if (diffDays <= 5) setSelectedPeriod("5D");
       else if (diffDays <= 31) setSelectedPeriod("1M");
       else if (diffDays <= 186) setSelectedPeriod("6M");
       else if (diffDays <= 366) setSelectedPeriod("1Y");

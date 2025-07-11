@@ -1,46 +1,43 @@
-import { Typography, Card, CardContent, Box, Divider } from "@mui/material";
+import { Typography, Card, CardContent, Box } from "@mui/material";
 
 const SalesStatsCard = ({ analytics }) => {
   return (
     <div className="col-md-6">
-      <Typography variant="h5" sx={{ mt: 4, mb: 2 }}>
-        Sales stats
+      <Typography variant="h5" sx={{ mt: 4, mb: 2, fontWeight: 600 }}>
+        SALES STATS
       </Typography>
-      <Card sx={{ mb: 3 }}>
-        <CardContent>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+      <Card sx={{ mb: 3, borderRadius: 2, boxShadow: 2 }}>
+        <CardContent sx={{ p: 3 }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Typography variant="body1" color="text.secondary">
-                Number of rentals
+              <Typography variant="body2" color="text.primary" sx={{ fontWeight: 500 }}>
+                NUMBER OF RENTALS
               </Typography>
-              <Typography variant="h6" fontWeight="bold">
+              <Typography variant="body2" fontWeight="bold" color="primary.main">
                 {analytics?.rentals_count?.toLocaleString() || '0'}
               </Typography>
             </Box>
-            <Divider />
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Typography variant="body1" color="text.secondary">
-                Number of purchases
+              <Typography variant="body2" color="text.primary" sx={{ fontWeight: 500 }}>
+                NUMBER OF PURCHASES
               </Typography>
-              <Typography variant="h6" fontWeight="bold">
+              <Typography variant="body2" fontWeight="bold" color="primary.main">
                 {analytics?.purchases_count?.toLocaleString() || '0'}
               </Typography>
             </Box>
-            <Divider />
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Typography variant="body1" color="text.secondary">
-                Earnings from rentals
+              <Typography variant="body2" color="text.primary" sx={{ fontWeight: 500 }}>
+                EARNINGS FROM RENTALS
               </Typography>
-              <Typography variant="h6" fontWeight="bold" color="success.main">
+              <Typography variant="body2" fontWeight="bold" color="primary.main">
                 ${analytics?.rentals_revenue?.toLocaleString() || '0'}
               </Typography>
             </Box>
-            <Divider />
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Typography variant="body1" color="text.secondary">
-                Earnings from purchases
+              <Typography variant="body2" color="text.primary" sx={{ fontWeight: 500 }}>
+                EARNINGS FROM PURCHASES
               </Typography>
-              <Typography variant="h6" fontWeight="bold" color="success.main">
+              <Typography variant="body2" fontWeight="bold" color="primary.main">
                 ${analytics?.purchases_revenue?.toLocaleString() || '0'}
               </Typography>
             </Box>

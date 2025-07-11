@@ -2,7 +2,7 @@ import { Line } from "react-chartjs-2";
 import { useState } from "react";
 import { EyeSlash, Palette } from "react-bootstrap-icons";
 import { GraphColorPalette } from "../../analytics/components/GraphColorPalette";
-import { Typography, IconButton } from "@mui/material";
+import { Typography, IconButton, Grid, Box } from "@mui/material";
 import { EllipsisVertical } from "lucide-react";
 import {
   getBaseLineChartOptions,
@@ -52,8 +52,8 @@ const LineChart = ({
 
   return (
     <>
-      <div className="col-md-6">
-        <div style={{ width: "100%", maxWidth: "1200px", margin: "auto" }}>
+      <Grid size={{md: 8, sx: 12}}>
+        <Box>
           <div className="py-4 d-flex justify-content-between align-items-center">
             <Typography variant="h5">{title}</Typography>
             <div className="d-flex align-items-center">
@@ -87,8 +87,8 @@ const LineChart = ({
             </div>
           </div>
           <Line data={data} options={options} />
-        </div>
-      </div>
+        </Box>
+      </Grid>
       <GraphColorPalette
         showGraphColorPalette={showGraphColorPalette}
         setShowGraphColorPalette={setShowGraphColorPalette}

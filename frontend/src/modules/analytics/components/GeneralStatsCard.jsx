@@ -1,43 +1,39 @@
-import { Typography, Card, CardContent, Box, Divider } from "@mui/material";
+import { Typography, Card, CardContent, Box } from "@mui/material";
 
 const GeneralStatsCard = ({ analytics, showProductCount = false }) => {
   return (
     <div className="col-md-6">
-      <Typography variant="h5" sx={{ mt: 4, mb: 2 }}>
-        General stats
+      <Typography variant="h5" sx={{ mt: 4, mb: 2, fontWeight: 600 }}>
+        GENERAL STATS
       </Typography>
-      <Card sx={{ mb: 3 }}>
-        <CardContent>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+      <Card sx={{ mb: 3, borderRadius: 2, boxShadow: 2 }}>
+        <CardContent sx={{ p: 3 }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Typography variant="body1" color="text.secondary">
-                Impressions
+              <Typography variant="body2" color="text.primary" sx={{ fontWeight: 500 }}>
+                IMPRESSIONS
               </Typography>
-              <Typography variant="h6" fontWeight="bold">
+              <Typography variant="body2" fontWeight="bold" color="primary.main">
                 {analytics?.total_impressions?.toLocaleString() || '0'}
               </Typography>
             </Box>
-            <Divider />
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Typography variant="body1" color="text.secondary">
-                Revenue From Impressions
+              <Typography variant="body2" color="text.primary" sx={{ fontWeight: 500 }}>
+                REVENUE FROM IMPRESSIONS
               </Typography>
-              <Typography variant="h6" fontWeight="bold" color="success.main">
+              <Typography variant="body2" fontWeight="bold" color="primary.main">
                 ${analytics?.total_impression_revenue?.toLocaleString() || '0'}
               </Typography>
             </Box>
             {showProductCount && (
-              <>
-                <Divider />
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <Typography variant="body1" color="text.secondary">
-                    Products
-                  </Typography>
-                  <Typography variant="h6" fontWeight="bold">
-                    {analytics?.product_count?.toLocaleString() || '0'}
-                  </Typography>
-                </Box>
-              </>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <Typography variant="body2" color="text.primary" sx={{ fontWeight: 500 }}>
+                  PRODUCTS
+                </Typography>
+                <Typography variant="body2" fontWeight="bold" color="primary.main">
+                  {analytics?.product_count?.toLocaleString() || '0'}
+                </Typography>
+              </Box>
             )}
           </Box>
         </CardContent>

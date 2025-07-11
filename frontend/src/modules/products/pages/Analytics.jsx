@@ -17,6 +17,7 @@ import { useSettings } from "../../common/contexts/SettingsContext";
 import { ReactComponent as ProductThumbnailPlaceholder } from "../../common/assets/img/vectors/product-thumbnail-placeholder.svg";
 import SalesStatsCard from "../../analytics/components/SalesStatsCard";
 import GeneralStatsCard from "../../analytics/components/GeneralStatsCard";
+import { Grid } from "@mui/material";
 
 function Analytics() {
   const { id } = useParams();
@@ -108,7 +109,7 @@ function Analytics() {
         {showTotalRevenueCard && <RevenueCard analytics={analytics} />}
       </div>
 
-      <div className="row">
+      <Grid container>
         {showSalesOverTime && <SalesOverTime analytics={analytics} />}
         {showRentalsOverTime && <RentalsOverTime analytics={analytics} />}
         {showImpressionsOverTime && (
@@ -117,7 +118,7 @@ function Analytics() {
         {showImpressionRevenueOverTime && (
           <ImpressionRevenueOverTime analytics={analytics} />
         )}
-      </div>
+      </Grid>
       <div className="row">
         <SalesStatsCard analytics={analytics} />
         <GeneralStatsCard analytics={analytics} showProductCount={false} />

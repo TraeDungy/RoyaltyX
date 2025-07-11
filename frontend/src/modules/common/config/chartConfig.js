@@ -60,34 +60,19 @@ export const getBaseLineDataset = (label, data, color, customConfig = {}) => {
     backgroundColor: color + "45",
     borderColor: color,
     tension: 0.4,
-    pointRadius: 2, // Hide points/nodes
+    pointRadius: 0, // Hide points/nodes
+    pointHoverRadius: 0, // Hide points on hover
     ...customConfig,
   };
 };
 
 // Chart type configurations
 export const CHART_CONFIGS = {
-  currency: {
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        enabled: true,
-        callbacks: {
-          label: (context) => {
-            const value = context.parsed.y ?? 0;
-            return `$${value.toLocaleString(undefined, { 
-              minimumFractionDigits: 2, 
-              maximumFractionDigits: 2 
-            })}`;
-          },
-        },
-      },
-    },
-    scales: {
-      y: {
-        ticks: {
-          callback: (value) => `$${value}`,
-        },
+  scales: {
+    y: {
+      beginAtZero: true,
+      ticks: {
+        callback: (value) => `$${value}`,
       },
     },
   },

@@ -16,7 +16,7 @@ import { TopPerfomingContentByImpressions } from "../components/TopPerfomingCont
 import { TopPerfomingContentBySales } from "../components/TopPerfomingContentBySales";
 import SalesStatsCard from "../components/SalesStatsCard";
 import GeneralStatsCard from "../components/GeneralStatsCard";
-import { Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 
 function Analytics() {
   const [analytics, setAnalytics] = useState(null);
@@ -74,7 +74,7 @@ function Analytics() {
         {showTotalRevenueCard && <RevenueCard analytics={analytics} />}
       </div>
 
-      <div className="row">
+      <Grid container>
         {showSalesOverTime && <SalesOverTime analytics={analytics} />}
         {showRentalsOverTime && <RentalsOverTime analytics={analytics} />}
         {showImpressionsOverTime && (
@@ -83,7 +83,7 @@ function Analytics() {
         {showImpressionRevenueOverTime && (
           <ImpressionRevenueOverTime analytics={analytics} />
         )}
-      </div>
+      </Grid>
 
       <div className="row">
         <SalesStatsCard analytics={analytics} />
