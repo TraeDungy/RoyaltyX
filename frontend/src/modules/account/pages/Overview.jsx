@@ -18,7 +18,6 @@ import {
 import {
   Shield,
   CreditCard,
-  History,
   Mail,
   Calendar,
   CheckCircle,
@@ -59,12 +58,6 @@ function Overview() {
       description: "View and manage your subscription plan",
       icon: <CreditCard size={20} color="currentColor" />,
       path: "/account/membership",
-    },
-    {
-      title: "Payment History",
-      description: "View your billing history and invoices",
-      icon: <History size={20} color="currentColor" />,
-      path: "/account/payment-history",
     },
   ];
 
@@ -246,8 +239,19 @@ function Overview() {
                       </Typography>
                     </Box>
                     <Chip
-                      label={subscriptionPlan ? subscriptionPlan.charAt(0).toUpperCase() + subscriptionPlan.slice(1) : "Free"}
-                      color={subscriptionPlan === "premium" ? "primary" : subscriptionPlan === "basic" ? "secondary" : "default"}
+                      label={
+                        subscriptionPlan
+                          ? subscriptionPlan.charAt(0).toUpperCase() +
+                            subscriptionPlan.slice(1)
+                          : "Free"
+                      }
+                      color={
+                        subscriptionPlan === "premium"
+                          ? "primary"
+                          : subscriptionPlan === "basic"
+                            ? "secondary"
+                            : "default"
+                      }
                       size="small"
                       sx={{ fontWeight: 500 }}
                     />
