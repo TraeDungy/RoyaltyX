@@ -21,14 +21,7 @@ import {
   Alert,
   CircularProgress,
 } from "@mui/material";
-import {
-  Shield,
-  Lock,
-  Mail,
-  Eye,
-  EyeOff,
-  ShieldCheck,
-} from "lucide-react";
+import { Shield, Lock, Mail, Eye, EyeOff, ShieldCheck } from "lucide-react";
 import { changePassword } from "../api/user";
 
 function SecurityPage() {
@@ -78,7 +71,10 @@ function SecurityPage() {
     setLoading(true);
 
     try {
-      await changePassword(passwordForm.currentPassword, passwordForm.newPassword);
+      await changePassword(
+        passwordForm.currentPassword,
+        passwordForm.newPassword
+      );
       setSuccess("Password changed successfully!");
       setPasswordForm({
         currentPassword: "",
@@ -202,7 +198,9 @@ function SecurityPage() {
         maxWidth="sm"
         fullWidth
       >
-        <DialogTitle>Change Password</DialogTitle>
+        <DialogTitle variant="h4" sx={{ mt: 1 }}>
+          Change Password
+        </DialogTitle>
         <DialogContent>
           <Box sx={{ pt: 2 }}>
             {error && (
@@ -286,7 +284,9 @@ function SecurityPage() {
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleDialogClose} disabled={loading}>Cancel</Button>
+          <Button onClick={handleDialogClose} disabled={loading}>
+            Cancel
+          </Button>
           <Button
             onClick={handlePasswordSubmit}
             variant="contained"
