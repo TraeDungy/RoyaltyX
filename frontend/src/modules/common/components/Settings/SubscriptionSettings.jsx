@@ -130,11 +130,12 @@ function SubscriptionSettings() {
           <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
             Plan Comparison
           </Typography>
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          <Typography variant="body2" color="text.secondary">
             Compare all available plans and choose the one that best fits your
             needs.
           </Typography>
           <Button
+            sx={{ mt: 2 }}
             variant="outlined"
             onClick={handleManagePlans}
             endIcon={<ArrowRight size={16} />}
