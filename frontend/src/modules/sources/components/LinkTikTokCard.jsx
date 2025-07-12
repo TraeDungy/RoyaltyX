@@ -58,7 +58,7 @@ export const LinkTikTokCard = ({ createSource }) => {
   }, []);
 
   return (
-    <Grid size={{ xs: 12, md: 6 }}>
+    <Grid size={{ xs: 12, md: 4 }}>
       <Card sx={{ p: 3, borderRadius: 2, boxShadow: 2, height: "100%", mt: 1 }}>
         <img
           src={tiktokLogo}

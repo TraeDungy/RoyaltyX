@@ -25,7 +25,7 @@ import { X } from "lucide-react";
 
 export const AddSourceModal = ({ open, onClose, createSource }) => {
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
+    <Dialog open={open} onClose={onClose} maxWidth="xl" fullWidth>
       <DialogTitle
         sx={{
           display: "flex",
@@ -34,7 +34,7 @@ export const AddSourceModal = ({ open, onClose, createSource }) => {
           pb: 2,
         }}
       >
-        <Typography variant="h4" sx={{ fontWeight: "bold" }}>
+        <Typography variant="h4">
           Add new source
         </Typography>
         <IconButton onClick={onClose}>
@@ -46,7 +46,7 @@ export const AddSourceModal = ({ open, onClose, createSource }) => {
         <Grid container spacing={3}>
           <LinkYoutubeCard createSource={createSource} />
 
-          <Grid size={{ xs: 12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Card
               sx={{
                 p: 3,
@@ -78,7 +78,7 @@ export const AddSourceModal = ({ open, onClose, createSource }) => {
             </Card>
           </Grid>
 
-          <Grid size={{ xs: 12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Card
               sx={{
                 p: 3,
@@ -111,7 +111,7 @@ export const AddSourceModal = ({ open, onClose, createSource }) => {
           </Grid>
           <LinkTikTokCard createSource={createSource} />
 
-          <Grid size={{ xs: 12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Card
               sx={{
                 p: 3,
@@ -143,7 +143,7 @@ export const AddSourceModal = ({ open, onClose, createSource }) => {
             </Card>
           </Grid>
 
-          <Grid size={{ xs: 12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Card
               sx={{
                 p: 3,
@@ -175,7 +175,7 @@ export const AddSourceModal = ({ open, onClose, createSource }) => {
             </Card>
           </Grid>
 
-          <Grid size={{ xs: 12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Card
               sx={{
                 p: 3,
@@ -207,7 +207,7 @@ export const AddSourceModal = ({ open, onClose, createSource }) => {
             </Card>
           </Grid>
 
-          <Grid size={{ xs: 12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Card
               sx={{
                 p: 3,
@@ -237,7 +237,7 @@ export const AddSourceModal = ({ open, onClose, createSource }) => {
             </Card>
           </Grid>
 
-          <Grid size={{ xs: 12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Card
               sx={{
                 p: 3,
@@ -269,7 +269,7 @@ export const AddSourceModal = ({ open, onClose, createSource }) => {
             </Card>
           </Grid>
 
-          <Grid size={{ xs: 12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Card
               sx={{
                 p: 3,
@@ -301,7 +301,7 @@ export const AddSourceModal = ({ open, onClose, createSource }) => {
             </Card>
           </Grid>
 
-          <Grid size={{ xs: 12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Card
               sx={{
                 p: 3,
@@ -333,7 +333,7 @@ export const AddSourceModal = ({ open, onClose, createSource }) => {
             </Card>
           </Grid>
 
-          <Grid size={{ xs: 12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Card
               sx={{
                 p: 3,
@@ -365,7 +365,7 @@ export const AddSourceModal = ({ open, onClose, createSource }) => {
             </Card>
           </Grid>
 
-          <Grid size={{ xs: 12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Card
               sx={{
                 p: 3,
