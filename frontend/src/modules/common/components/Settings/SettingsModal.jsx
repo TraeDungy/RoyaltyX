@@ -10,9 +10,10 @@ import {
   ListItemText,
   IconButton,
 } from "@mui/material";
-import { Palette, LayoutGrid, X } from "lucide-react";
+import { Palette, LayoutGrid, X, Crown } from "lucide-react";
 import ThemeSettings from "./ThemeSettings";
 import ViewSettings from "./ViewSettings";
+import SubscriptionSettings from "./SubscriptionSettings";
 
 function SettingsModal({ showSettingsModal, setShowSettingsModal }) {
   const [selectedTab, setSelectedTab] = useState("theme");
@@ -32,6 +33,12 @@ function SettingsModal({ showSettingsModal, setShowSettingsModal }) {
       icon: LayoutGrid,
       color: "inherit",
     },
+    {
+      id: "subscription",
+      label: "Subscription",
+      icon: Crown,
+      color: "inherit",
+    },
   ];
 
   const renderContent = () => {
@@ -40,6 +47,8 @@ function SettingsModal({ showSettingsModal, setShowSettingsModal }) {
         return <ThemeSettings />;
       case "view":
         return <ViewSettings />;
+      case "subscription":
+        return <SubscriptionSettings />;
       default:
         return <ThemeSettings />;
     }

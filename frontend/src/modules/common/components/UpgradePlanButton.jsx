@@ -1,13 +1,11 @@
 import { Box, Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 export const UpgradePlanButton = () => {
-  const navigate = useNavigate();
   const { subscriptionPlan } = useAuth();
 
   const handleUpgradeClick = () => {
-    navigate("/account/membership");
+    window.location.href = "/account/membership";
   };
 
   // Don't show upgrade button if user is already on premium
