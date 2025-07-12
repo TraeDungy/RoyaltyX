@@ -7,7 +7,10 @@ import {
   Typography,
   Card,
   Button,
+  TextField,
+  Box,
 } from "@mui/material";
+import { useState } from "react";
 import { LinkYoutubeCard } from "./LinkYoutubeCard";
 import { LinkTikTokCard } from "./LinkTikTokCard";
 import googleAdsLogo from "../../common/assets/img/platform_logos/google_ads.webp";
@@ -24,6 +27,165 @@ import { ReactComponent as FacebookLogo } from "../../common/assets/img/platform
 import { X } from "lucide-react";
 
 export const AddSourceModal = ({ open, onClose, createSource }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // Define all sources with their data
+  const allSources = [
+    {
+      name: "YouTube",
+      component: <LinkYoutubeCard createSource={createSource} />,
+      isCustomComponent: true,
+    },
+    {
+      name: "Google Ads",
+      logo: googleAdsLogo,
+      description:
+        "Connect your Google Ads account to track and manage your ad campaigns, performance metrics, and insights all in one place.",
+      buttonText: "Link Google Ads",
+      isCustomComponent: false,
+    },
+    {
+      name: "Amazon",
+      logo: amazonLogo,
+      description:
+        "Integrate your Amazon account to monitor sales data, product performance, and streamline your e-commerce operations.",
+      buttonText: "Link Amazon",
+      isCustomComponent: false,
+    },
+    {
+      name: "TikTok",
+      component: <LinkTikTokCard createSource={createSource} />,
+      isCustomComponent: true,
+    },
+    {
+      name: "Instagram",
+      logo: instagramLogo,
+      description:
+        "Connect your Instagram account to analyze post performance, audience engagement, and optimize your social media strategy.",
+      buttonText: "Link Instagram",
+      isCustomComponent: false,
+    },
+    {
+      name: "Twitch",
+      logo: twitchLogo,
+      description:
+        "Link your Twitch account to track streaming analytics, viewer engagement, and monetization metrics.",
+      buttonText: "Link Twitch",
+      isCustomComponent: false,
+    },
+    {
+      name: "Patreon",
+      logo: patreonLogo,
+      description:
+        "Connect your Patreon account to monitor subscription revenue, patron growth, and content performance analytics.",
+      buttonText: "Link Patreon",
+      isCustomComponent: false,
+    },
+    {
+      name: "Facebook",
+      logo: FacebookLogo,
+      description:
+        "Integrate your Facebook account to analyze page insights, post engagement, and audience demographics.",
+      buttonText: "Link Facebook",
+      isCustomComponent: false,
+      isSvgComponent: true,
+    },
+    {
+      name: "Apple App Store",
+      logo: appleAppStoreLogo,
+      description:
+        "Connect your Apple App Store account to track app downloads, revenue, and user reviews across iOS devices.",
+      buttonText: "Link Apple App Store",
+      isCustomComponent: false,
+    },
+    {
+      name: "Google Play",
+      logo: googlePlayLogo,
+      description:
+        "Link your Google Play Console to monitor app performance, downloads, and revenue from Android users.",
+      buttonText: "Link Google Play",
+      isCustomComponent: false,
+    },
+    {
+      name: "Audible",
+      logo: audibleLogo,
+      description:
+        "Connect your Audible account to track audiobook sales, listener engagement, and royalty earnings.",
+      buttonText: "Link Audible",
+      isCustomComponent: false,
+    },
+    {
+      name: "Spotify",
+      logo: spotifyLogo,
+      description:
+        "Link your Spotify for Artists account to analyze streaming data, listener demographics, and track performance.",
+      buttonText: "Link Spotify",
+      isCustomComponent: false,
+    },
+    {
+      name: "Temu",
+      logo: temuLogo,
+      description:
+        "Connect your Temu seller account to monitor product sales, customer reviews, and marketplace performance.",
+      buttonText: "Link Temu",
+      isCustomComponent: false,
+    },
+  ];
+
+  // Filter sources based on search term
+  const filteredSources = allSources.filter((source) =>
+    source.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const renderSourceCard = (source) => {
+    if (source.isCustomComponent) {
+      return source.component;
+    }
+
+    return (
+      <Grid size={{ xs: 12, md: 4 }} key={source.name}>
+        <Card
+          sx={{
+            p: 3,
+            borderRadius: 2,
+            boxShadow: 2,
+            height: "100%",
+            mt: 1,
+          }}
+        >
+          {source.isSvgComponent ? (
+            <source.logo
+              style={{
+                height: "70px",
+                width: "auto",
+                marginBottom: 10,
+              }}
+            />
+          ) : (
+            <img
+              src={source.logo}
+              alt={`${source.name} Logo`}
+              style={{
+                height: "70px",
+                objectFit: "contain",
+                marginBottom: 10,
+              }}
+            />
+          )}
+          <Typography variant="h6" sx={{ fontWeight: "bold", mb: 1 }}>
+            {source.name}
+          </Typography>
+          <Typography variant="body2" sx={{ color: "text.secondary" }}>
+            {source.description}
+          </Typography>
+          <Button variant="outlined" sx={{ mt: 3 }} disabled fullWidth>
+            {source.buttonText}
+          </Button>
+        </Card>
+      </Grid>
+    );
+  };
+
   return (
     <Dialog open={open} onClose={onClose} maxWidth="xl" fullWidth>
       <DialogTitle
@@ -34,369 +196,46 @@ export const AddSourceModal = ({ open, onClose, createSource }) => {
           pb: 2,
         }}
       >
-        <Typography variant="h4">
-          Add new source
-        </Typography>
+        <Typography variant="h4">Add new source</Typography>
         <IconButton onClick={onClose}>
           <X size={25} />
         </IconButton>
       </DialogTitle>
 
       <DialogContent sx={{ pb: 3 }}>
+        {/* Search Input */}
+        <Box sx={{ mb: 3 }}>
+          <TextField
+            fullWidth
+            placeholder="Search sources (e.g., TikTok, Instagram, YouTube...)"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            variant="outlined"
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                borderRadius: 2,
+              },
+            }}
+          />
+        </Box>
+
+        {/* Sources Grid */}
         <Grid container spacing={3}>
-          <LinkYoutubeCard createSource={createSource} />
-
-          <Grid size={{ xs: 12, md: 4 }}>
-            <Card
-              sx={{
-                p: 3,
-                borderRadius: 2,
-                boxShadow: 2,
-                height: "100%",
-                mt: 1,
-              }}
-            >
-              <img
-                src={googleAdsLogo}
-                alt="Google Ads Logo"
-                style={{
-                  height: "70px",
-                  objectFit: "contain",
-                  marginBottom: 10,
-                }}
-              />
-              <Typography variant="h6" sx={{ fontWeight: "bold", mb: 1 }}>
-                Google Ads
-              </Typography>
-              <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                Connect your Google Ads account to track and manage your ad
-                campaigns, performance metrics, and insights all in one place.
-              </Typography>
-              <Button variant="outlined" sx={{ mt: 3 }} disabled fullWidth>
-                Link Google Ads
-              </Button>
-            </Card>
-          </Grid>
-
-          <Grid size={{ xs: 12, md: 4 }}>
-            <Card
-              sx={{
-                p: 3,
-                borderRadius: 2,
-                boxShadow: 2,
-                height: "100%",
-                mt: 1,
-              }}
-            >
-              <img
-                src={amazonLogo}
-                alt="Amazon Logo"
-                style={{
-                  height: "70px",
-                  objectFit: "contain",
-                  marginBottom: 10,
-                }}
-              />
-              <Typography variant="h6" sx={{ fontWeight: "bold", mb: 1 }}>
-                Amazon
-              </Typography>
-              <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                Integrate your Amazon account to monitor sales data, product
-                performance, and streamline your e-commerce operations.
-              </Typography>
-              <Button variant="outlined" sx={{ mt: 3 }} disabled fullWidth>
-                Link Amazon
-              </Button>
-            </Card>
-          </Grid>
-          <LinkTikTokCard createSource={createSource} />
-
-          <Grid size={{ xs: 12, md: 4 }}>
-            <Card
-              sx={{
-                p: 3,
-                borderRadius: 2,
-                boxShadow: 2,
-                height: "100%",
-                mt: 1,
-              }}
-            >
-              <img
-                src={instagramLogo}
-                alt="Instagram Logo"
-                style={{
-                  height: "70px",
-                  objectFit: "contain",
-                  marginBottom: 10,
-                }}
-              />
-              <Typography variant="h6" sx={{ fontWeight: "bold", mb: 1 }}>
-                Instagram
-              </Typography>
-              <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                Connect your Instagram account to analyze post performance, 
-                audience engagement, and optimize your social media strategy.
-              </Typography>
-              <Button variant="outlined" sx={{ mt: 3 }} disabled fullWidth>
-                Link Instagram
-              </Button>
-            </Card>
-          </Grid>
-
-          <Grid size={{ xs: 12, md: 4 }}>
-            <Card
-              sx={{
-                p: 3,
-                borderRadius: 2,
-                boxShadow: 2,
-                height: "100%",
-                mt: 1,
-              }}
-            >
-              <img
-                src={twitchLogo}
-                alt="Twitch Logo"
-                style={{
-                  height: "70px",
-                  objectFit: "contain",
-                  marginBottom: 10,
-                }}
-              />
-              <Typography variant="h6" sx={{ fontWeight: "bold", mb: 1 }}>
-                Twitch
-              </Typography>
-              <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                Link your Twitch account to track streaming analytics, 
-                viewer engagement, and monetization metrics.
-              </Typography>
-              <Button variant="outlined" sx={{ mt: 3 }} disabled fullWidth>
-                Link Twitch
-              </Button>
-            </Card>
-          </Grid>
-
-          <Grid size={{ xs: 12, md: 4 }}>
-            <Card
-              sx={{
-                p: 3,
-                borderRadius: 2,
-                boxShadow: 2,
-                height: "100%",
-                mt: 1,
-              }}
-            >
-              <img
-                src={patreonLogo}
-                alt="Patreon Logo"
-                style={{
-                  height: "70px",
-                  objectFit: "contain",
-                  marginBottom: 10,
-                }}
-              />
-              <Typography variant="h6" sx={{ fontWeight: "bold", mb: 1 }}>
-                Patreon
-              </Typography>
-              <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                Connect your Patreon account to monitor subscription revenue, 
-                patron growth, and content performance analytics.
-              </Typography>
-              <Button variant="outlined" sx={{ mt: 3 }} disabled fullWidth>
-                Link Patreon
-              </Button>
-            </Card>
-          </Grid>
-
-          <Grid size={{ xs: 12, md: 4 }}>
-            <Card
-              sx={{
-                p: 3,
-                borderRadius: 2,
-                boxShadow: 2,
-                height: "100%",
-                mt: 1,
-              }}
-            >
-              <FacebookLogo
-                style={{
-                  height: "70px",
-                  width: "auto",
-                  marginBottom: 10,
-                }}
-              />
-              <Typography variant="h6" sx={{ fontWeight: "bold", mb: 1 }}>
-                Facebook
-              </Typography>
-              <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                Integrate your Facebook account to analyze page insights, 
-                post engagement, and audience demographics.
-              </Typography>
-              <Button variant="outlined" sx={{ mt: 3 }} disabled fullWidth>
-                Link Facebook
-              </Button>
-            </Card>
-          </Grid>
-
-          <Grid size={{ xs: 12, md: 4 }}>
-            <Card
-              sx={{
-                p: 3,
-                borderRadius: 2,
-                boxShadow: 2,
-                height: "100%",
-                mt: 1,
-              }}
-            >
-              <img
-                src={appleAppStoreLogo}
-                alt="Apple App Store Logo"
-                style={{
-                  height: "70px",
-                  objectFit: "contain",
-                  marginBottom: 10,
-                }}
-              />
-              <Typography variant="h6" sx={{ fontWeight: "bold", mb: 1 }}>
-                Apple App Store
-              </Typography>
-              <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                Connect your Apple App Store account to track app downloads, 
-                revenue, and user reviews across iOS devices.
-              </Typography>
-              <Button variant="outlined" sx={{ mt: 3 }} disabled fullWidth>
-                Link Apple App Store
-              </Button>
-            </Card>
-          </Grid>
-
-          <Grid size={{ xs: 12, md: 4 }}>
-            <Card
-              sx={{
-                p: 3,
-                borderRadius: 2,
-                boxShadow: 2,
-                height: "100%",
-                mt: 1,
-              }}
-            >
-              <img
-                src={googlePlayLogo}
-                alt="Google Play Logo"
-                style={{
-                  height: "70px",
-                  objectFit: "contain",
-                  marginBottom: 10,
-                }}
-              />
-              <Typography variant="h6" sx={{ fontWeight: "bold", mb: 1 }}>
-                Google Play
-              </Typography>
-              <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                Link your Google Play Console to monitor app performance, 
-                downloads, and revenue from Android users.
-              </Typography>
-              <Button variant="outlined" sx={{ mt: 3 }} disabled fullWidth>
-                Link Google Play
-              </Button>
-            </Card>
-          </Grid>
-
-          <Grid size={{ xs: 12, md: 4 }}>
-            <Card
-              sx={{
-                p: 3,
-                borderRadius: 2,
-                boxShadow: 2,
-                height: "100%",
-                mt: 1,
-              }}
-            >
-              <img
-                src={audibleLogo}
-                alt="Audible Logo"
-                style={{
-                  height: "70px",
-                  objectFit: "contain",
-                  marginBottom: 10,
-                }}
-              />
-              <Typography variant="h6" sx={{ fontWeight: "bold", mb: 1 }}>
-                Audible
-              </Typography>
-              <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                Connect your Audible account to track audiobook sales, 
-                listener engagement, and royalty earnings.
-              </Typography>
-              <Button variant="outlined" sx={{ mt: 3 }} disabled fullWidth>
-                Link Audible
-              </Button>
-            </Card>
-          </Grid>
-
-          <Grid size={{ xs: 12, md: 4 }}>
-            <Card
-              sx={{
-                p: 3,
-                borderRadius: 2,
-                boxShadow: 2,
-                height: "100%",
-                mt: 1,
-              }}
-            >
-              <img
-                src={spotifyLogo}
-                alt="Spotify Logo"
-                style={{
-                  height: "70px",
-                  objectFit: "contain",
-                  marginBottom: 10,
-                }}
-              />
-              <Typography variant="h6" sx={{ fontWeight: "bold", mb: 1 }}>
-                Spotify
-              </Typography>
-              <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                Link your Spotify for Artists account to analyze streaming data, 
-                listener demographics, and track performance.
-              </Typography>
-              <Button variant="outlined" sx={{ mt: 3 }} disabled fullWidth>
-                Link Spotify
-              </Button>
-            </Card>
-          </Grid>
-
-          <Grid size={{ xs: 12, md: 4 }}>
-            <Card
-              sx={{
-                p: 3,
-                borderRadius: 2,
-                boxShadow: 2,
-                height: "100%",
-                mt: 1,
-              }}
-            >
-              <img
-                src={temuLogo}
-                alt="Temu Logo"
-                style={{
-                  height: "70px",
-                  objectFit: "contain",
-                  marginBottom: 10,
-                }}
-              />
-              <Typography variant="h6" sx={{ fontWeight: "bold", mb: 1 }}>
-                Temu
-              </Typography>
-              <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                Connect your Temu seller account to monitor product sales, 
-                customer reviews, and marketplace performance.
-              </Typography>
-              <Button variant="outlined" sx={{ mt: 3 }} disabled fullWidth>
-                Link Temu
-              </Button>
-            </Card>
-          </Grid>
+          {filteredSources.map((source) => renderSourceCard(source))}
         </Grid>
+
+        {/* No results message */}
+        {filteredSources.length === 0 && searchTerm && (
+          <Box sx={{ textAlign: "center", py: 4 }}>
+            <Typography variant="h6" color="text.secondary">
+              No sources found for "{searchTerm}"
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+              Try searching for platforms like TikTok, Instagram, YouTube, or
+              others.
+            </Typography>
+          </Box>
+        )}
       </DialogContent>
     </Dialog>
   );
