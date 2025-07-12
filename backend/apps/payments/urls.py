@@ -1,6 +1,7 @@
 from django.urls import path
 
 from . import views
+from .test_webhook import test_webhook
 
 urlpatterns = [
     path(
@@ -20,4 +21,5 @@ urlpatterns = [
     ),
     path("verify-session/", views.verify_session, name="payments.verify_session"),
     path("stripe-webhook/", views.stripe_webhook, name="payments.stripe_webhook"),
+    path("test-webhook/", test_webhook, name="payments.test_webhook"),
 ]
