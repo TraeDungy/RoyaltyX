@@ -34,28 +34,65 @@ def get_subscription_plan(request):
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def change_subscription_plan(request):
-    """Change the current user's subscription plan"""
+    """Change the current user's subscription plan - now redirects to payment for paid plans"""
     user = request.user
-    serializer = SubscriptionPlanSerializer(user, data=request.data, partial=True)
+    new_plan = request.data.get('subscription_plan')
     
-    if serializer.is_valid():
-        # Validate that the subscription plan is one of the allowed choices
-        new_plan = serializer.validated_data.get('subscription_plan')
-        valid_plans = [choice[0] for choice in User.SUBSCRIPTION_PLAN_CHOICES]
+    if not new_plan:
+        return Response(
+            {"error": "subscription_plan is required"},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+    # Validate that the subscription plan is one of the allowed choices
+    valid_plans = [choice[0] for choice in User.SUBSCRIPTION_PLAN_CHOICES]
+    
+    if new_plan not in valid_plans:
+        return Response(
+            {"error": f"Invalid subscription plan. Valid options are: {', '.join(valid_plans)}"},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+    # Check if user is already on this plan
+    if user.subscription_plan == new_plan:
+        return Response(
+            {"error": f"You are already on the {new_plan} plan"},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+    # If downgrading to free, handle directly
+    if new_plan == 'free':
+        # Cancel existing subscription if any
+        if user.stripe_subscription_id:
+            try:
+                from apps.payments.stripe_service import StripeService
+                StripeService.cancel_subscription(user.stripe_subscription_id)
+            except Exception as e:
+                return Response(
+                    {"error": f"Failed to cancel subscription: {str(e)}"},
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                )
         
-        if new_plan not in valid_plans:
-            return Response(
-                {"error": f"Invalid subscription plan. Valid options are: {', '.join(valid_plans)}"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+        # Update user to free plan
+        user.subscription_plan = 'free'
+        user.subscription_status = 'canceled'
+        user.stripe_subscription_id = None
+        user.subscription_current_period_end = None
+        user.save()
         
-        serializer.save()
         return Response({
-            "message": f"Subscription plan successfully changed to {new_plan}",
-            "subscription_plan": new_plan
+            "message": "Successfully downgraded to free plan",
+            "subscription_plan": "free"
         })
     
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    # For paid plans, redirect to payment processing
+    else:
+        return Response({
+            "requires_payment": True,
+            "message": f"Payment required for {new_plan} plan. Use the create-checkout-session endpoint.",
+            "redirect_to": "/payments/create-checkout-session/",
+            "plan": new_plan
+        }, status=status.HTTP_402_PAYMENT_REQUIRED)
 
 
 @api_view(["GET"])

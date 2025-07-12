@@ -19,13 +19,13 @@ import {
   Container,
   Snackbar,
 } from "@mui/material";
-import { X, ArrowUp, ArrowLeft, ArrowDown, Check } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { X, ArrowUp, ArrowDown, Check } from "lucide-react";
 import { useAuth } from "../../common/contexts/AuthContext";
 import { changeSubscriptionPlan } from "../api/subscription";
+import { createCheckoutSession } from "../api/payments";
+import { verifySession } from "../api/payments";
 
 function MembershipPage() {
-  const navigate = useNavigate();
   const { subscriptionPlan, setSubscriptionPlan } = useAuth();
   const [upgradeDialog, setUpgradeDialog] = useState(false);
   const [cancelDialog, setCancelDialog] = useState(false);
@@ -102,6 +102,48 @@ function MembershipPage() {
     setCurrentPlan(subscriptionPlan || "free");
   }, [subscriptionPlan]);
 
+  // Handle return from Stripe checkout
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const sessionId = urlParams.get('session_id');
+    const status = urlParams.get('status');
+
+    if (sessionId && status === 'success') {
+      // Verify the session and show success message
+      verifySession(sessionId)
+        .then((response) => {
+          if (response.status === 'success') {
+            setSnackbar({
+              open: true,
+              message: response.message || 'Payment successful! Your subscription has been activated.',
+              severity: 'success'
+            });
+            // Refresh user data to get updated subscription plan
+            window.location.reload();
+          }
+        })
+        .catch((error) => {
+          setSnackbar({
+            open: true,
+            message: error.message || 'Payment completed but verification failed. Please contact support.',
+            severity: 'warning'
+          });
+        });
+      
+      // Clean up URL parameters
+      window.history.replaceState({}, document.title, window.location.pathname);
+    } else if (status === 'cancelled') {
+      setSnackbar({
+        open: true,
+        message: 'Payment was cancelled. You can try again anytime.',
+        severity: 'info'
+      });
+      
+      // Clean up URL parameters
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, []);
+
   const handleUpgrade = (plan) => {
     setSelectedPlan(plan);
     setUpgradeDialog(true);
@@ -112,6 +154,16 @@ function MembershipPage() {
 
     setLoading(true);
     try {
+      // For paid plans, create checkout session and redirect to Stripe
+      if (selectedPlan.name !== "free") {
+        const response = await createCheckoutSession(selectedPlan.name);
+        
+        // Redirect to Stripe checkout
+        window.location.href = response.checkout_url;
+        return;
+      }
+      
+      // For free plan (downgrade), handle directly
       const response = await changeSubscriptionPlan(selectedPlan.name);
       setCurrentPlan(selectedPlan.name);
       setSubscriptionPlan(selectedPlan.name);
@@ -119,13 +171,13 @@ function MembershipPage() {
         open: true,
         message:
           response.message ||
-          `Successfully upgraded to ${selectedPlan.displayName}!`,
+          `Successfully changed to ${selectedPlan.displayName}!`,
         severity: "success",
       });
     } catch (error) {
       setSnackbar({
         open: true,
-        message: error.message || "Failed to upgrade plan",
+        message: error.message || "Failed to process plan change",
         severity: "error",
       });
     } finally {
@@ -170,15 +222,6 @@ function MembershipPage() {
 
   return (
     <Container>
-      <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-        <Button
-          onClick={() => navigate("/account")}
-          sx={{ mr: 2, minWidth: "auto", p: 0 }}
-        >
-          <ArrowLeft style={{ marginRight: 8 }} /> Return to account
-        </Button>
-      </Box>
-
       <Box>
         <Typography variant="h3" sx={{ mb: 5, fontWeight: "bold" }}>
           Available Plans
