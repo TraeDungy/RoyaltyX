@@ -18,3 +18,4 @@ redis>=4.0
 django-celery-beat>=2.0
 flower
 cryptography
+stripe==10.12.0

@@ -594,7 +594,7 @@ table.table.dataTable > :not(caption) > * > * {
   border-radius: 50px;
   left: 4px;
   bottom: 4px;
-  background-color: white;
+  background-color: var(--color-body-background);
   transition: 0.4s;
 }
 

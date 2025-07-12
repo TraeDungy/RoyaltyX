@@ -23,13 +23,16 @@ import {
   Calendar,
   CheckCircle,
   User,
+  Crown,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../common/contexts/AuthContext";
 import { getUserInfo } from "../api/user";
 
 function Overview() {
   const [userInfo, setUserInfo] = useState({});
   const navigate = useNavigate();
+  const { subscriptionPlan } = useAuth();
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -218,6 +221,33 @@ function Overview() {
                     <Chip
                       label="Active"
                       color="success"
+                      size="small"
+                      sx={{ fontWeight: 500 }}
+                    />
+                  </Paper>
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6 }}>
+                  <Paper
+                    sx={{
+                      p: 2,
+                      bgcolor: "background.default",
+                      border: "1px solid",
+                      borderColor: "divider",
+                    }}
+                  >
+                    <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+                      <Crown
+                        size={16}
+                        color="currentColor"
+                        style={{ marginRight: 8, color: "text.secondary" }}
+                      />
+                      <Typography variant="subtitle2" color="text.secondary">
+                        Subscription Plan
+                      </Typography>
+                    </Box>
+                    <Chip
+                      label={subscriptionPlan ? subscriptionPlan.charAt(0).toUpperCase() + subscriptionPlan.slice(1) : "Free"}
+                      color={subscriptionPlan === "premium" ? "primary" : subscriptionPlan === "basic" ? "secondary" : "default"}
                       size="small"
                       sx={{ fontWeight: 500 }}
                     />

@@ -42,6 +42,20 @@ class User(AbstractBaseUser):
         ("admin", "Admin"),
     ]
 
+    SUBSCRIPTION_PLAN_CHOICES = [
+        ("free", "Free"),
+        ("basic", "Basic"),
+        ("premium", "Premium"),
+    ]
+
+    SUBSCRIPTION_STATUS_CHOICES = [
+        ("inactive", "Inactive"),
+        ("active", "Active"),
+        ("past_due", "Past Due"),
+        ("canceled", "Canceled"),
+        ("incomplete", "Incomplete"),
+    ]
+
     email = models.EmailField(max_length=60, unique=True, null=False)
     username = models.CharField(max_length=50, unique=True, null=False)
     name = models.CharField(max_length=30)
@@ -56,6 +70,18 @@ class User(AbstractBaseUser):
     is_email_verified = models.BooleanField(default=False)
     verification_code = models.CharField(max_length=30, null=True)
     avatar = models.CharField(null=True, max_length=300)
+    subscription_plan = models.CharField(
+        max_length=10, choices=SUBSCRIPTION_PLAN_CHOICES, default="free"
+    )
+    # Stripe-related fields
+    stripe_customer_id = models.CharField(max_length=255, null=True, blank=True)
+    stripe_subscription_id = models.CharField(max_length=255, null=True, blank=True)
+    subscription_status = models.CharField(
+        max_length=50, choices=SUBSCRIPTION_STATUS_CHOICES, default="inactive"
+    )
+    subscription_current_period_end = models.DateTimeField(null=True, blank=True)
+    grace_period_end = models.DateTimeField(null=True, blank=True)
+    payment_failure_count = models.IntegerField(default=0)
     currently_selected_project = models.ForeignKey(
         Project, null=True, default=None, on_delete=models.CASCADE
     )
