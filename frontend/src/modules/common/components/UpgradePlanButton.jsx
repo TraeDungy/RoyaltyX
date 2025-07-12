@@ -1,5 +1,6 @@
 import { Box, Button } from "@mui/material";
 import { useAuth } from "../contexts/AuthContext";
+import { Flame } from "lucide-react";
 
 export const UpgradePlanButton = () => {
   const { subscriptionPlan } = useAuth();
@@ -15,12 +16,13 @@ export const UpgradePlanButton = () => {
 
   return (
     <Box sx={{ width: "100%", pt: 2.5, pb: 4 }}>
-      <Button 
-        variant="contained" 
-        color="primary" 
+      <Button
+        variant="outlined"
+        color="primary"
         sx={{ width: "100%", py: 1.4 }}
         onClick={handleUpgradeClick}
       >
+        <Flame size={18} style={{ marginRight: 6 }} />
         {subscriptionPlan === "free" ? "Upgrade Plan" : "Change Plan"}
       </Button>
     </Box>

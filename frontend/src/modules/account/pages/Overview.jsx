@@ -78,7 +78,7 @@ function Overview() {
   };
 
   return (
-    <Box sx={{ p: 3, maxWidth: 1200, mx: "auto" }}>
+    <Box>
       <Typography variant="h3" sx={{ mb: 4, fontWeight: 600 }}>
         Account Overview
       </Typography>
