@@ -18,7 +18,6 @@ import {
 import {
   Shield,
   CreditCard,
-  History,
   Mail,
   Calendar,
   CheckCircle,
@@ -60,12 +59,6 @@ function Overview() {
       icon: <CreditCard size={20} color="currentColor" />,
       path: "/account/membership",
     },
-    {
-      title: "Payment History",
-      description: "View your billing history and invoices",
-      icon: <History size={20} color="currentColor" />,
-      path: "/account/payment-history",
-    },
   ];
 
   const formatDate = (dateString) => {
@@ -78,7 +71,7 @@ function Overview() {
   };
 
   return (
-    <Box sx={{ p: 3, maxWidth: 1200, mx: "auto" }}>
+    <Box>
       <Typography variant="h3" sx={{ mb: 4, fontWeight: 600 }}>
         Account Overview
       </Typography>
@@ -246,8 +239,19 @@ function Overview() {
                       </Typography>
                     </Box>
                     <Chip
-                      label={subscriptionPlan ? subscriptionPlan.charAt(0).toUpperCase() + subscriptionPlan.slice(1) : "Free"}
-                      color={subscriptionPlan === "premium" ? "primary" : subscriptionPlan === "basic" ? "secondary" : "default"}
+                      label={
+                        subscriptionPlan
+                          ? subscriptionPlan.charAt(0).toUpperCase() +
+                            subscriptionPlan.slice(1)
+                          : "Free"
+                      }
+                      color={
+                        subscriptionPlan === "premium"
+                          ? "primary"
+                          : subscriptionPlan === "basic"
+                            ? "secondary"
+                            : "default"
+                      }
                       size="small"
                       sx={{ fontWeight: 500 }}
                     />

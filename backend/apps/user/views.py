@@ -2,6 +2,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
+from django.contrib.auth import authenticate
 
 from .models import User
 from .serializers import UserSerializer, SubscriptionPlanSerializer
@@ -101,3 +102,40 @@ def get_available_plans(request):
     """Get all available subscription plans"""
     plans = [{"value": choice[0], "label": choice[1]} for choice in User.SUBSCRIPTION_PLAN_CHOICES]
     return Response({"plans": plans})
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def change_password(request):
+    """Change user password"""
+    user = request.user
+    current_password = request.data.get('current_password')
+    new_password = request.data.get('new_password')
+    
+    if not current_password or not new_password:
+        return Response(
+            {"error": "Both current_password and new_password are required"},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+    # Verify current password
+    if not user.check_password(current_password):
+        return Response(
+            {"error": "Current password is incorrect"},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+    # Validate new password length
+    if len(new_password) < 8:
+        return Response(
+            {"error": "New password must be at least 8 characters long"},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+    # Set new password
+    user.set_password(new_password)
+    user.save()
+    
+    return Response({
+        "message": "Password changed successfully"
+    }, status=status.HTTP_200_OK)

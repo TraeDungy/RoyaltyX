@@ -5,7 +5,8 @@ from .views import (
     getMyUserInfo, 
     get_subscription_plan, 
     change_subscription_plan, 
-    get_available_plans
+    get_available_plans,
+    change_password
 )
 
 urlpatterns = [
@@ -14,4 +15,5 @@ urlpatterns = [
     path("subscription-plan/", get_subscription_plan, name="user.get_subscription_plan"),
     path("subscription-plan/change/", change_subscription_plan, name="user.change_subscription_plan"),
     path("subscription-plan/available/", get_available_plans, name="user.get_available_plans"),
+    path("change-password/", change_password, name="user.change_password"),
 ]
