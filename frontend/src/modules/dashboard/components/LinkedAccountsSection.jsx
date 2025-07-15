@@ -12,7 +12,6 @@ export const LinkedAccountsSection = ({ sources, loading }) => {
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          mt: 5,
           mb: 5,
         }}
       >

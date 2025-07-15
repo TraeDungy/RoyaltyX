@@ -10,6 +10,8 @@ import {
   Grid,
   Menu,
   MenuItem,
+  Card,
+  CardContent,
 } from "@mui/material";
 import { EllipsisVertical } from "lucide-react";
 import {
@@ -59,60 +61,63 @@ const SalesOverTime = ({ analytics }) => {
 
   return (
     <>
-      <Grid size={{ xs: 12, md: 6 }}>
-        <Box sx={{ width: "100%", maxWidth: "1200px", margin: "auto" }}>
-          <Box
-            sx={{
-              pt: 4,
-              pb: 2,
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Typography variant="h5">Sales Over Time</Typography>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <IconButton onClick={handleMenuOpen} size="sm">
-                <EllipsisVertical size={16} color="var(--color-text)" />
-              </IconButton>
-              <Menu
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={handleMenuClose}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "right",
-                }}
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
+      <Grid size={{ xs: 12, md: 6 }} sx={{ mt: 3 }}>
+        <Card variant="outlined">
+          <CardContent>
+            <Box sx={{ width: "100%", maxWidth: "1200px", margin: "auto" }}>
+              <Box
+                sx={{
+                  pb: 2,
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
                 }}
               >
-                <MenuItem
-                  onClick={() => {
-                    setShowSalesOverTime(false);
-                    handleMenuClose();
-                  }}
-                  sx={{ py: 1 }}
-                >
-                  <EyeSlash style={{ marginRight: 8 }} />
-                  Hide
-                </MenuItem>
-                <MenuItem
-                  onClick={() => {
-                    setShowGraphColorPalette(true);
-                    handleMenuClose();
-                  }}
-                  sx={{ py: 1 }}
-                >
-                  <Palette style={{ marginRight: 8 }} />
-                  Customize color
-                </MenuItem>
-              </Menu>
+                <Typography variant="h5">Sales Over Time</Typography>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <IconButton onClick={handleMenuOpen} size="sm">
+                    <EllipsisVertical size={16} color="var(--color-text)" />
+                  </IconButton>
+                  <Menu
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={handleMenuClose}
+                    anchorOrigin={{
+                      vertical: "bottom",
+                      horizontal: "right",
+                    }}
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                  >
+                    <MenuItem
+                      onClick={() => {
+                        setShowSalesOverTime(false);
+                        handleMenuClose();
+                      }}
+                      sx={{ py: 1 }}
+                    >
+                      <EyeSlash style={{ marginRight: 8 }} />
+                      Hide
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        setShowGraphColorPalette(true);
+                        handleMenuClose();
+                      }}
+                      sx={{ py: 1 }}
+                    >
+                      <Palette style={{ marginRight: 8 }} />
+                      Customize color
+                    </MenuItem>
+                  </Menu>
+                </Box>
+              </Box>
+              <Line data={data} options={options} />
             </Box>
-          </Box>
-          <Line data={data} options={options} />
-        </Box>
+          </CardContent>
+        </Card>
       </Grid>
       <GraphColorPalette
         showGraphColorPalette={showGraphColorPalette}

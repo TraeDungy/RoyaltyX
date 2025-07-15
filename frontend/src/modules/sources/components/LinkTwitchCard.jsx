@@ -1,17 +1,15 @@
 import { useEffect } from "react";
-import { appUrl } from "../../common/api/config";
+import { appUrl, twitchClientId } from "../../common/api/config";
 import twitchLogo from "../../common/assets/img/platform_logos/twitch.webp";
-import { Typography, Card, Button, Grid } from "@mui/material";
+import { Typography, Card, Button, Grid, Box } from "@mui/material";
 import { requestAccessTokenFromTwitch } from "../api/twitch";
-
-const clientId = ""; // Replace with actual client ID
 
 const openTwitchOAuthPopup = () => {
   const redirectUri = `${appUrl}/twitch-oauth-callback`;
 
   const scope = "user:read:email channel:read:subscriptions";
   const state = "twitch-oauth";
-  const oauthUrl = `https://id.twitch.tv/oauth2/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(
+  const oauthUrl = `https://id.twitch.tv/oauth2/authorize?client_id=${twitchClientId}&redirect_uri=${encodeURIComponent(
     redirectUri
   )}&response_type=code&scope=${encodeURIComponent(scope)}&state=${state}`;
 
@@ -30,7 +28,7 @@ const openTwitchOAuthPopup = () => {
 export const LinkTwitchCard = ({ createSource }) => {
   useEffect(() => {
     const handleMessage = async (event) => {
-      if (event.origin !== window.location.origin) return; 
+      if (event.origin !== window.location.origin) return;
 
       if (event.data?.source === "twitch-oauth" && event.data.code) {
         const authCode = event.data.code;
@@ -56,27 +54,39 @@ export const LinkTwitchCard = ({ createSource }) => {
   }, []);
 
   return (
-    <Grid size={{ xs: 12, md: 6 }}>
+    <Grid size={{ xs: 12, md: 4 }}>
       <Card sx={{ p: 3, borderRadius: 2, boxShadow: 2, height: "100%", mt: 1 }}>
-        <img
-          src={twitchLogo}
-          alt="Twitch Logo"
-          style={{ height: "70px", objectFit: "contain", marginBottom: 10 }}
-        />
-        <Typography variant="h6" sx={{ fontWeight: "bold", mb: 1 }}>
-          Twitch
-        </Typography>
-        <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          Link your Twitch account to track streaming analytics, viewer engagement, and monetization metrics.
-        </Typography>
-        <Button
-          variant="outlined"
-          sx={{ mt: 3 }}
-          onClick={openTwitchOAuthPopup}
-          fullWidth
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            height: "100%",
+          }}
         >
-          Link Twitch
-        </Button>
+          <Box>
+            <img
+              src={twitchLogo}
+              alt="Twitch Logo"
+              style={{ height: "70px", objectFit: "contain", marginBottom: 10 }}
+            />
+            <Typography variant="h6" sx={{ fontWeight: "bold", mb: 1 }}>
+              Twitch
+            </Typography>
+            <Typography variant="body2" sx={{ color: "text.secondary" }}>
+              Link your Twitch account to track streaming analytics, viewer
+              engagement, and monetization metrics.
+            </Typography>
+          </Box>
+          <Button
+            variant="outlined"
+            sx={{ mt: 3 }}
+            onClick={openTwitchOAuthPopup}
+            fullWidth
+          >
+            Link Twitch
+          </Button>
+        </Box>
       </Card>
     </Grid>
   );

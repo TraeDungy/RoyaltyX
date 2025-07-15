@@ -76,7 +76,7 @@ function Analytics() {
         {showTotalRevenueCard && <RevenueCard analytics={analytics} />}
       </Grid>
 
-      <Grid container spacing={3}>
+      <Grid container columnSpacing={3}>
         {showSalesOverTime && <SalesOverTime analytics={analytics} />}
         {showRentalsOverTime && <RentalsOverTime analytics={analytics} />}
         {showImpressionsOverTime && (

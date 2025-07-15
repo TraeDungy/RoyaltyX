@@ -114,7 +114,7 @@ export const RevenueCard = ({ analytics }) => {
               >
                 $
               </Typography>
-              <Typography variant="h3" sx={{ fontWeight: "bold", pl: 2 }}>
+              <Typography variant="h1" sx={{ fontWeight: "bold", pl: 2 }}>
                 {analytics?.total_royalty_revenue?.toLocaleString()}
               </Typography>
             </Box>

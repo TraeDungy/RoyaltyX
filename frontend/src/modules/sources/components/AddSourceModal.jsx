@@ -150,34 +150,46 @@ export const AddSourceModal = ({ open, onClose, createSource }) => {
             mt: 1,
           }}
         >
-          {source.isSvgComponent ? (
-            <source.logo
-              style={{
-                height: "70px",
-                width: "auto",
-                marginBottom: 10,
-              }}
-            />
-          ) : (
-            <img
-              src={source.logo}
-              alt={`${source.name} Logo`}
-              style={{
-                height: "70px",
-                objectFit: "contain",
-                marginBottom: 10,
-              }}
-            />
-          )}
-          <Typography variant="h6" sx={{ fontWeight: "bold", mb: 1 }}>
-            {source.name}
-          </Typography>
-          <Typography variant="body2" sx={{ color: "text.secondary" }}>
-            {source.description}
-          </Typography>
-          <Button variant="outlined" sx={{ mt: 3 }} disabled fullWidth>
-            {source.buttonText}
-          </Button>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              height: "100%",
+            }}
+          >
+            <Box>
+              {source.isSvgComponent ? (
+                <source.logo
+                  style={{
+                    height: "70px",
+                    width: "auto",
+                    marginBottom: 10,
+                  }}
+                />
+              ) : (
+                <img
+                  src={source.logo}
+                  alt={`${source.name} Logo`}
+                  style={{
+                    height: "70px",
+                    objectFit: "contain",
+                    marginBottom: 10,
+                  }}
+                />
+              )}
+              <Typography variant="h6" sx={{ fontWeight: "bold", mb: 1 }}>
+                {source.name}
+              </Typography>
+              <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                {source.description}
+              </Typography>
+            </Box>
+
+            <Button variant="outlined" sx={{ mt: 3 }} disabled fullWidth>
+              {source.buttonText}
+            </Button>
+          </Box>
         </Card>
       </Grid>
     );
