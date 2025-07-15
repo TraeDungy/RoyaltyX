@@ -1,6 +1,7 @@
 from celery import shared_task
 
 from apps.sources.utils.tiktok_sync import fetch_tiktok_stats, fetch_tiktok_videos
+from apps.sources.utils.twitch_sync import fetch_twitch_stats, fetch_twitch_videos
 
 from .utils.youtube import fetch_youtube_stats, fetch_youtube_videos
 
@@ -26,3 +27,15 @@ def task_fetch_tiktok_videos():
 def task_fetch_tiktok_stats():
     print("Running task for fetching TikTok stats.", flush=True)
     fetch_tiktok_stats()
+
+
+@shared_task
+def task_fetch_twitch_videos():
+    print("Running task for fetching Twitch videos.", flush=True)
+    fetch_twitch_videos()
+
+
+@shared_task
+def task_fetch_twitch_stats():
+    print("Running task for fetching Twitch stats.", flush=True)
+    fetch_twitch_stats()
