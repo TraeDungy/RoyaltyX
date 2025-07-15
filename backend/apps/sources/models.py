@@ -11,6 +11,7 @@ class Source(BaseModel):
     PLATFORM_FACEBOOK = "facebook"
     PLATFORM_AMAZON = "amazon"
     PLATFORM_TIKTOK = "tiktok"
+    PLATFORM_TWITCH = "twitch"
 
     PLATFORMS = [
         (PLATFORM_YOUTUBE, "YouTube"),
@@ -18,6 +19,7 @@ class Source(BaseModel):
         (PLATFORM_FACEBOOK, "Facebook"),
         (PLATFORM_AMAZON, "Amazon"),
         (PLATFORM_TIKTOK, "TikTok"),
+        (PLATFORM_TWITCH, "Twitch"),
     ]
 
     account_name = models.CharField(max_length=50)

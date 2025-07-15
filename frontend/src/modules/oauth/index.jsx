@@ -1,5 +1,6 @@
 import { GoogleOAuthCallback } from "./pages/GoogleOAuthCallback";
 import { TikTokOAuthCallback } from "./pages/TikTokOAuthCallback";
+import { TwitchOAuthCallback } from "./pages/TwitchOAuthCallback";
 
 const oauthRoutes = [
   {
@@ -9,6 +10,10 @@ const oauthRoutes = [
   {
     path: "/tiktok-oauth-callback",
     element: <TikTokOAuthCallback />,
+  },
+  {
+    path: "/twitch-oauth-callback",
+    element: <TwitchOAuthCallback />,
   },
 ];
 

@@ -1,18 +1,17 @@
 import { useEffect } from "react";
 import { appUrl } from "../../common/api/config";
-import tiktokLogo from "../../common/assets/img/platform_logos/tiktok.webp";
+import twitchLogo from "../../common/assets/img/platform_logos/twitch.webp";
 import { Typography, Card, Button, Grid } from "@mui/material";
-import { requestAccessTokenFromTikTok } from "../api/tiktok";
+import { requestAccessTokenFromTwitch } from "../api/twitch";
 
-// TikTok credentials
-const clientKey = ""; // Replace with actual client ID
+const clientId = ""; // Replace with actual client ID
 
-const openTikTokOAuthPopup = () => {
-  const redirectUri = `${appUrl}/tiktok-oauth-callback`;
+const openTwitchOAuthPopup = () => {
+  const redirectUri = `${appUrl}/twitch-oauth-callback`;
 
-  const scope = "user.info.basic,video.list";
-  const state = "tiktok-oauth";
-  const oauthUrl = `https://www.tiktok.com/v2/auth/authorize?client_key=${clientKey}&redirect_uri=${encodeURIComponent(
+  const scope = "user:read:email channel:read:subscriptions";
+  const state = "twitch-oauth";
+  const oauthUrl = `https://id.twitch.tv/oauth2/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(
     redirectUri
   )}&response_type=code&scope=${encodeURIComponent(scope)}&state=${state}`;
 
@@ -23,24 +22,23 @@ const openTikTokOAuthPopup = () => {
 
   window.open(
     oauthUrl,
-    "TikTokOAuth",
+    "TwitchOAuth",
     `width=${width},height=${height},top=${top},left=${left}`
   );
 };
 
-
-export const LinkTikTokCard = ({ createSource }) => {
+export const LinkTwitchCard = ({ createSource }) => {
   useEffect(() => {
     const handleMessage = async (event) => {
       if (event.origin !== window.location.origin) return; 
 
-      if (event.data?.source === "tiktok-oauth" && event.data.code) {
+      if (event.data?.source === "twitch-oauth" && event.data.code) {
         const authCode = event.data.code;
-        const tokenData = await requestAccessTokenFromTikTok(authCode);
+        const tokenData = await requestAccessTokenFromTwitch(authCode);
         const expiresAt = Date.now() + tokenData.expires_in * 1000;
         const source = {
-          account_name: "Account Name",
-          platform: "tiktok",
+          account_name: "Twitch Account",
+          platform: "twitch",
           access_token: tokenData.access_token,
           refresh_token: tokenData.refresh_token,
           token_expires_at: new Date(expiresAt).toISOString(),
@@ -61,25 +59,25 @@ export const LinkTikTokCard = ({ createSource }) => {
     <Grid size={{ xs: 12, md: 6 }}>
       <Card sx={{ p: 3, borderRadius: 2, boxShadow: 2, height: "100%", mt: 1 }}>
         <img
-          src={tiktokLogo}
-          alt="TikTok Logo"
+          src={twitchLogo}
+          alt="Twitch Logo"
           style={{ height: "70px", objectFit: "contain", marginBottom: 10 }}
         />
         <Typography variant="h6" sx={{ fontWeight: "bold", mb: 1 }}>
-          TikTok
+          Twitch
         </Typography>
         <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          Connect your TikTok account to analyze video performance,
-          audience engagement, and optimize your content strategy for
-          better reach.
+          Connect your Twitch account to analyze stream performance,
+          viewer engagement, and optimize your streaming strategy for
+          better audience growth.
         </Typography>
         <Button
           variant="outlined"
           sx={{ mt: 3 }}
-          onClick={openTikTokOAuthPopup}
+          onClick={openTwitchOAuthPopup}
           fullWidth
         >
-          Link TikTok
+          Link Twitch
         </Button>
       </Card>
     </Grid>

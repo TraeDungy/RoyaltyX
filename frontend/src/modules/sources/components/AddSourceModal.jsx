@@ -13,6 +13,7 @@ import googleAdsLogo from "../../common/assets/img/platform_logos/google_ads.web
 import amazonLogo from "../../common/assets/img/platform_logos/amazon.webp";
 import { X } from "lucide-react";
 import { LinkTikTokCard } from "./LinkTikTokCard";
+import { LinkTwitchCard } from "./LinkTwitchCard";
 
 export const AddSourceModal = ({ open, onClose, createSource }) => {
   return (
@@ -101,6 +102,7 @@ export const AddSourceModal = ({ open, onClose, createSource }) => {
             </Card>
           </Grid>
           <LinkTikTokCard createSource={createSource} />
+          <LinkTwitchCard createSource={createSource} />
         </Grid>
       </DialogContent>
     </Dialog>
