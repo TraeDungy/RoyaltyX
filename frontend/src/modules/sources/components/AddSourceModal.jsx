@@ -13,10 +13,10 @@ import {
 import { useState } from "react";
 import { LinkYoutubeCard } from "./LinkYoutubeCard";
 import { LinkTikTokCard } from "./LinkTikTokCard";
+import { LinkTwitchCard } from "./LinkTwitchCard";
 import googleAdsLogo from "../../common/assets/img/platform_logos/google_ads.webp";
 import amazonLogo from "../../common/assets/img/platform_logos/amazon.webp";
 import instagramLogo from "../../common/assets/img/platform_logos/instagram.webp";
-import twitchLogo from "../../common/assets/img/platform_logos/twitch.webp";
 import patreonLogo from "../../common/assets/img/platform_logos/patreon.webp";
 import appleAppStoreLogo from "../../common/assets/img/platform_logos/apple_app_store.png";
 import googlePlayLogo from "../../common/assets/img/platform_logos/google_play.svg";
@@ -25,8 +25,6 @@ import audibleLogo from "../../common/assets/img/platform_logos/audible.svg";
 import temuLogo from "../../common/assets/img/platform_logos/temu.svg";
 import { ReactComponent as FacebookLogo } from "../../common/assets/img/platform_logos/facebook.svg";
 import { X } from "lucide-react";
-import { LinkTikTokCard } from "./LinkTikTokCard";
-import { LinkTwitchCard } from "./LinkTwitchCard";
 
 export const AddSourceModal = ({ open, onClose, createSource }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -69,11 +67,8 @@ export const AddSourceModal = ({ open, onClose, createSource }) => {
     },
     {
       name: "Twitch",
-      logo: twitchLogo,
-      description:
-        "Link your Twitch account to track streaming analytics, viewer engagement, and monetization metrics.",
-      buttonText: "Link Twitch",
-      isCustomComponent: false,
+      component: <LinkTwitchCard createSource={createSource} />,
+      isCustomComponent: true,
     },
     {
       name: "Patreon",

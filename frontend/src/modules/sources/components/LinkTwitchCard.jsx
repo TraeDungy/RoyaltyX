@@ -67,9 +67,7 @@ export const LinkTwitchCard = ({ createSource }) => {
           Twitch
         </Typography>
         <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          Connect your Twitch account to analyze stream performance,
-          viewer engagement, and optimize your streaming strategy for
-          better audience growth.
+          Link your Twitch account to track streaming analytics, viewer engagement, and monetization metrics.
         </Typography>
         <Button
           variant="outlined"
