@@ -101,7 +101,7 @@ export const SalesCard = ({ analytics }) => {
                 </Menu>
               </Box>
             </Box>
-            <Typography variant="h3" sx={{ fontWeight: "bold", mb: 3, pl: 1 }}>
+            <Typography variant="h1" sx={{ fontWeight: "bold", mb: 3, pl: 1 }}>
               {analytics?.total_sales_count}
             </Typography>
 

@@ -199,6 +199,7 @@ TIKTOK_CLIENT_SECRET = os.environ.get("TIKTOK_CLIENT_SECRET")
 TIKTOK_REDIRECT_URI = os.environ.get("TIKTOK_REDIRECT_URI")
 
 TWITCH_CLIENT_ID = os.environ.get("TWITCH_CLIENT_ID")
+print("Twitch client id: ", TWITCH_CLIENT_ID, flush=True)
 TWITCH_CLIENT_SECRET = os.environ.get("TWITCH_CLIENT_SECRET")
 TWITCH_REDIRECT_URI = os.environ.get("TWITCH_REDIRECT_URI")
 

@@ -1,18 +1,15 @@
 import { useEffect } from "react";
-import { appUrl } from "../../common/api/config";
+import { appUrl, tiktokClientId } from "../../common/api/config";
 import tiktokLogo from "../../common/assets/img/platform_logos/tiktok.webp";
-import { Typography, Card, Button, Grid } from "@mui/material";
+import { Typography, Card, Button, Grid, Box } from "@mui/material";
 import { requestAccessTokenFromTikTok } from "../api/tiktok";
-
-// TikTok credentials
-const clientKey = ""; // Replace with actual client ID
 
 const openTikTokOAuthPopup = () => {
   const redirectUri = `${appUrl}/tiktok-oauth-callback`;
 
   const scope = "user.info.basic,video.list";
   const state = "tiktok-oauth";
-  const oauthUrl = `https://www.tiktok.com/v2/auth/authorize?client_key=${clientKey}&redirect_uri=${encodeURIComponent(
+  const oauthUrl = `https://www.tiktok.com/v2/auth/authorize?client_key=${tiktokClientId}&redirect_uri=${encodeURIComponent(
     redirectUri
   )}&response_type=code&scope=${encodeURIComponent(scope)}&state=${state}`;
 
@@ -28,11 +25,10 @@ const openTikTokOAuthPopup = () => {
   );
 };
 
-
 export const LinkTikTokCard = ({ createSource }) => {
   useEffect(() => {
     const handleMessage = async (event) => {
-      if (event.origin !== window.location.origin) return; 
+      if (event.origin !== window.location.origin) return;
 
       if (event.data?.source === "tiktok-oauth" && event.data.code) {
         const authCode = event.data.code;
@@ -60,27 +56,38 @@ export const LinkTikTokCard = ({ createSource }) => {
   return (
     <Grid size={{ xs: 12, md: 4 }}>
       <Card sx={{ p: 3, borderRadius: 2, boxShadow: 2, height: "100%", mt: 1 }}>
-        <img
-          src={tiktokLogo}
-          alt="TikTok Logo"
-          style={{ height: "70px", objectFit: "contain", marginBottom: 10 }}
-        />
-        <Typography variant="h6" sx={{ fontWeight: "bold", mb: 1 }}>
-          TikTok
-        </Typography>
-        <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          Connect your TikTok account to analyze video performance,
-          audience engagement, and optimize your content strategy for
-          better reach.
-        </Typography>
-        <Button
-          variant="outlined"
-          sx={{ mt: 3 }}
-          onClick={openTikTokOAuthPopup}
-          fullWidth
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            height: "100%",
+          }}
         >
-          Link TikTok
-        </Button>
+          <Box>
+            <img
+              src={tiktokLogo}
+              alt="TikTok Logo"
+              style={{ height: "70px", objectFit: "contain", marginBottom: 10 }}
+            />
+            <Typography variant="h6" sx={{ fontWeight: "bold", mb: 1 }}>
+              TikTok
+            </Typography>
+            <Typography variant="body2" sx={{ color: "text.secondary" }}>
+              Connect your TikTok account to analyze video performance, audience
+              engagement, and optimize your content strategy for better reach.
+            </Typography>
+          </Box>
+
+          <Button
+            variant="outlined"
+            sx={{ mt: 3 }}
+            onClick={openTikTokOAuthPopup}
+            fullWidth
+          >
+            Link TikTok
+          </Button>
+        </Box>
       </Card>
     </Grid>
   );
