@@ -1,6 +1,7 @@
 import { Box, capitalize, Card, Grid, IconButton, Typography } from "@mui/material";
 import youtubeLogo from "../../common/assets/img/platform_logos/youtube.webp";
 import tiktokLogo from "../../common/assets/img/platform_logos/tiktok.webp";
+import twitchLogo from "../../common/assets/img/platform_logos/twitch.webp";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
@@ -9,10 +10,12 @@ export const SourceItem = ({ source }) => {
 
    const getPlatformLogo = (platform) => {
     switch (platform) {
-      case "youtube":
+      case "youtube":        
         return youtubeLogo;
       case "tiktok":
         return tiktokLogo;
+      case "twitch":
+        return twitchLogo;
       default:
         return youtubeLogo;
     }
