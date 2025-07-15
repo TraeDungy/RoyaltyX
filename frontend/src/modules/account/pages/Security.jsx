@@ -9,38 +9,31 @@ import {
   TextField,
   Switch,
   Divider,
-  Alert,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
   ListItemSecondaryAction,
-  Chip,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
+  Alert,
+  CircularProgress,
 } from "@mui/material";
-import {
-  Shield,
-  Lock,
-  Smartphone,
-  Mail,
-  Eye,
-  EyeOff,
-  ShieldCheck,
-  AlertTriangle,
-  CheckCircle,
-} from "lucide-react";
+import { Shield, Lock, Mail, Eye, EyeOff, ShieldCheck } from "lucide-react";
+import { changePassword } from "../api/user";
 
 function SecurityPage() {
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [changePasswordDialog, setChangePasswordDialog] = useState(false);
-  const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [loginAlerts, setLoginAlerts] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const [passwordForm, setPasswordForm] = useState({
     currentPassword: "",
@@ -49,13 +42,6 @@ function SecurityPage() {
   });
 
   const securityFeatures = [
-    {
-      title: "Two-Factor Authentication",
-      description: "Add an extra layer of security to your account",
-      icon: <Smartphone size={20} color="currentColor" />,
-      enabled: twoFactorEnabled,
-      action: () => setTwoFactorEnabled(!twoFactorEnabled),
-    },
     {
       title: "Email Notifications",
       description: "Get notified about important security events",
@@ -72,27 +58,6 @@ function SecurityPage() {
     },
   ];
 
-  const recentActivity = [
-    {
-      action: "Password changed",
-      date: "2024-01-15",
-      location: "New York, US",
-      status: "success",
-    },
-    {
-      action: "Login from new device",
-      date: "2024-01-10",
-      location: "London, UK",
-      status: "warning",
-    },
-    {
-      action: "Account created",
-      date: "2024-01-01",
-      location: "New York, US",
-      status: "success",
-    },
-  ];
-
   const handlePasswordChange = (field, value) => {
     setPasswordForm((prev) => ({
       ...prev,
@@ -100,37 +65,42 @@ function SecurityPage() {
     }));
   };
 
-  const handlePasswordSubmit = () => {
-    // Mock password change logic
-    console.log("Password change submitted:", passwordForm);
+  const handlePasswordSubmit = async () => {
+    setError("");
+    setSuccess("");
+    setLoading(true);
+
+    try {
+      await changePassword(
+        passwordForm.currentPassword,
+        passwordForm.newPassword
+      );
+      setSuccess("Password changed successfully!");
+      setPasswordForm({
+        currentPassword: "",
+        newPassword: "",
+        confirmPassword: "",
+      });
+      setTimeout(() => {
+        setChangePasswordDialog(false);
+        setSuccess("");
+      }, 2000);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDialogClose = () => {
     setChangePasswordDialog(false);
+    setError("");
+    setSuccess("");
     setPasswordForm({
       currentPassword: "",
       newPassword: "",
       confirmPassword: "",
     });
-  };
-
-  const getStatusIcon = (status) => {
-    switch (status) {
-      case "success":
-        return <CheckCircle size={20} color="green" />;
-      case "warning":
-        return <AlertTriangle size={20} color="orange" />;
-      default:
-        return <Shield size={20} color="blue" />;
-    }
-  };
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case "success":
-        return "success";
-      case "warning":
-        return "warning";
-      default:
-        return "primary";
-    }
   };
 
   return (
@@ -219,108 +189,30 @@ function SecurityPage() {
             </CardContent>
           </Card>
         </Grid>
-
-        {/* Security Status */}
-        <Grid size={{ xs: 12 }}>
-          <Card>
-            <CardContent sx={{ p: 3 }}>
-              <Typography variant="h6" sx={{ mb: 3, fontWeight: 500 }}>
-                Security Status
-              </Typography>
-              <Grid container spacing={2}>
-                <Grid size={{ xs: 12, sm: 4 }}>
-                  <Alert severity="success" sx={{ height: "100%" }}>
-                    <Typography variant="subtitle2" sx={{ fontWeight: 500 }}>
-                      Strong Password
-                    </Typography>
-                    <Typography variant="body2">
-                      Your password meets security requirements
-                    </Typography>
-                  </Alert>
-                </Grid>
-                <Grid size={{ xs: 12, sm: 4 }}>
-                  <Alert
-                    severity={twoFactorEnabled ? "success" : "warning"}
-                    sx={{ height: "100%" }}
-                  >
-                    <Typography variant="subtitle2" sx={{ fontWeight: 500 }}>
-                      Two-Factor Authentication
-                    </Typography>
-                    <Typography variant="body2">
-                      {twoFactorEnabled ? "Enabled and active" : "Not enabled"}
-                    </Typography>
-                  </Alert>
-                </Grid>
-                <Grid size={{ xs: 12, sm: 4 }}>
-                  <Alert severity="info" sx={{ height: "100%" }}>
-                    <Typography variant="subtitle2" sx={{ fontWeight: 500 }}>
-                      Account Activity
-                    </Typography>
-                    <Typography variant="body2">
-                      Regular monitoring active
-                    </Typography>
-                  </Alert>
-                </Grid>
-              </Grid>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        {/* Recent Activity */}
-        <Grid size={{ xs: 12 }}>
-          <Card>
-            <CardContent sx={{ p: 3 }}>
-              <Typography variant="h6" sx={{ mb: 3, fontWeight: 500 }}>
-                Recent Security Activity
-              </Typography>
-              <List sx={{ p: 0 }}>
-                {recentActivity.map((activity, index) => (
-                  <Box key={index}>
-                    <ListItem sx={{ px: 0, py: 2 }}>
-                      <ListItemIcon sx={{ minWidth: 40 }}>
-                        {getStatusIcon(activity.status)}
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={
-                          <Typography variant="subtitle2">
-                            {activity.action}
-                          </Typography>
-                        }
-                        secondary={
-                          <Typography variant="body2" color="text.secondary">
-                            {activity.location} •{" "}
-                            {new Date(activity.date).toLocaleDateString()}
-                          </Typography>
-                        }
-                      />
-                      <ListItemSecondaryAction>
-                        <Chip
-                          label={activity.status}
-                          color={getStatusColor(activity.status)}
-                          size="small"
-                          variant="outlined"
-                        />
-                      </ListItemSecondaryAction>
-                    </ListItem>
-                    {index < recentActivity.length - 1 && <Divider />}
-                  </Box>
-                ))}
-              </List>
-            </CardContent>
-          </Card>
-        </Grid>
       </Grid>
 
       {/* Change Password Dialog */}
       <Dialog
         open={changePasswordDialog}
-        onClose={() => setChangePasswordDialog(false)}
+        onClose={handleDialogClose}
         maxWidth="sm"
         fullWidth
       >
-        <DialogTitle>Change Password</DialogTitle>
+        <DialogTitle variant="h4" sx={{ mt: 1 }}>
+          Change Password
+        </DialogTitle>
         <DialogContent>
           <Box sx={{ pt: 2 }}>
+            {error && (
+              <Alert severity="error" sx={{ mb: 2 }}>
+                {error}
+              </Alert>
+            )}
+            {success && (
+              <Alert severity="success" sx={{ mb: 2 }}>
+                {success}
+              </Alert>
+            )}
             <TextField
               fullWidth
               label="Current Password"
@@ -354,6 +246,7 @@ function SecurityPage() {
                 handlePasswordChange("newPassword", e.target.value)
               }
               sx={{ mb: 2 }}
+              helperText="Password must be at least 8 characters long"
               InputProps={{
                 endAdornment: (
                   <Button
@@ -391,17 +284,22 @@ function SecurityPage() {
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setChangePasswordDialog(false)}>Cancel</Button>
+          <Button onClick={handleDialogClose} disabled={loading}>
+            Cancel
+          </Button>
           <Button
             onClick={handlePasswordSubmit}
             variant="contained"
             disabled={
+              loading ||
               !passwordForm.currentPassword ||
               !passwordForm.newPassword ||
+              passwordForm.newPassword.length < 8 ||
               passwordForm.newPassword !== passwordForm.confirmPassword
             }
+            startIcon={loading ? <CircularProgress size={20} /> : null}
           >
-            Change Password
+            {loading ? "Changing..." : "Change Password"}
           </Button>
         </DialogActions>
       </Dialog>

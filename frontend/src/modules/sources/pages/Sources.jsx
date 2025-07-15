@@ -22,7 +22,7 @@ export const Sources = () => {
   };
 
   return (
-    <Box sx={{ py: 3 }}>
+    <Box>
       <PageHeader
         title="Sources"
         description="Manage your data sources and link your platforms of choice."

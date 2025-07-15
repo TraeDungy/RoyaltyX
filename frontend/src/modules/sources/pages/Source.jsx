@@ -13,7 +13,6 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText,
-  DialogTitle,
   Card,
   CardContent,
   capitalize,
@@ -59,20 +58,34 @@ export const Source = () => {
   return (
     <>
       <Box>
-        <Typography variant="h2" sx={{ mb: 3, mt: 2, fontWeight: 600 }} gutterBottom>
+        <Typography
+          variant="h2"
+          sx={{ mb: 3, mt: 2, fontWeight: 600 }}
+          gutterBottom
+        >
           {source.account_name}
         </Typography>
         <Grid container spacing={2} sx={{ mb: 4 }}>
           <Grid size={{ xs: 12, md: 6 }}>
             <Card elevation={3}>
               <CardContent>
-                <Typography variant="h5" sx={{ mb: 3, fontWeight: 600 }} gutterBottom>
+                <Typography
+                  variant="h5"
+                  sx={{ mb: 3, fontWeight: 600 }}
+                  gutterBottom
+                >
                   Source Details
                 </Typography>
                 <Typography variant="subtitle2">Platform</Typography>
-                <Typography variant="body1">{capitalize(source.platform || "Unknown")}</Typography>
-                <Typography variant="subtitle2" sx={{ mt: 2 }}>Account name</Typography>
-                <Typography variant="body1">{capitalize(source.account_name || "Unknown")}</Typography>
+                <Typography variant="body1">
+                  {capitalize(source.platform || "Unknown")}
+                </Typography>
+                <Typography variant="subtitle2" sx={{ mt: 2 }}>
+                  Account name
+                </Typography>
+                <Typography variant="body1">
+                  {capitalize(source.account_name || "Unknown")}
+                </Typography>
                 <Typography variant="subtitle2" sx={{ mt: 2 }}>
                   Created At
                 </Typography>
@@ -90,12 +103,11 @@ export const Source = () => {
                 <Typography variant="subtitle2" sx={{ mt: 2 }}>
                   Fetch Frequency
                 </Typography>
-                <Typography variant="body1">24 hours</Typography>                
+                <Typography variant="body1">24 hours</Typography>
                 <Typography variant="subtitle2" sx={{ mt: 2 }}>
                   Status
                 </Typography>
                 <Typography variant="body1">Active</Typography> {/* mockup */}
-              
               </CardContent>
             </Card>
           </Grid>
@@ -103,7 +115,11 @@ export const Source = () => {
           <Grid size={{ xs: 12, md: 6 }}>
             <Card elevation={3}>
               <CardContent>
-                <Typography variant="h5" sx={{ mb: 3, fontWeight: 600 }} gutterBottom>
+                <Typography
+                  variant="h5"
+                  sx={{ mb: 3, fontWeight: 600 }}
+                  gutterBottom
+                >
                   Actions
                 </Typography>
                 <Box display="flex" gap={2}>
@@ -126,19 +142,19 @@ export const Source = () => {
 
       {/* Delete confirmation dialog */}
       <Dialog open={confirmOpen} onClose={() => setConfirmOpen(false)}>
-        <DialogTitle>Confirm Deletion</DialogTitle>
         <DialogContent>
-          <DialogContentText>
+          <Typography variant="h4">Confirm Deletion</Typography>
+          <DialogContentText sx={{py: 3}}>
             Are you sure you want to delete this data source? This action cannot
             be undone.
           </DialogContentText>
+          <DialogActions>
+            <Button onClick={() => setConfirmOpen(false)}>Cancel</Button>
+            <Button onClick={handleDelete} color="error" variant="contained">
+              Delete
+            </Button>
+          </DialogActions>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setConfirmOpen(false)}>Cancel</Button>
-          <Button onClick={handleDelete} color="error" variant="contained">
-            Delete
-          </Button>
-        </DialogActions>
       </Dialog>
     </>
   );

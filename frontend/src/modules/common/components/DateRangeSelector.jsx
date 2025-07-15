@@ -1,71 +1,75 @@
 import { useState, useEffect } from "react";
-import DatePicker from "react-datepicker";
 import { useNavigate, useLocation } from "react-router-dom";
-import "react-datepicker/dist/react-datepicker.css";
-import { Button } from "@mui/material";
+import { Box } from "@mui/material";
 
 const DateRangeSelector = () => {
-  const [dateRange, setDateRange] = useState([null, null]);
-  const [startDate, endDate] = dateRange;
+  const [selectedPeriod, setSelectedPeriod] = useState("Max");
 
   const navigate = useNavigate();
   const location = useLocation();
 
+  const periods = [
+    { label: "5D", value: "5D" },
+    { label: "1M", value: "1M" },
+    { label: "6M", value: "6M" },
+    { label: "1Y", value: "1Y" },
+    { label: "5Y", value: "5Y" },
+    { label: "Max", value: "Max" },
+  ];
+
   // Function to update URL params
-  const updateURLParams = (start, end) => {
+  const updateURLParams = (start, end, period) => {
     const params = new URLSearchParams(location.search);
 
-    if (start && end) {
-      params.set("period_start", start.toLocaleDateString("en-CA"));
-      params.set("period_end", end.toLocaleDateString("en-CA"));
-    } else {
+    if (period === "Max") {
       params.delete("period_start");
       params.delete("period_end");
+    } else if (start && end) {
+      params.set("period_start", start.toLocaleDateString("en-CA"));
+      params.set("period_end", end.toLocaleDateString("en-CA"));
     }
 
     navigate(`${location.pathname}?${params.toString()}`);
   };
 
-  const handleDateChange = (update) => {
-    setDateRange(update);
-    if (update[0] && update[1]) {
-      updateURLParams(update[0], update[1]);
+  const calculateDateRange = (period) => {
+    const today = new Date();
+    let startDate, endDate = today;
+
+    switch (period) {
+      case "5D":
+        startDate = new Date(today);
+        startDate.setDate(today.getDate() - 5);
+        break;
+      case "1M":
+        startDate = new Date(today);
+        startDate.setMonth(today.getMonth() - 1);
+        break;
+      case "6M":
+        startDate = new Date(today);
+        startDate.setMonth(today.getMonth() - 6);
+        break;
+      case "1Y":
+        startDate = new Date(today);
+        startDate.setFullYear(today.getFullYear() - 1);
+        break;
+      case "5Y":
+        startDate = new Date(today);
+        startDate.setFullYear(today.getFullYear() - 5);
+        break;
+      case "Max":
+        return [null, null];
+      default:
+        return [null, null];
     }
+
+    return [startDate, endDate];
   };
 
-  const setThisMonth = () => {
-    const today = new Date();
-    const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
-    const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-
-    setDateRange([firstDay, lastDay]);
-    setTimeout(() => updateURLParams(firstDay, lastDay), 0);
-  };
-
-  const setLastYear = () => {
-    const today = new Date();
-    const lastYear = today.getFullYear() - 1;
-
-    const firstDay = new Date(lastYear, 0, 1);
-    const lastDay = new Date(lastYear, 11, 31);
-
-    setDateRange([firstDay, lastDay]);
-    setTimeout(() => updateURLParams(firstDay, lastDay), 0);
-  };
-
-  const setLastFiveYears = () => {
-    const today = new Date();
-    const currentYear = today.getFullYear();
-
-    const firstDay = new Date(currentYear - 5, 0, 1);   // Jan 1, 5 years ago
-
-    setDateRange([firstDay, today]);
-    setTimeout(() => updateURLParams(firstDay, today), 0);
-  };
-
-  const clearDates = () => {
-    setDateRange([null, null]);
-    updateURLParams(null, null);
+  const handlePeriodClick = (period) => {
+    setSelectedPeriod(period);
+    const [start, end] = calculateDateRange(period);
+    updateURLParams(start, end, period);
   };
 
   useEffect(() => {
@@ -74,56 +78,72 @@ const DateRangeSelector = () => {
     const end = params.get("period_end");
 
     if (start && end) {
-      setDateRange([new Date(start), new Date(end)]);
+      // Try to determine which period this corresponds to
+      const startDate = new Date(start);
+      const endDate = new Date(end);
+      const diffTime = Math.abs(endDate - startDate);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      
+      if (diffDays <= 5) setSelectedPeriod("5D");
+      else if (diffDays <= 31) setSelectedPeriod("1M");
+      else if (diffDays <= 186) setSelectedPeriod("6M");
+      else if (diffDays <= 366) setSelectedPeriod("1Y");
+      else if (diffDays <= 1830) setSelectedPeriod("5Y");
+      else setSelectedPeriod("Max");
+    } else {
+      setSelectedPeriod("Max");
     }
   }, [location.search]);
 
   return (
-    <div className="d-flex gap-3 align-items-center">
-      <Button
-        variant="outlined"
-        color="inherit"
-        onClick={setThisMonth}
-      >
-        This Month
-      </Button>
-
-      <Button
-        variant="outlined"
-        color="inherit"
-        onClick={setLastYear}
-      >
-        Last Year
-      </Button>
-
-      <Button
-        variant="outlined"
-        color="inherit"
-        onClick={setLastFiveYears}
-      >
-        Last Five Years
-      </Button>
-
-      <DatePicker
-        selectsRange
-        startDate={startDate}
-        endDate={endDate}
-        onChange={handleDateChange}
-        isClearable
-        placeholderText="Select date range"
-        className="form-control px-4 py-2"
-      />
-
-      {startDate && endDate && (
-        <Button
-          variant="outlined"
-          color="inherit"
-          onClick={clearDates}
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        border: "1px solid",
+        borderColor: "divider",
+        borderRadius: "4px",
+        overflow: "hidden",
+        backgroundColor: "transparent",
+      }}
+    >
+      {periods.map((period, index) => (
+        <Box key={period.value} sx={{ display: "flex", alignItems: "center" }}>
+          <Box
+            component="button"
+            onClick={() => handlePeriodClick(period.value)}
+            sx={{
+              border: "none",
+              background: "none",
+              padding: "8px 12px",
+              fontSize: "13px",
+              fontWeight: 500,
+              cursor: "pointer",
+              color: selectedPeriod === period.value ? "#1976d2" : "#5f6368",
+              backgroundColor: "transparent",
+              transition: "color 0.2s ease",
+              "&:hover": {
+                color: selectedPeriod === period.value ? "#1976d2" : "#202124",
+              },
+              "&:focus": {
+                outline: "none",
+              },
+            }}
           >
-          Clear
-        </Button>
-      )}
-    </div>
+            {period.label}
+          </Box>
+          {index < periods.length - 1 && (
+            <Box
+              sx={{
+                width: "1px",
+                height: "20px",
+                backgroundColor: "divider",
+              }}
+            />
+          )}
+        </Box>
+      ))}
+    </Box>
   );
 };
 

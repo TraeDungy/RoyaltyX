@@ -1,6 +1,14 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Modal } from "react-bootstrap";
-import { useTheme } from "../../common/contexts/ThemeContext";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  IconButton,
+  Typography,
+  Box,
+  Grid,
+  useTheme,
+} from "@mui/material";
+import { X } from "lucide-react";
 
 export const GraphColorPalette = ({
   showGraphColorPalette,
@@ -24,44 +32,81 @@ export const GraphColorPalette = ({
     "#AE2E24",
     "#E774BB",
   ];
-  const { darkMode } = useTheme();
+  const theme = useTheme();
 
   return (
-    <Modal
-      show={showGraphColorPalette}
-      onHide={() => setShowGraphColorPalette(false)}
-      centered
-      size="md"
-      data-bs-theme={darkMode ? "dark" : undefined}
+    <Dialog
+      open={showGraphColorPalette}
+      onClose={() => setShowGraphColorPalette(false)}
+      maxWidth="xs"
+      fullWidth
+      PaperProps={{
+        sx: {
+          borderRadius: 2,
+          minHeight: 300,
+        },
+      }}
     >
-      <Modal.Header className="mx-2" closeButton>
-        <Modal.Title className="h3 bold">Pick color</Modal.Title>
-      </Modal.Header>
-      <Modal.Body className="px-3 pb-4">
-        <div className="row">
+      <DialogTitle
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          pb: 3,
+        }}
+      >
+        <Typography variant="h5">Pick color</Typography>
+        <IconButton
+          onClick={() => setShowGraphColorPalette(false)}
+          size="small"
+        >
+          <X />
+        </IconButton>
+      </DialogTitle>
+      <DialogContent sx={{ pt: 1, pb: 3 }}>
+        <Grid
+          container
+          spacing={4}
+          sx={{ pt: 2, pb: 2 }}
+          justifyContent="space-between"
+        >
           {colors.map((color) => (
-            <div
-              className="d-flex justify-content-center pb-3"
-              style={{ width: "20%" }}
+            <Grid
+              item
+              xs={2.4}
+              key={color}
+              display="flex"
+              justifyContent="center"
             >
-              <div
-                key={color}
-                style={{
-                  backgroundColor: color,
-                  width: "35px",
-                  height: "35px",
-                  borderRadius: "50%",
-                  border: "1px solid var(--color-darker-gray)",
-                  cursor: "pointer",
-                }}
+              <Box
+                component="button"
                 onClick={() => {
                   onSelectColor(color);
                 }}
-              ></div>
-            </div>
+                sx={{
+                  backgroundColor: color,
+                  width: 40,
+                  height: 40,
+                  borderRadius: "50%",
+                  border: `2px solid ${theme.palette.divider}`,
+                  cursor: "pointer",
+                  transition: "all 0.2s ease-in-out",
+                  "&:hover": {
+                    transform: "scale(1.1)",
+                    boxShadow: theme.shadows[4],
+                  },
+                  "&:focus": {
+                    outline: `2px solid ${theme.palette.primary.main}`,
+                    outlineOffset: 2,
+                  },
+                  padding: 0,
+                  margin: 0,
+                }}
+              />
+            </Grid>
           ))}
-        </div>
-      </Modal.Body>
-    </Modal>
+        </Grid>
+      </DialogContent>
+    </Dialog>
   );
 };

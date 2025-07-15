@@ -3,6 +3,7 @@ import ProductCard from "../../../management/components/ProductCard";
 import { useProducts } from "../../api/products";
 import { Box, Typography } from "@mui/material";
 import { Shredder } from "lucide-react";
+import PageHeader from "../../../common/components/PageHeader";
 
 const Products = () => {
   const { products, loading } = useProducts();
@@ -15,11 +16,7 @@ const Products = () => {
         </div>
       ) : products?.length > 0 ? (
         <>
-          <Box sx={{ my: 3 }}>
-            <Typography variant="h4" sx={{ mb: 4, fontWeight: "bold" }}>
-              Products
-            </Typography>
-          </Box>
+          <PageHeader title="Products" />
           <div className="row">
             {products?.map((product) => (
               <ProductCard product={product} />
@@ -33,7 +30,7 @@ const Products = () => {
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            height: "calc(100vh - 66.77px)",
+            height: "calc(100vh - 130px)",
           }}
         >
           <Shredder size={60} color="var(--color-subtle)" />

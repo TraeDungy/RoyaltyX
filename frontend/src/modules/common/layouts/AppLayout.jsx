@@ -27,7 +27,7 @@ function AppLayout() {
         }}>
           <Container sx={{ 
             px: { xs: 2, sm: 4, md: 8 },
-            py: 3,
+            py: 6,
             maxWidth: 'none !important', // Override default maxWidth
           }}>
             <Outlet />
