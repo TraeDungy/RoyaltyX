@@ -8,7 +8,7 @@ class File(BaseModel):
     project = models.ForeignKey(
         Project, on_delete=models.CASCADE, null=True, blank=True
     )
-    file = models.FileField(upload_to="uploads/", null=True)
+    file = models.FileField(upload_to="uploads/", max_length=255, null=True)
     name = models.CharField(max_length=255, blank=True)
 
     def save(self, *args, **kwargs):

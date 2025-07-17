@@ -4,8 +4,8 @@ const DataUpload = () => {
       <h4 className="bold mt-5 mb-3">Data upload</h4>
       <p>
         You can find this feature on the{" "}
-        <a className="txt-primary" href="/management/data/import">
-          /management/data/import
+        <a className="txt-primary" href="/sources/manual-import">
+          /sources/manual-import
         </a>{" "}
         page. There you will see the file upload widget with drag 'n' drop
         supported. Every file needs to be properly formatted with the required
