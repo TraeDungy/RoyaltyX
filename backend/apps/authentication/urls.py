@@ -5,6 +5,7 @@ from rest_framework_simplejwt.views import (
 )
 
 from .views import ChangePasswordView, RegisterView, MyTokenObtainPairSerializer
+from .google_auth import GoogleAuthView
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -14,4 +15,5 @@ urlpatterns = [
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("register/", RegisterView.as_view(), name="register"),
     path("change-password/", ChangePasswordView.as_view(), name="change_password"),
+    path("google-auth/", GoogleAuthView.as_view(), name="google_auth"),
 ]

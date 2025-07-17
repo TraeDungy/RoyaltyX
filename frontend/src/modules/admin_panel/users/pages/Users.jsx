@@ -41,7 +41,6 @@ function Users() {
     totalPages,
     loading,
     error,
-    refetch: _refetch,
   } = useUsersList(currentPage, pageSize);
 
   useEffect(() => {

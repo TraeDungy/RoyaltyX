@@ -28,6 +28,29 @@ export const AuthProvider = ({ children }) => {
 
   // Function to log in
   const handleLogin = async (user) => {
+    // Handle Google authentication differently
+    if (user.google_auth && user.access_token) {
+      try {
+        const decodedToken = jwtDecode(user.access_token);
+
+        setAuthenticated(true);
+        setId(decodedToken.id);
+        setEmail(decodedToken.email);
+        setName(decodedToken.name);
+        setAvatar(decodedToken.avatar);
+        setRole(decodedToken.role);
+        setSubscriptionPlan(decodedToken.subscription_plan || "free");
+        setCurrentlySelectedProjectId(decodedToken.currently_selected_project_id);
+        setToken(user.access_token);
+
+        navigate("/my-projects");
+        return { success: true };
+      } catch (error) {
+        return { success: false, message: "Invalid token" };
+      }
+    }
+
+    // Regular email/password login
     const response = await login(user);
     if (response.access) {
       const decodedToken = jwtDecode(response.access);
