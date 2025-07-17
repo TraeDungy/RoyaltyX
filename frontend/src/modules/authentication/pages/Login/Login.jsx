@@ -3,10 +3,11 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../../../common/contexts/AuthContext";
 import styles from "./Login.module.css";
-import icon from "../../../common/assets/img/brand/icon-2.webp";
+import icon from "../../../common/assets/img/brand/icon-3.png";
 import TextField from "@mui/material/TextField";
 import Button from "../../../common/components/Button";
-import { Typography } from "@mui/material";
+import { Card, Typography, Divider, Box } from "@mui/material";
+import { GoogleLoginButton } from "../../components";
 
 export default function Login() {
   const [error, setError] = useState("");
@@ -33,16 +34,49 @@ export default function Login() {
 
   return (
     <div className={styles.loginPageWrapper}>
-      <div style={{ maxWidth: 470 }} className="w-100">
+      {/* Animated background shapes */}
+      <div className={styles.backgroundShapes}>
+        <div className={`${styles.shape} ${styles.shape1}`}></div>
+        <div className={`${styles.shape} ${styles.shape2}`}></div>
+        <div className={`${styles.shape} ${styles.shape3}`}></div>
+        <div className={`${styles.shape} ${styles.shape4}`}></div>
+        <div className={`${styles.shape} ${styles.shape5}`}></div>
+      </div>
+
+      <Card 
+        style={{ maxWidth: 520 }} 
+        sx={{ 
+          p: 4, 
+          boxShadow: 3,
+          width: "100%", 
+          zIndex: 10,
+          position: "relative",
+        }}
+      >
         <img
           src={icon}
-          style={{ maxWidth: 60 }}
-          className="mb-5"
+          style={{ maxWidth: 70 }}
+          className="mb-3 mx-auto d-block"
           alt="Brand Icon"
         />
-        <Typography variant="h2" className="mb-3 bold">
-          Login
+        <Typography variant="h3" sx={{ mb: 5, textAlign: "center", fontWeight: 600 }}>
+          Sign in to your account
         </Typography>
+        
+        {/* Google Login Button */}
+        <Box sx={{ mb: 3 }}>
+          <GoogleLoginButton disabled={loading} />
+        </Box>
+
+        {/* Divider */}
+        <Box sx={{ display: "flex", alignItems: "center", my: 3 }}>
+          <Divider sx={{ flex: 1 }} />
+          <Typography variant="body2" sx={{ px: 2, color: "text.secondary" }}>
+            or
+          </Typography>
+          <Divider sx={{ flex: 1 }} />
+        </Box>
+
         {error && <span className="text-danger small">{error}</span>}
         <form onSubmit={handleSubmit}>
           <div className="py-2">
@@ -72,19 +106,20 @@ export default function Login() {
               Log In
             </Button>
           </div>
-
-          <div className="d-flex justify-content-center align-items-center py-4">
-            <Typography variant="body1" className="px-1 txt-lighter">
-              Don't have an account?
-            </Typography>
-            <Link to="/register" className="px-1 fw-500 text-decoration-none">
-              <Typography variant="body1" color="primary">
-                Sign Up
-              </Typography>
-            </Link>
-          </div>
         </form>
-      </div>
+
+        {/* Sign up link */}
+        <div className="d-flex justify-content-center align-items-center py-4">
+          <Typography variant="body1" className="px-1 txt-lighter">
+            Don't have an account?
+          </Typography>
+          <Link to="/register" className="px-1 fw-500 text-decoration-none">
+            <Typography variant="body1" color="primary">
+              Sign Up
+            </Typography>
+          </Link>
+        </div>
+      </Card>
     </div>
   );
 }

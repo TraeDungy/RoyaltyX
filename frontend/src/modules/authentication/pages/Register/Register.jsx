@@ -1,17 +1,12 @@
 import { useState } from "react";
-import { useNavigate, Link as RouterLink } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import {
-  Box,
-  Typography,
-  TextField,
-  Link,
-  Button,
-  Stack,
-  Alert,
-} from "@mui/material";
-import icon from "../../../common/assets/img/brand/icon-2.webp";
+import { Card, Typography, Divider, Box, TextField } from "@mui/material";
+import icon from "../../../common/assets/img/brand/icon-3.png";
 import { register } from "../../api/auth";
+import { GoogleLoginButton } from "../../components";
+import Button from "../../../common/components/Button";
+import styles from "./Register.module.css";
 
 export default function Register() {
   const [error, setError] = useState("");
@@ -64,155 +59,109 @@ export default function Register() {
   };
 
   return (
-    <Box
-      sx={{
-        minHeight: "100vh",
-        bgcolor: "#fff", 
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        p: 2,
-      }}
-    >
-      <Box sx={{ maxWidth: 470, width: "100%" }}>
-        <Box
-          component="img"
+    <div className={styles.registerPageWrapper}>
+      {/* Animated background shapes */}
+      <div className={styles.backgroundShapes}>
+        <div className={`${styles.shape} ${styles.shape1}`}></div>
+        <div className={`${styles.shape} ${styles.shape2}`}></div>
+        <div className={`${styles.shape} ${styles.shape3}`}></div>
+        <div className={`${styles.shape} ${styles.shape4}`}></div>
+        <div className={`${styles.shape} ${styles.shape5}`}></div>
+      </div>
+
+      <Card 
+        style={{ maxWidth: 520 }} 
+        sx={{ 
+          p: 4, 
+          boxShadow: 3,
+          width: "100%", 
+          zIndex: 10,
+          position: "relative",
+        }}
+      >
+        <img
           src={icon}
+          style={{ maxWidth: 70 }}
+          className="mb-3 mx-auto d-block"
           alt="Brand Icon"
-          sx={{
-            maxWidth: 60,
-            display: "block",
-            mb: 6, 
-          }}
         />
-
-        <Typography
-          variant="h2"
-          component="h2"
-          sx={{
-            fontWeight: "700",
-            fontSize: "2rem", 
-            lineHeight: 1.2,
-            mb: 1,
-          }}
-        >
-          Sign up
+        <Typography variant="h3" sx={{ mb: 5, textAlign: "center", fontWeight: 600 }}>
+          Create your account
         </Typography>
+        
+        {/* Google Login Button */}
+        <Box sx={{ mb: 3 }}>
+          <GoogleLoginButton disabled={loading} />
+        </Box>
 
-        <Typography
-          variant="body1"
-          sx={{ color: "#6c757d", mb: 3 }}
-        >
-          Welcome! Please enter your details.
-        </Typography>
+        {/* Divider */}
+        <Box sx={{ display: "flex", alignItems: "center", my: 3 }}>
+          <Divider sx={{ flex: 1 }} />
+          <Typography variant="body2" sx={{ px: 2, color: "text.secondary" }}>
+            or
+          </Typography>
+          <Divider sx={{ flex: 1 }} />
+        </Box>
 
-        {error && (
-          <Alert severity="error" sx={{ mb: 2 }}>
-            {error}
-          </Alert>
-        )}
-
-        <Box component="form" onSubmit={handleSubmit} sx={{mt:3}}>
-          <Stack spacing={3}>
+        {error && <span className="text-danger small">{error}</span>}
+        <form onSubmit={handleSubmit}>
+          <div className="py-2">
             <TextField
               label="Name"
               name="name"
-              fullWidth
               variant="outlined"
-              margin="normal" 
+              fullWidth
+              margin="normal"
               placeholder="Enter your name"
-              disabled={loading}
-              required
               error={hasFieldError('name')}
               helperText={getFieldError('name')}
-              InputLabelProps={{
-                sx: { fontWeight: 500 },
-              }}
-              inputProps={{
-                sx: { fontSize: "1rem", lineHeight: 1.5 },
-              }}
             />
+          </div>
+          <div className="py-2">
             <TextField
               label="Email"
               name="email"
-              type="email"
-              fullWidth
               variant="outlined"
+              fullWidth
               margin="normal"
               placeholder="Enter your email"
-              disabled={loading}
-              required
               error={hasFieldError('email')}
               helperText={getFieldError('email')}
-              InputLabelProps={{
-                sx: { fontWeight: 500 },
-              }}
-              inputProps={{
-                sx: { fontSize: "1rem", lineHeight: 1.5 },
-              }}
             />
+          </div>
+          <div className="py-2">
             <TextField
               label="Password"
               name="password"
               type="password"
-              fullWidth
               variant="outlined"
+              fullWidth
               margin="normal"
               placeholder="••••••••"
-              disabled={loading}
-              required
               error={hasFieldError('password')}
               helperText={getFieldError('password')}
-              InputLabelProps={{
-                sx: { fontWeight: 500 },
-              }}
-              inputProps={{
-                sx: { fontSize: "1rem", lineHeight: 1.5 },
-              }}
             />
+          </div>
 
-            <Button
-              type="submit"
-              variant="contained"
-              fullWidth
-              size="large"
-              disabled={loading}
-              sx={{ py: 1.5, mt: 3, fontWeight: 700, fontSize: "1rem" }}
-            >
-              {loading ? "Loading..." : "Sign Up"}
+          <div className="py-2 mt-3">
+            <Button variant="primary" size="lg" type="submit" loading={loading}>
+              Sign Up
             </Button>
-          </Stack>
-        </Box>
+          </div>
+        </form>
 
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            mt: 4,
-            color: "#6c757d",
-            fontWeight: 500,
-            fontSize: "0.9rem",
-          }}
-        >
-          <Typography component="span" sx={{ px: 1 }}>
+        {/* Sign in link */}
+        <div className="d-flex justify-content-center align-items-center py-4">
+          <Typography variant="body1" className="px-1 txt-lighter">
             Already have an account?
           </Typography>
-          <Link
-            component={RouterLink}
-            to="/login"
-            underline="none"
-            sx={{
-              px: 1,
-              fontWeight: 700,
-              color: "primary.main",
-              cursor: "pointer",
-            }}
-          >
-            Log In
+          <Link to="/login" className="px-1 fw-500 text-decoration-none">
+            <Typography variant="body1" color="primary">
+              Log In
+            </Typography>
           </Link>
-        </Box>
-      </Box>
-    </Box>
+        </div>
+      </Card>
+    </div>
   );
 }
