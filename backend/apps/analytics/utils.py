@@ -5,6 +5,7 @@ from django.db.models import Count, DecimalField, ExpressionWrapper, F, QuerySet
 from django.db.models.functions import TruncYear, TruncMonth, TruncDate, TruncHour
 
 from apps.product.models import Product, ProductImpressions, ProductSale
+from apps.sources.models import Source
 
 def calculate_yearly_stats(
     impressions_qs: QuerySet,
@@ -436,6 +437,94 @@ def calculate_totals(
     return data
 
 
+def calculate_analytics_per_source(
+    project_id: int,
+    impressions_qs: QuerySet,
+    sales_qs: QuerySet,
+) -> List[Dict[str, Any]]:
+    """
+    Calculate analytics per source, returning source information along with impressions and sales data.
+    """
+    # Get all sources for the project
+    sources = Source.objects.filter(project_id=project_id)
+    
+    source_analytics = []
+    
+    for source in sources:
+        # Get impressions and sales for this source
+        impressions_qs = impressions_qs.filter(
+            product__source_id=source.id,
+        )
+        sales_qs = sales_qs.filter(
+            product__source_id=source.id,
+        )
+        
+        # Calculate totals for this source
+        total_impressions = impressions_qs.aggregate(
+            total=Sum("impressions")
+        )["total"] or 0
+        
+        total_impression_revenue = impressions_qs.annotate(
+            revenue_expr=ExpressionWrapper(
+                F("impressions") * F("ecpm") / 1000,
+                output_field=DecimalField(max_digits=30, decimal_places=18),
+            )
+        ).aggregate(total=Sum("revenue_expr"))["total"] or 0
+        
+        total_sales_count = sales_qs.count()
+        total_royalty_revenue = sales_qs.aggregate(
+            total=Sum("royalty_amount")
+        )["total"] or 0
+        
+        # Calculate rentals and purchases separately
+        rentals_qs = sales_qs.filter(type=ProductSale.TYPE_RENTAL)
+        rentals_count = rentals_qs.count()
+        rentals_revenue = rentals_qs.aggregate(
+            total=Sum("royalty_amount")
+        )["total"] or 0
+        
+        purchases_qs = sales_qs.filter(type=ProductSale.TYPE_PURCHASE)
+        purchases_count = purchases_qs.count()
+        purchases_revenue = purchases_qs.aggregate(
+            total=Sum("royalty_amount")
+        )["total"] or 0
+        
+        # Get product count for this source
+        product_count = Product.objects.filter(
+            source_id=source.id,
+            project_id=project_id
+        ).count()
+        
+        # Compile source analytics data
+        source_data = {
+            "id": source.id,
+            "account_name": source.account_name,
+            "platform": source.platform,
+            "platform_display": source.get_platform_display(),
+            "analytics": {
+                "total_impressions": total_impressions,
+                "total_impression_revenue": round(float(total_impression_revenue), 6),
+                "total_sales_count": total_sales_count,
+                "total_royalty_revenue": float(total_royalty_revenue),
+                "rentals_count": rentals_count,
+                "rentals_revenue": float(rentals_revenue),
+                "purchases_count": purchases_count,
+                "purchases_revenue": float(purchases_revenue),
+                "product_count": product_count,
+            }
+        }
+        
+        source_analytics.append(source_data)
+    
+    # Sort by total revenue (impression + royalty) descending
+    source_analytics.sort(
+        key=lambda x: x["analytics"]["total_impression_revenue"] + x["analytics"]["total_royalty_revenue"],
+        reverse=True
+    )
+    
+    return source_analytics
+
+
 def calculate_analytics(
     project_id: int, filters: Dict[str, Any], period_start: date, period_end: date, product_id: int = None, granularity: str = 'monthly'
 ) -> Dict[str, Any]:
@@ -493,6 +582,8 @@ def calculate_analytics(
     data["granularity"] = granularity
 
     if not product_id:
+        source_analytics = calculate_analytics_per_source(project_id, impressions_qs, sales_qs)
+        data["source_analytics"] = source_analytics
         # Only include product count for full project analytics
         data["product_count"] = Product.objects.filter(project_id=project_id).count()
 
