@@ -14,6 +14,7 @@ import { RevenueCard } from "../components/RevenueCard";
 import { useSettings } from "../../common/contexts/SettingsContext";
 import { TopPerfomingContentByImpressions } from "../components/TopPerfomingContentByImpressions";
 import { TopPerfomingContentBySales } from "../components/TopPerfomingContentBySales";
+import { SourceAnalytics } from "../components/SourceAnalytics";
 import SalesStatsCard from "../components/SalesStatsCard";
 import GeneralStatsCard from "../components/GeneralStatsCard";
 import { Grid, Typography } from "@mui/material";
@@ -91,6 +92,13 @@ function Analytics() {
         <SalesStatsCard analytics={analytics} />
         <GeneralStatsCard analytics={analytics} showProductCount={true} />
       </Grid>
+
+      <div className="row">
+        <Typography variant="h4" fontWeight="bold" sx={{ mt: 4, mb: 2 }}>
+          Source Analytics
+        </Typography>
+        <SourceAnalytics analytics={analytics} />
+      </div>
 
       <div className="row">
         <Typography variant="h4" fontWeight="bold" sx={{ mt: 4, mb: 2 }}>
