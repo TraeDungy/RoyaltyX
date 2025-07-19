@@ -93,12 +93,7 @@ function Analytics() {
         <GeneralStatsCard analytics={analytics} showProductCount={true} />
       </Grid>
 
-      <div className="row">
-        <Typography variant="h4" fontWeight="bold" sx={{ mt: 4, mb: 2 }}>
-          Source Analytics
-        </Typography>
-        <SourceAnalytics analytics={analytics} />
-      </div>
+      <SourceAnalytics analytics={analytics} />
 
       <div className="row">
         <Typography variant="h4" fontWeight="bold" sx={{ mt: 4, mb: 2 }}>
