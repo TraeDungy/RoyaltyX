@@ -8,9 +8,6 @@ import ImpressionsOverTime from "../components/ImpressionsOverTime";
 import ImpressionRevenueOverTime from "../components/ImpressionRevenueOverTime";
 import SalesOverTime from "../components/SalesOverTime";
 import RentalsOverTime from "../components/RentalsOverTime";
-import { SalesCard } from "../components/SalesCard";
-import { ImpressionsCard } from "../components/ImpressionsCard";
-import { RevenueCard } from "../components/RevenueCard";
 import { useSettings } from "../../common/contexts/SettingsContext";
 import { TopPerfomingContentByImpressions } from "../components/TopPerfomingContentByImpressions";
 import { TopPerfomingContentBySales } from "../components/TopPerfomingContentBySales";
@@ -26,9 +23,6 @@ function Analytics() {
     showRentalsOverTime,
     showImpressionsOverTime,
     showImpressionRevenueOverTime,
-    showTotalImpressionsCard,
-    showTotalSalesCard,
-    showTotalRevenueCard,
   } = useSettings();
   const location = useLocation();
   const params = new URLSearchParams(location.search);
@@ -71,11 +65,6 @@ function Analytics() {
         <DateRangeSelector />
       </div>
 
-      <Grid container spacing={3}>
-        {showTotalImpressionsCard && <ImpressionsCard analytics={analytics} />}
-        {showTotalSalesCard && <SalesCard analytics={analytics} />}
-        {showTotalRevenueCard && <RevenueCard analytics={analytics} />}
-      </Grid>
 
       <Grid container columnSpacing={3}>
         {showSalesOverTime && <SalesOverTime analytics={analytics} />}

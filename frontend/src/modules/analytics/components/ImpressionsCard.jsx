@@ -54,8 +54,16 @@ export const ImpressionsCard = ({ analytics }) => {
                 mb: 2,
               }}
             >
-              <Typography variant="h6" sx={{ mb: 1 }}>
-                Impressions
+              <Typography
+                variant="h6"
+                sx={{
+                  textTransform: "uppercase",
+                  fontWeight: 500,
+                  fontSize: "0.875rem",
+                  color: "text.secondary",
+                }}
+              >
+                Impressions in last 4 months
                 <InfoPopover
                   title="Monthly impressions"
                   text="Impressions represent the number of times your content has been

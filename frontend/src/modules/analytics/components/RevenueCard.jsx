@@ -54,8 +54,16 @@ export const RevenueCard = ({ analytics }) => {
                 mb: 2,
               }}
             >
-              <Typography variant="h6" sx={{ mb: 1 }}>
-                Revenue
+              <Typography
+                variant="h6"
+                sx={{
+                  textTransform: "uppercase",
+                  fontWeight: 500,
+                  fontSize: "0.875rem",
+                  color: "text.secondary",
+                }}
+              >
+                Revenue in last 4 months
                 <InfoPopover
                   title="Monthly revenue"
                   text="This stat represents the total royalty revenue generated over the last month."

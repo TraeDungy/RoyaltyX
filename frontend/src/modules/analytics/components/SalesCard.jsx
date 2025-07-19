@@ -54,8 +54,16 @@ export const SalesCard = ({ analytics }) => {
                 mb: 2,
               }}
             >
-              <Typography variant="h6" sx={{ mb: 1 }}>
-                Sales
+              <Typography
+                variant="h6"
+                sx={{
+                  textTransform: "uppercase",
+                  fontWeight: 500,
+                  fontSize: "0.875rem",
+                  color: "text.secondary",
+                }}
+              >
+                Sales in last 4 months
                 <InfoPopover
                   title="Sales over time"
                   text="Total number of sales during the selected period for the analytics"
