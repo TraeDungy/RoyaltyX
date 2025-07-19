@@ -82,7 +82,17 @@ const ImpressionRevenueOverTime = ({ analytics }) => {
                   alignItems: "center",
                 }}
               >
-                <Typography variant="h5">Revenue From Impressions</Typography>
+                <Typography 
+                  variant="h6" 
+                  sx={{ 
+                    textTransform: 'uppercase',
+                    fontWeight: 500,
+                    fontSize: '0.875rem',
+                    color: 'text.secondary'
+                  }}
+                >
+                  IMPRESSION REVENUE
+                </Typography>
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <IconButton onClick={handleMenuOpen} size="sm">
                     <EllipsisVertical size={16} color="var(--color-text)" />
@@ -123,6 +133,21 @@ const ImpressionRevenueOverTime = ({ analytics }) => {
                   </Menu>
                 </Box>
               </Box>
+              
+              {/* Total Value Display */}
+              <Box sx={{ mb: 3 }}>
+                <Typography 
+                  variant="h3" 
+                  sx={{ 
+                    fontWeight: 'bold',
+                    fontSize: '2.5rem',
+                    color: 'text.primary'
+                  }}
+                >
+                  ${dataValues.reduce((sum, value) => sum + (value || 0), 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                </Typography>
+              </Box>
+              
               <Line data={data} options={options} />
             </Box>
           </CardContent>
