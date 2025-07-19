@@ -13,14 +13,17 @@ import {
   Typography,
   Menu,
   MenuItem,
+  Button,
 } from "@mui/material";
-import { EllipsisVertical } from "lucide-react";
+import { EllipsisVertical, ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export const RevenueCard = ({ analytics }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const { setShowTotalRevenueCard } = useSettings();
   const [showGraphColorPalette, setShowGraphColorPalette] = useState(false);
   const { setrevenueGraphColor } = useSettings();
+  const navigate = useNavigate();
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -128,6 +131,23 @@ export const RevenueCard = ({ analytics }) => {
             </Box>
 
             <RevenueChart analytics={analytics} />
+
+            {/* View Details Button */}
+            <Box sx={{ mt: 2, display: "flex", justifyContent: "flex-end" }}>
+              <Button
+                variant="text"
+                size="small"
+                onClick={() => navigate("/analytics")}
+                sx={{
+                  textTransform: "none",
+                  color: "primary.main",
+                  fontSize: "1rem"
+                }}
+                endIcon={<ArrowRight size={18} />}
+              >
+                View Details
+              </Button>
+            </Box>
           </CardContent>
         </Card>
       </Grid>

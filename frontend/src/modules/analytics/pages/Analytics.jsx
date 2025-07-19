@@ -58,7 +58,7 @@ function Analytics() {
 
   return (
     <>
-      <div className="d-flex justify-content-between align-items-center mb-4 pb-2 ps-1">
+      <div className="d-flex justify-content-between align-items-center mb-3 ps-1">
         <Typography variant="h2" mb={0}>
           Analytics
         </Typography>

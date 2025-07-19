@@ -47,7 +47,6 @@ function Dashboard() {
 
   return (
     <>
-      {/* Analytics Cards */}
       {analytics && (
         <Grid container spacing={3} className="mb-4">
           {showTotalImpressionsCard && <ImpressionsCard analytics={analytics} />}
