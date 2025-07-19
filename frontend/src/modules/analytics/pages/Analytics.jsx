@@ -95,19 +95,9 @@ function Analytics() {
 
       <SourceAnalytics analytics={analytics} />
 
-      <div className="row">
-        <Typography variant="h4" fontWeight="bold" sx={{ mt: 4, mb: 2 }}>
-          Top Performing Content (by impressions)
-        </Typography>
-        <TopPerfomingContentByImpressions />
-      </div>
+      <TopPerfomingContentByImpressions />
 
-      <div className="row">
-        <Typography variant="h4" fontWeight="bold" sx={{ mt: 4, mb: 2 }}>
-          Top Performing Content (by sales)
-        </Typography>
-        <TopPerfomingContentBySales />
-      </div>
+      <TopPerfomingContentBySales />
     </>
   );
 }
