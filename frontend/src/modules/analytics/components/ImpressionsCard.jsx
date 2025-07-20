@@ -48,7 +48,7 @@ export const ImpressionsCard = ({ analytics }) => {
             flexDirection: "column",
           }}
         >
-          <CardContent sx={{ flexGrow: 1 }}>
+          <CardContent sx={{ flexGrow: 1, pb: '12px !important' }}>
           <Box
               sx={{
                 display: "flex",
