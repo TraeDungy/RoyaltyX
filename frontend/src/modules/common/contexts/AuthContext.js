@@ -68,8 +68,11 @@ export const AuthProvider = ({ children }) => {
         setCurrentlySelectedProjectId(decodedToken.currently_selected_project_id);
         setToken(user.access_token);
 
+        // Check if this is a new user from Google OAuth or from regular registration
+        const shouldShowThemeSelection = isNewUser || user.is_new_user;
+        
         // Clear the new user flag and redirect appropriately
-        if (isNewUser) {
+        if (shouldShowThemeSelection) {
           localStorage.removeItem("newUserThemeSelection");
           navigate("/theme-selection");
         } else {

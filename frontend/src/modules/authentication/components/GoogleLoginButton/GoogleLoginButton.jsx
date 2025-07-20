@@ -73,18 +73,29 @@ const GoogleLoginButton = ({ disabled = false }) => {
                 // Store the JWT token and update auth context
                 localStorage.setItem("accessToken", authData.access);
                 
+                // Check if this is a new user
+                const isNewUser = authData.user_created;
+                
                 // Manually trigger auth context update by calling login with the token data
                 const loginResponse = await login({ 
                   access_token: authData.access,
-                  google_auth: true 
+                  google_auth: true,
+                  is_new_user: isNewUser
                 });
 
                 if (loginResponse.success) {
-                  toast.success("Successfully logged in with Google!");
+                  if (isNewUser) {
+                    toast.success("Welcome to RoyaltyX! Let's personalize your experience.");
+                  } else {
+                    toast.success("Successfully logged in with Google!");
+                  }
                 } else {
                   // If login context fails, try manual navigation
-                  window.location.href = "/my-projects";
-                  toast.success("Successfully logged in with Google!");
+                  if (isNewUser) {
+                    window.location.href = "/theme-selection";
+                  } else {
+                    window.location.href = "/my-projects";
+                  }
                 }
               } else {
                 const errorData = await authResponse.json();
