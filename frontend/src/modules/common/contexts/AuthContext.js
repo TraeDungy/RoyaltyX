@@ -31,6 +31,28 @@ export const AuthProvider = ({ children }) => {
     // Check if this is a new user who should see theme selection
     const isNewUser = localStorage.getItem("newUserThemeSelection") === "true";
     
+    // Handle auto-login from registration (don't navigate automatically)
+    if (user.auto_login && user.access_token) {
+      try {
+        const decodedToken = jwtDecode(user.access_token);
+
+        setAuthenticated(true);
+        setId(decodedToken.id);
+        setEmail(decodedToken.email);
+        setName(decodedToken.name);
+        setAvatar(decodedToken.avatar);
+        setRole(decodedToken.role);
+        setSubscriptionPlan(decodedToken.subscription_plan || "free");
+        setCurrentlySelectedProjectId(decodedToken.currently_selected_project_id);
+        setToken(user.access_token);
+
+        // Don't navigate - let the calling component handle navigation
+        return { success: true };
+      } catch (error) {
+        return { success: false, message: "Invalid token" };
+      }
+    }
+    
     // Handle Google authentication differently
     if (user.google_auth && user.access_token) {
       try {

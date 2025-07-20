@@ -1,22 +1,17 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { 
-  Card, 
-  Typography, 
-  Box, 
+import {
+  Card,
+  Typography,
+  Box,
   Paper,
   IconButton,
   Stack,
   Fade,
-  Zoom
+  Zoom,
 } from "@mui/material";
-import { 
-  LightMode, 
-  DarkMode, 
-  CheckCircle,
-  Palette
-} from "@mui/icons-material";
+import { LightMode, DarkMode, CheckCircle } from "@mui/icons-material";
 import { useTheme } from "../../../common/contexts/ThemeContext";
 import { useAuth } from "../../../common/contexts/AuthContext";
 import Button from "../../../common/components/Button";
@@ -43,25 +38,18 @@ export default function ThemeSelection() {
 
   const handleContinue = async () => {
     setLoading(true);
-    
+
     try {
-      // Apply the selected theme
       setTheme(selectedTheme);
-      
-      // Show success message
-      toast.success(`${selectedTheme === 'light' ? 'Light' : 'Dark'} theme applied successfully!`);
-      
-      // Redirect to dashboard
       navigate("/my-projects");
     } catch (error) {
       toast.error("Failed to apply theme. Please try again.");
     }
-    
+
     setLoading(false);
   };
 
   const handleSkip = () => {
-    // Keep default theme and go to dashboard
     navigate("/my-projects");
   };
 
@@ -76,12 +64,12 @@ export default function ThemeSelection() {
         <div className={`${styles.shape} ${styles.shape5}`}></div>
       </div>
 
-      <Card 
-        style={{ maxWidth: 600 }} 
-        sx={{ 
-          p: 5, 
+      <Card
+        style={{ maxWidth: 600 }}
+        sx={{
+          p: 5,
           boxShadow: 3,
-          width: "100%", 
+          width: "100%",
           zIndex: 10,
           position: "relative",
         }}
@@ -93,14 +81,17 @@ export default function ThemeSelection() {
             className="mb-3 mx-auto d-block"
             alt="Brand Icon"
           />
-          
+
           <Fade in timeout={800}>
             <Box>
               <Typography variant="h3" sx={{ mb: 2, fontWeight: 600 }}>
                 Choose Your Theme
               </Typography>
-              <Typography variant="body1" sx={{ color: "text.secondary", mb: 4 }}>
-                Personalize your experience by selecting your preferred theme. 
+              <Typography
+                variant="body1"
+                sx={{ color: "text.secondary", mb: 4 }}
+              >
+                Personalize your experience by selecting your preferred theme.
                 You can always change this later in settings.
               </Typography>
             </Box>
@@ -118,7 +109,8 @@ export default function ThemeSelection() {
                 p: 3,
                 cursor: "pointer",
                 border: selectedTheme === "light" ? 2 : 1,
-                borderColor: selectedTheme === "light" ? "primary.main" : "divider",
+                borderColor:
+                  selectedTheme === "light" ? "primary.main" : "divider",
                 transition: "all 0.3s ease",
                 position: "relative",
                 "&:hover": {
@@ -139,7 +131,7 @@ export default function ThemeSelection() {
                   }}
                 />
               )}
-              
+
               <Box sx={{ textAlign: "center" }}>
                 <IconButton
                   sx={{
@@ -155,7 +147,7 @@ export default function ThemeSelection() {
                 >
                   <LightMode sx={{ fontSize: 32 }} />
                 </IconButton>
-                
+
                 <Typography variant="h5" sx={{ mb: 1, fontWeight: 500 }}>
                   Light Theme
                 </Typography>
@@ -186,13 +178,51 @@ export default function ThemeSelection() {
                     px: 1,
                   }}
                 >
-                  <Box sx={{ width: 8, height: 8, bgcolor: "#1976d2", borderRadius: "50%", mr: 0.5 }} />
-                  <Box sx={{ width: 40, height: 4, bgcolor: "#e0e0e0", borderRadius: 1 }} />
+                  <Box
+                    sx={{
+                      width: 8,
+                      height: 8,
+                      bgcolor: "#1976d2",
+                      borderRadius: "50%",
+                      mr: 0.5,
+                    }}
+                  />
+                  <Box
+                    sx={{
+                      width: 40,
+                      height: 4,
+                      bgcolor: "#e0e0e0",
+                      borderRadius: 1,
+                    }}
+                  />
                 </Box>
                 <Box sx={{ p: 1 }}>
-                  <Box sx={{ width: "60%", height: 6, bgcolor: "#333", borderRadius: 1, mb: 0.5 }} />
-                  <Box sx={{ width: "40%", height: 4, bgcolor: "#666", borderRadius: 1, mb: 0.5 }} />
-                  <Box sx={{ width: "80%", height: 4, bgcolor: "#999", borderRadius: 1 }} />
+                  <Box
+                    sx={{
+                      width: "60%",
+                      height: 6,
+                      bgcolor: "#333",
+                      borderRadius: 1,
+                      mb: 0.5,
+                    }}
+                  />
+                  <Box
+                    sx={{
+                      width: "40%",
+                      height: 4,
+                      bgcolor: "#666",
+                      borderRadius: 1,
+                      mb: 0.5,
+                    }}
+                  />
+                  <Box
+                    sx={{
+                      width: "80%",
+                      height: 4,
+                      bgcolor: "#999",
+                      borderRadius: 1,
+                    }}
+                  />
                 </Box>
               </Box>
             </Paper>
@@ -207,7 +237,8 @@ export default function ThemeSelection() {
                 p: 3,
                 cursor: "pointer",
                 border: selectedTheme === "dark" ? 2 : 1,
-                borderColor: selectedTheme === "dark" ? "primary.main" : "divider",
+                borderColor:
+                  selectedTheme === "dark" ? "primary.main" : "divider",
                 transition: "all 0.3s ease",
                 position: "relative",
                 "&:hover": {
@@ -228,7 +259,7 @@ export default function ThemeSelection() {
                   }}
                 />
               )}
-              
+
               <Box sx={{ textAlign: "center" }}>
                 <IconButton
                   sx={{
@@ -244,7 +275,7 @@ export default function ThemeSelection() {
                 >
                   <DarkMode sx={{ fontSize: 32 }} />
                 </IconButton>
-                
+
                 <Typography variant="h5" sx={{ mb: 1, fontWeight: 500 }}>
                   Dark Theme
                 </Typography>
@@ -275,13 +306,51 @@ export default function ThemeSelection() {
                     px: 1,
                   }}
                 >
-                  <Box sx={{ width: 8, height: 8, bgcolor: "#1976d2", borderRadius: "50%", mr: 0.5 }} />
-                  <Box sx={{ width: 40, height: 4, bgcolor: "#555", borderRadius: 1 }} />
+                  <Box
+                    sx={{
+                      width: 8,
+                      height: 8,
+                      bgcolor: "#1976d2",
+                      borderRadius: "50%",
+                      mr: 0.5,
+                    }}
+                  />
+                  <Box
+                    sx={{
+                      width: 40,
+                      height: 4,
+                      bgcolor: "#555",
+                      borderRadius: 1,
+                    }}
+                  />
                 </Box>
                 <Box sx={{ p: 1 }}>
-                  <Box sx={{ width: "60%", height: 6, bgcolor: "#fff", borderRadius: 1, mb: 0.5 }} />
-                  <Box sx={{ width: "40%", height: 4, bgcolor: "#ccc", borderRadius: 1, mb: 0.5 }} />
-                  <Box sx={{ width: "80%", height: 4, bgcolor: "#999", borderRadius: 1 }} />
+                  <Box
+                    sx={{
+                      width: "60%",
+                      height: 6,
+                      bgcolor: "#fff",
+                      borderRadius: 1,
+                      mb: 0.5,
+                    }}
+                  />
+                  <Box
+                    sx={{
+                      width: "40%",
+                      height: 4,
+                      bgcolor: "#ccc",
+                      borderRadius: 1,
+                      mb: 0.5,
+                    }}
+                  />
+                  <Box
+                    sx={{
+                      width: "80%",
+                      height: 4,
+                      bgcolor: "#999",
+                      borderRadius: 1,
+                    }}
+                  />
                 </Box>
               </Box>
             </Paper>
@@ -291,7 +360,7 @@ export default function ThemeSelection() {
         {/* Action Buttons */}
         <Stack direction="row" spacing={2} sx={{ mt: 4 }}>
           <Button
-            variant="outline"
+            variant="outlined"
             size="lg"
             onClick={handleSkip}
             disabled={loading}
@@ -305,16 +374,16 @@ export default function ThemeSelection() {
             onClick={handleContinue}
             loading={loading}
             sx={{ flex: 1 }}
-            startIcon={<Palette />}
           >
-            Apply Theme
+            Continue
           </Button>
         </Stack>
 
         {/* Additional Info */}
         <Box sx={{ textAlign: "center", mt: 3 }}>
           <Typography variant="body2" sx={{ color: "text.secondary" }}>
-            💡 You can change your theme preference anytime in your account settings
+            💡 You can change your theme preference anytime in your account
+            settings
           </Typography>
         </Box>
       </Card>
