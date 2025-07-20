@@ -26,7 +26,9 @@ export default function Register() {
     try {
       const response = await register(user);
       if (response.success) {
-        toast.success("Successfully created an account!");
+        toast.success("Successfully created an account! Please log in to continue.");
+        // Store a flag to indicate this is a new user who should see theme selection
+        localStorage.setItem("newUserThemeSelection", "true");
         navigate("/login");
       } else {
         // Handle field-specific errors
