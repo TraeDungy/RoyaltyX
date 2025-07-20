@@ -60,7 +60,7 @@ function Members() {
   return (
     <Box>
       <PageHeader
-        title="Project Members"
+        title="Members"
         description="Add or remove users who are able to view this project."
         action={
           <Button

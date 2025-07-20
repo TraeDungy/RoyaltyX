@@ -37,6 +37,7 @@ export const getMuiTheme = (mode) => {
       h4: {
         fontSize: "1.5rem",
         fontWeight: 500,
+        lineHeight: 1.8,
       },
       h5: {
         fontSize: "1.25rem",
