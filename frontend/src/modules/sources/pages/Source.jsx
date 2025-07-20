@@ -15,7 +15,6 @@ import {
   DialogContentText,
   Card,
   CardContent,
-  capitalize,
 } from "@mui/material";
 import { useState } from "react";
 
@@ -67,32 +66,34 @@ export const Source = () => {
         </Typography>
         <Grid container spacing={2} sx={{ mb: 4 }}>
           <Grid size={{ xs: 12, md: 6 }}>
-            <Card elevation={3}>
+            <Card variant="outlined">
               <CardContent>
                 <Typography
                   variant="h5"
                   sx={{ mb: 3, fontWeight: 600 }}
                   gutterBottom
                 >
-                  Source Details
+                  Details
                 </Typography>
-                <Typography variant="subtitle2">Platform</Typography>
+                <Typography variant="subtitle1" fontWeight={500}>
+                  Platform
+                </Typography>
                 <Typography variant="body1">
-                  {capitalize(source.platform || "Unknown")}
+                  {source.platform || "Unknown"}
                 </Typography>
-                <Typography variant="subtitle2" sx={{ mt: 2 }}>
+                <Typography variant="subtitle1" fontWeight={500} sx={{ mt: 2 }}>
                   Account name
                 </Typography>
                 <Typography variant="body1">
-                  {capitalize(source.account_name || "Unknown")}
+                  {source.account_name || "Unknown"}
                 </Typography>
-                <Typography variant="subtitle2" sx={{ mt: 2 }}>
+                <Typography variant="subtitle1" fontWeight={500} sx={{ mt: 2 }}>
                   Created At
                 </Typography>
                 <Typography variant="body1">
                   {new Date(source.created_at).toLocaleString()}
                 </Typography>
-                <Typography variant="subtitle2" sx={{ mt: 2 }}>
+                <Typography variant="subtitle1" fontWeight={500} sx={{ mt: 2 }}>
                   Last Fetched At
                 </Typography>
                 <Typography variant="body1">
@@ -100,11 +101,11 @@ export const Source = () => {
                     ? new Date(source.last_fetched_at).toLocaleString()
                     : "Never"}
                 </Typography>
-                <Typography variant="subtitle2" sx={{ mt: 2 }}>
+                <Typography variant="subtitle1" fontWeight={500} sx={{ mt: 2 }}>
                   Fetch Frequency
                 </Typography>
                 <Typography variant="body1">24 hours</Typography>
-                <Typography variant="subtitle2" sx={{ mt: 2 }}>
+                <Typography variant="subtitle1" fontWeight={500} sx={{ mt: 2 }}>
                   Status
                 </Typography>
                 <Typography variant="body1">Active</Typography> {/* mockup */}
@@ -113,7 +114,7 @@ export const Source = () => {
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
-            <Card elevation={3}>
+            <Card variant="outlined">
               <CardContent>
                 <Typography
                   variant="h5"
@@ -144,7 +145,7 @@ export const Source = () => {
       <Dialog open={confirmOpen} onClose={() => setConfirmOpen(false)}>
         <DialogContent>
           <Typography variant="h4">Confirm Deletion</Typography>
-          <DialogContentText sx={{py: 3}}>
+          <DialogContentText sx={{ py: 3 }}>
             Are you sure you want to delete this data source? This action cannot
             be undone.
           </DialogContentText>

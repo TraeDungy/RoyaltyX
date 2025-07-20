@@ -49,7 +49,7 @@ export const SalesCard = ({ analytics }) => {
           }}
         >
           <CardContent sx={{ flexGrow: 1 }}>
-            <Box
+          <Box
               sx={{
                 display: "flex",
                 justifyContent: "space-between",
@@ -118,8 +118,7 @@ export const SalesCard = ({ analytics }) => {
 
             <SalesChart analytics={analytics} />
 
-            {/* View Details Button */}
-            <Box sx={{ mt: 2, display: "flex", justifyContent: "flex-end" }}>
+            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
               <Button
                 variant="text"
                 size="small"
@@ -127,11 +126,12 @@ export const SalesCard = ({ analytics }) => {
                 sx={{
                   textTransform: "none",
                   color: "primary.main",
+                  py: .3,
                   fontSize: "1rem",
                 }}
                 endIcon={<ArrowRight size={18} />}
               >
-                View Details
+                View details
               </Button>
             </Box>
           </CardContent>
