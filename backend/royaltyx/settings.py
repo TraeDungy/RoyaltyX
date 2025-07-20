@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "apps.analytics",
     "apps.admin_panel",
     "apps.payments",
+    "apps.emails",
     "apps.oauth.google",
     "rest_framework",
     "rest_framework_simplejwt",
@@ -199,8 +200,18 @@ TIKTOK_CLIENT_SECRET = os.environ.get("TIKTOK_CLIENT_SECRET")
 TIKTOK_REDIRECT_URI = os.environ.get("TIKTOK_REDIRECT_URI")
 
 TWITCH_CLIENT_ID = os.environ.get("TWITCH_CLIENT_ID")
-print("Twitch client id: ", TWITCH_CLIENT_ID, flush=True)
 TWITCH_CLIENT_SECRET = os.environ.get("TWITCH_CLIENT_SECRET")
 TWITCH_REDIRECT_URI = os.environ.get("TWITCH_REDIRECT_URI")
 
 CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL", "redis://localhost:6379/0")
+
+# Email Configuration
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = os.environ.get("EMAIL_HOST", "smtp.gmail.com")
+EMAIL_PORT = int(os.environ.get("EMAIL_PORT", "587"))
+EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", "True").lower() == "true"
+EMAIL_USE_SSL = os.environ.get("EMAIL_USE_SSL", "False").lower() == "true"
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", EMAIL_HOST_USER)
+SERVER_EMAIL = os.environ.get("SERVER_EMAIL", EMAIL_HOST_USER)
