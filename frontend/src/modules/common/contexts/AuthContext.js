@@ -28,6 +28,31 @@ export const AuthProvider = ({ children }) => {
 
   // Function to log in
   const handleLogin = async (user) => {
+    // Check if this is a new user who should see theme selection
+    const isNewUser = localStorage.getItem("newUserThemeSelection") === "true";
+    
+    // Handle auto-login from registration (don't navigate automatically)
+    if (user.auto_login && user.access_token) {
+      try {
+        const decodedToken = jwtDecode(user.access_token);
+
+        setAuthenticated(true);
+        setId(decodedToken.id);
+        setEmail(decodedToken.email);
+        setName(decodedToken.name);
+        setAvatar(decodedToken.avatar);
+        setRole(decodedToken.role);
+        setSubscriptionPlan(decodedToken.subscription_plan || "free");
+        setCurrentlySelectedProjectId(decodedToken.currently_selected_project_id);
+        setToken(user.access_token);
+
+        // Don't navigate - let the calling component handle navigation
+        return { success: true };
+      } catch (error) {
+        return { success: false, message: "Invalid token" };
+      }
+    }
+    
     // Handle Google authentication differently
     if (user.google_auth && user.access_token) {
       try {
@@ -43,7 +68,16 @@ export const AuthProvider = ({ children }) => {
         setCurrentlySelectedProjectId(decodedToken.currently_selected_project_id);
         setToken(user.access_token);
 
-        navigate("/my-projects");
+        // Check if this is a new user from Google OAuth or from regular registration
+        const shouldShowThemeSelection = isNewUser || user.is_new_user;
+        
+        // Clear the new user flag and redirect appropriately
+        if (shouldShowThemeSelection) {
+          localStorage.removeItem("newUserThemeSelection");
+          navigate("/theme-selection");
+        } else {
+          navigate("/my-projects");
+        }
         return { success: true };
       } catch (error) {
         return { success: false, message: "Invalid token" };
@@ -66,7 +100,14 @@ export const AuthProvider = ({ children }) => {
       setToken(response.access);
 
       localStorage.setItem("accessToken", response.access);
-      navigate("/my-projects");
+      
+      // Clear the new user flag and redirect appropriately
+      if (isNewUser) {
+        localStorage.removeItem("newUserThemeSelection");
+        navigate("/theme-selection");
+      } else {
+        navigate("/my-projects");
+      }
       return { success: true };
     } else {
       return { success: false, message: response.message || "Login failed" };

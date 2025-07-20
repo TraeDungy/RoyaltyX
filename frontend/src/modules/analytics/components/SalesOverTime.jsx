@@ -73,7 +73,17 @@ const SalesOverTime = ({ analytics }) => {
                   alignItems: "center",
                 }}
               >
-                <Typography variant="h5">Sales Over Time</Typography>
+                <Typography 
+                  variant="h6" 
+                  sx={{ 
+                    textTransform: 'uppercase',
+                    fontWeight: 500,
+                    fontSize: '0.875rem',
+                    color: 'text.secondary'
+                  }}
+                >
+                  SALES
+                </Typography>
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <IconButton onClick={handleMenuOpen} size="sm">
                     <EllipsisVertical size={16} color="var(--color-text)" />
@@ -114,6 +124,21 @@ const SalesOverTime = ({ analytics }) => {
                   </Menu>
                 </Box>
               </Box>
+              
+              {/* Total Value Display */}
+              <Box sx={{ mb: 3 }}>
+                <Typography 
+                  variant="h3" 
+                  sx={{ 
+                    fontWeight: 'bold',
+                    fontSize: '2.5rem',
+                    color: 'text.primary'
+                  }}
+                >
+                  {dataValues.reduce((sum, value) => sum + (value || 0), 0).toLocaleString()}
+                </Typography>
+              </Box>
+              
               <Line data={data} options={options} />
             </Box>
           </CardContent>

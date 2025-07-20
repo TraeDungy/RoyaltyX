@@ -6,20 +6,19 @@ import { getReportTemplates } from "../api/report-templates";
 import { toast } from "react-toastify";
 import {
   Box,
-  Typography,
   FormControl,
   InputLabel,
   Select,
   MenuItem,
   Button as MuiButton,
 } from "@mui/material";
+import PageHeader from "../../common/components/PageHeader";
 
 const CreateNewReport = () => {
   const [periodStart, setPeriodStart] = useState("");
   const [periodEnd, setPeriodEnd] = useState("");
   const [templates, setTemplates] = useState([]);
   const [selectedTemplate, setSelectedTemplate] = useState("");
-
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -59,23 +58,29 @@ const CreateNewReport = () => {
   };
 
   return (
-    <Box sx={{ width: "100%", mx: "auto", my: 4 }}>
-      <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
-        <Typography variant="h3" fontWeight="bold">
-          Generate Report
-        </Typography>
-        <DateRangeSelector />
-      </Box>
-
-      <Typography variant="body1" mb={3}>
-        Before submitting this request, make sure to select the time range for
+    <Box>
+      <PageHeader
+        title="Generate Report"
+        action={<DateRangeSelector />}
+        description="Before submitting this request, make sure to select the time range for
         which the details in the report should apply. If you don't select any
         time range, then the details in the report will be based on data from
-        all time.
-      </Typography>
+        all time."
+      />
 
-      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 2 }}>
-        <FormControl fullWidth margin="normal"  sx={{ minWidth: 300, width: '50%' }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "flex-start",
+          gap: 2,
+        }}
+      >
+        <FormControl
+          fullWidth
+          margin="normal"
+          sx={{ minWidth: 300, width: "50%" }}
+        >
           <InputLabel id="template-label">Select Report Template</InputLabel>
           <Select
             labelId="template-label"
@@ -93,7 +98,7 @@ const CreateNewReport = () => {
             ))}
           </Select>
         </FormControl>
-        
+
         <MuiButton
           variant="outlined"
           onClick={() => navigate("/report-templates/create")}

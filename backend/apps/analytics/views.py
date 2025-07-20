@@ -1,4 +1,4 @@
-from datetime import datetime, time, timedelta
+from datetime import datetime, time
 
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
@@ -15,18 +15,18 @@ class AnalyticsView(APIView):
     def _determine_granularity(self, period_start, period_end):
         """Determine appropriate granularity based on date range"""
         if not period_start or not period_end:
-            return 'monthly'
-        
+            return "monthly"
+
         delta = period_end - period_start
-        
+
         if delta.days <= 1:
-            return 'hourly'
+            return "hourly"
         elif delta.days <= 31:  # Approximately 1 month
-            return 'daily'
+            return "daily"
         elif delta.days <= 365:
-            return 'monthly'
+            return "monthly"
         else:
-            return 'yearly'
+            return "yearly"
 
     def get(self, request, product_id=None):
         serializer = AnalyticsSerializer(data=request.query_params)
@@ -42,10 +42,11 @@ class AnalyticsView(APIView):
             end_date = datetime.combine(period_end, time.max)
             filters["period_start__gte"] = start_date
             filters["period_end__lte"] = end_date
-            
 
         granularity = self._determine_granularity(period_start, period_end)
 
-        data = calculate_analytics(project_id, filters, period_start, period_end, product_id, granularity)
+        data = calculate_analytics(
+            project_id, filters, period_start, period_end, product_id, granularity
+        )
 
         return Response(data, status=status.HTTP_200_OK)

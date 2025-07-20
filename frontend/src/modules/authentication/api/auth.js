@@ -36,7 +36,13 @@ export const register = async (user) => {
     const responseData = await response.json();
 
     if (response.ok) {
-      return { success: true, message: "Registration successful", data: responseData };
+      return { 
+        success: true, 
+        message: "Registration successful", 
+        data: responseData,
+        access: responseData.access,
+        refresh: responseData.refresh
+      };
     } else {
       // Handle field-specific errors from Django serializer
       if (responseData && typeof responseData === 'object') {

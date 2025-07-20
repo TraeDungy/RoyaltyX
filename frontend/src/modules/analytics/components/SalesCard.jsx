@@ -13,14 +13,17 @@ import {
   Typography,
   Menu,
   MenuItem,
+  Button,
 } from "@mui/material";
-import { EllipsisVertical } from "lucide-react";
+import { EllipsisVertical, ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export const SalesCard = ({ analytics }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const { setShowTotalSalesCard } = useSettings();
   const [showGraphColorPalette, setShowGraphColorPalette] = useState(false);
   const { setsalesGraphColor } = useSettings();
+  const navigate = useNavigate();
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -45,8 +48,8 @@ export const SalesCard = ({ analytics }) => {
             flexDirection: "column",
           }}
         >
-          <CardContent sx={{ flexGrow: 1 }}>
-            <Box
+          <CardContent sx={{ flexGrow: 1, pb: '12px !important' }}>
+          <Box
               sx={{
                 display: "flex",
                 justifyContent: "space-between",
@@ -54,8 +57,16 @@ export const SalesCard = ({ analytics }) => {
                 mb: 2,
               }}
             >
-              <Typography variant="h6" sx={{ mb: 1 }}>
-                Sales
+              <Typography
+                variant="h6"
+                sx={{
+                  textTransform: "uppercase",
+                  fontWeight: 500,
+                  fontSize: "0.875rem",
+                  color: "text.secondary",
+                }}
+              >
+                Sales in last 4 months
                 <InfoPopover
                   title="Sales over time"
                   text="Total number of sales during the selected period for the analytics"
@@ -106,6 +117,23 @@ export const SalesCard = ({ analytics }) => {
             </Typography>
 
             <SalesChart analytics={analytics} />
+
+            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+              <Button
+                variant="text"
+                size="small"
+                onClick={() => navigate("/analytics")}
+                sx={{
+                  textTransform: "none",
+                  color: "primary.main",
+                  py: .3,
+                  fontSize: "1rem",
+                }}
+                endIcon={<ArrowRight size={18} />}
+              >
+                View details
+              </Button>
+            </Box>
           </CardContent>
         </Card>
       </Grid>

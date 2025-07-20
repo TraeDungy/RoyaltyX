@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Box } from "@mui/material";
+import { Button, Box, Typography } from "@mui/material";
 import { toast } from "react-toastify";
 import { useAuth } from "../../../common/contexts/AuthContext";
 import { apiUrl, googleClientId } from "../../../common/api/config";
@@ -73,18 +73,29 @@ const GoogleLoginButton = ({ disabled = false }) => {
                 // Store the JWT token and update auth context
                 localStorage.setItem("accessToken", authData.access);
                 
+                // Check if this is a new user
+                const isNewUser = authData.user_created;
+                
                 // Manually trigger auth context update by calling login with the token data
                 const loginResponse = await login({ 
                   access_token: authData.access,
-                  google_auth: true 
+                  google_auth: true,
+                  is_new_user: isNewUser
                 });
 
                 if (loginResponse.success) {
-                  toast.success("Successfully logged in with Google!");
+                  if (isNewUser) {
+                    toast.success("Welcome to RoyaltyX! Let's personalize your experience.");
+                  } else {
+                    toast.success("Successfully logged in with Google!");
+                  }
                 } else {
                   // If login context fails, try manual navigation
-                  window.location.href = "/my-projects";
-                  toast.success("Successfully logged in with Google!");
+                  if (isNewUser) {
+                    window.location.href = "/theme-selection";
+                  } else {
+                    window.location.href = "/my-projects";
+                  }
                 }
               } else {
                 const errorData = await authResponse.json();
@@ -128,15 +139,12 @@ const GoogleLoginButton = ({ disabled = false }) => {
       disabled={disabled || loading}
       sx={{
         py: 1.5,
-        borderColor: "#dadce0",
-        color: "#3c4043",
+        color: "#202124",
+        borderColor: "#dadada",
+        backgroundColor: "#ffffff",
         textTransform: "none",
         fontWeight: 500,
         fontSize: "14px",
-        "&:hover": {
-          borderColor: "#dadce0",
-          backgroundColor: "#f8f9fa",
-        },
         "&:disabled": {
           borderColor: "#dadce0",
           color: "#9aa0a6",
@@ -162,7 +170,7 @@ const GoogleLoginButton = ({ disabled = false }) => {
             d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
           />
         </svg>
-        {loading ? "Signing in..." : "Continue with Google"}
+        <Typography>{loading ? "Signing in..." : "Continue with Google"}</Typography>
       </Box>
     </Button>
   );

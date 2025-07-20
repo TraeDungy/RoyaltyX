@@ -5,6 +5,7 @@ import { Card, Typography, Divider, Box, TextField } from "@mui/material";
 import icon from "../../../common/assets/img/brand/icon-3.png";
 import { register } from "../../api/auth";
 import { GoogleLoginButton } from "../../components";
+import { useAuth } from "../../../common/contexts/AuthContext";
 import Button from "../../../common/components/Button";
 import styles from "./Register.module.css";
 
@@ -12,6 +13,7 @@ export default function Register() {
   const [error, setError] = useState("");
   const [fieldErrors, setFieldErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -25,9 +27,25 @@ export default function Register() {
 
     try {
       const response = await register(user);
-      if (response.success) {
-        toast.success("Successfully created an account!");
-        navigate("/login");
+      if (response.success && response.access) {
+        // Store the access token
+        localStorage.setItem("accessToken", response.access);
+        
+        // Automatically log in the user with the new token
+        const loginResult = await login({
+          access_token: response.access,
+          auto_login: true
+        });
+        
+        if (loginResult.success) {
+          toast.success("Account created successfully! Welcome to RoyaltyX!");
+          // Navigate directly to theme selection for new users
+          navigate("/theme-selection");
+        } else {
+          // Fallback: redirect to login if auto-login fails
+          toast.success("Account created successfully! Please log in to continue.");
+          navigate("/login");
+        }
       } else {
         // Handle field-specific errors
         if (response.errors && typeof response.errors === 'object') {

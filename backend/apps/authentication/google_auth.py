@@ -40,7 +40,6 @@ class GoogleAuthView(APIView):
             # Extract user information
             email = google_user_data.get('email')
             name = google_user_data.get('name')
-            google_id = google_user_data.get('id')
             picture = google_user_data.get('picture')
             
             if not email:
@@ -49,7 +48,7 @@ class GoogleAuthView(APIView):
                     status=status.HTTP_400_BAD_REQUEST
                 )
             
-            # Check if user already exists
+            user_created = False
             try:
                 user = User.objects.get(email=email)
                 # Update user info if needed
@@ -59,7 +58,6 @@ class GoogleAuthView(APIView):
                     user.avatar = picture
                 user.save()
             except User.DoesNotExist:
-                # Create new user without password for Google OAuth
                 user = User(
                     email=email,
                     username=email,
@@ -70,6 +68,7 @@ class GoogleAuthView(APIView):
                 )
                 # Don't set a password for Google users
                 user.save()
+                user_created = True
             
             # Generate JWT tokens
             token = MyTokenObtainPairSerializer.get_token(user)
@@ -77,6 +76,7 @@ class GoogleAuthView(APIView):
             return Response({
                 'access': str(token.access_token),
                 'refresh': str(token),
+                'user_created': user_created,
                 'user': {
                     'id': user.id,
                     'email': user.email,

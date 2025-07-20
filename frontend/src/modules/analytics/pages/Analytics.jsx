@@ -8,12 +8,10 @@ import ImpressionsOverTime from "../components/ImpressionsOverTime";
 import ImpressionRevenueOverTime from "../components/ImpressionRevenueOverTime";
 import SalesOverTime from "../components/SalesOverTime";
 import RentalsOverTime from "../components/RentalsOverTime";
-import { SalesCard } from "../components/SalesCard";
-import { ImpressionsCard } from "../components/ImpressionsCard";
-import { RevenueCard } from "../components/RevenueCard";
 import { useSettings } from "../../common/contexts/SettingsContext";
 import { TopPerfomingContentByImpressions } from "../components/TopPerfomingContentByImpressions";
 import { TopPerfomingContentBySales } from "../components/TopPerfomingContentBySales";
+import { SourceAnalytics } from "../components/SourceAnalytics";
 import SalesStatsCard from "../components/SalesStatsCard";
 import GeneralStatsCard from "../components/GeneralStatsCard";
 import { Grid, Typography } from "@mui/material";
@@ -25,9 +23,6 @@ function Analytics() {
     showRentalsOverTime,
     showImpressionsOverTime,
     showImpressionRevenueOverTime,
-    showTotalImpressionsCard,
-    showTotalSalesCard,
-    showTotalRevenueCard,
   } = useSettings();
   const location = useLocation();
   const params = new URLSearchParams(location.search);
@@ -63,18 +58,13 @@ function Analytics() {
 
   return (
     <>
-      <div className="d-flex justify-content-between align-items-center mb-4 pb-2 ps-1">
+      <div className="d-flex justify-content-between align-items-center mb-3 ps-1">
         <Typography variant="h2" mb={0}>
           Analytics
         </Typography>
         <DateRangeSelector />
       </div>
 
-      <Grid container spacing={3}>
-        {showTotalImpressionsCard && <ImpressionsCard analytics={analytics} />}
-        {showTotalSalesCard && <SalesCard analytics={analytics} />}
-        {showTotalRevenueCard && <RevenueCard analytics={analytics} />}
-      </Grid>
 
       <Grid container columnSpacing={3}>
         {showSalesOverTime && <SalesOverTime analytics={analytics} />}
@@ -92,19 +82,11 @@ function Analytics() {
         <GeneralStatsCard analytics={analytics} showProductCount={true} />
       </Grid>
 
-      <div className="row">
-        <Typography variant="h4" fontWeight="bold" sx={{ mt: 4, mb: 2 }}>
-          Top Performing Content (by impressions)
-        </Typography>
-        <TopPerfomingContentByImpressions />
-      </div>
+      <SourceAnalytics analytics={analytics} />
 
-      <div className="row">
-        <Typography variant="h4" fontWeight="bold" sx={{ mt: 4, mb: 2 }}>
-          Top Performing Content (by sales)
-        </Typography>
-        <TopPerfomingContentBySales />
-      </div>
+      <TopPerfomingContentByImpressions />
+
+      <TopPerfomingContentBySales />
     </>
   );
 }
