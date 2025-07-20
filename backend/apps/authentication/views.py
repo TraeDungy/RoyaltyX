@@ -3,8 +3,10 @@ from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from apps.authentication.serializer import UserRegistrationSerializer
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
+from apps.authentication.serializer import UserRegistrationSerializer
+from apps.emails.utils import send_welcome_email
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -29,6 +31,15 @@ class RegisterView(generics.GenericAPIView):
         serializer = UserRegistrationSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
+            
+            # Send welcome email to the new user
+            try:
+                send_welcome_email(
+                    user_email=user.email,
+                    user_name=user.name or user.username
+                )
+            except Exception as e:
+                print(e, flush=True)
             
             # Generate JWT tokens for the newly created user
             token_serializer = MyTokenObtainPairSerializer()

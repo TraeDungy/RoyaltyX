@@ -4,6 +4,8 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from apps.emails.utils import send_welcome_email
+
 from .views import MyTokenObtainPairSerializer
 
 User = get_user_model()
@@ -69,7 +71,15 @@ class GoogleAuthView(APIView):
                 # Don't set a password for Google users
                 user.save()
                 user_created = True
-            
+                
+                try:
+                    send_welcome_email(
+                        user_email=user.email,
+                        user_name=user.name or user.username
+                    )
+                except Exception as e:
+                    print(e, flush=True)
+                
             # Generate JWT tokens
             token = MyTokenObtainPairSerializer.get_token(user)
             
