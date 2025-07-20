@@ -3,19 +3,23 @@ import {
   Box,
   Button,
   Typography,
-  Card,
-  CardContent,
   Avatar,
-  IconButton,
   Chip,
-  Grid,
-  Stack,
-  Divider,
   Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  IconButton,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import {
-  Delete as DeleteIcon,
   PersonAdd as PersonAddIcon,
+  MoreVert as MoreVertIcon,
+  Delete as DeleteIcon,
 } from "@mui/icons-material";
 import { toast } from "react-toastify";
 import AddMemberModal from "../components/AddMemberModal";
@@ -26,6 +30,8 @@ import PageHeader from "../../common/components/PageHeader";
 function Members() {
   const { project, setProject } = useProject();
   const [showAddMemberModal, setShowAddMemberModal] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(null);
 
   const handleRemoveProjectMember = async (user) => {
     try {
@@ -42,6 +48,23 @@ function Members() {
 
   const handleOpenMembersModal = () => {
     setShowAddMemberModal(true);
+  };
+
+  const handleMenuOpen = (event, user) => {
+    setAnchorEl(event.currentTarget);
+    setSelectedUser(user);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    setSelectedUser(null);
+  };
+
+  const handleRemoveFromMenu = () => {
+    if (selectedUser) {
+      handleRemoveProjectMember(selectedUser);
+    }
+    handleMenuClose();
   };
 
   const getRoleColor = (role) => {
@@ -74,60 +97,51 @@ function Members() {
       />
 
       {project?.users?.length > 0 ? (
-        <Grid container spacing={3}>
-          {project.users.map((user) => (
-            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={user.id}>
-              <Card
-                sx={{
-                  height: "100%",
-                  transition: "all 0.2s ease-in-out",
-                  "&:hover": {
-                    elevation: 4,
-                    transform: "translateY(-2px)",
-                  },
-                }}
-              >
-                <CardContent sx={{ p: 3 }}>
-                  <Stack spacing={2} alignItems="center">
-                    <Avatar
-                      src={user?.user_details?.avatar}
-                      sx={{
-                        width: 64,
-                        height: 64,
-                        fontSize: "1.5rem",
-                        fontWeight: 600,
-                      }}
-                    >
-                      {user?.user_details?.name?.charAt(0)?.toUpperCase() ||
-                        "U"}
-                    </Avatar>
-
-                    {/* Name */}
-                    <Typography
-                      variant="h6"
-                      component="h3"
-                      sx={{
-                        fontWeight: 600,
-                        textAlign: "center",
-                        lineHeight: 1.2,
-                      }}
-                    >
-                      {user?.user_details?.name || "Unknown User"}
-                    </Typography>
-
-                    {/* Email */}
-                    <Typography
-                      variant="body2"
-                      color="text.secondary"
-                      sx={{
-                        textAlign: "center",
-                        wordBreak: "break-word",
-                      }}
-                    >
+        <TableContainer sx={{ mt: 2 }}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Member</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Role</TableCell>
+                <TableCell align="right">Actions</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {project.users.map((user) => (
+                <TableRow
+                  key={user.id}
+                  sx={{
+                    "&:hover": {
+                      backgroundColor: "action.hover",
+                    },
+                  }}
+                >
+                  <TableCell>
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                      <Avatar
+                        src={user?.user_details?.avatar}
+                        sx={{
+                          width: 40,
+                          height: 40,
+                          fontSize: "1rem",
+                          fontWeight: 600,
+                        }}
+                      >
+                        {user?.user_details?.name?.charAt(0)?.toUpperCase() ||
+                          "U"}
+                      </Avatar>
+                      <Typography variant="body1" sx={{ fontWeight: 500 }}>
+                        {user?.user_details?.name || "Unknown User"}
+                      </Typography>
+                    </Box>
+                  </TableCell>
+                  <TableCell>
+                    <Typography variant="body2" color="text.secondary">
                       {user?.user_details?.email}
                     </Typography>
-
-                    {/* Role Chip */}
+                  </TableCell>
+                  <TableCell>
                     <Chip
                       label={user?.role || "Member"}
                       color={getRoleColor(user?.role)}
@@ -137,37 +151,20 @@ function Members() {
                         textTransform: "capitalize",
                       }}
                     />
-
-                    <Divider sx={{ width: "100%", my: 1 }} />
-
-                    {/* Actions */}
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        width: "100%",
-                      }}
+                  </TableCell>
+                  <TableCell align="right">
+                    <IconButton
+                      onClick={(event) => handleMenuOpen(event, user)}
+                      size="small"
                     >
-                      <IconButton
-                        onClick={() => handleRemoveProjectMember(user)}
-                        color="error"
-                        size="small"
-                        sx={{
-                          "&:hover": {
-                            backgroundColor: "error.light",
-                            color: "white",
-                          },
-                        }}
-                      >
-                        <DeleteIcon fontSize="small" />
-                      </IconButton>
-                    </Box>
-                  </Stack>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
+                      <MoreVertIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       ) : (
         <Paper
           elevation={1}
@@ -199,6 +196,25 @@ function Members() {
         showAddMemberModal={showAddMemberModal}
         setShowAddMemberModal={setShowAddMemberModal}
       />
+
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleMenuClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "right",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+      >
+        <MenuItem onClick={handleRemoveFromMenu} sx={{ color: "error.main" }}>
+          <DeleteIcon sx={{ mr: 1, fontSize: "1.2rem" }} />
+          Remove from project
+        </MenuItem>
+      </Menu>
     </Box>
   );
 }
