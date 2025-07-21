@@ -46,7 +46,6 @@ class ReportsView(APIView):
 
         start_date = None
         end_date = None
-        months = 12
 
         if period_start and period_end:
             try:
@@ -56,19 +55,15 @@ class ReportsView(APIView):
                 end_date = timezone.make_aware(datetime.combine(period_end, time.max))
                 filters["period_start__gte"] = start_date
                 filters["period_end__lte"] = end_date
-                months = (
-                    (end_date.year - start_date.year) * 12
-                    + (end_date.month - start_date.month)
-                    + 1
-                )
             except ValueError:
                 return Response(
                     {"error": "Invalid date format. Use YYYY-MM-DD."},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
+                
 
         analytics = calculate_analytics(
-            request.user.currently_selected_project_id, filters, months
+            currently_selected_project_id, filters, period_start, period_end,
         )
 
         user = request.user
