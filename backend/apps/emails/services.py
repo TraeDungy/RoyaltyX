@@ -171,3 +171,43 @@ class Email:
             if not fail_silently:
                 raise
             return False
+
+    @staticmethod
+    def send_db_template_email(
+        template_name: str,
+        context: Dict[str, Any],
+        recipient_list: List[str],
+        from_email: Optional[str] = None,
+        fail_silently: bool = False,
+    ) -> bool:
+        """Send an email using a template stored in the database."""
+        try:
+            template = (
+                EmailTemplate.objects.filter(name=template_name, is_active=True)
+                .order_by("-version")
+                .first()
+            )
+
+            if not template:
+                logger.error(f"EmailTemplate '{template_name}' not found")
+                return False
+
+            subject_template = Template(template.subject)
+            html_template = Template(template.content)
+
+            subject = subject_template.render(Context(context))
+            html_content = html_template.render(Context(context))
+
+            return Email.send_html_email(
+                subject=subject,
+                html_content=html_content,
+                recipient_list=recipient_list,
+                from_email=from_email,
+                fail_silently=fail_silently,
+            )
+
+        except Exception as e:
+            logger.error(f"Failed to send db template email: {str(e)}")
+            if not fail_silently:
+                raise
+            return False
