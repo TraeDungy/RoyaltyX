@@ -64,7 +64,12 @@ class GoogleAuthView(APIView):
                     email=email,
                     username=email,
                     name=name or email.split('@')[0],
-                    avatar=picture or User.objects.generate_avatar_url(name or email.split('@')[0]),
+                    avatar=(
+                        picture
+                        or User.objects.generate_avatar_url(
+                            name or email.split("@")[0]
+                        )
+                    ),
                     is_active=True,
                     is_email_verified=True  # Google accounts are pre-verified
                 )

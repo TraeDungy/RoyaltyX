@@ -1,9 +1,9 @@
-from django.contrib.auth import get_user_model
-from django.urls import reverse
-from django.test import TestCase
-from rest_framework.test import APIClient
-from rest_framework import status
 from unittest.mock import patch
+
+from django.contrib.auth import get_user_model
+from django.test import TestCase
+from rest_framework import status
+from rest_framework.test import APIClient
 
 from apps.project.models import Project, ProjectUser
 from apps.sources.models import Source
@@ -35,11 +35,18 @@ class SourceAPITests(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, [])
 
-    @patch("apps.sources.views.fetch_youtube_channel_details", return_value={"id": "c1", "name": "Channel"})
+    @patch(
+        "apps.sources.views.fetch_youtube_channel_details",
+        return_value={"id": "c1", "name": "Channel"},
+    )
     @patch("apps.sources.views.fetch_youtube_videos")
     @patch("apps.sources.views.fetch_youtube_stats")
     def test_create_source(self, mock_stats, mock_videos, mock_details):
-        data = {"account_name": "Chan", "platform": Source.PLATFORM_YOUTUBE, "access_token": "tok"}
+        data = {
+            "account_name": "Chan",
+            "platform": Source.PLATFORM_YOUTUBE,
+            "access_token": "tok",
+        }
         response = self.client.post(self.list_url, data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertTrue(Source.objects.filter(project=self.project).exists())

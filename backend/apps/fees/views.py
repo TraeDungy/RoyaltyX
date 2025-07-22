@@ -4,8 +4,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import FeeType, FeeRule, FeeAdjustment
-from .serializers import FeeTypeSerializer, FeeRuleSerializer
+from .models import FeeAdjustment, FeeRule, FeeType
+from .serializers import FeeRuleSerializer, FeeTypeSerializer
 
 
 class FeeTypeListCreateView(APIView):
@@ -53,7 +53,9 @@ class FeeRuleListCreateView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        rules = FeeRule.objects.filter(project_id=request.user.currently_selected_project_id)
+        rules = FeeRule.objects.filter(
+            project_id=request.user.currently_selected_project_id
+        )
         serializer = FeeRuleSerializer(rules, many=True)
         return Response(serializer.data)
 

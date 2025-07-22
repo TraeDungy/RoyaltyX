@@ -27,7 +27,6 @@ export const RevenueCard = ({ analytics }) => {
   const {
     setrevenueGraphColor,
     setRevenueGraphType,
-    revenueGraphType,
     revenueValueFormat,
     setRevenueValueFormat,
   } = useSettings();

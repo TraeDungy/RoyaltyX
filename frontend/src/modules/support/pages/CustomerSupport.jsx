@@ -47,7 +47,7 @@ function CustomerSupport() {
   // Use hooks for data fetching
   const { tickets, loading: ticketsLoading, error: ticketsError, refetch: refetchTickets } = useCustomerTickets();
   const { stats, loading: statsLoading, error: statsError, refetch: refetchStats } = useCustomerSupportStats();
-  const { createTicket, loading: _creatingTicket, error: createError } = useCreateSupportTicket();
+  const { createTicket, error: createError } = useCreateSupportTicket();
 
   const loading = ticketsLoading || statsLoading;
 

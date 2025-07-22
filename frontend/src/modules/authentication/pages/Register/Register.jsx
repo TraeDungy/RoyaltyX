@@ -178,8 +178,6 @@ export default function Register() {
           </div>
 
           <div className="py-2 mt-3">
-
-          <div className="py-2 mt-3">
             <Button variant="primary" size="lg" type="submit" loading={loading}>
               Sign Up
             </Button>

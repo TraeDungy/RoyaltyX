@@ -171,6 +171,9 @@ class ProjectUserViewDeleteTests(TestCase):
             role=ProjectUser.PROJECT_USER_ROLE_PRODUCER,
         )
 
+        self.owner.currently_selected_project = self.project
+        self.owner.save()
+
     def test_successful_delete_project_user(self):
         """Test successfully deleting a ProjectUser"""
         self.client.force_authenticate(user=self.owner)

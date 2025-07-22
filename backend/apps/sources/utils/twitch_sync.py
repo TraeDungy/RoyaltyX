@@ -1,7 +1,9 @@
 from datetime import date, timedelta
+
 from django.utils import timezone
-from apps.sources.models import Source
+
 from apps.product.models import Product, ProductImpressions
+from apps.sources.models import Source
 from apps.sources.utils.twitch_service import TwitchService
 
 
@@ -38,7 +40,11 @@ def fetch_twitch_videos(source_id=None):
                     thumbnail = None
                     raw_thumbnail_url = video.get("thumbnail_url", None)
                     if raw_thumbnail_url:
-                        thumbnail = raw_thumbnail_url.replace("%{width}", "640").replace("%{height}", "360")
+                        thumbnail = (
+                            raw_thumbnail_url.replace("%{width}", "640").replace(
+                                "%{height}", "360"
+                            )
+                        )
                     Product.objects.create(
                         external_id=video.get("id", None),
                         title=video.get("title", None),
@@ -91,7 +97,9 @@ def fetch_twitch_stats(source_id=None):
                     period_end=yesterday.isoformat()
                 ).first()
                 
-                yesterday_view_count = yesterday_impressions.impressions if yesterday_impressions else 0
+                yesterday_view_count = (
+                    yesterday_impressions.impressions if yesterday_impressions else 0
+                )
                 
                 # Calculate the actual view count for today (current - yesterday)
                 views = max(0, current_view_count - yesterday_view_count)

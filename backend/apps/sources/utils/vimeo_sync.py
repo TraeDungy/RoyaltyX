@@ -1,7 +1,9 @@
 from datetime import date, timedelta
+
 from django.utils import timezone
-from apps.sources.models import Source
+
 from apps.product.models import Product, ProductImpressions
+from apps.sources.models import Source
 from apps.sources.utils.vimeo_service import VimeoService
 
 
@@ -80,7 +82,9 @@ def fetch_vimeo_stats(source_id=None):
                     period_start=yesterday.isoformat(),
                     period_end=yesterday.isoformat(),
                 ).first()
-                yesterday_views = yesterday_impressions.impressions if yesterday_impressions else 0
+                yesterday_views = (
+                    yesterday_impressions.impressions if yesterday_impressions else 0
+                )
                 views = max(0, current_view_count - yesterday_views)
 
                 existing_stats = ProductImpressions.objects.filter(

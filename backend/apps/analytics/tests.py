@@ -8,9 +8,9 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 
+from apps.analytics.models import AnalyticsForecast
 from apps.product.models import Product
 from apps.project.models import Project, ProjectUser
-from apps.analytics.models import AnalyticsForecast
 
 
 class AnalyticsViewTests(TestCase):
@@ -198,8 +198,9 @@ class GranularityTests(TestCase):
         from apps.analytics.views import AnalyticsView
         view = AnalyticsView()
         period_start = date.today()
-        period_end = date.today()
-        self.assertEqual(view._determine_granularity(period_start, period_start), "hourly")
+        self.assertEqual(
+            view._determine_granularity(period_start, period_start), "hourly"
+        )
 
     def test_determine_granularity_daily(self):
         from apps.analytics.views import AnalyticsView

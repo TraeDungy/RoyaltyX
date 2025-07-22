@@ -1,6 +1,7 @@
+from unittest.mock import MagicMock, patch
+
 from django.contrib.auth import get_user_model
 from django.test import TestCase
-from unittest.mock import patch, MagicMock
 
 from apps.payments.stripe_service import StripeService
 
@@ -26,7 +27,9 @@ class StripeServiceTests(TestCase):
 
     def test_get_price_id_for_plan(self):
         with patch.dict("os.environ", {"STRIPE_BASIC_PRICE_ID": "price_basic"}):
-            self.assertEqual(StripeService.get_price_id_for_plan("basic"), "price_basic")
+            self.assertEqual(
+                StripeService.get_price_id_for_plan("basic"), "price_basic"
+            )
             self.assertIsNone(StripeService.get_price_id_for_plan("premium"))
 
     @patch("apps.payments.stripe_service.stripe.Subscription.delete")

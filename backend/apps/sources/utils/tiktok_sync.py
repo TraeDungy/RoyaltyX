@@ -1,7 +1,9 @@
 from datetime import date, timedelta
+
 from django.utils import timezone
-from apps.sources.models import Source
+
 from apps.product.models import Product, ProductImpressions
+from apps.sources.models import Source
 from apps.sources.utils.tiktok_service import TikTokService
 
 
@@ -86,7 +88,9 @@ def fetch_tiktok_stats(source_id=None):
                     period_end=yesterday.isoformat()
                 ).first()
                 
-                yesterday_view_count = yesterday_impressions.impressions if yesterday_impressions else 0
+                yesterday_view_count = (
+                    yesterday_impressions.impressions if yesterday_impressions else 0
+                )
                 
                 # Calculate the actual view count for today (current - yesterday)
                 views = current_view_count - yesterday_view_count
