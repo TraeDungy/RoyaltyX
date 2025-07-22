@@ -10,6 +10,14 @@ from rest_framework.response import Response
 from apps.project.models import Project
 from apps.sources.models import Source
 
+
+def has_admin_access(user):
+    if getattr(user, "role", None) == "admin":
+        return True
+    if hasattr(user, "permissions"):
+        return user.permissions.filter(code="admin_access").exists()
+    return False
+
 User = get_user_model()
 
 
@@ -25,7 +33,7 @@ def admin_dashboard_stats(request):
     """
     Get comprehensive dashboard statistics for admin panel
     """
-    if not hasattr(request.user, "role") or request.user.role != "admin":
+    if not has_admin_access(request.user):
         return Response(
             {"error": "You do not have permission to perform this action."},
             status=status.HTTP_403_FORBIDDEN,
@@ -88,7 +96,7 @@ def users_list(request):
     """
     Get paginated list of all users
     """
-    if not hasattr(request.user, "role") or request.user.role != "admin":
+    if not has_admin_access(request.user):
         return Response(
             {"error": "You do not have permission to perform this action."},
             status=status.HTTP_403_FORBIDDEN,
@@ -128,7 +136,7 @@ def users_stats(request):
     """
     Get detailed user statistics
     """
-    if not hasattr(request.user, "role") or request.user.role != "admin":
+    if not has_admin_access(request.user):
         return Response(
             {"error": "You do not have permission to perform this action."},
             status=status.HTTP_403_FORBIDDEN,
@@ -158,7 +166,7 @@ def projects_stats(request):
     """
     Get detailed project statistics
     """
-    if not hasattr(request.user, "role") or request.user.role != "admin":
+    if not has_admin_access(request.user):
         return Response(
             {"error": "You do not have permission to perform this action."},
             status=status.HTTP_403_FORBIDDEN,
@@ -184,7 +192,7 @@ def sources_stats(request):
     """
     Get detailed source statistics
     """
-    if not hasattr(request.user, "role") or request.user.role != "admin":
+    if not has_admin_access(request.user):
         return Response(
             {"error": "You do not have permission to perform this action."},
             status=status.HTTP_403_FORBIDDEN,

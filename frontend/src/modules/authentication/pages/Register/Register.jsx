@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Card, Typography, Divider, Box, TextField } from "@mui/material";
+import { Card, Typography, Divider, Box, TextField, MenuItem } from "@mui/material";
 import icon from "../../../common/assets/img/brand/icon-3.png";
 import { register } from "../../api/auth";
 import { GoogleLoginButton } from "../../components";
@@ -148,18 +148,36 @@ export default function Register() {
             />
           </div>
           <div className="py-2">
+          <TextField
+            label="Password"
+            name="password"
+            type="password"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            placeholder="••••••••"
+            error={hasFieldError('password')}
+            helperText={getFieldError('password')}
+          />
+          </div>
+          <div className="py-2">
             <TextField
-              label="Password"
-              name="password"
-              type="password"
+              select
+              label="Role"
+              name="role"
               variant="outlined"
               fullWidth
               margin="normal"
-              placeholder="••••••••"
-              error={hasFieldError('password')}
-              helperText={getFieldError('password')}
-            />
+              defaultValue="user"
+              error={hasFieldError('role')}
+              helperText={getFieldError('role')}
+            >
+              <MenuItem value="user">User</MenuItem>
+              <MenuItem value="admin">Admin</MenuItem>
+            </TextField>
           </div>
+
+          <div className="py-2 mt-3">
 
           <div className="py-2 mt-3">
             <Button variant="primary" size="lg" type="submit" loading={loading}>
