@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import File, Dataset
+from .models import Dataset, File
 
 
 class FileSerializer(serializers.ModelSerializer):

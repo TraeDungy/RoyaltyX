@@ -6,10 +6,10 @@ from apps.user.serializers import UserSerializer
 
 from .models import (
     Product,
+    ProductImage,
     ProductImpressions,
     ProductSale,
     ProductUser,
-    ProductImage,
 )
 
 

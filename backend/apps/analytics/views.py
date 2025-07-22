@@ -1,18 +1,17 @@
-from datetime import datetime, time
 import csv
+from datetime import datetime, time
 
 from django.http import HttpResponse
-
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from apps.analytics.serializers import (
-    AnalyticsSerializer,
-    AnalyticsForecastSerializer,
-)
 from apps.analytics.models import AnalyticsForecast
+from apps.analytics.serializers import (
+    AnalyticsForecastSerializer,
+    AnalyticsSerializer,
+)
 from apps.analytics.utils import calculate_analytics
 
 
