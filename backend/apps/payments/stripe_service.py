@@ -122,9 +122,9 @@ class StripeService:
             if plan:
                 user.subscription_plan = plan
             user.subscription_current_period_end = datetime.fromtimestamp(
-                subscription.current_period_end, tz=timezone.utc
+                subscription["current_period_end"], tz=timezone.utc
             )
-            user.subscription_status = subscription.status
+            user.subscription_status = subscription["status"]
             user.stripe_subscription_item_id = subscription["items"]["data"][0]["id"]
             if add_ons is not None:
                 user.add_ons.set(add_ons)
@@ -156,10 +156,10 @@ class StripeService:
 
             # Update user with new subscription details
             user.subscription_plan = plan
-            user.stripe_subscription_id = subscription.id
+            user.stripe_subscription_id = subscription["id"]
             user.subscription_status = "active"
             user.subscription_current_period_end = datetime.fromtimestamp(
-                subscription.current_period_end, tz=timezone.utc
+                subscription["current_period_end"], tz=timezone.utc
             )
             user.stripe_subscription_item_id = item_id
             user.payment_failure_count = 0
