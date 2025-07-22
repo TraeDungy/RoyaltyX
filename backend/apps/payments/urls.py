@@ -14,6 +14,11 @@ urlpatterns = [
         name="payments.cancel_subscription",
     ),
     path(
+        "update-subscription/",
+        views.update_subscription,
+        name="payments.update_subscription",
+    ),
+    path(
         "subscription-status/",
         views.subscription_status,
         name="payments.subscription_status",

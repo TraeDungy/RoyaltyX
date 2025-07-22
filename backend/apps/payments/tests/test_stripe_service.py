@@ -33,3 +33,21 @@ class StripeServiceTests(TestCase):
     def test_cancel_subscription(self, mock_delete):
         StripeService.cancel_subscription("sub_1")
         mock_delete.assert_called_once_with("sub_1")
+
+    @patch("apps.payments.stripe_service.stripe.Subscription.modify")
+    @patch("apps.payments.stripe_service.stripe.Subscription.retrieve")
+    def test_update_subscription(self, mock_retrieve, mock_modify):
+        self.user.stripe_subscription_id = "sub_1"
+        self.user.stripe_subscription_item_id = "si_1"
+        mock_retrieve.return_value = {
+            "items": {"data": [{"id": "si_1", "price": {"id": "price_old"}}]},
+            "status": "active",
+            "current_period_end": 123456,
+        }
+        mock_modify.return_value = mock_retrieve.return_value
+        with patch.dict("os.environ", {"STRIPE_PREMIUM_PRICE_ID": "price_new"}):
+            StripeService.update_subscription(self.user, "premium", [])
+
+        mock_modify.assert_called_once()
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.subscription_plan, "premium")

@@ -11,6 +11,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from .stripe_service import StripeService
+from .models import AddOn
 
 User = get_user_model()
 
@@ -21,6 +22,13 @@ def create_checkout_session(request):
     """Create a Stripe checkout session for subscription upgrade"""
     try:
         plan = request.data.get("plan")
+        addon_codes = request.data.get("add_ons", [])
+        addons = []
+        for code in addon_codes:
+            try:
+                addons.append(AddOn.objects.get(code=code))
+            except AddOn.DoesNotExist:
+                return Response({"error": f"Invalid add-on: {code}"}, status=status.HTTP_400_BAD_REQUEST)
 
         if not plan:
             return Response(
@@ -40,7 +48,7 @@ def create_checkout_session(request):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        session = StripeService.create_checkout_session(request.user, plan)
+        session = StripeService.create_checkout_session(request.user, plan, addons)
 
         return Response({"checkout_url": session.url, "session_id": session.id})
 
@@ -78,6 +86,26 @@ def cancel_subscription(request):
             }
         )
 
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def update_subscription(request):
+    """Update an existing subscription with proration"""
+    plan = request.data.get("plan")
+    addon_codes = request.data.get("add_ons", [])
+    addons = []
+    for code in addon_codes:
+        try:
+            addons.append(AddOn.objects.get(code=code))
+        except AddOn.DoesNotExist:
+            return Response({"error": f"Invalid add-on: {code}"}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        StripeService.update_subscription(request.user, plan, addons)
+        return Response({"message": "Subscription updated"})
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 

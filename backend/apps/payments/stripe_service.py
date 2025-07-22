@@ -37,8 +37,8 @@ class StripeService:
         return StripeService.create_customer(user)
 
     @staticmethod
-    def create_checkout_session(user, plan):
-        """Create a Stripe checkout session for subscription"""
+    def create_checkout_session(user, plan, addons=None):
+        """Create a Stripe checkout session for subscription and optional add-ons"""
         try:
             customer = StripeService.get_or_create_customer(user)
 
@@ -47,15 +47,21 @@ class StripeService:
             if not price_id:
                 raise Exception(f"No price ID configured for plan: {plan}")
 
+            line_items = [
+                {
+                    "price": price_id,
+                    "quantity": 1,
+                }
+            ]
+
+            if addons:
+                for addon in addons:
+                    line_items.append({"price": addon.stripe_price_id, "quantity": 1})
+
             session = stripe.checkout.Session.create(
                 customer=customer.id,
                 payment_method_types=["card"],
-                line_items=[
-                    {
-                        "price": price_id,
-                        "quantity": 1,
-                    }
-                ],
+                line_items=line_items,
                 mode="subscription",
                 success_url=f"{os.getenv('REACT_APP_URL')}/account/membership?session_id={{CHECKOUT_SESSION_ID}}&status=success",
                 cancel_url=f"{os.getenv('REACT_APP_URL')}/account/membership?status=cancelled",
@@ -83,6 +89,51 @@ class StripeService:
             raise Exception(f"Failed to cancel subscription: {str(e)}")
 
     @staticmethod
+    def update_subscription(user, plan=None, add_ons=None):
+        """Update an existing Stripe subscription with proration."""
+        if not user.stripe_subscription_id:
+            raise Exception("User has no active subscription")
+
+        try:
+            subscription = stripe.Subscription.retrieve(user.stripe_subscription_id)
+            item_id = user.stripe_subscription_item_id or subscription["items"]["data"][0]["id"]
+
+            items = []
+
+            if plan:
+                price_id = StripeService.get_price_id_for_plan(plan)
+                if not price_id:
+                    raise Exception(f"No price ID configured for plan: {plan}")
+                items.append({"id": item_id, "price": price_id})
+            else:
+                items.append({"id": item_id, "price": subscription["items"]["data"][0]["price"]["id"]})
+
+            if add_ons is not None:
+                for addon in add_ons:
+                    items.append({"price": addon.stripe_price_id, "quantity": 1})
+
+            subscription = stripe.Subscription.modify(
+                user.stripe_subscription_id,
+                cancel_at_period_end=False,
+                proration_behavior="create_prorations",
+                items=items,
+            )
+
+            if plan:
+                user.subscription_plan = plan
+            user.subscription_current_period_end = datetime.fromtimestamp(
+                subscription.current_period_end, tz=timezone.utc
+            )
+            user.subscription_status = subscription.status
+            user.stripe_subscription_item_id = subscription["items"]["data"][0]["id"]
+            if add_ons is not None:
+                user.add_ons.set(add_ons)
+            user.save()
+            return subscription
+        except stripe.error.StripeError as e:
+            raise Exception(f"Failed to update subscription: {str(e)}")
+
+    @staticmethod
     def handle_successful_payment(session):
         """Handle successful payment from webhook"""
         try:
@@ -94,6 +145,7 @@ class StripeService:
 
             # Get the subscription from the session
             subscription = stripe.Subscription.retrieve(session["subscription"])
+            item_id = subscription["items"]["data"][0]["id"]
 
             # Cancel existing subscription if any
             if user.stripe_subscription_id:
@@ -109,6 +161,7 @@ class StripeService:
             user.subscription_current_period_end = datetime.fromtimestamp(
                 subscription.current_period_end, tz=timezone.utc
             )
+            user.stripe_subscription_item_id = item_id
             user.payment_failure_count = 0
             user.grace_period_end = None
             user.save()
