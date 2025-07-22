@@ -4,9 +4,11 @@ import { uploadFile } from "../../management/api/files";
 import { useDropzone } from "react-dropzone";
 import { Spinner } from "react-bootstrap";
 import { useProducts } from "../../products/api/products";
+import TaskProgress from "../../common/components/TaskProgress";
 
 const FileUploadInput = ({ setFiles }) => {
   const [uploading, setUploading] = useState(false);
+  const [taskId, setTaskId] = useState(null);
   const { refetchProducts } = useProducts();
 
   const onDrop = async (acceptedFiles) => {
@@ -16,6 +18,9 @@ const FileUploadInput = ({ setFiles }) => {
     setUploading(true);
     try {
       const response = await uploadFile(file);
+      if (response.task_id) {
+        setTaskId(response.task_id);
+      }
       if (response.report.status === "success") {
         toast.success(response.report.message);
         setFiles((prevFiles) => [response.file, ...prevFiles]);
@@ -62,6 +67,7 @@ const FileUploadInput = ({ setFiles }) => {
           </div>
         )}
       </div>
+      {taskId && <TaskProgress taskId={taskId} />}
     </div>
   );
 };
