@@ -1,10 +1,8 @@
-import stripe
 import os
-from django.conf import settings
-from django.contrib.auth import get_user_model
 from datetime import datetime, timezone
 
-User = get_user_model()
+import stripe
+from django.contrib.auth import get_user_model
 
 # Initialize Stripe
 stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
@@ -94,6 +92,7 @@ class StripeService:
             user_id = session['metadata']['user_id']
             plan = session['metadata']['plan']
             
+            User = get_user_model()
             user = User.objects.get(id=user_id)
             
             # Get the subscription from the session
@@ -103,7 +102,7 @@ class StripeService:
             if user.stripe_subscription_id:
                 try:
                     StripeService.cancel_subscription(user.stripe_subscription_id)
-                except:
+                except Exception:
                     pass  # Continue even if cancellation fails
             
             # Update user with new subscription details
@@ -125,6 +124,7 @@ class StripeService:
     def handle_payment_failed(invoice):
         """Handle failed payment from webhook"""
         try:
+            User = get_user_model()
             subscription_id = invoice['subscription']
             user = User.objects.get(stripe_subscription_id=subscription_id)
             
@@ -142,6 +142,7 @@ class StripeService:
     def handle_subscription_deleted(subscription):
         """Handle subscription deletion from webhook"""
         try:
+            User = get_user_model()
             user = User.objects.get(stripe_subscription_id=subscription['id'])
             
             # Downgrade to free plan
