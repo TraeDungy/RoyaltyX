@@ -180,7 +180,7 @@ STRIPE_PREMIUM_PRICE_ID=price_...
 5. Add environment variables to production
 
 ### Webhook Setup
-**Endpoint:** `https://yourdomain.com/payments/stripe-webhook/`
+**Endpoint:** `https://yourdomain.com/api/v1/payments/stripe-webhook/`
 
 **Events to Subscribe:**
 - `checkout.session.completed`

@@ -16,7 +16,7 @@ Stripe webhooks are not reaching your local development server, so successful pa
 
 3. **Update Stripe webhook endpoint:**
    - Go to Stripe Dashboard → Developers → Webhooks
-   - Add endpoint: `https://your-ngrok-url.ngrok.io/payments/stripe-webhook/`
+   - Add endpoint: `https://your-ngrok-url.ngrok.io/api/v1/payments/stripe-webhook/`
    - Select events:
      - `checkout.session.completed`
      - `invoice.payment_failed`
@@ -27,7 +27,7 @@ Stripe webhooks are not reaching your local development server, so successful pa
 
 1. **Stop current Stripe CLI and restart:**
    ```bash
-   stripe listen --forward-to 127.0.0.1:8000/payments/stripe-webhook/
+   stripe listen --forward-to 127.0.0.1:8000/api/v1/payments/stripe-webhook/
    ```
 
 ## Manual Payment Processing
@@ -81,6 +81,6 @@ This helper route is not included in production deployments.
 ## Production Setup
 
 For production, set up a permanent webhook endpoint:
-- Endpoint: `https://yourdomain.com/payments/stripe-webhook/`
+- Endpoint: `https://yourdomain.com/api/v1/payments/stripe-webhook/`
 - Same events as above
 - Use production webhook secret in environment variables
