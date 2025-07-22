@@ -76,7 +76,7 @@ from third-party platforms:
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/NENAD-BLAGOVCANIN/RoyaltyX.git
+   git clone https://github.com/TraeDungy/RoyaltyX.git
    cd RoyaltyX
    ```
 
