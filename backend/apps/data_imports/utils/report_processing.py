@@ -115,7 +115,7 @@ def process_report(file: BinaryIO, project_id: int, file_id: int) -> Dict[str, s
 def storeProductSales(row: Dict[str, Any], product: Product, file_id: int) -> None:
     ProductSale.objects.create(
         product=product,
-        type=row.get("Consumption Type").lower(),
+        type=(row.get("Consumption Type") or "").lower(),
         unit_price=Decimal(row.get("Unit Price")),
         unit_price_currency=row.get("Unit Price Currency"),
         quantity=Decimal(row.get("Quantity")),
