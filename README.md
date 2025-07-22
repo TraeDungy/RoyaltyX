@@ -253,6 +253,7 @@ CELERY_BROKER_URL=redis://redis:6379/0
 - Dark/light theme support
 - Comprehensive settings management
 - **AI-Powered Help Chat**: Get instant answers from the documentation using OpenAI
+- **AI Forecast Generation**: Generate project forecasts with OpenAI
 
 ### 🤝 White-Label Branding
 - Rebrand RoyaltyX with your logo and domain
@@ -418,6 +419,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - **Documentation**: Check our comprehensive docs
 - **AI Help Chat**: Use the built-in chat at `/admin/documentation/chat` for quick tips
+- **Analytics Forecast Endpoint**: POST `/analytics/forecasts/generate/` to create a forecast
 - **Issues**: Report bugs on GitHub Issues
 - **Email**: support@royaltyx.com
 - **Community**: Join our Discord server
