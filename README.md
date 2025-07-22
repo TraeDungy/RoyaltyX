@@ -240,6 +240,10 @@ docker-compose -f local.yml exec frontend npm test
 - **Swagger UI**: http://localhost:8000/docs/
 - **API Schema**: http://localhost:8000/schema/
 
+### Data Import Formats
+
+Both **CSV** and **Excel (.xlsx)** files are accepted when uploading reports or producer lists.
+
 ---
 
 ## 📁 Project Structure

@@ -1,3 +1,5 @@
+import os
+
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.parsers import FormParser, MultiPartParser
@@ -25,14 +27,27 @@ class FileListCreateView(APIView):
 
     def post(self, request):
         user = request.user
-        file = request.FILES.get("file")
+        uploaded_file = request.FILES.get("file")
         project_id = getattr(user, "currently_selected_project_id", None)
+
+        if not uploaded_file:
+            return Response(
+                {"error": "No file provided"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        ext = os.path.splitext(uploaded_file.name)[1].lower()
+        if ext not in [".csv", ".xlsx"]:
+            return Response(
+                {"error": "Unsupported file format"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
         data = request.data.copy()
         data["project"] = project_id
 
         try:
-            response_data = create_file(file, data)
+            response_data = create_file(uploaded_file, data)
             return Response(response_data, status=status.HTTP_201_CREATED)
 
         except ValueError as e:
