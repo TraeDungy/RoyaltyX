@@ -200,6 +200,8 @@ CELERY_BROKER_URL=redis://redis:6379/0
 - Responsive design for all devices
 - Intuitive dashboard interface
 - Real-time notifications
+- Customizable dashboard with quick buttons and admin messages
+- Animated feature update cards
 - Dark/light theme support
 - Comprehensive settings management
 
