@@ -4,6 +4,7 @@ from decimal import Decimal
 from typing import Any, BinaryIO, Dict, List
 
 from apps.product.models import Product, ProductImpressions, ProductSale
+from apps.fees.utils import apply_fees_to_sale
 
 
 def validate_csv(file: BinaryIO) -> bool:
@@ -75,7 +76,7 @@ def process_report(file: BinaryIO, project_id: int, file_id: int) -> Dict[str, s
 
 
 def storeProductSales(row: Dict[str, Any], product: Product, file_id: int) -> None:
-    ProductSale.objects.create(
+    sale = ProductSale.objects.create(
         product=product,
         type=row.get("Consumption Type").lower(),
         unit_price=Decimal(row.get("Unit Price")),
@@ -88,6 +89,7 @@ def storeProductSales(row: Dict[str, Any], product: Product, file_id: int) -> No
         period_end=row.get("Period End"),
         from_file_id=file_id,
     )
+    apply_fees_to_sale(sale)
 
 
 def storeProductImpressions(

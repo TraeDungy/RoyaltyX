@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "apps.sources",
     "apps.analytics",
     "apps.admin_panel",
+    "apps.fees",
     "apps.payments",
     "apps.emails",
     "apps.oauth.google",
