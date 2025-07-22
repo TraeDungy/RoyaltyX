@@ -173,7 +173,7 @@ CELERY_BROKER_URL=redis://redis:6379/0
 ### Stripe Setup (For Payments)
 
 1. Create a Stripe account at https://stripe.com
-2. Create products for Basic ($19.99/month) and Premium ($49.99/month) plans
+2. Create products for Professional ($49.99/month) and Premium ($99.99/month) plans
 3. Copy the price IDs to your environment variables
 4. Set up webhook endpoint: `https://yourdomain.com/payments/stripe-webhook/`
 5. Subscribe to these webhook events:
@@ -193,10 +193,10 @@ CELERY_BROKER_URL=redis://redis:6379/0
 - User profile management
 - Role-based access control
 
-### 💳 Subscription Management
-- **Free Plan**: Basic features for getting started
-- **Basic Plan** ($19.99/month): Advanced features for growing creators
-- **Premium Plan** ($49.99/month): Full feature set for professionals
+-### 💳 Subscription Management
+- **Discovery Plan**: 30-day free trial then $19.99/month
+- **Professional Plan** ($49.99/month): Advanced features for growing creators
+- **Premium Plan** ($99.99/month): Full feature set for professionals
 - Stripe-powered payment processing
 - Automatic billing and subscription management
 - Prorated plan changes and add-on billing
@@ -238,6 +238,15 @@ CELERY_BROKER_URL=redis://redis:6379/0
 - Rebrand RoyaltyX with your logo and domain
 - Built-in cost estimator for resale pricing
 - Simple setup—see [WHITE_LABEL_BRANDING.md](WHITE_LABEL_BRANDING.md)
+
+---
+
+## 💼 Business Model
+
+RoyaltyX follows a freemium approach. Enjoy a 30‑day **Discovery** trial, then
+upgrade to **Professional** or **Premium** for advanced analytics and priority
+support. Optional add-ons provide extra functionality, white-label features are
+coming soon, and Enterprise customers can contact us for custom pricing.
 
 ---
 
@@ -358,7 +367,7 @@ RoyaltyX/
 
 4. **Enable Celery beat tasks**
    The `celery-beat` service must run to schedule background jobs. This includes
-   a daily task that downgrades users with overdue payments to the free plan.
+   a daily task that downgrades users with overdue payments to the Discovery Plan.
 
 ### Environment-Specific Configurations
 

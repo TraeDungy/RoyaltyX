@@ -195,7 +195,7 @@ class StripeService:
             User = get_user_model()
             user = User.objects.get(stripe_subscription_id=subscription["id"])
 
-            # Downgrade to free plan
+            # Downgrade to Discovery plan
             user.subscription_plan = "free"
             user.subscription_status = "canceled"
             user.stripe_subscription_id = None

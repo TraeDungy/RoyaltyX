@@ -82,7 +82,7 @@ def change_subscription_plan(request):
                     status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 )
 
-        # Update user to free plan
+        # Update user to Discovery plan
         user.subscription_plan = "free"
         user.subscription_status = "canceled"
         user.stripe_subscription_id = None
@@ -91,7 +91,7 @@ def change_subscription_plan(request):
 
         return Response(
             {
-                "message": "Successfully downgraded to free plan",
+                "message": "Successfully downgraded to Discovery plan",
                 "subscription_plan": "free",
             }
         )

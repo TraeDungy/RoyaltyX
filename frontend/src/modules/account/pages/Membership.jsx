@@ -41,9 +41,9 @@ function MembershipPage() {
   const plans = [
     {
       name: "free",
-      displayName: "Free",
-      price: "$0",
-      period: "forever",
+      displayName: "Discovery",
+      price: "$19",
+      period: "per month after 30-day trial",
       description: "Perfect for getting started",
       features: [
         "Up to 3 projects",
@@ -61,8 +61,8 @@ function MembershipPage() {
     },
     {
       name: "basic",
-      displayName: "Basic",
-      price: "$19.99",
+      displayName: "Professional",
+      price: "$49",
       period: "per month",
       description: "Best for growing businesses",
       features: [
@@ -80,7 +80,7 @@ function MembershipPage() {
     {
       name: "premium",
       displayName: "Premium",
-      price: "$49.99",
+      price: "$99",
       period: "per month",
       description: "For large organizations",
       features: [
@@ -163,7 +163,7 @@ function MembershipPage() {
         return;
       }
       
-      // For free plan (downgrade), handle directly
+      // For Discovery plan (downgrade), handle directly
       const response = await changeSubscriptionPlan(selectedPlan.name);
       setCurrentPlan(selectedPlan.name);
       setSubscriptionPlan(selectedPlan.name);
@@ -344,7 +344,7 @@ function MembershipPage() {
                         onClick={() => handleDowngrade(plan)}
                         disabled={loading}
                       >
-                        Downgrade to Free
+                        Downgrade to Discovery
                       </Button>
                     ) : currentPlan !== "free" &&
                       plan.name !== "free" &&
@@ -436,16 +436,16 @@ function MembershipPage() {
         maxWidth="sm"
         fullWidth
       >
-        <DialogTitle>Change to Free Plan</DialogTitle>
+        <DialogTitle>Change to Discovery Plan</DialogTitle>
         <DialogContent>
           <Alert severity="warning" sx={{ mb: 2 }}>
             <Typography variant="body2">
-              Are you sure you want to downgrade to the Free plan? You'll lose
+              Are you sure you want to downgrade to the Discovery plan? You'll lose
               access to premium features immediately.
             </Typography>
           </Alert>
           <Typography variant="body2">
-            Your account will be downgraded to the Free plan and you'll lose
+            Your account will be downgraded to the Discovery plan and you'll lose
             access to:
           </Typography>
           <List sx={{ mt: 1 }}>
@@ -491,7 +491,7 @@ function MembershipPage() {
             color="error"
             disabled={loading}
           >
-            {loading ? "Processing..." : "Downgrade to Free"}
+            {loading ? "Processing..." : "Downgrade to Discovery"}
           </Button>
         </DialogActions>
       </Dialog>

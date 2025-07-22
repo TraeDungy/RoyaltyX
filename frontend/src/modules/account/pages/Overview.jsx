@@ -240,10 +240,11 @@ function Overview() {
                     </Box>
                     <Chip
                       label={
-                        subscriptionPlan
-                          ? subscriptionPlan.charAt(0).toUpperCase() +
-                            subscriptionPlan.slice(1)
-                          : "Free"
+                        {
+                          free: "Discovery",
+                          basic: "Professional",
+                          premium: "Premium",
+                        }[subscriptionPlan] || "Discovery"
                       }
                       color={
                         subscriptionPlan === "premium"

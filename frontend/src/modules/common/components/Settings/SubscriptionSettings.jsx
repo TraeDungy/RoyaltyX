@@ -20,7 +20,7 @@ function SubscriptionSettings() {
 
   const planDetails = {
     free: {
-      name: "Free",
+      name: "Discovery",
       description: "Perfect for getting started",
       color: "default",
       features: [
@@ -31,7 +31,7 @@ function SubscriptionSettings() {
       ],
     },
     basic: {
-      name: "Basic",
+      name: "Professional",
       description: "Best for growing businesses",
       color: "secondary",
       features: [

@@ -5,8 +5,8 @@ This document describes the subscription plan functionality that has been integr
 ## Overview
 
 The system supports three subscription plans:
-- **Free** (default for new users)
-- **Basic**
+- **Discovery** (default for new users)
+- **Professional**
 - **Premium**
 
 ## Database Changes
@@ -40,8 +40,8 @@ All subscription plan endpoints require authentication (Bearer token).
 ```json
 {
     "plans": [
-        {"value": "free", "label": "Free"},
-        {"value": "basic", "label": "Basic"},
+        {"value": "free", "label": "Discovery"},
+        {"value": "basic", "label": "Professional"},
         {"value": "premium", "label": "Premium"}
     ]
 }
@@ -61,7 +61,7 @@ All subscription plan endpoints require authentication (Bearer token).
 **Success Response:**
 ```json
 {
-    "message": "Subscription plan successfully changed to basic",
+    "message": "Subscription plan successfully changed to professional",
     "subscription_plan": "basic"
 }
 ```
