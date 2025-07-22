@@ -14,27 +14,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Rename .env.test to .env
-        run: mv .env.test .env
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.11'
 
-      - name: Set up Docker Compose
-        run: docker compose -f local.yml up -d
-
-      - name: Wait for backend service to be ready
+      - name: Install dependencies
         run: |
-          echo "Waiting for backend service to be ready..."
-          for i in {1..30}; do
-            if docker compose -f local.yml exec backend python manage.py showmigrations &> /dev/null; then
-              echo "Backend is ready."
-              break
-            fi
-            echo "Waiting... ($i)"
-            sleep 2
-          done
+          cd backend
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-      - name: Run Django tests in backend container
-        run: docker compose -f local.yml exec backend python manage.py test apps
+      - name: Prepare environment
+        run: cp .env.test backend/.env
 
-      - name: Tear down Docker Compose
-        if: always()
-        run: docker compose -f local.yml down
+      - name: Run migrations and tests
+        run: |
+          cd backend
+          python manage.py migrate --noinput
+          python manage.py test
