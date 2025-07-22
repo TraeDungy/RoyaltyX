@@ -56,7 +56,8 @@
     "eject": "react-scripts eject",
     "lint": "eslint . --fix",
     "format": "prettier --write .",
-    "lint:fix": "eslint . --fix && prettier --write ."
+    "lint:fix": "eslint . --fix && prettier --write .",
+    "cypress:run": "cypress run"
   },
   "eslintConfig": {
     "extends": [
@@ -91,6 +92,7 @@
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-unused-imports": "^4.1.4",
-    "prettier": "^3.5.3"
+    "prettier": "^3.5.3",
+    "cypress": "^14.5.2"
   }
 }
