@@ -2,13 +2,16 @@ from django.contrib.auth import get_user_model
 from django.db.models import Count
 from django.db.models.functions import TruncMonth
 from django.utils import timezone
-from rest_framework import permissions, status
+from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 
 from apps.project.models import Project
 from apps.sources.models import Source
+
+from .models import DashboardTemplate
+from .serializers import DashboardTemplateSerializer
 
 User = get_user_model()
 
@@ -202,3 +205,23 @@ def sources_stats(request):
     }
 
     return Response(stats)
+
+
+
+class DashboardTemplateListCreateView(generics.ListCreateAPIView):
+    serializer_class = DashboardTemplateSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return DashboardTemplate.objects.filter(owner=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+
+class DashboardTemplateDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = DashboardTemplateSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return DashboardTemplate.objects.filter(owner=self.request.user)

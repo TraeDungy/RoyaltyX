@@ -4,3 +4,4 @@ target-version = "py38"
 
 [tool.ruff.lint]
 select = ["E", "F", "I"]  # Enable specific rules (E: errors, F: flakes, I: isort)
+ignore = ["E501"]  # Ignore line length warnings to match existing codebase

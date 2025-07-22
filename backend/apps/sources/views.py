@@ -1,12 +1,13 @@
-from apps.sources.utils.tiktok_service import TikTokService
-from apps.sources.utils.tiktok_sync import fetch_tiktok_stats, fetch_tiktok_videos
-from apps.sources.utils.twitch_sync import fetch_twitch_stats, fetch_twitch_videos
-from apps.sources.utils.twitch_service import TwitchService
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+from apps.sources.utils.tiktok_service import TikTokService
+from apps.sources.utils.tiktok_sync import fetch_tiktok_stats, fetch_tiktok_videos
+from apps.sources.utils.twitch_service import TwitchService
+from apps.sources.utils.twitch_sync import fetch_twitch_stats, fetch_twitch_videos
 
 from .models import Source
 from .serializers import SourceSerializer

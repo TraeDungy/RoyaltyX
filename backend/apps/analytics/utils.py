@@ -2,7 +2,7 @@ from datetime import date, datetime, timedelta
 from typing import Any, Dict, List, Optional, Union
 
 from django.db.models import Count, DecimalField, ExpressionWrapper, F, QuerySet, Sum
-from django.db.models.functions import TruncYear, TruncMonth, TruncDate, TruncHour
+from django.db.models.functions import TruncDate, TruncHour, TruncMonth, TruncYear
 
 from apps.product.models import Product, ProductImpressions, ProductSale
 from apps.sources.models import Source

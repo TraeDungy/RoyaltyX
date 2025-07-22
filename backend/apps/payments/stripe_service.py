@@ -1,8 +1,8 @@
-import stripe
 import os
-from django.conf import settings
-from django.contrib.auth import get_user_model
 from datetime import datetime, timezone
+
+import stripe
+from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
@@ -103,8 +103,9 @@ class StripeService:
             if user.stripe_subscription_id:
                 try:
                     StripeService.cancel_subscription(user.stripe_subscription_id)
-                except:
-                    pass  # Continue even if cancellation fails
+                except Exception:
+                    # Continue even if cancellation fails
+                    pass
             
             # Update user with new subscription details
             user.subscription_plan = plan
