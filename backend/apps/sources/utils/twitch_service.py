@@ -9,7 +9,7 @@ class TwitchService:
         self.headers = {
             "Authorization": f"Bearer {self.access_token}",
             "Content-Type": "application/json",
-            "Client-Id": settings.TWITCH_CLIENT_ID
+            "Client-Id": settings.TWITCH_CLIENT_ID,
         }
 
     @staticmethod
@@ -48,10 +48,8 @@ class TwitchService:
         """
         Fetch Twitch video stats for a given video ID.
         """
-        url = f"https://api.twitch.tv/helix/videos"
-        params = {
-            "id": video_id
-        }
+        url = "https://api.twitch.tv/helix/videos"
+        params = {"id": video_id}
         response = requests.get(url, headers=self.headers, params=params)
         if response.status_code == 200:
             data = response.json().get("data", [])
@@ -70,11 +68,7 @@ class TwitchService:
             user_id = user_info.get("id")
 
         url = "https://api.twitch.tv/helix/videos"
-        params = {
-            "user_id": user_id,
-            "first": 100, 
-            "type": "all"  
-        }
+        params = {"user_id": user_id, "first": 100, "type": "all"}
         response = requests.get(url, headers=self.headers, params=params)
         if response.status_code == 200:
             return response.json().get("data", [])

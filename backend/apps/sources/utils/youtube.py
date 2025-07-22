@@ -152,17 +152,19 @@ def fetch_youtube_stats(source_id=None):
             else:
                 print("No rows returned in stats.")
                 current_view_count = 0
-            
+
             # Get yesterday's view count from ProductImpressions
             yesterday = date.today() - timedelta(days=1)
             yesterday_impressions = ProductImpressions.objects.filter(
-                product=product, 
-                period_start=yesterday.isoformat(), 
-                period_end=yesterday.isoformat()
+                product=product,
+                period_start=yesterday.isoformat(),
+                period_end=yesterday.isoformat(),
             ).first()
 
-            yesterday_views = yesterday_impressions.impressions if yesterday_impressions else 0
-            
+            yesterday_views = (
+                yesterday_impressions.impressions if yesterday_impressions else 0
+            )
+
             # Calculate the actual view count for today (current - yesterday)
             views = current_view_count - yesterday_views
 

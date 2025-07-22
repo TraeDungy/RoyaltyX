@@ -17,6 +17,7 @@ def task_fetch_youtube_stats():
     print("Running task for fetching YouTube stats.", flush=True)
     fetch_youtube_stats()
 
+
 @shared_task
 def task_fetch_tiktok_videos():
     print("Running task for fetching TikTok videos.", flush=True)

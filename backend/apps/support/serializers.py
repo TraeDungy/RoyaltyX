@@ -69,9 +69,11 @@ class SupportTicketListSerializer(serializers.ModelSerializer):
         last_message = obj.messages.filter(is_internal_note=False).last()
         if last_message:
             return {
-                "content": last_message.content[:100] + "..."
-                if len(last_message.content) > 100
-                else last_message.content,
+                "content": (
+                    last_message.content[:100] + "..."
+                    if len(last_message.content) > 100
+                    else last_message.content
+                ),
                 "sender_name": last_message.sender.name,
                 "created_at": last_message.created_at,
                 "message_type": last_message.message_type,
