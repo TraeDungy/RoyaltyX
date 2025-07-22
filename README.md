@@ -233,6 +233,9 @@ docker-compose -f local.yml exec backend python manage.py test
 
 # Frontend tests
 docker-compose -f local.yml exec frontend npm test
+
+# To run frontend tests without Docker:
+cd frontend && npm test -- --watchAll=false
 ```
 
 ### API Documentation
