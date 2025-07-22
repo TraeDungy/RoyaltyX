@@ -238,11 +238,13 @@ def support_dashboard_stats(request):
             assigned_admin__isnull=True
         ).count(),
         "my_tickets": SupportTicket.objects.filter(assigned_admin=request.user).count(),
-        "resolved_today": SupportTicket.objects.filter(
-            status="resolved", resolved_at__date=timezone.now().date()
-        ).count()
-        if "timezone" in globals()
-        else 0,
+        "resolved_today": (
+            SupportTicket.objects.filter(
+                status="resolved", resolved_at__date=timezone.now().date()
+            ).count()
+            if "timezone" in globals()
+            else 0
+        ),
     }
 
     # Priority breakdown

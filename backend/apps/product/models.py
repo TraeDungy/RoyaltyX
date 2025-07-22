@@ -32,7 +32,10 @@ class Product(BaseModel):
     is_active = models.BooleanField(default=True)
     notes = models.TextField(blank=True, null=True)
     thumbnail = models.ImageField(
-        upload_to="product_thumbnails/", blank=True, null=True, max_length=500,
+        upload_to="product_thumbnails/",
+        blank=True,
+        null=True,
+        max_length=500,
     )
 
     class Meta:

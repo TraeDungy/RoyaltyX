@@ -31,31 +31,30 @@ class RegisterView(generics.GenericAPIView):
         serializer = UserRegistrationSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
-            
+
             # Send welcome email to the new user
             try:
                 send_welcome_email(
-                    user_email=user.email,
-                    user_name=user.name or user.username
+                    user_email=user.email, user_name=user.name or user.username
                 )
             except Exception as e:
                 print(e, flush=True)
-            
+
             # Generate JWT tokens for the newly created user
             token_serializer = MyTokenObtainPairSerializer()
             token = token_serializer.get_token(user)
-            
+
             return Response(
                 {
                     "user": {"email": user.email, "name": user.name},
                     "access": str(token.access_token),
-                    "refresh": str(token)
+                    "refresh": str(token),
                 },
                 status=status.HTTP_201_CREATED,
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        
+
 class ChangePasswordView(APIView):
     permission_classes = [IsAuthenticated]
 

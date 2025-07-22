@@ -58,4 +58,3 @@ class SourcesConfig(AppConfig):
                 "args": json.dumps([]),
             },
         )
-

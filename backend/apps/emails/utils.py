@@ -5,9 +5,7 @@ from .services import Email
 logger = logging.getLogger(__name__)
 
 
-def send_welcome_email(
-    user_email: str, user_name: str
-) -> bool:
+def send_welcome_email(user_email: str, user_name: str) -> bool:
     """
     Send a welcome email to a new user.
 
@@ -19,7 +17,7 @@ def send_welcome_email(
     Returns:
         bool: True if email was sent successfully, False otherwise
     """
-    try:    
+    try:
         dashboard_url = "https://app.royaltyx.co/"
         subject = "Welcome to RoyaltyX!"
 

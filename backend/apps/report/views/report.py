@@ -60,10 +60,12 @@ class ReportsView(APIView):
                     {"error": "Invalid date format. Use YYYY-MM-DD."},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
-                
 
         analytics = calculate_analytics(
-            currently_selected_project_id, filters, period_start, period_end,
+            currently_selected_project_id,
+            filters,
+            period_start,
+            period_end,
         )
 
         user = request.user

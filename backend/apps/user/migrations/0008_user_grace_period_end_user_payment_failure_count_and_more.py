@@ -6,38 +6,48 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('user', '0007_user_subscription_plan'),
+        ("user", "0007_user_subscription_plan"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='user',
-            name='grace_period_end',
+            model_name="user",
+            name="grace_period_end",
             field=models.DateTimeField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='user',
-            name='payment_failure_count',
+            model_name="user",
+            name="payment_failure_count",
             field=models.IntegerField(default=0),
         ),
         migrations.AddField(
-            model_name='user',
-            name='stripe_customer_id',
+            model_name="user",
+            name="stripe_customer_id",
             field=models.CharField(blank=True, max_length=255, null=True),
         ),
         migrations.AddField(
-            model_name='user',
-            name='stripe_subscription_id',
+            model_name="user",
+            name="stripe_subscription_id",
             field=models.CharField(blank=True, max_length=255, null=True),
         ),
         migrations.AddField(
-            model_name='user',
-            name='subscription_current_period_end',
+            model_name="user",
+            name="subscription_current_period_end",
             field=models.DateTimeField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='user',
-            name='subscription_status',
-            field=models.CharField(choices=[('inactive', 'Inactive'), ('active', 'Active'), ('past_due', 'Past Due'), ('canceled', 'Canceled'), ('incomplete', 'Incomplete')], default='inactive', max_length=50),
+            model_name="user",
+            name="subscription_status",
+            field=models.CharField(
+                choices=[
+                    ("inactive", "Inactive"),
+                    ("active", "Active"),
+                    ("past_due", "Past Due"),
+                    ("canceled", "Canceled"),
+                    ("incomplete", "Incomplete"),
+                ],
+                default="inactive",
+                max_length=50,
+            ),
         ),
     ]
