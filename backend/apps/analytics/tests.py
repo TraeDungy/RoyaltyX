@@ -173,3 +173,25 @@ class AnalyticsViewTests(TestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.data, dict)
+
+    def test_analytics_group_by_source(self):
+        """Test analytics endpoint grouped by source"""
+        response = self.client.get(self.analytics_url, {"group_by": "source"})
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data.get("group_by"), "source")
+        self.assertIsInstance(response.data.get("results"), list)
+
+    def test_analytics_group_by_platform(self):
+        """Test analytics endpoint grouped by platform"""
+        response = self.client.get(self.analytics_url, {"group_by": "platform"})
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data.get("group_by"), "platform")
+        self.assertIsInstance(response.data.get("results"), list)
+
+    def test_analytics_invalid_group_by(self):
+        """Test analytics endpoint with invalid group_by parameter"""
+        response = self.client.get(self.analytics_url, {"group_by": "invalid"})
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)

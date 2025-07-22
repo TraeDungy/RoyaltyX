@@ -2,7 +2,7 @@ from datetime import date, datetime, timedelta
 from typing import Any, Dict, List, Optional, Union
 
 from django.db.models import Count, DecimalField, ExpressionWrapper, F, QuerySet, Sum
-from django.db.models.functions import TruncYear, TruncMonth, TruncDate, TruncHour
+from django.db.models.functions import TruncDate, TruncHour, TruncMonth, TruncYear
 
 from apps.product.models import Product, ProductImpressions, ProductSale
 from apps.sources.models import Source
@@ -451,9 +451,7 @@ def calculate_analytics_per_source(
     impressions_qs: QuerySet,
     sales_qs: QuerySet,
 ) -> List[Dict[str, Any]]:
-    """
-    Calculate analytics per source, returning source information along with impressions and sales data.
-    """
+    """Calculate analytics per source."""
     # Get all sources for the project
     sources = Source.objects.filter(project_id=project_id)
 
@@ -535,6 +533,94 @@ def calculate_analytics_per_source(
     )
 
     return source_analytics
+
+
+def calculate_analytics_per_platform(
+    project_id: int,
+    impressions_qs: QuerySet,
+    sales_qs: QuerySet,
+) -> List[Dict[str, Any]]:
+    """Calculate analytics grouped by platform."""
+    # Unique platforms for the project
+    platforms = (
+        Source.objects.filter(project_id=project_id)
+        .values_list("platform", flat=True)
+        .distinct()
+    )
+
+    platform_analytics: List[Dict[str, Any]] = []
+
+    for platform in platforms:
+        platform_impressions = impressions_qs.filter(
+            product__source__platform=platform
+        )
+        platform_sales = sales_qs.filter(product__source__platform=platform)
+
+        total_impressions = (
+            platform_impressions.aggregate(total=Sum("impressions"))["total"]
+            or 0
+        )
+
+        total_impression_revenue = (
+            platform_impressions.annotate(
+                revenue_expr=ExpressionWrapper(
+                    F("impressions") * F("ecpm") / 1000,
+                    output_field=DecimalField(max_digits=30, decimal_places=18),
+                )
+            ).aggregate(total=Sum("revenue_expr"))["total"]
+            or 0
+        )
+
+        total_sales_count = platform_sales.count()
+        total_royalty_revenue = (
+            platform_sales.aggregate(total=Sum("royalty_amount"))["total"] or 0
+        )
+
+        rentals_qs = platform_sales.filter(type=ProductSale.TYPE_RENTAL)
+        rentals_count = rentals_qs.count()
+        rentals_revenue = (
+            rentals_qs.aggregate(total=Sum("royalty_amount"))["total"] or 0
+        )
+
+        purchases_qs = platform_sales.filter(type=ProductSale.TYPE_PURCHASE)
+        purchases_count = purchases_qs.count()
+        purchases_revenue = (
+            purchases_qs.aggregate(total=Sum("royalty_amount"))["total"] or 0
+        )
+
+        product_count = Product.objects.filter(
+            source__platform=platform, project_id=project_id
+        ).count()
+
+        platform_display = dict(Source.PLATFORMS).get(platform, platform)
+
+        platform_analytics.append(
+            {
+                "platform": platform,
+                "platform_display": platform_display,
+                "analytics": {
+                    "total_impressions": total_impressions,
+                    "total_impression_revenue": round(
+                        float(total_impression_revenue), 6
+                    ),
+                    "total_sales_count": total_sales_count,
+                    "total_royalty_revenue": float(total_royalty_revenue),
+                    "rentals_count": rentals_count,
+                    "rentals_revenue": float(rentals_revenue),
+                    "purchases_count": purchases_count,
+                    "purchases_revenue": float(purchases_revenue),
+                    "product_count": product_count,
+                },
+            }
+        )
+
+    platform_analytics.sort(
+        key=lambda x: x["analytics"]["total_impression_revenue"]
+        + x["analytics"]["total_royalty_revenue"],
+        reverse=True,
+    )
+
+    return platform_analytics
 
 
 def calculate_analytics(
