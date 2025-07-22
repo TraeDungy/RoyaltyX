@@ -117,6 +117,23 @@ from third-party platforms:
    docker-compose -f local.yml exec backend python manage.py loaddata initial_data.json
    ```
 
+### Loading Initial Data
+
+RoyaltyX ships with a fixture file, `initial_data.json`, which contains a demo
+user and example records. Loading this data is helpful when exploring the
+platform locally. Run the following command from the repository root:
+
+```bash
+docker-compose -f local.yml exec backend python manage.py loaddata initial_data.json
+```
+
+If you prefer, a custom management command `seed_demo_data` provides the same
+functionality and can be extended for larger datasets:
+
+```bash
+docker-compose -f local.yml exec backend python manage.py seed_demo_data
+```
+
 ### Using the Help Tab
 
 After signing in, open **Help Documentation** from the admin sidebar. Each setup step
