@@ -39,16 +39,18 @@ class AuthenticationTests(TestCase):
         registration_data = {
             "email": f"newuser_{random_number}@test.com",
             "password": "SecurePassword123_",
-            "name": "Test User"
+            "name": "Test User",
         }
-        
-        response = self.client.post(self.registration_url, registration_data, format="json")
-        
+
+        response = self.client.post(
+            self.registration_url, registration_data, format="json"
+        )
+
         self.assertEqual(response.status_code, 201)
         self.assertIn("user", response.data)
         self.assertEqual(response.data["user"]["email"], registration_data["email"])
         self.assertEqual(response.data["user"]["name"], registration_data["name"])
-        
+
         # Verify user was created in database
         user = get_user_model().objects.filter(email=registration_data["email"]).first()
         self.assertIsNotNone(user)
@@ -63,13 +65,12 @@ class AuthenticationTests(TestCase):
 
     def test_registration_missing_email(self):
         """Test registration fails when email is missing"""
-        registration_data = {
-            "password": "SecurePassword123_",
-            "name": "Test User"
-        }
-        
-        response = self.client.post(self.registration_url, registration_data, format="json")
-        
+        registration_data = {"password": "SecurePassword123_", "name": "Test User"}
+
+        response = self.client.post(
+            self.registration_url, registration_data, format="json"
+        )
+
         self.assertEqual(response.status_code, 400)
         self.assertIn("This field is required.", response.data["email"][0])
 
@@ -78,26 +79,33 @@ class AuthenticationTests(TestCase):
         random_number = "".join(random.choices(string.digits, k=4))
         registration_data = {
             "email": f"testuser_{random_number}@test.com",
-            "name": "Test User"
+            "name": "Test User",
         }
-        
-        response = self.client.post(self.registration_url, registration_data, format="json")
-        
+
+        response = self.client.post(
+            self.registration_url, registration_data, format="json"
+        )
+
         self.assertEqual(response.status_code, 400)
-        self.assertIn("This field is required.", response.data['password'][0])
+        self.assertIn("This field is required.", response.data["password"][0])
 
     def test_registration_missing_name(self):
-        """Test registration with missing name (should still work as name has default)"""
+        """Test registration with missing name.
+
+        Should still work as name has a default.
+        """
         random_number = "".join(random.choices(string.digits, k=4))
         registration_data = {
             "email": f"testuser_{random_number}@test.com",
-            "password": "SecurePassword123_"
+            "password": "SecurePassword123_",
         }
-        
-        response = self.client.post(self.registration_url, registration_data, format="json")
-        
+
+        response = self.client.post(
+            self.registration_url, registration_data, format="json"
+        )
+
         self.assertEqual(response.status_code, 400)
-        self.assertIn("This field is required.", response.data['name'][0])
+        self.assertIn("This field is required.", response.data["name"][0])
 
     def test_registration_duplicate_email(self):
         """Test registration fails with duplicate email"""
@@ -105,11 +113,13 @@ class AuthenticationTests(TestCase):
         duplicate_registration_data = {
             "email": self.email,
             "password": "AnotherPassword123_",
-            "name": "Another User"
+            "name": "Another User",
         }
-        
-        response = self.client.post(self.registration_url, duplicate_registration_data, format="json")
-        
+
+        response = self.client.post(
+            self.registration_url, duplicate_registration_data, format="json"
+        )
+
         self.assertEqual(response.status_code, 400)
         self.assertIn("Email is already registered.", response.data["email"][0])
 
@@ -118,26 +128,30 @@ class AuthenticationTests(TestCase):
         registration_data = {
             "email": "invalid-email-format",
             "password": "SecurePassword123_",
-            "name": "Test User"
+            "name": "Test User",
         }
-        
-        response = self.client.post(self.registration_url, registration_data, format="json")
-        
+
+        response = self.client.post(
+            self.registration_url, registration_data, format="json"
+        )
+
         self.assertEqual(response.status_code, 400)
-        self.assertIn('Enter a valid email address.', response.data['email'][0])
+        self.assertIn("Enter a valid email address.", response.data["email"][0])
 
     def test_registration_empty_email(self):
         """Test registration fails with empty email"""
         registration_data = {
             "email": "",
             "password": "SecurePassword123_",
-            "name": "Test User"
+            "name": "Test User",
         }
-        
-        response = self.client.post(self.registration_url, registration_data, format="json")
-        
+
+        response = self.client.post(
+            self.registration_url, registration_data, format="json"
+        )
+
         self.assertEqual(response.status_code, 400)
-        self.assertIn("This field may not be blank.", response.data['email'][0])
+        self.assertIn("This field may not be blank.", response.data["email"][0])
 
     def test_registration_empty_password(self):
         """Test registration fails with empty password"""
@@ -145,10 +159,12 @@ class AuthenticationTests(TestCase):
         registration_data = {
             "email": f"testuser_{random_number}@test.com",
             "password": "",
-            "name": "Test User"
+            "name": "Test User",
         }
-        
-        response = self.client.post(self.registration_url, registration_data, format="json")
-        
+
+        response = self.client.post(
+            self.registration_url, registration_data, format="json"
+        )
+
         self.assertEqual(response.status_code, 400)
         self.assertIn("This field may not be blank.", response.data["password"][0])
