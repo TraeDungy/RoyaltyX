@@ -317,6 +317,25 @@ We welcome contributions to RoyaltyX! Please follow these steps:
 
 ---
 
+## 💰 Affiliate Program
+
+Love RoyaltyX? Spread the word and earn rewards! Our affiliate program offers generous commissions and special bonuses for top performers.
+
+- **20% recurring commission** on every subscription you refer
+- **Performance bonuses** for hitting monthly milestones
+- **Early payout** options once you reach the minimum balance
+- **Exclusive resources** to help you promote RoyaltyX effectively
+
+Getting started is easy:
+1. Sign up for an affiliate account
+2. Share your unique referral link
+3. Earn commissions for every paid signup
+
+**API Endpoints**
+- `POST /affiliate/signup/` – become an affiliate and receive your referral code
+- `GET /affiliate/referrals/` – view signups attributed to your code
+To credit a referral, include `referral_code` in the registration body or append `?ref=<code>` to the signup URL.
+
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

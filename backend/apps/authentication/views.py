@@ -31,6 +31,20 @@ class RegisterView(generics.GenericAPIView):
         serializer = UserRegistrationSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
+
+            # Track referral if a code was provided
+            referral_code = request.data.get("referral_code") or request.query_params.get("ref")
+            if referral_code:
+                try:
+                    from apps.affiliate.models import Affiliate, AffiliateReferral
+
+                    affiliate = Affiliate.objects.get(referral_code=referral_code)
+                    AffiliateReferral.objects.create(
+                        affiliate=affiliate,
+                        referred_user=user,
+                    )
+                except Affiliate.DoesNotExist:
+                    pass
             
             # Send welcome email to the new user
             try:
