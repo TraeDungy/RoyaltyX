@@ -182,6 +182,7 @@ CELERY_BROKER_URL=redis://redis:6379/0
 - Custom report generation
 - Data export capabilities
 - Real-time dashboard updates
+- [Detailed metrics reference](ANALYTICS_AND_REPORTING.md)
 
 ### 🎵 Content Management
 - Digital asset organization
