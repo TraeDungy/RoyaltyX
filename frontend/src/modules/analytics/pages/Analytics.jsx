@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Container, Spinner } from "react-bootstrap";
 import { getProjectAnalytics } from "../api/analytics";
+import { getYoutubeSourceAnalytics } from "../api/youtube";
+import { useSources } from "../../sources/api/sources";
+import YoutubeAnalyticsCard from "../components/YoutubeAnalyticsCard";
 import { useLocation } from "react-router";
 import DateRangeSelector from "../../common/components/DateRangeSelector";
 import ImpressionsOverTime from "../components/ImpressionsOverTime";
@@ -18,6 +21,8 @@ import { Grid, Typography } from "@mui/material";
 
 function Analytics() {
   const [analytics, setAnalytics] = useState(null);
+  const [youtubeAnalytics, setYoutubeAnalytics] = useState(null);
+  const { sources } = useSources();
   const {
     showSalesOverTime,
     showRentalsOverTime,
@@ -47,6 +52,30 @@ function Analytics() {
 
     fetchAnalytics();
   }, [location.search]);
+
+  useEffect(() => {
+    if (!sources) return;
+    const youtubeSource = sources.find((s) => s.platform === "youtube");
+    if (!youtubeSource) return;
+
+    const periodStart = params.get("period_start");
+    const periodEnd = params.get("period_end");
+    const period_range = {
+      period_start: periodStart,
+      period_end: periodEnd,
+    };
+
+    const fetchYoutube = async () => {
+      try {
+        const data = await getYoutubeSourceAnalytics(youtubeSource.id, period_range);
+        setYoutubeAnalytics(data);
+      } catch (error) {
+        toast.error(error.message || "Failed to fetch YouTube analytics");
+      }
+    };
+
+    fetchYoutube();
+  }, [sources, location.search]);
 
   if (!analytics) {
     return (
@@ -80,6 +109,7 @@ function Analytics() {
       <Grid container spacing={3}>
         <SalesStatsCard analytics={analytics} />
         <GeneralStatsCard analytics={analytics} showProductCount={true} />
+        {youtubeAnalytics && <YoutubeAnalyticsCard data={youtubeAnalytics} />}
       </Grid>
 
       <SourceAnalytics analytics={analytics} />
