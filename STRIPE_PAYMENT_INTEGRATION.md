@@ -113,7 +113,7 @@ STRIPE_PREMIUM_PRICE_ID=price_...
 
 ## Payment Flow Architecture
 
-### Upgrade Flow (Free → Paid)
+### Upgrade Flow (Discovery → Paid)
 1. User clicks "Upgrade" → Confirmation dialog
 2. User confirms → `createCheckoutSession()` API call
 3. Backend creates Stripe session → Returns checkout URL
@@ -122,7 +122,7 @@ STRIPE_PREMIUM_PRICE_ID=price_...
 6. Webhook updates user subscription → User redirected back
 7. Frontend verifies session → Shows success message
 
-### Downgrade Flow (Paid → Free)
+### Downgrade Flow (Paid → Discovery)
 1. User clicks "Downgrade" → Confirmation dialog
 2. User confirms → Direct API call to cancel subscription
 3. Backend cancels Stripe subscription → Updates user plan
@@ -140,7 +140,7 @@ STRIPE_PREMIUM_PRICE_ID=price_...
 2. Backend updates status to `past_due`
 3. User gets email notification (TODO)
 4. Grace period starts (7 days)
-5. If not resolved → Automatic downgrade to free
+5. If not resolved → Automatic downgrade to the Discovery plan
 
 ## Security Features
 

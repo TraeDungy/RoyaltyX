@@ -54,7 +54,7 @@ POST /payments/stripe-webhook/           # Handle Stripe webhooks
 
 ## 🔄 Payment Flow
 
-### Upgrade Flow (Free → Paid)
+### Upgrade Flow (Discovery → Paid)
 1. User clicks "Upgrade" → Confirmation dialog
 2. User confirms → API creates Stripe checkout session
 3. User redirected to Stripe checkout page
@@ -87,7 +87,7 @@ STRIPE_PREMIUM_PRICE_ID=price_...
 ```
 
 ### Stripe Dashboard Setup
-1. **Create Products**: Professional ($49.99/month) and Premium ($99.99/month)
+1. **Create Products**: Professional ($49/month) and Premium ($99/month)
 2. **Get Price IDs**: Copy the price IDs for environment variables
 3. **Setup Webhook**: Point to `https://yourdomain.com/payments/stripe-webhook/`
 4. **Configure Events**: Subscribe to payment and subscription events

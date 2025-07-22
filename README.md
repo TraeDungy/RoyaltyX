@@ -173,7 +173,7 @@ CELERY_BROKER_URL=redis://redis:6379/0
 ### Stripe Setup (For Payments)
 
 1. Create a Stripe account at https://stripe.com
-2. Create products for Professional ($49.99/month) and Premium ($99.99/month) plans
+2. Create products for Professional ($49/month) and Premium ($99/month) plans
 3. Copy the price IDs to your environment variables
 4. Set up webhook endpoint: `https://yourdomain.com/payments/stripe-webhook/`
 5. Subscribe to these webhook events:
@@ -195,8 +195,8 @@ CELERY_BROKER_URL=redis://redis:6379/0
 
 ### 💳 Subscription Management
 - **Discovery Plan**: 30-day free trial then $19.99/month
-- **Professional Plan** ($49.99/month): Advanced features for growing creators
-- **Premium Plan** ($99.99/month): Full feature set for professionals
+- **Professional Plan** ($49/month): Advanced features for growing creators
+- **Premium Plan** ($99/month): Full feature set for professionals
 - Stripe-powered payment processing
 - Automatic billing and subscription management
 - Prorated plan changes and add-on billing
