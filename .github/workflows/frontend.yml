@@ -1,0 +1,52 @@
+name: Frontend Lint and Tests
+
+on:
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm ci
+
+      - name: Run ESLint
+        run: |
+          cd frontend
+          npm run lint
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm ci
+
+      - name: Run tests
+        env:
+          CI: true
+        run: |
+          cd frontend
+          npm test -- --watchAll=false --passWithNoTests

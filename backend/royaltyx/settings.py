@@ -89,19 +89,29 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "royaltyx.wsgi.application"
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ.get("POSTGRES_DB"),
-        "USER": os.environ.get("POSTGRES_USER"),
-        "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),
-        "HOST": os.environ.get("POSTGRES_HOST"),
-        "PORT": os.environ.get("POSTGRES_PORT"),
-        "TEST": {
-            "MIRROR": "default",
-        },
+DB_ENGINE = os.getenv("DB_ENGINE", "postgres")
+
+if DB_ENGINE == "sqlite":
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": os.getenv("SQLITE_NAME", BASE_DIR / "db.sqlite3"),
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": os.environ.get("POSTGRES_DB"),
+            "USER": os.environ.get("POSTGRES_USER"),
+            "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),
+            "HOST": os.environ.get("POSTGRES_HOST"),
+            "PORT": os.environ.get("POSTGRES_PORT"),
+            "TEST": {
+                "MIRROR": "default",
+            },
+        }
+    }
 
 # Fallback to SQLite for development and testing if no Postgres DB is configured
 if not DATABASES["default"]["NAME"]:
