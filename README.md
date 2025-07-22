@@ -262,6 +262,14 @@ docker-compose -f local.yml exec frontend npm test
 cd frontend && npm test -- --watchAll=false
 ```
 
+When running backend tests outside Docker, ensure `DJANGO_SECRET_KEY` is at
+least 32 characters long. For example:
+
+```bash
+DJANGO_SECRET_KEY="changeme_please_change_me_12345" \
+    python backend/manage.py test --settings=royaltyx.settings_test
+```
+
 The backend relies on **PostgreSQL**. If you run tests outside the
 Docker environment, make sure a PostgreSQL instance is available and
 that your `.env` configuration points to it. When using Docker Compose
