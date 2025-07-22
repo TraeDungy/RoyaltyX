@@ -1,5 +1,7 @@
 import { Routes, Route } from "react-router-dom";
-import CustomerSupport from "./pages/CustomerSupport";
+import { lazy } from "react";
+
+const CustomerSupport = lazy(() => import("./pages/CustomerSupport"));
 
 function SupportModule() {
   return (

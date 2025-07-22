@@ -1,6 +1,8 @@
-import Overview from "./pages/Overview";
-import Security from "./pages/Security";
-import Membership from "./pages/Membership";
+import { lazy } from "react";
+
+const Overview = lazy(() => import("./pages/Overview"));
+const Security = lazy(() => import("./pages/Security"));
+const Membership = lazy(() => import("./pages/Membership"));
 
 const accountRoutes = [
   {

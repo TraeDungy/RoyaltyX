@@ -1,7 +1,9 @@
-import DeleteData from "./pages/ManualImport/Delete";
-import ImportData from "./pages/ManualImport/Import";
-import { Source } from "./pages/Source";
-import { Sources } from "./pages/Sources";
+import { lazy } from "react";
+
+const DeleteData = lazy(() => import("./pages/ManualImport/Delete"));
+const ImportData = lazy(() => import("./pages/ManualImport/Import"));
+const Source = lazy(() => import("./pages/Source"));
+const Sources = lazy(() => import("./pages/Sources"));
 
 const sourceRoutes = [
   {

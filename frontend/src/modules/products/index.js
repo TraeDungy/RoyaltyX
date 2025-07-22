@@ -1,7 +1,9 @@
-import Analytics from "./pages/Analytics";
-import EditProduct from "./pages/Products/Edit";
-import Products from "./pages/Products/Index";
-import Details from "./pages/Details";
+import { lazy } from "react";
+
+const Analytics = lazy(() => import("./pages/Analytics"));
+const EditProduct = lazy(() => import("./pages/Products/Edit"));
+const Products = lazy(() => import("./pages/Products/Index"));
+const Details = lazy(() => import("./pages/Details"));
 
 const productRoutes = [
   {

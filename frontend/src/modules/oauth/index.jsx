@@ -1,6 +1,8 @@
-import { GoogleOAuthCallback } from "./pages/GoogleOAuthCallback";
-import { TikTokOAuthCallback } from "./pages/TikTokOAuthCallback";
-import { TwitchOAuthCallback } from "./pages/TwitchOAuthCallback";
+import { lazy } from "react";
+
+const GoogleOAuthCallback = lazy(() => import("./pages/GoogleOAuthCallback"));
+const TikTokOAuthCallback = lazy(() => import("./pages/TikTokOAuthCallback"));
+const TwitchOAuthCallback = lazy(() => import("./pages/TwitchOAuthCallback"));
 
 const oauthRoutes = [
   {

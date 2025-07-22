@@ -1,9 +1,19 @@
-import CreateNewReport from "./pages/CreateNewReport";
-import CreateNewReportTemplate from "./pages/ReportTemplate/CreateNewReportTemplate";
-import DeleteReportTemplate from "./pages/ReportTemplate/DeleteReportTemplate";
-import EditReportTemplate from "./pages/ReportTemplate/EditReportTemplate";
-import Reports from "./pages/Reports";
-import ReportTemplates from "./pages/ReportTemplate/ReportTemplates";
+import { lazy } from "react";
+
+const CreateNewReport = lazy(() => import("./pages/CreateNewReport"));
+const CreateNewReportTemplate = lazy(() =>
+  import("./pages/ReportTemplate/CreateNewReportTemplate")
+);
+const DeleteReportTemplate = lazy(() =>
+  import("./pages/ReportTemplate/DeleteReportTemplate")
+);
+const EditReportTemplate = lazy(() =>
+  import("./pages/ReportTemplate/EditReportTemplate")
+);
+const Reports = lazy(() => import("./pages/Reports"));
+const ReportTemplates = lazy(() =>
+  import("./pages/ReportTemplate/ReportTemplates")
+);
 
 const reportRoutes = [
   {

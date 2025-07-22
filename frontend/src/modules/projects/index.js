@@ -1,5 +1,7 @@
-import MyProjects from "./pages/MyProjects";
-import CreateNewProject from "./pages/CreateNewProject";
+import { lazy } from "react";
+
+const MyProjects = lazy(() => import("./pages/MyProjects"));
+const CreateNewProject = lazy(() => import("./pages/CreateNewProject"));
 
 const projectRoutes = [
   {

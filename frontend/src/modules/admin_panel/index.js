@@ -1,12 +1,22 @@
-import HelpDocumentation from "./help_documentation/pages/HelpDocumentation";
-import Messaging from "./help_documentation/pages/Messaging";
-import ProducerUpload from "./help_documentation/pages/ProducerUpload";
-import ProductsListView from "./help_documentation/pages/ProductsListView";
-import DataUpload from "./help_documentation/pages/DataUpload";
-import ReportGeneration from "./help_documentation/pages/ReportGeneration";
-import Dashboard from "./dashboard/pages/Dashboard";
-import Support from "./support/pages/Support";
-import Users from "./users/pages/Users";
+import { lazy } from "react";
+
+const HelpDocumentation = lazy(() =>
+  import("./help_documentation/pages/HelpDocumentation")
+);
+const Messaging = lazy(() => import("./help_documentation/pages/Messaging"));
+const ProducerUpload = lazy(() =>
+  import("./help_documentation/pages/ProducerUpload")
+);
+const ProductsListView = lazy(() =>
+  import("./help_documentation/pages/ProductsListView")
+);
+const DataUpload = lazy(() => import("./help_documentation/pages/DataUpload"));
+const ReportGeneration = lazy(() =>
+  import("./help_documentation/pages/ReportGeneration")
+);
+const Dashboard = lazy(() => import("./dashboard/pages/Dashboard"));
+const Support = lazy(() => import("./support/pages/Support"));
+const Users = lazy(() => import("./users/pages/Users"));
 
 const adminRoutes = [
   {

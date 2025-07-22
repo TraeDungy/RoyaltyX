@@ -1,8 +1,10 @@
-import Login from "./pages/Login/Login";
-import Logout from "./pages/Logout";
-import Register from "./pages/Register/Register";
-import ResetPassword from "./pages/ResetPassword/ResetPassword";
-import ThemeSelection from "./pages/ThemeSelection/ThemeSelection";
+import { lazy } from "react";
+
+const Login = lazy(() => import("./pages/Login/Login"));
+const Logout = lazy(() => import("./pages/Logout"));
+const Register = lazy(() => import("./pages/Register/Register"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword/ResetPassword"));
+const ThemeSelection = lazy(() => import("./pages/ThemeSelection/ThemeSelection"));
 
 const authRoutes = [
   {

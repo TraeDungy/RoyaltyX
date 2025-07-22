@@ -1,4 +1,6 @@
-import Members from "./pages/Members";
+import { lazy } from "react";
+
+const Members = lazy(() => import("./pages/Members"));
 
 const memberRoutes = [
   {

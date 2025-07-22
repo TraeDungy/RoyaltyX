@@ -1,4 +1,6 @@
-import Content from "./pages/Content";
+import { lazy } from "react";
+
+const Content = lazy(() => import("./pages/Content"));
 
 const contentRoutes = [
   {
