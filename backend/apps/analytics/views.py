@@ -7,6 +7,7 @@ from rest_framework.views import APIView
 
 from apps.analytics.serializers import AnalyticsSerializer
 from apps.analytics.utils import calculate_analytics
+from apps.milestones.utils import check_milestones
 
 
 class AnalyticsView(APIView):
@@ -48,5 +49,13 @@ class AnalyticsView(APIView):
         data = calculate_analytics(
             project_id, filters, period_start, period_end, product_id, granularity
         )
+
+        check_milestones(request.user, {
+            "impressions": data.get("total_impressions", 0),
+            "sales": data.get("total_sales_count", 0),
+            "rentals": data.get("rentals_count", 0),
+            "views": data.get("total_impressions", 0),
+            "downloads": data.get("purchases_count", 0),
+        })
 
         return Response(data, status=status.HTTP_200_OK)
