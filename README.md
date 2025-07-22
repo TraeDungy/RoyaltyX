@@ -142,6 +142,10 @@ POSTGRES_PORT=5432
 
 # Django Configuration
 DJANGO_SECRET_KEY=your_secret_key_here
+# Set to 'True' for local development. Defaults to 'False' when unset.
+DJANGO_DEBUG=True
+# Comma-separated list of hosts the app can serve
+DJANGO_ALLOWED_HOSTS=*
 
 # Frontend Configuration
 REACT_APP_API_URL=http://localhost:8000
