@@ -13,13 +13,14 @@ In today's digital economy, content creators face the challenge of managing reve
 - **Content Management**: Organize and track your digital assets efficiently
 - **Subscription Management**: Flexible pricing plans that grow with your business
 - **Multi-Platform Integration**: Connect with major platforms and services
+- **Shopify Integration**: Automatically sync store data and sales analytics
 - **Professional Reporting**: Generate detailed reports for tax purposes and business planning
 
 ### 🎨 Perfect For:
 
 - **Musicians & Artists**: Track streaming royalties, licensing fees, and merchandise sales
 - **Content Creators**: Monitor YouTube, TikTok, and social media revenue
-- **Digital Entrepreneurs**: Manage multiple revenue streams and business metrics
+- **Digital Entrepreneurs**: Manage multiple revenue streams, including Shopify store performance
 - **Small Agencies**: Handle client content and revenue tracking
 - **Freelancers**: Track project income and business performance
 
@@ -140,6 +141,8 @@ GOOGLE_CLIENT_ID=your_google_client_id
 GOOGLE_CLIENT_SECRET=your_google_client_secret
 TIKTOK_CLIENT_ID=your_tiktok_client_id
 TIKTOK_CLIENT_SECRET=your_tiktok_client_secret
+SHOPIFY_API_KEY=your_shopify_api_key
+SHOPIFY_API_SECRET=your_shopify_api_secret
 
 # Redis Configuration
 CELERY_BROKER_URL=redis://redis:6379/0
@@ -164,7 +167,7 @@ CELERY_BROKER_URL=redis://redis:6379/0
 ### 🔐 Authentication & User Management
 - Secure user registration and login
 - JWT-based authentication
-- OAuth integration (Google, TikTok)
+- OAuth integration (Google, TikTok, Shopify)
 - User profile management
 - Role-based access control
 
