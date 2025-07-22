@@ -1,10 +1,11 @@
-import { Line } from "react-chartjs-2";
+import { Line, Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend,
@@ -12,11 +13,13 @@ import {
 } from "chart.js";
 import { useSettings } from "../../common/contexts/SettingsContext";
 import { 
-  CHART_CONFIGS, 
-  getBaseLineChartOptions, 
+  CHART_CONFIGS,
+  getBaseLineChartOptions,
   getBaseLineDataset,
+  getSharpLineDataset,
+  getBaseBarDataset,
   formatChartLabels,
-  getChartTitle 
+  getChartTitle
 } from "../../common/config/chartConfig";
 
 ChartJS.register(
@@ -24,6 +27,7 @@ ChartJS.register(
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend,
@@ -31,7 +35,7 @@ ChartJS.register(
 );
 
 export const ImpressionsChart = ({ analytics }) => {
-  const { impressionsGraphColor } = useSettings();
+  const { impressionsGraphColor, impressionsGraphType } = useSettings();
   if (!analytics ||  !analytics.time_stats) return <p>Loading...</p>;
 
   const granularity = analytics.granularity || 'monthly';
@@ -41,18 +45,25 @@ export const ImpressionsChart = ({ analytics }) => {
   const dataValues = impressionsData.map((item) => item.impressions);
   const chartTitle = getChartTitle("impressions", granularity);
 
+  const datasetFn =
+    impressionsGraphType === "sharp"
+      ? getSharpLineDataset
+      : impressionsGraphType === "bar"
+      ? getBaseBarDataset
+      : getBaseLineDataset;
+
   const data = {
     labels,
-    datasets: [
-      getBaseLineDataset(chartTitle, dataValues, impressionsGraphColor),
-    ],
+    datasets: [datasetFn(chartTitle, dataValues, impressionsGraphColor)],
   };
 
   const options = getBaseLineChartOptions(CHART_CONFIGS.standard);
 
+  const ChartComponent = impressionsGraphType === "bar" ? Bar : Line;
+
   return (
     <div style={{ width: "100%", maxWidth: "700px", margin: "auto" }}>
-      <Line data={data} options={options} />
+      <ChartComponent data={data} options={options} />
     </div>
   );
 };
