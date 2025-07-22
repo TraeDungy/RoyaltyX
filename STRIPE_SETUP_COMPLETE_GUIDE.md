@@ -1,4 +1,5 @@
 # Complete Stripe Integration Setup Guide
+See [README](README.md) for full project documentation.
 
 ## Current Issue
 - Payments succeed in Stripe ✅

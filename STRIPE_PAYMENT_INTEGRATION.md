@@ -1,4 +1,5 @@
 # Stripe Payment Integration Documentation
+See [README](README.md) for general setup instructions.
 
 This document describes the complete Stripe payment integration for the RoyaltyX subscription system.
 
