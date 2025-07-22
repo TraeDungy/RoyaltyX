@@ -180,34 +180,55 @@ class Email:
         from_email: Optional[str] = None,
         fail_silently: bool = False,
     ) -> bool:
-        """Send an email using a template stored in the database."""
+        """Send an email using a template stored in the database.
+
+        Args:
+            template_name: Name of the email template
+            context: Template context variables
+            recipient_list: List of recipient email addresses
+            from_email: Sender email address (defaults to DEFAULT_FROM_EMAIL)
+            fail_silently: Whether to suppress exceptions
+
+        Returns:
+            bool: True if email was sent successfully, False otherwise
+        """
         try:
-            template = (
+            from_email = from_email or settings.DEFAULT_FROM_EMAIL
+
+            template_obj = (
                 EmailTemplate.objects.filter(name=template_name, is_active=True)
                 .order_by("-version")
                 .first()
             )
 
-            if not template:
-                logger.error(f"EmailTemplate '{template_name}' not found")
+            if not template_obj:
+                logger.error(
+                    f"No active template found with name '{template_name}'"
+                )
                 return False
 
-            subject_template = Template(template.subject)
-            html_template = Template(template.content)
+            django_template = Template(template_obj.content)
+            html_content = django_template.render(Context(context))
+            text_content = strip_tags(html_content)
 
-            subject = subject_template.render(Context(context))
-            html_content = html_template.render(Context(context))
-
-            return Email.send_html_email(
-                subject=subject,
-                html_content=html_content,
-                recipient_list=recipient_list,
+            email = EmailMultiAlternatives(
+                subject=template_obj.subject,
+                body=text_content,
                 from_email=from_email,
-                fail_silently=fail_silently,
+                to=recipient_list,
             )
+            email.attach_alternative(html_content, "text/html")
+            email.send(fail_silently=fail_silently)
+
+            logger.info(
+                f"DB template email '{template_name}' sent successfully to {len(recipient_list)} recipients"
+            )
+            return True
 
         except Exception as e:
-            logger.error(f"Failed to send db template email: {str(e)}")
+            logger.error(
+                f"Failed to send db template email '{template_name}': {str(e)}"
+            )
             if not fail_silently:
                 raise
             return False
