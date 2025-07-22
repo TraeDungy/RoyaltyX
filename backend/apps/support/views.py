@@ -6,6 +6,8 @@ from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
+import openai
+from django.conf import settings
 
 from .models import SupportTicket
 from .serializers import (
@@ -14,6 +16,7 @@ from .serializers import (
     SupportTicketDetailSerializer,
     SupportTicketListSerializer,
     UpdateTicketStatusSerializer,
+    HelpChatSerializer,
 )
 
 User = get_user_model()
@@ -275,3 +278,30 @@ def customer_support_stats(request):
     }
 
     return Response(stats)
+
+
+class HelpChatView(generics.GenericAPIView):
+    """Simple OpenAI-powered help chat endpoint."""
+
+    serializer_class = HelpChatSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        question = serializer.validated_data["question"]
+
+        try:
+            openai.api_key = settings.OPENAI_API_KEY
+            completion = openai.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=[{"role": "user", "content": question}],
+            )
+            answer = completion.choices[0].message.content.strip()
+        except Exception as exc:  # pragma: no cover - network call
+            return Response(
+                {"error": f"OpenAI request failed: {exc}"},
+                status=status.HTTP_502_BAD_GATEWAY,
+            )
+
+        return Response({"answer": answer})

@@ -40,4 +40,5 @@ urlpatterns = [
     ),
     path("admin/tickets/<uuid:ticket_id>/take/", views.take_ticket, name="take-ticket"),
     path("admin/stats/", views.support_dashboard_stats, name="admin-stats"),
+    path("help/chat/", views.HelpChatView.as_view(), name="help-chat"),
 ]

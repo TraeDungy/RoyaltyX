@@ -178,3 +178,9 @@ class UpdateTicketStatusSerializer(serializers.ModelSerializer):
             validated_data["resolved_at"] = timezone.now()
 
         return super().update(instance, validated_data)
+
+
+class HelpChatSerializer(serializers.Serializer):
+    """Serializer for OpenAI help chat requests."""
+
+    question = serializers.CharField(max_length=500)

@@ -202,6 +202,7 @@ CELERY_BROKER_URL=redis://redis:6379/0
 - Real-time notifications
 - Dark/light theme support
 - Comprehensive settings management
+- **AI-Powered Help Chat**: Get instant answers from the documentation using OpenAI
 
 ---
 
@@ -326,6 +327,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Support
 
 - **Documentation**: Check our comprehensive docs
+- **AI Help Chat**: Use the built-in chat at `/admin/documentation/chat` for quick tips
 - **Issues**: Report bugs on GitHub Issues
 - **Email**: support@royaltyx.com
 - **Community**: Join our Discord server

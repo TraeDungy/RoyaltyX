@@ -4,6 +4,7 @@ import ProducerUpload from "./pages/ProducerUpload";
 import ProductsListView from "./pages/ProductsListView";
 import DataUpload from "./pages/DataUpload";
 import ReportGeneration from "./pages/ReportGeneration";
+import HelpChat from "./pages/HelpChat";
 
 const helpDocumentationRoutes = [
   {
@@ -29,6 +30,10 @@ const helpDocumentationRoutes = [
   {
     path: "documentation/report-generation",
     element: <ReportGeneration />,
+  },
+  {
+    path: "documentation/chat",
+    element: <HelpChat />,
   },
 ];
 
