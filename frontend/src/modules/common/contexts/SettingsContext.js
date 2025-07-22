@@ -1,5 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
+const defaultAnalyticsOrder = ["impressions", "sales", "revenue"];
+
 const SettingsContext = createContext();
 
 export const SettingsProvider = ({ children }) => {
@@ -66,6 +68,15 @@ export const SettingsProvider = ({ children }) => {
       ? savedShowTotalRevenueCardPreference === "true"
       : true;
   });
+
+  const [dashboardAnalyticsOrder, setDashboardAnalyticsOrder] = useState(() => {
+    const savedOrder = localStorage.getItem("dashboardAnalyticsOrder");
+    return savedOrder ? JSON.parse(savedOrder) : defaultAnalyticsOrder;
+  });
+
+  const resetDashboardAnalyticsOrder = () => {
+    setDashboardAnalyticsOrder(defaultAnalyticsOrder);
+  };
 
   const [
     impressionsGraphColor,
@@ -288,6 +299,13 @@ export const SettingsProvider = ({ children }) => {
     );
   }, [impressionRevenueOverTimeGraphColor]);
 
+  useEffect(() => {
+    localStorage.setItem(
+      "dashboardAnalyticsOrder",
+      JSON.stringify(dashboardAnalyticsOrder),
+    );
+  }, [dashboardAnalyticsOrder]);
+
   return (
     <SettingsContext.Provider
       value={{
@@ -331,6 +349,9 @@ export const SettingsProvider = ({ children }) => {
         setImpressionsOverTimeGraphColor,
         impressionRevenueOverTimeGraphColor,
         setImpressionRevenueOverTimeGraphColor,
+        dashboardAnalyticsOrder,
+        setDashboardAnalyticsOrder,
+        resetDashboardAnalyticsOrder,
       }}
     >
       {children}
