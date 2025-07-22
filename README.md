@@ -229,10 +229,13 @@ CELERY_BROKER_URL=redis://redis:6379/0
 
 ```bash
 # Backend tests
-docker-compose -f local.yml exec backend python manage.py test
+./scripts/backend-test.sh
 
 # Frontend tests
-docker-compose -f local.yml exec frontend npm test
+./scripts/frontend-test.sh
+
+# Run both suites
+./scripts/run-tests.sh
 ```
 
 ### API Documentation
