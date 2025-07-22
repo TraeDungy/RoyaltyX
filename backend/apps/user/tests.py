@@ -66,28 +66,28 @@ class SubscriptionPlanTests(TestCase):
         url = reverse("user.change_subscription_plan")
         data = {"subscription_plan": "basic"}
         response = self.client.post(url, data, format="json")
-        
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["subscription_plan"], "basic")
-        self.assertIn("successfully changed to basic", response.data["message"])
-        
-        # Verify the change in database
+
+        self.assertEqual(response.status_code, status.HTTP_402_PAYMENT_REQUIRED)
+        self.assertTrue(response.data.get("requires_payment"))
+        self.assertEqual(response.data.get("plan"), "basic")
+
+        # Ensure plan not changed yet
         self.user.refresh_from_db()
-        self.assertEqual(self.user.subscription_plan, "basic")
+        self.assertEqual(self.user.subscription_plan, "free")
 
     def test_change_subscription_plan_to_premium(self):
         """Test changing subscription plan to premium"""
         url = reverse("user.change_subscription_plan")
         data = {"subscription_plan": "premium"}
         response = self.client.post(url, data, format="json")
-        
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["subscription_plan"], "premium")
-        self.assertIn("successfully changed to premium", response.data["message"])
-        
-        # Verify the change in database
+
+        self.assertEqual(response.status_code, status.HTTP_402_PAYMENT_REQUIRED)
+        self.assertTrue(response.data.get("requires_payment"))
+        self.assertEqual(response.data.get("plan"), "premium")
+
+        # Ensure plan not changed yet
         self.user.refresh_from_db()
-        self.assertEqual(self.user.subscription_plan, "premium")
+        self.assertEqual(self.user.subscription_plan, "free")
 
     def test_change_subscription_plan_invalid_plan(self):
         """Test changing subscription plan with invalid plan name"""
@@ -131,3 +131,32 @@ class SubscriptionPlanTests(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("subscription_plan", response.data)
         self.assertEqual(response.data["subscription_plan"], "free")
+
+    def test_update_payment_method(self):
+        """Test updating preferred payment method"""
+        url = reverse("user.payment_method")
+        data = {
+            "preferred_payment_method": "paypal",
+            "paypal_email": "payer@example.com",
+        }
+        response = self.client.post(url, data, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.preferred_payment_method, "paypal")
+        self.assertEqual(self.user.paypal_email, "payer@example.com")
+
+    def test_get_payment_method(self):
+        """Test retrieving preferred payment method"""
+        self.user.preferred_payment_method = "zelle"
+        self.user.zelle_email = "zelle@example.com"
+        self.user.save()
+
+        url = reverse("user.payment_method")
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(
+            response.data["preferred_payment_method"], "zelle"
+        )
+        self.assertEqual(response.data["zelle_email"], "zelle@example.com")

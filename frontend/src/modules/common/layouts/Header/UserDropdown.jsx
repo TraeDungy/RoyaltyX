@@ -192,6 +192,28 @@ function UserDropdown() {
                 <ListItem disablePadding>
                   <ListItemButton
                     component={Link}
+                    to="/account/payment-method"
+                    onClick={handleClose}
+                    sx={{
+                      borderRadius: 1,
+                      mx: 1,
+                      "&:hover": {
+                        backgroundColor: "action.hover",
+                      },
+                    }}
+                  >
+                    <ListItemIcon sx={{ minWidth: 40 }}>
+                      <CreditCard size={18} color="var(--color-text-lighter)" />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary="Payment Method"
+                      primaryTypographyProps={{ variant: "body2" }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                  <ListItemButton
+                    component={Link}
                     to="/account/membership"
                     onClick={handleClose}
                     sx={{

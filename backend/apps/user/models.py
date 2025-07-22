@@ -56,6 +56,14 @@ class User(AbstractBaseUser):
         ("incomplete", "Incomplete"),
     ]
 
+    PAYMENT_METHOD_CHOICES = [
+        ("paypal", "PayPal"),
+        ("zelle", "Zelle"),
+        ("cashapp", "Cash App"),
+        ("echeck", "eCheck"),
+        ("wire", "Wire Transfer"),
+    ]
+
     email = models.EmailField(max_length=60, unique=True, null=False)
     username = models.CharField(max_length=50, unique=True, null=False)
     name = models.CharField(max_length=30)
@@ -85,6 +93,21 @@ class User(AbstractBaseUser):
     currently_selected_project = models.ForeignKey(
         Project, null=True, default=None, on_delete=models.CASCADE
     )
+
+    preferred_payment_method = models.CharField(
+        max_length=20,
+        choices=PAYMENT_METHOD_CHOICES,
+        null=True,
+        blank=True,
+    )
+    paypal_email = models.EmailField(null=True, blank=True)
+    zelle_email = models.EmailField(null=True, blank=True)
+    cash_app_tag = models.CharField(max_length=50, null=True, blank=True)
+    echeck_account_number = models.CharField(max_length=50, null=True, blank=True)
+    echeck_routing_number = models.CharField(max_length=50, null=True, blank=True)
+    wire_bank_name = models.CharField(max_length=100, null=True, blank=True)
+    wire_account_number = models.CharField(max_length=50, null=True, blank=True)
+    wire_routing_number = models.CharField(max_length=50, null=True, blank=True)
 
     objects = MyUserManager()
 

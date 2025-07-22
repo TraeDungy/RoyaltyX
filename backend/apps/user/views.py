@@ -1,11 +1,10 @@
+from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework import status
-from django.contrib.auth import authenticate
 
 from .models import User
-from .serializers import UserSerializer, SubscriptionPlanSerializer
+from .serializers import SubscriptionPlanSerializer, UserSerializer
 
 
 @api_view(["GET"])
@@ -135,7 +134,47 @@ def change_password(request):
     # Set new password
     user.set_password(new_password)
     user.save()
-    
+
     return Response({
         "message": "Password changed successfully"
     }, status=status.HTTP_200_OK)
+
+
+@api_view(["GET", "POST"])
+@permission_classes([IsAuthenticated])
+def payment_method(request):
+    """Retrieve or update the user's preferred payment method"""
+    user = request.user
+
+    if request.method == "GET":
+        data = {
+            "preferred_payment_method": user.preferred_payment_method,
+            "paypal_email": user.paypal_email,
+            "zelle_email": user.zelle_email,
+            "cash_app_tag": user.cash_app_tag,
+            "echeck_account_number": user.echeck_account_number,
+            "echeck_routing_number": user.echeck_routing_number,
+            "wire_bank_name": user.wire_bank_name,
+            "wire_account_number": user.wire_account_number,
+            "wire_routing_number": user.wire_routing_number,
+        }
+        return Response(data)
+
+    method = request.data.get("preferred_payment_method")
+    valid_methods = [choice[0] for choice in User.PAYMENT_METHOD_CHOICES]
+
+    if method not in valid_methods:
+        return Response({"error": "Invalid payment method"}, status=400)
+
+    user.preferred_payment_method = method
+    user.paypal_email = request.data.get("paypal_email")
+    user.zelle_email = request.data.get("zelle_email")
+    user.cash_app_tag = request.data.get("cash_app_tag")
+    user.echeck_account_number = request.data.get("echeck_account_number")
+    user.echeck_routing_number = request.data.get("echeck_routing_number")
+    user.wire_bank_name = request.data.get("wire_bank_name")
+    user.wire_account_number = request.data.get("wire_account_number")
+    user.wire_routing_number = request.data.get("wire_routing_number")
+    user.save()
+
+    return Response({"message": "Payment method updated"})

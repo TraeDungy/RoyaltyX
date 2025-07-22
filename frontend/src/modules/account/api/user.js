@@ -51,3 +51,32 @@ export const changePassword = async (currentPassword, newPassword) => {
     throw new Error(error.message || "Network error");
   }
 };
+
+export const getPaymentMethod = async () => {
+  const token = localStorage.getItem("accessToken");
+
+  const response = await fetch(apiUrl + "/users/payment-method/", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  });
+
+  return await response.json();
+};
+
+export const updatePaymentMethod = async (data) => {
+  const token = localStorage.getItem("accessToken");
+
+  const response = await fetch(apiUrl + "/users/payment-method/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+    body: JSON.stringify(data),
+  });
+
+  return await response.json();
+};

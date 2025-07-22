@@ -59,6 +59,12 @@ function Overview() {
       icon: <CreditCard size={20} color="currentColor" />,
       path: "/account/membership",
     },
+    {
+      title: "Payment Method",
+      description: "Set your preferred payout details",
+      icon: <CreditCard size={20} color="currentColor" />,
+      path: "/account/payment-method",
+    },
   ];
 
   const formatDate = (dateString) => {
