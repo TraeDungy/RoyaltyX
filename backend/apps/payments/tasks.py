@@ -2,6 +2,8 @@ from celery import shared_task
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 
+from apps.emails.services import Email
+
 User = get_user_model()
 
 @shared_task
@@ -31,3 +33,37 @@ def downgrade_past_due_users():
         ])
         count += 1
     return count
+
+
+@shared_task
+def send_payment_failed_email(user_id: int) -> bool:
+    """Send payment failure notification to a user."""
+    try:
+        user = User.objects.get(id=user_id)
+    except User.DoesNotExist:
+        return False
+
+    context = {"user": user}
+    return Email.send_db_template_email(
+        template_name="payment_failed",
+        context=context,
+        recipient_list=[user.email],
+        fail_silently=False,
+    )
+
+
+@shared_task
+def send_subscription_canceled_email(user_id: int) -> bool:
+    """Notify a user that their subscription was canceled."""
+    try:
+        user = User.objects.get(id=user_id)
+    except User.DoesNotExist:
+        return False
+
+    context = {"user": user}
+    return Email.send_db_template_email(
+        template_name="subscription_canceled",
+        context=context,
+        recipient_list=[user.email],
+        fail_silently=False,
+    )
