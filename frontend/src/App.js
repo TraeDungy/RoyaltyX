@@ -30,6 +30,7 @@ import { SettingsProvider } from "./modules/common/contexts/SettingsContext";
 import { MUIThemeWrapper } from "./modules/global/components/MUIThemeWrapper";
 import sourceRoutes from "./modules/sources";
 import oauthRoutes from "./modules/oauth";
+import stockRoutes from "./modules/stocks";
 
 const PrivateRoutes = () => {
   const { authenticated, loading } = useAuth();
@@ -89,6 +90,7 @@ function App() {
                       ...contentRoutes,
                       ...managementRoutes,
                       ...sourceRoutes,
+                      ...stockRoutes,
                       ...productRoutes,
                       ...whiteLabelRoutes,
                       ...supportRoutes,
