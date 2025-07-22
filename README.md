@@ -123,6 +123,7 @@ POSTGRES_PORT=5432
 
 # Django Configuration
 DJANGO_SECRET_KEY=your_secret_key_here
+DJANGO_SETTINGS_MODULE=royaltyx.settings
 
 # Frontend Configuration
 REACT_APP_API_URL=http://localhost:8000
@@ -225,11 +226,24 @@ CELERY_BROKER_URL=redis://redis:6379/0
    npm start
    ```
 
+3. **Start Celery Worker** *(handles background tasks)*
+   ```bash
+   cd backend
+   celery -A royaltyx worker -l info
+   ```
+
+4. **Start Celery Beat** *(runs periodic jobs)*
+   ```bash
+   cd backend
+   celery -A royaltyx beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+   ```
+
 ### Running Tests
 
 ```bash
 # Backend tests
 docker-compose -f local.yml exec backend python manage.py test
+# Alternatively, run `pytest -q` with DJANGO_SETTINGS_MODULE set
 
 # Frontend tests
 docker-compose -f local.yml exec frontend npm test
@@ -284,7 +298,16 @@ RoyaltyX/
    docker-compose -f production.yml up -d --build
    ```
 
-3. **Set up SSL certificate**
+3. **Start Celery Worker** *(handles background tasks)*
+   ```bash
+   docker-compose -f production.yml exec backend celery -A royaltyx worker -l info
+   ```
+
+4. **Start Celery Beat** *(runs periodic jobs)*
+   ```bash
+   docker-compose -f production.yml exec backend celery -A royaltyx beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+   ```
+5. **Set up SSL certificate**
    ```bash
    # Using Let's Encrypt
    docker-compose -f production.yml exec nginx certbot --nginx
