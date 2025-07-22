@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Container, Spinner } from "react-bootstrap";
-import { getProjectAnalytics, exportProjectAnalytics } from "../api/analytics";
+import {
+  getProjectAnalytics,
+  exportProjectAnalytics,
+  getForecasts,
+} from "../api/analytics";
 import { getYoutubeSourceAnalytics } from "../api/youtube";
 import { useSources } from "../../sources/api/sources";
 import YoutubeAnalyticsCard from "../components/YoutubeAnalyticsCard";
@@ -18,9 +22,11 @@ import { SourceAnalytics } from "../components/SourceAnalytics";
 import SalesStatsCard from "../components/SalesStatsCard";
 import GeneralStatsCard from "../components/GeneralStatsCard";
 import { Grid, Typography, Button } from "@mui/material";
+import ForecastInsights from "../components/ForecastInsights";
 
 function Analytics() {
   const [analytics, setAnalytics] = useState(null);
+  const [forecasts, setForecasts] = useState([]);
   const [youtubeAnalytics, setYoutubeAnalytics] = useState(null);
   const { sources } = useSources();
   const {
@@ -67,6 +73,8 @@ function Analytics() {
       try {
         const fetchedAnalytics = await getProjectAnalytics(period_range);
         setAnalytics(fetchedAnalytics);
+        const fetchedForecasts = await getForecasts();
+        setForecasts(fetchedForecasts);
       } catch (error) {
         toast.error(error.message || "Failed to fetch analytics");
       }
@@ -140,6 +148,8 @@ function Analytics() {
       </Grid>
 
       <SourceAnalytics analytics={analytics} />
+
+      <ForecastInsights forecasts={forecasts} />
 
       <TopPerfomingContentByImpressions />
 

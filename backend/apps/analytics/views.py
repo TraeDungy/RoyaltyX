@@ -8,7 +8,11 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from apps.analytics.serializers import AnalyticsSerializer
+from apps.analytics.serializers import (
+    AnalyticsSerializer,
+    AnalyticsForecastSerializer,
+)
+from apps.analytics.models import AnalyticsForecast
 from apps.analytics.utils import calculate_analytics
 
 
@@ -108,3 +112,15 @@ class AnalyticsExportView(APIView):
             )
 
         return response
+
+
+class AnalyticsForecastView(APIView):
+    """Retrieve analytics forecasts for the current project."""
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        project_id = request.user.currently_selected_project_id
+        forecasts = AnalyticsForecast.objects.filter(project_id=project_id)
+        serializer = AnalyticsForecastSerializer(forecasts, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

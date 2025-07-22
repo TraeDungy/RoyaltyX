@@ -10,6 +10,7 @@ from rest_framework.test import APIClient
 
 from apps.product.models import Product
 from apps.project.models import Project, ProjectUser
+from apps.analytics.models import AnalyticsForecast
 
 
 class AnalyticsViewTests(TestCase):
@@ -220,3 +221,40 @@ class GranularityTests(TestCase):
         start = date.today() - timedelta(days=800)
         end = date.today()
         self.assertEqual(view._determine_granularity(start, end), "yearly")
+
+
+class ForecastViewTests(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+        User = get_user_model()
+        self.user = User.objects.create_user(
+            email="forecast@test.com",
+            name="Forecast User",
+            password="Testaccount1_",
+        )
+        self.project = Project.objects.create(
+            name="Forecast Project", description="project"
+        )
+        ProjectUser.objects.create(
+            project=self.project,
+            user=self.user,
+            role=ProjectUser.PROJECT_USER_ROLE_OWNER,
+        )
+        self.user.currently_selected_project = self.project
+        self.user.save()
+        self.client.force_authenticate(user=self.user)
+        self.forecast_url = reverse("analytics-forecasts")
+        AnalyticsForecast.objects.create(
+            project=self.project,
+            forecast="Test forecast",
+        )
+
+    def test_get_forecasts(self):
+        response = self.client.get(self.forecast_url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIsInstance(response.data, list)
+
+    def test_forecasts_requires_authentication(self):
+        self.client.force_authenticate(user=None)
+        response = self.client.get(self.forecast_url)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
