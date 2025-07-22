@@ -95,8 +95,13 @@ class StripeService:
             raise Exception("User has no active subscription")
 
         try:
-            subscription = stripe.Subscription.retrieve(user.stripe_subscription_id)
-            item_id = user.stripe_subscription_item_id or subscription["items"]["data"][0]["id"]
+            subscription = stripe.Subscription.retrieve(
+                user.stripe_subscription_id
+            )
+            item_id = (
+                user.stripe_subscription_item_id
+                or subscription["items"]["data"][0]["id"]
+            )
 
             items = []
 
@@ -106,7 +111,12 @@ class StripeService:
                     raise Exception(f"No price ID configured for plan: {plan}")
                 items.append({"id": item_id, "price": price_id})
             else:
-                items.append({"id": item_id, "price": subscription["items"]["data"][0]["price"]["id"]})
+                items.append(
+                    {
+                        "id": item_id,
+                        "price": subscription["items"]["data"][0]["price"]["id"],
+                    }
+                )
 
             if add_ons is not None:
                 for addon in add_ons:
