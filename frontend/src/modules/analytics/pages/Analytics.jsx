@@ -11,6 +11,7 @@ import { useSources } from "../../sources/api/sources";
 import YoutubeAnalyticsCard from "../components/YoutubeAnalyticsCard";
 import { useLocation } from "react-router";
 import DateRangeSelector from "../../common/components/DateRangeSelector";
+import CustomDateSelector from "../../common/components/CustomDateSelector";
 import ImpressionsOverTime from "../components/ImpressionsOverTime";
 import ImpressionRevenueOverTime from "../components/ImpressionRevenueOverTime";
 import SalesOverTime from "../components/SalesOverTime";
@@ -97,7 +98,10 @@ function Analytics() {
 
     const fetchYoutube = async () => {
       try {
-        const data = await getYoutubeSourceAnalytics(youtubeSource.id, period_range);
+        const data = await getYoutubeSourceAnalytics(
+          youtubeSource.id,
+          period_range,
+        );
         setYoutubeAnalytics(data);
       } catch (error) {
         toast.error(error.message || "Failed to fetch YouTube analytics");
@@ -126,9 +130,9 @@ function Analytics() {
             Export CSV
           </Button>
           <DateRangeSelector />
+          <CustomDateSelector />
         </div>
       </div>
-
 
       <Grid container columnSpacing={3}>
         {showSalesOverTime && <SalesOverTime analytics={analytics} />}

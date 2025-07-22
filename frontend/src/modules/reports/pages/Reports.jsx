@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { getReports } from "../api/reports";
 import { apiUrl } from "../../common/api/config";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
 import PageHeader from "../../common/components/PageHeader";
+import CustomDateSelector from "../../common/components/CustomDateSelector";
 import {
   Box,
   Button,
@@ -18,6 +19,7 @@ import {
 const Reports = () => {
   const [reports, setReports] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const fetchReports = async () => {
@@ -32,12 +34,27 @@ const Reports = () => {
     fetchReports();
   }, []);
 
+  const params = new URLSearchParams(location.search);
+  const periodStart = params.get("period_start");
+  const periodEnd = params.get("period_end");
+
+  const filteredReports = reports.filter((report) => {
+    if (periodStart && new Date(report.period_start) < new Date(periodStart)) {
+      return false;
+    }
+    if (periodEnd && new Date(report.period_end) > new Date(periodEnd)) {
+      return false;
+    }
+    return true;
+  });
+
   return (
     <Box>
       <PageHeader
         title="Reports"
         description="This is a page where you will be able to see reports specific to this
         product."
+        action={<CustomDateSelector />}
       />
 
       <div className="mb-3">
@@ -59,7 +76,7 @@ const Reports = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {reports.map((report) => (
+            {filteredReports.map((report) => (
               <TableRow
                 key={report.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
