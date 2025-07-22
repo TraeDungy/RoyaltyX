@@ -2,6 +2,7 @@ import Analytics from "./pages/Analytics";
 import EditProduct from "./pages/Products/Edit";
 import Products from "./pages/Products/Index";
 import Details from "./pages/Details";
+import ProductImages from "./pages/ProductImages";
 
 const productRoutes = [
   {
@@ -19,6 +20,10 @@ const productRoutes = [
   {
     path: "products/:id/edit",
     element: <EditProduct />,
+  },
+  {
+    path: "product-images",
+    element: <ProductImages />,
   },
 ];
 
