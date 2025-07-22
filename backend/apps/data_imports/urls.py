@@ -1,10 +1,10 @@
 from django.urls import path
 
 from .views import (
-    DatasetDetailView,
     FileDetailView,
     FileListCreateView,
     ProducerListCreateView,
+    DatasetDetailView,
 )
 
 urlpatterns = [

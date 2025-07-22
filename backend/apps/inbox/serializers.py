@@ -1,5 +1,5 @@
-import bleach
 from rest_framework import serializers
+import bleach
 
 from .models import Conversation, Message
 

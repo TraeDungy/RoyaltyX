@@ -1,5 +1,3 @@
-import openai
-from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db.models import Count, Q
 from django.shortcuts import get_object_or_404
@@ -8,15 +6,17 @@ from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
+import openai
+from django.conf import settings
 
 from .models import SupportTicket
 from .serializers import (
     CreateSupportMessageSerializer,
     CreateSupportTicketSerializer,
-    HelpChatSerializer,
     SupportTicketDetailSerializer,
     SupportTicketListSerializer,
     UpdateTicketStatusSerializer,
+    HelpChatSerializer,
 )
 
 User = get_user_model()

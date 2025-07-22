@@ -10,8 +10,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from .models import AddOn
 from .stripe_service import StripeService
+from .models import AddOn
 
 User = get_user_model()
 
@@ -28,10 +28,7 @@ def create_checkout_session(request):
             try:
                 addons.append(AddOn.objects.get(code=code))
             except AddOn.DoesNotExist:
-                return Response(
-                    {"error": f"Invalid add-on: {code}"},
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
+                return Response({"error": f"Invalid add-on: {code}"}, status=status.HTTP_400_BAD_REQUEST)
 
         if not plan:
             return Response(
@@ -104,10 +101,7 @@ def update_subscription(request):
         try:
             addons.append(AddOn.objects.get(code=code))
         except AddOn.DoesNotExist:
-            return Response(
-                {"error": f"Invalid add-on: {code}"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+            return Response({"error": f"Invalid add-on: {code}"}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
         StripeService.update_subscription(request.user, plan, addons)

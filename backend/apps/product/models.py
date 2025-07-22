@@ -127,12 +127,7 @@ class ProductUser(BaseModel):
 
 class ProductImage(BaseModel):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    product = models.ForeignKey(
-        Product,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-    )
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, blank=True)
     image = models.ImageField(upload_to="product_images/", max_length=500)
 
     class Meta:
@@ -144,8 +139,7 @@ class ProductImage(BaseModel):
         super().save(*args, **kwargs)
 
     def _auto_assign_from_filename(self):
-        import os
-        import re
+        import os, re
         base = os.path.splitext(os.path.basename(self.image.name))[0]
         numbers = re.findall(r"\d+", base)
         if numbers:

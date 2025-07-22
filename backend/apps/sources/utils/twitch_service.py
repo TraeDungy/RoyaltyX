@@ -48,7 +48,7 @@ class TwitchService:
         """
         Fetch Twitch video stats for a given video ID.
         """
-        url = "https://api.twitch.tv/helix/videos"
+        url = f"https://api.twitch.tv/helix/videos"
         params = {
             "id": video_id
         }
