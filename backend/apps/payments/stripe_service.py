@@ -3,6 +3,10 @@ import os
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from datetime import datetime, timezone
+from apps.emails.tasks import (
+    task_send_payment_failed_email,
+    task_send_subscription_canceled_email,
+)
 
 User = get_user_model()
 
@@ -128,13 +132,19 @@ class StripeService:
             subscription_id = invoice['subscription']
             user = User.objects.get(stripe_subscription_id=subscription_id)
             
-            user.subscription_status = 'past_due'
-            user.payment_failure_count += 1
-            user.save()
-            
-            # TODO: Send notification email to user
-            
-            return user
+        user.subscription_status = 'past_due'
+        user.payment_failure_count += 1
+        user.save()
+
+        try:
+            task_send_payment_failed_email.delay(
+                user_email=user.email,
+                user_name=user.name or user.username,
+            )
+        except Exception:
+            pass
+
+        return user
         except User.DoesNotExist:
             raise Exception(f"User not found for subscription: {subscription_id}")
 
@@ -148,12 +158,18 @@ class StripeService:
             user.subscription_plan = 'free'
             user.subscription_status = 'canceled'
             user.stripe_subscription_id = None
-            user.subscription_current_period_end = None
-            user.grace_period_end = None
-            user.save()
-            
-            # TODO: Send downgrade notification email
-            
-            return user
+        user.subscription_current_period_end = None
+        user.grace_period_end = None
+        user.save()
+
+        try:
+            task_send_subscription_canceled_email.delay(
+                user_email=user.email,
+                user_name=user.name or user.username,
+            )
+        except Exception:
+            pass
+
+        return user
         except User.DoesNotExist:
             raise Exception(f"User not found for subscription: {subscription['id']}")

@@ -46,3 +46,71 @@ def send_welcome_email(
     except Exception as e:
         logger.error(f"Error sending welcome email to {user_email}: {str(e)}")
         return False
+
+
+def send_payment_failed_email(user_email: str, user_name: str) -> bool:
+    """Send notification when a payment fails."""
+    try:
+        billing_url = "https://app.royaltyx.co/account/membership"
+        subject = "Payment Failed"
+
+        context = {
+            "user_name": user_name,
+            "billing_url": billing_url,
+        }
+
+        success = Email.send_template_email(
+            subject=subject,
+            template_name="emails/payment_failed.html",
+            context=context,
+            recipient_list=[user_email],
+            fail_silently=False,
+        )
+
+        if success:
+            logger.info(f"Payment failed email sent successfully to {user_email}")
+        else:
+            logger.error(f"Failed to send payment failed email to {user_email}")
+
+        return success
+
+    except Exception as e:
+        logger.error(f"Error sending payment failed email to {user_email}: {str(e)}")
+        return False
+
+
+def send_subscription_canceled_email(user_email: str, user_name: str) -> bool:
+    """Send notification when a subscription is cancelled."""
+    try:
+        dashboard_url = "https://app.royaltyx.co/"
+        subject = "Subscription Cancelled"
+
+        context = {
+            "user_name": user_name,
+            "dashboard_url": dashboard_url,
+        }
+
+        success = Email.send_template_email(
+            subject=subject,
+            template_name="emails/subscription_canceled.html",
+            context=context,
+            recipient_list=[user_email],
+            fail_silently=False,
+        )
+
+        if success:
+            logger.info(
+                f"Subscription canceled email sent successfully to {user_email}"
+            )
+        else:
+            logger.error(
+                f"Failed to send subscription canceled email to {user_email}"
+            )
+
+        return success
+
+    except Exception as e:
+        logger.error(
+            f"Error sending subscription canceled email to {user_email}: {str(e)}"
+        )
+        return False
