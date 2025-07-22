@@ -8,6 +8,9 @@ import { getProjectAnalytics } from "../../analytics/api/analytics";
 import { SalesCard } from "../../analytics/components/SalesCard";
 import { ImpressionsCard } from "../../analytics/components/ImpressionsCard";
 import { RevenueCard } from "../../analytics/components/RevenueCard";
+import QuickButtons from "../components/QuickButtons";
+import AdminMessages from "../components/AdminMessages";
+import FeatureUpdates from "../components/FeatureUpdates";
 import { useSettings } from "../../common/contexts/SettingsContext";
 import { useLocation } from "react-router";
 import { Grid } from "@mui/material";
@@ -47,6 +50,9 @@ function Dashboard() {
 
   return (
     <>
+      <QuickButtons />
+      <AdminMessages />
+      <FeatureUpdates />
       {analytics && (
         <Grid container spacing={3} className="mb-4">
           {showTotalImpressionsCard && <ImpressionsCard analytics={analytics} />}

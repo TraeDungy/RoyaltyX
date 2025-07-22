@@ -1,5 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
+const defaultAnalyticsOrder = ["impressions", "sales", "revenue"];
+
 const SettingsContext = createContext();
 
 export const SettingsProvider = ({ children }) => {
@@ -67,6 +69,15 @@ export const SettingsProvider = ({ children }) => {
       : true;
   });
 
+  const [dashboardAnalyticsOrder, setDashboardAnalyticsOrder] = useState(() => {
+    const savedOrder = localStorage.getItem("dashboardAnalyticsOrder");
+    return savedOrder ? JSON.parse(savedOrder) : defaultAnalyticsOrder;
+  });
+
+  const resetDashboardAnalyticsOrder = () => {
+    setDashboardAnalyticsOrder(defaultAnalyticsOrder);
+  };
+
   const [
     impressionsGraphColor,
     setimpressionsGraphColor,
@@ -88,6 +99,36 @@ export const SettingsProvider = ({ children }) => {
         ? savedsalesGraphColor
         : "#009efd";
     });
+
+  const [impressionsGraphType, setImpressionsGraphType] = useState(() => {
+    const saved = localStorage.getItem("impressionsGraphType");
+    return saved || "line";
+  });
+
+  const [salesGraphType, setSalesGraphType] = useState(() => {
+    const saved = localStorage.getItem("salesGraphType");
+    return saved || "line";
+  });
+
+  const [revenueGraphType, setRevenueGraphType] = useState(() => {
+    const saved = localStorage.getItem("revenueGraphType");
+    return saved || "line";
+  });
+
+  const [impressionsValueFormat, setImpressionsValueFormat] = useState(() => {
+    const saved = localStorage.getItem("impressionsValueFormat");
+    return saved || "number";
+  });
+
+  const [salesValueFormat, setSalesValueFormat] = useState(() => {
+    const saved = localStorage.getItem("salesValueFormat");
+    return saved || "number";
+  });
+
+  const [revenueValueFormat, setRevenueValueFormat] = useState(() => {
+    const saved = localStorage.getItem("revenueValueFormat");
+    return saved || "currency";
+  });
 
   const [revenueGraphColor, setrevenueGraphColor] =
     useState(() => {
@@ -118,6 +159,19 @@ export const SettingsProvider = ({ children }) => {
         : "#009efd";
     },
   );
+
+  const [favoriteAnalytics, setFavoriteAnalytics] = useState(() => {
+    const stored = localStorage.getItem("favoriteAnalytics");
+    return stored ? JSON.parse(stored) : ["analytics", "reports"];
+  });
+
+  const toggleFavoriteAnalytics = (id) => {
+    setFavoriteAnalytics((prev) => {
+      const exists = prev.includes(id);
+      const updated = exists ? prev.filter((p) => p !== id) : [...prev, id];
+      return updated;
+    });
+  };
 
   const [impressionsOverTimeGraphColor, setImpressionsOverTimeGraphColor] =
     useState(() => {
@@ -196,6 +250,30 @@ export const SettingsProvider = ({ children }) => {
   }, [salesGraphColor]);
 
   useEffect(() => {
+    localStorage.setItem("impressionsGraphType", impressionsGraphType);
+  }, [impressionsGraphType]);
+
+  useEffect(() => {
+    localStorage.setItem("salesGraphType", salesGraphType);
+  }, [salesGraphType]);
+
+  useEffect(() => {
+    localStorage.setItem("revenueGraphType", revenueGraphType);
+  }, [revenueGraphType]);
+
+  useEffect(() => {
+    localStorage.setItem("impressionsValueFormat", impressionsValueFormat);
+  }, [impressionsValueFormat]);
+
+  useEffect(() => {
+    localStorage.setItem("salesValueFormat", salesValueFormat);
+  }, [salesValueFormat]);
+
+  useEffect(() => {
+    localStorage.setItem("revenueValueFormat", revenueValueFormat);
+  }, [revenueValueFormat]);
+
+  useEffect(() => {
     localStorage.setItem(
       "revenueGraphColor",
       revenueGraphColor,
@@ -234,6 +312,20 @@ export const SettingsProvider = ({ children }) => {
     );
   }, [impressionRevenueOverTimeGraphColor]);
 
+  useEffect(() => {
+    localStorage.setItem(
+      "dashboardAnalyticsOrder",
+      JSON.stringify(dashboardAnalyticsOrder),
+    );
+  }, [dashboardAnalyticsOrder]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "favoriteAnalytics",
+      JSON.stringify(favoriteAnalytics),
+    );
+  }, [favoriteAnalytics]);
+
   return (
     <SettingsContext.Provider
       value={{
@@ -253,10 +345,22 @@ export const SettingsProvider = ({ children }) => {
         setShowTotalRevenueCard,
         impressionsGraphColor,
         setimpressionsGraphColor,
+        impressionsGraphType,
+        setImpressionsGraphType,
+        impressionsValueFormat,
+        setImpressionsValueFormat,
         salesGraphColor,
         setsalesGraphColor,
+        salesGraphType,
+        setSalesGraphType,
+        salesValueFormat,
+        setSalesValueFormat,
         revenueGraphColor,
         setrevenueGraphColor,
+        revenueGraphType,
+        setRevenueGraphType,
+        revenueValueFormat,
+        setRevenueValueFormat,
         salesOverTimeGraphColor,
         setSalesOverTimeGraphColor,
         rentalsOverTimeGraphColor,
@@ -265,11 +369,15 @@ export const SettingsProvider = ({ children }) => {
         setImpressionsOverTimeGraphColor,
         impressionRevenueOverTimeGraphColor,
         setImpressionRevenueOverTimeGraphColor,
+        dashboardAnalyticsOrder,
+        setDashboardAnalyticsOrder,
+        resetDashboardAnalyticsOrder,
+        favoriteAnalytics,
+        toggleFavoriteAnalytics,
       }}
     >
       {children}
     </SettingsContext.Provider>
   );
 };
-
 export const useSettings = () => useContext(SettingsContext);
