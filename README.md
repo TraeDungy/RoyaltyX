@@ -14,6 +14,7 @@ In today's digital economy, content creators face the challenge of managing reve
 - **Subscription Management**: Flexible pricing plans that grow with your business
 - **Multi-Platform Integration**: Connect with major platforms and services
 - **Professional Reporting**: Generate detailed reports for tax purposes and business planning
+- **Invoice Management**: Automated invoice generation with multi-currency and tax handling
 
 ### 🎨 Perfect For:
 
@@ -253,7 +254,7 @@ RoyaltyX/
 │   │   ├── payments/       # Stripe payment integration
 │   │   ├── analytics/      # Analytics and reporting
 │   │   ├── sources/        # Revenue source management
-│   │   └── ...
+│   │   ├── invoice/        # Invoice management
 │   ├── royaltyx/           # Django project settings
 │   └── requirements.txt    # Python dependencies
 ├── frontend/               # React frontend
@@ -325,7 +326,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- **Documentation**: Check our comprehensive docs
+- **Documentation**: Check our comprehensive docs. See [INVOICE_MANAGEMENT_FEATURES.md](INVOICE_MANAGEMENT_FEATURES.md) for invoice details
 - **Issues**: Report bugs on GitHub Issues
 - **Email**: support@royaltyx.com
 - **Community**: Join our Discord server

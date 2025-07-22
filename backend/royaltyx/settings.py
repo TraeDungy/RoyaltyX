@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "apps.analytics",
     "apps.admin_panel",
     "apps.payments",
+    "apps.invoice",
     "apps.emails",
     "apps.oauth.google",
     "rest_framework",

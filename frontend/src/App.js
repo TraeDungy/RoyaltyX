@@ -24,6 +24,7 @@ import analyticsRoutes from "./modules/analytics";
 import supportRoutes from "./modules/support/routes";
 import managementRoutes from "./modules/management";
 import productRoutes from "./modules/products";
+import invoiceRoutes from "./modules/invoices";
 import { ProjectProvider } from "./modules/common/contexts/ProjectContext";
 import { SettingsProvider } from "./modules/common/contexts/SettingsContext";
 import { MUIThemeWrapper } from "./modules/global/components/MUIThemeWrapper";
@@ -75,7 +76,7 @@ function App() {
                     path="/"
                     element={
                       <ProjectProvider>
-                          <AppLayout />
+                        <AppLayout />
                       </ProjectProvider>
                     }
                   >
@@ -89,6 +90,7 @@ function App() {
                       ...managementRoutes,
                       ...sourceRoutes,
                       ...productRoutes,
+                      ...invoiceRoutes,
                       ...supportRoutes,
                     ])}
                   </Route>
