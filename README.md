@@ -239,6 +239,16 @@ docker-compose -f local.yml exec frontend npm test
 cd frontend && npm test -- --watchAll=false
 ```
 
+The backend relies on **PostgreSQL**. If you run tests outside the
+Docker environment, make sure a PostgreSQL instance is available and
+that your `.env` configuration points to it. When using Docker Compose
+(recommended), ensure the `postgres` service is running before executing
+the test commands, e.g.:
+
+```bash
+docker-compose -f local.yml up -d postgres
+```
+
 ### API Documentation
 
 - **Swagger UI**: http://localhost:8000/docs/
