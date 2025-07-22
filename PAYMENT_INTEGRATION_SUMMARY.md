@@ -191,7 +191,7 @@ STRIPE_PREMIUM_PRICE_ID=price_...
 
 ### Customer Support
 - Access to Stripe customer portal
-- Payment history and invoices
+- Payment history and PDF invoices
 - Refund processing capabilities
 - Subscription modification tools
 
