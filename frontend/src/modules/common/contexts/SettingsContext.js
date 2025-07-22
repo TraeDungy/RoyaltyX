@@ -69,6 +69,11 @@ export const SettingsProvider = ({ children }) => {
       : true;
   });
 
+  const [showProductImageCard, setShowProductImageCard] = useState(() => {
+    const saved = localStorage.getItem("showProductImageCard");
+    return saved !== null ? saved === "true" : true;
+  });
+
   const [dashboardAnalyticsOrder, setDashboardAnalyticsOrder] = useState(() => {
     const savedOrder = localStorage.getItem("dashboardAnalyticsOrder");
     return savedOrder ? JSON.parse(savedOrder) : defaultAnalyticsOrder;
@@ -237,6 +242,13 @@ export const SettingsProvider = ({ children }) => {
 
   useEffect(() => {
     localStorage.setItem(
+      "showProductImageCard",
+      showProductImageCard.toString(),
+    );
+  }, [showProductImageCard]);
+
+  useEffect(() => {
+    localStorage.setItem(
       "impressionsGraphColor",
       impressionsGraphColor,
     );
@@ -336,6 +348,8 @@ export const SettingsProvider = ({ children }) => {
         setShowTotalSalesCard,
         showTotalRevenueCard,
         setShowTotalRevenueCard,
+        showProductImageCard,
+        setShowProductImageCard,
         impressionsGraphColor,
         setimpressionsGraphColor,
         impressionsGraphType,
