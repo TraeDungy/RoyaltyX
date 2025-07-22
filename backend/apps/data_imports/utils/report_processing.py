@@ -1,11 +1,14 @@
 import csv
 import io
+import logging
 from decimal import Decimal
 from typing import Any, BinaryIO, Dict, List
 
 from openpyxl import load_workbook
 
 from apps.product.models import Product, ProductImpressions, ProductSale
+
+logger = logging.getLogger(__name__)
 
 
 def detect_file_type(file: BinaryIO) -> str:
@@ -33,7 +36,7 @@ def validate_file(file: BinaryIO) -> bool:
             headers = next(reader, None)
             return bool(headers)
     except Exception as e:
-        print(f"File validation error: {e}")
+        logger.error("File validation error: %s", e)
         return False
 
 
@@ -138,4 +141,4 @@ def storeProductImpressions(
             from_file_id=file_id,
         )
     except Exception as e:
-        print(e, flush=True)
+        logger.error("Failed to store product impressions: %s", e)

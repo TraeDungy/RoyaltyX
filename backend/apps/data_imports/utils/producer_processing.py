@@ -1,11 +1,14 @@
 import csv
 import io
+import logging
 from typing import BinaryIO, Dict, List
 
 from openpyxl import load_workbook
 
 from apps.product.models import Product, ProductUser
 from apps.user.models import User
+
+logger = logging.getLogger(__name__)
 
 
 def detect_file_type(file: BinaryIO) -> str:
@@ -33,7 +36,7 @@ def validate_file(file: BinaryIO) -> bool:
             headers = next(reader, None)
             return bool(headers)
     except Exception as e:
-        print(f"File validation error: {e}")
+        logger.error("File validation error: %s", e)
         return False
 
 
