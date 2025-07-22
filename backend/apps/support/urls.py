@@ -22,6 +22,7 @@ urlpatterns = [
         name="create-message",
     ),
     path("stats/", views.customer_support_stats, name="customer-stats"),
+    path("help/chat/", views.help_chat, name="help-chat"),
     # Admin endpoints
     path(
         "admin/tickets/",

@@ -2,6 +2,8 @@ from django.contrib.auth import get_user_model
 from django.db.models import Count, Q
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
+from django.conf import settings
+import openai
 from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.exceptions import PermissionDenied
@@ -275,3 +277,47 @@ def customer_support_stats(request):
     }
 
     return Response(stats)
+
+
+@api_view(["POST"])
+@permission_classes([permissions.IsAuthenticated])
+def help_chat(request):
+    """Return a brief AI generated answer to the user's question."""
+
+    message = request.data.get("message")
+    if not message:
+        return Response(
+            {"error": "Message field is required."},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    api_key = getattr(settings, "OPENAI_API_KEY", None)
+    if not api_key:
+        return Response(
+            {"error": "OpenAI API key not configured."},
+            status=status.HTTP_503_SERVICE_UNAVAILABLE,
+        )
+
+    openai.api_key = api_key
+
+    try:
+        completion = openai.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are the RoyaltyX help assistant. Answer briefly and helpfully.",
+                },
+                {"role": "user", "content": message},
+            ],
+            max_tokens=200,
+        )
+
+        reply = completion.choices[0].message.content.strip()
+    except Exception as exc:  # pragma: no cover - network call
+        return Response(
+            {"error": "Failed to get response from OpenAI."},
+            status=status.HTTP_502_BAD_GATEWAY,
+        )
+
+    return Response({"response": reply})
