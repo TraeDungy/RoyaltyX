@@ -461,21 +461,26 @@ def calculate_analytics_per_source(
     source_analytics = []
 
     for source in sources:
-        # Get impressions and sales for this source
-        impressions_qs = impressions_qs.filter(
+        # Get impressions and sales for this source without affecting
+        # the original querysets used for subsequent iterations. Using
+        # new variables prevents filters from accumulating across the
+        # loop, which previously resulted in empty querysets after the
+        # first iteration.
+        source_impressions_qs = impressions_qs.filter(
             product__source_id=source.id,
         )
-        sales_qs = sales_qs.filter(
+        source_sales_qs = sales_qs.filter(
             product__source_id=source.id,
         )
 
         # Calculate totals for this source
         total_impressions = (
-            impressions_qs.aggregate(total=Sum("impressions"))["total"] or 0
+            source_impressions_qs.aggregate(total=Sum("impressions"))["total"]
+            or 0
         )
 
         total_impression_revenue = (
-            impressions_qs.annotate(
+            source_impressions_qs.annotate(
                 revenue_expr=ExpressionWrapper(
                     F("impressions") * F("ecpm") / 1000,
                     output_field=DecimalField(max_digits=30, decimal_places=18),
@@ -484,19 +489,20 @@ def calculate_analytics_per_source(
             or 0
         )
 
-        total_sales_count = sales_qs.count()
+        total_sales_count = source_sales_qs.count()
         total_royalty_revenue = (
-            sales_qs.aggregate(total=Sum("royalty_amount"))["total"] or 0
+            source_sales_qs.aggregate(total=Sum("royalty_amount"))["total"]
+            or 0
         )
 
         # Calculate rentals and purchases separately
-        rentals_qs = sales_qs.filter(type=ProductSale.TYPE_RENTAL)
+        rentals_qs = source_sales_qs.filter(type=ProductSale.TYPE_RENTAL)
         rentals_count = rentals_qs.count()
         rentals_revenue = (
             rentals_qs.aggregate(total=Sum("royalty_amount"))["total"] or 0
         )
 
-        purchases_qs = sales_qs.filter(type=ProductSale.TYPE_PURCHASE)
+        purchases_qs = source_sales_qs.filter(type=ProductSale.TYPE_PURCHASE)
         purchases_count = purchases_qs.count()
         purchases_revenue = (
             purchases_qs.aggregate(total=Sum("royalty_amount"))["total"] or 0
