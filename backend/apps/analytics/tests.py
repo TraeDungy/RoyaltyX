@@ -8,8 +8,8 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 
+from apps.analytics.models import AnalyticsForecast, AnalyticsRecord
 from apps.product.models import Product
-from apps.analytics.models import AnalyticsRecord, AnalyticsForecast
 from apps.project.models import Project, ProjectUser
 
 
@@ -60,20 +60,27 @@ class AnalyticsViewTests(TestCase):
         end_date = date.today()
         response = self.client.get(
             self.analytics_url,
-            {"period_start": start_date.strftime("%Y-%m-%d"), "period_end": end_date.strftime("%Y-%m-%d")},
+            {
+                "period_start": start_date.strftime("%Y-%m-%d"),
+                "period_end": end_date.strftime("%Y-%m-%d"),
+            },
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.data, dict)
 
     def test_analytics_endpoint_with_only_start_date(self):
         start_date = date.today() - timedelta(days=30)
-        response = self.client.get(self.analytics_url, {"period_start": start_date.strftime("%Y-%m-%d")})
+        response = self.client.get(
+            self.analytics_url, {"period_start": start_date.strftime("%Y-%m-%d")}
+        )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.data, dict)
 
     def test_analytics_endpoint_with_only_end_date(self):
         end_date = date.today()
-        response = self.client.get(self.analytics_url, {"period_end": end_date.strftime("%Y-%m-%d")})
+        response = self.client.get(
+            self.analytics_url, {"period_end": end_date.strftime("%Y-%m-%d")}
+        )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.data, dict)
 
@@ -87,7 +94,10 @@ class AnalyticsViewTests(TestCase):
         end_date = date.today()
         response = self.client.get(
             self.product_analytics_url,
-            {"period_start": start_date.strftime("%Y-%m-%d"), "period_end": end_date.strftime("%Y-%m-%d")},
+            {
+                "period_start": start_date.strftime("%Y-%m-%d"),
+                "period_end": end_date.strftime("%Y-%m-%d"),
+            },
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.data, dict)
@@ -110,7 +120,9 @@ class AnalyticsViewTests(TestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_product_analytics_with_nonexistent_product_id(self):
-        nonexistent_product_url = reverse("product-analytics", kwargs={"product_id": 99999})
+        nonexistent_product_url = reverse(
+            "product-analytics", kwargs={"product_id": 99999}
+        )
         response = self.client.get(nonexistent_product_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.data, dict)
@@ -130,9 +142,17 @@ class AnalyticsViewTests(TestCase):
 class AnalyticsRecordModelTests(TestCase):
     def setUp(self):
         User = get_user_model()
-        self.user = User.objects.create_user(email="record@test.com", name="Record User", password="pass1234")
+        self.user = User.objects.create_user(
+            email="record@test.com",
+            name="Record User",
+            password="pass1234",
+        )
         self.project = Project.objects.create(name="Record Project")
-        ProjectUser.objects.create(project=self.project, user=self.user, role=ProjectUser.PROJECT_USER_ROLE_OWNER)
+        ProjectUser.objects.create(
+            project=self.project,
+            user=self.user,
+            role=ProjectUser.PROJECT_USER_ROLE_OWNER,
+        )
         self.product = Product.objects.create(
             project=self.project,
             title="Record Product",
@@ -197,8 +217,14 @@ class ForecastViewTests(TestCase):
         self.user = User.objects.create_user(
             email="forecast@test.com", name="Forecast User", password="Testaccount1_"
         )
-        self.project = Project.objects.create(name="Forecast Project", description="project")
-        ProjectUser.objects.create(project=self.project, user=self.user, role=ProjectUser.PROJECT_USER_ROLE_OWNER)
+        self.project = Project.objects.create(
+            name="Forecast Project", description="project"
+        )
+        ProjectUser.objects.create(
+            project=self.project,
+            user=self.user,
+            role=ProjectUser.PROJECT_USER_ROLE_OWNER,
+        )
         self.user.currently_selected_project = self.project
         self.user.save()
         self.client.force_authenticate(user=self.user)

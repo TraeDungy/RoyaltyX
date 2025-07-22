@@ -1,6 +1,7 @@
 [tool.ruff]
 line-length = 88
 target-version = "py38"
+extend-exclude = ["migrations"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I"]  # Enable specific rules (E: errors, F: flakes, I: isort)
