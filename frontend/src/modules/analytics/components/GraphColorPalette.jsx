@@ -15,7 +15,8 @@ export const GraphColorPalette = ({
   setShowGraphColorPalette,
   onSelectColor,
 }) => {
-  const colors = [
+  const theme = useTheme();
+  const baseColors = [
     "#6CC3E0",
     "#009efd",
     "#0055CC",
@@ -31,8 +32,16 @@ export const GraphColorPalette = ({
     "#F87168",
     "#AE2E24",
     "#E774BB",
+    "#3F51B5",
+    "#795548",
+    "#607D8B",
+    "#FF5722",
+    "#00BCD4",
   ];
-  const theme = useTheme();
+  const colors = [
+    ...baseColors,
+    theme.palette.mode === "light" ? "#000000" : "#ffffff",
+  ];
 
   return (
     <Dialog
