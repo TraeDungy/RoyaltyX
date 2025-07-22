@@ -192,6 +192,7 @@ CELERY_BROKER_URL=redis://redis:6379/0
 - **Premium Plan** ($49.99/month): Full feature set for professionals
 - Stripe-powered payment processing
 - Automatic billing and subscription management
+- Prorated plan changes and add-on billing
 - Grace period handling for failed payments
 
 ### 📈 Analytics & Reporting

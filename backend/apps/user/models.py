@@ -87,12 +87,16 @@ class User(AbstractBaseUser):
     # Stripe-related fields
     stripe_customer_id = models.CharField(max_length=255, null=True, blank=True)
     stripe_subscription_id = models.CharField(max_length=255, null=True, blank=True)
+    stripe_subscription_item_id = models.CharField(max_length=255, null=True, blank=True)
     subscription_status = models.CharField(
         max_length=50, choices=SUBSCRIPTION_STATUS_CHOICES, default="inactive"
     )
     subscription_current_period_end = models.DateTimeField(null=True, blank=True)
     grace_period_end = models.DateTimeField(null=True, blank=True)
     payment_failure_count = models.IntegerField(default=0)
+    add_ons = models.ManyToManyField(
+        'payments.AddOn', blank=True, related_name='users'
+    )
     currently_selected_project = models.ForeignKey(
         Project, null=True, default=None, on_delete=models.CASCADE
     )

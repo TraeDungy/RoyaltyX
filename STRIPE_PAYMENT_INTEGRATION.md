@@ -45,6 +45,7 @@ payment_failure_count = models.IntegerField(default=0)
 **Payment Endpoints:**
 - `POST /payments/create-checkout-session/` - Create Stripe checkout
 - `POST /payments/cancel-subscription/` - Cancel subscription
+- `POST /payments/update-subscription/` - Prorated plan or add-on changes
 - `GET /payments/subscription-status/` - Get detailed status
 - `GET /payments/verify-session/` - Verify payment session
 - `POST /payments/stripe-webhook/` - Handle Stripe webhooks
@@ -127,6 +128,13 @@ STRIPE_PREMIUM_PRICE_ID=price_...
 3. Backend cancels Stripe subscription → Updates user plan
 4. Frontend shows success message → UI updates
 
+### Plan Change Flow (Paid → Paid)
+1. User chooses a new plan or add-ons
+2. Frontend calls `update-subscription` API
+3. Stripe prorates the subscription and immediately invoices
+4. Backend updates local subscription data
+5. Frontend shows updated status
+
 ### Payment Failure Flow
 1. Stripe payment fails → Webhook fired
 2. Backend updates status to `past_due`
@@ -206,9 +214,11 @@ STRIPE_PREMIUM_PRICE_ID=price_...
 
 ### Phase 1 Improvements
 - Email notifications for payment events
-- Prorated billing for plan changes
 - Payment method management
 - Billing history page
+
+### Implemented Enhancements
+- Prorated billing for plan changes with the `update-subscription` endpoint
 
 ### Phase 2 Features
 - Annual billing discounts

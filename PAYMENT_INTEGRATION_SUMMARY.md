@@ -159,6 +159,7 @@ STRIPE_PREMIUM_PRICE_ID=price_...
 - **Subscription status** for each user
 - **Payment failure counts** for dunning management
 - **Billing cycle information** for prorated billing
+- **Update-subscription endpoint** manages plan changes with proration
 - **Grace period tracking** for customer retention
 
 ### Stripe Dashboard

@@ -73,6 +73,15 @@ class PaymentViewsTests(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
+    @patch("apps.payments.views.StripeService.update_subscription")
+    def test_update_subscription(self, mock_update):
+        self.user.stripe_subscription_id = "sub_1"
+        self.user.save()
+        url = reverse("payments.update_subscription")
+        response = self.client.post(url, {"plan": "premium", "add_ons": []})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        mock_update.assert_called_once()
+
     @patch("apps.payments.views.StripeService.handle_successful_payment")
     @patch("apps.payments.views.stripe.Webhook.construct_event")
     def test_stripe_webhook_checkout_completed(self, mock_construct_event, mock_handle):
