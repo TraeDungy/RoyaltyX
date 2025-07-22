@@ -1,6 +1,7 @@
 import random
 import string
 from datetime import date, timedelta
+from unittest.mock import MagicMock, patch
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
@@ -173,3 +174,15 @@ class AnalyticsViewTests(TestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.data, dict)
+
+    @patch("apps.analytics.openai_utils.openai.chat.completions.create")
+    def test_ai_insights_added_to_response(self, mock_create):
+        """Ensure smart_insights is returned when OpenAI responds"""
+        mock_choice = MagicMock()
+        mock_choice.message.content = "AI Insight"
+        mock_create.return_value = MagicMock(choices=[mock_choice])
+
+        response = self.client.get(self.analytics_url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIn("smart_insights", response.data)
