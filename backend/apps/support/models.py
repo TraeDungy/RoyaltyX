@@ -140,3 +140,33 @@ class SupportAttachment(BaseModel):
 
     def __str__(self):
         return f"Attachment: {self.filename}"
+
+
+class HelpChatThread(BaseModel):
+    """Persistent conversation thread for help chat."""
+
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="help_chat_threads"
+    )
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self) -> str:  # pragma: no cover - simple repr
+        return f"HelpChatThread {self.pk}"
+
+
+class HelpChatMessage(BaseModel):
+    """Individual message within a help chat thread."""
+
+    thread = models.ForeignKey(
+        HelpChatThread, on_delete=models.CASCADE, related_name="messages"
+    )
+    role = models.CharField(max_length=20)
+    content = models.TextField()
+
+    class Meta:
+        ordering = ["created_at"]
+
+    def __str__(self) -> str:  # pragma: no cover - simple repr
+        return f"{self.role}: {self.content[:20]}"
