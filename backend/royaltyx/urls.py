@@ -19,9 +19,9 @@ urlpatterns = [
     path("notifications/", include("apps.notifications.urls")),
     path("support/", include("apps.support.urls")),
     path("sources/", include("apps.sources.urls")),
-    path("emails/", include("apps.emails.urls")),
     path("admin-panel/", include("apps.admin_panel.urls")),
     path("payments/", include("apps.payments.urls")),
+    path("emails/", include("apps.emails.urls")),
     path("fees/", include("apps.fees.urls")),
     ## OAuth2
     path("oauth/google/", include("apps.oauth.google.urls")),
