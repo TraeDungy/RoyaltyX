@@ -4,6 +4,11 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from datetime import datetime, timezone
 
+from apps.emails.utils import (
+    send_payment_failed_email,
+    send_subscription_canceled_email,
+)
+
 User = get_user_model()
 
 # Initialize Stripe
@@ -131,8 +136,8 @@ class StripeService:
             user.subscription_status = 'past_due'
             user.payment_failure_count += 1
             user.save()
-            
-            # TODO: Send notification email to user
+
+            send_payment_failed_email(user_email=user.email, user_name=user.name or user.username)
             
             return user
         except User.DoesNotExist:
@@ -151,8 +156,11 @@ class StripeService:
             user.subscription_current_period_end = None
             user.grace_period_end = None
             user.save()
-            
-            # TODO: Send downgrade notification email
+
+            send_subscription_canceled_email(
+                user_email=user.email,
+                user_name=user.name or user.username,
+            )
             
             return user
         except User.DoesNotExist:
