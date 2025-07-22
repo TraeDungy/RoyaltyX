@@ -209,6 +209,16 @@ CELERY_BROKER_URL=redis://redis:6379/0
 
 ### Local Development Setup
 
+Run the provided setup script to prepare your environment:
+
+```bash
+./setup_env.sh
+```
+
+This copies `.env.example` to `.env`, creates a Python virtual environment, and installs backend and frontend dependencies.
+
+Manual setup steps are listed below if you prefer doing it yourself.
+
 1. **Backend Development**
    ```bash
    cd backend
