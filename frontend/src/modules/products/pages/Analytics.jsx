@@ -3,7 +3,6 @@ import { useLocation, useParams } from "react-router-dom";
 import { useProduct } from "../api/product";
 import { toast } from "react-toastify";
 import { Container, Spinner } from "react-bootstrap";
-import { apiUrl } from "../../common/api/config";
 import DateRangeSelector from "../../common/components/DateRangeSelector";
 import { getProductAnalytics } from "../api/analytics";
 import { ImpressionsCard } from "../../analytics/components/ImpressionsCard";
@@ -14,9 +13,9 @@ import RentalsOverTime from "../../analytics/components/RentalsOverTime";
 import ImpressionsOverTime from "../../analytics/components/ImpressionsOverTime";
 import ImpressionRevenueOverTime from "../../analytics/components/ImpressionRevenueOverTime";
 import { useSettings } from "../../common/contexts/SettingsContext";
-import { ReactComponent as ProductThumbnailPlaceholder } from "../../common/assets/img/vectors/product-thumbnail-placeholder.svg";
 import SalesStatsCard from "../../analytics/components/SalesStatsCard";
 import GeneralStatsCard from "../../analytics/components/GeneralStatsCard";
+import ProductImageCard from "../components/ProductImageCard";
 import { Grid } from "@mui/material";
 
 function Analytics() {
@@ -30,6 +29,7 @@ function Analytics() {
     showTotalImpressionsCard,
     showTotalSalesCard,
     showTotalRevenueCard,
+    showProductImageCard,
   } = useSettings();
 
   const [analytics, setAnalytics] = useState(null);
@@ -68,34 +68,7 @@ function Analytics() {
   return (
     <>
       <div className="d-flex justify-content-between flex-wrap align-items-center mt-4 mb-3 ps-1">
-        <div className="d-flex align-items-center gap-2 mb-2">
-          {product.thumbnail ? (
-            <img
-              src={(() => {
-                const url = product.thumbnail.replace("/media/", "");
-                if (url.startsWith("https")) {
-                  return decodeURIComponent(url).replace("https", "http");
-                } else {
-                  return apiUrl + product.thumbnail;
-                }
-              })()}
-              alt={product.title}
-              style={{
-                height: 40,
-                width: 55,
-                objectFit: "cover",
-              }}
-            />
-          ) : (
-            <ProductThumbnailPlaceholder
-              style={{
-                width: 60,
-                height: 60,
-                objectFit: "cover",
-                marginBottom: "0.25rem",
-              }}
-            />
-          )}
+        <div className="mb-2">
           <h2 className="bold mb-0">{product.title}</h2>
         </div>
         <div className="mb-2">
@@ -107,6 +80,7 @@ function Analytics() {
         {showTotalImpressionsCard && <ImpressionsCard analytics={analytics} />}
         {showTotalSalesCard && <SalesCard analytics={analytics} />}
         {showTotalRevenueCard && <RevenueCard analytics={analytics} />}
+        {showProductImageCard && <ProductImageCard product={product} />}
       </Grid>
 
       <Grid container columnSpacing={3}>

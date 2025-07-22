@@ -18,6 +18,8 @@ const ViewSettings = () => {
     setShowTotalSalesCard,
     showTotalRevenueCard,
     setShowTotalRevenueCard,
+    showProductImageCard,
+    setShowProductImageCard,
     dashboardAnalyticsOrder,
     setDashboardAnalyticsOrder,
     resetDashboardAnalyticsOrder,
@@ -46,6 +48,9 @@ const ViewSettings = () => {
   };
   const toggleShowTotalRevenueCard = () => {
     setShowTotalRevenueCard(!showTotalRevenueCard);
+  };
+  const toggleShowProductImageCard = () => {
+    setShowProductImageCard(!showProductImageCard);
   };
 
   const moveCard = (index, direction) => {
@@ -160,6 +165,20 @@ const ViewSettings = () => {
         <span style={{ marginLeft: "10px" }}>Show Total Revenue Card</span>
         <p className="txt-lighter small mt-1">
           Hide/show the total revenue card in the analytics page.
+        </p>
+      </div>
+      <div className="py-4">
+        <label className="switch">
+          <input
+            type="checkbox"
+            checked={showProductImageCard}
+            onChange={toggleShowProductImageCard}
+          />
+          <span className="slider round"></span>
+        </label>
+        <span style={{ marginLeft: "10px" }}>Show Product Image</span>
+        <p className="txt-lighter small mt-1">
+          Hide/show the product image card in the analytics page.
         </p>
       </div>
 
