@@ -33,7 +33,7 @@ function useMutation(url, method) {
       return response?.data || response || null;
     } catch (err) {
       setError(err);
-      console.log(err);
+      console.error(err);
       throw err;
     } finally {
       setLoading(false);

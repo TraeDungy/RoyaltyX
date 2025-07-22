@@ -37,9 +37,6 @@ function AddMemberModal({
       try {
         const fetchedUsers = await getUsers();
 
-        // Debug logging
-        console.log("Project users:", project?.users);
-        console.log("Fetched users:", fetchedUsers);
 
         // Filter out users who are already project members
         // Try multiple possible ID mappings to be safe
@@ -55,13 +52,11 @@ function AddMemberModal({
             })
             .filter(Boolean) || [];
 
-        console.log("Project member IDs:", projectMemberIds);
 
         const availableUsers = fetchedUsers.filter(
           (user) => !projectMemberIds.includes(user.id)
         );
 
-        console.log("Available users after filtering:", availableUsers);
         setUsers(availableUsers);
       } catch (error) {
         console.error("Error fetching users:", error);

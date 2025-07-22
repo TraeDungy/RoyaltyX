@@ -1,12 +1,14 @@
 import logging
 
+import os
 from .services import Email
 
 logger = logging.getLogger(__name__)
 
 
 def send_welcome_email(
-    user_email: str, user_name: str
+    user_email: str,
+    user_name: str,
 ) -> bool:
     """
     Send a welcome email to a new user.
@@ -14,13 +16,12 @@ def send_welcome_email(
     Args:
         user_email: The email address of the new user
         user_name: The name of the new user
-        dashboard_url: URL to the user dashboard (optional)
 
     Returns:
         bool: True if email was sent successfully, False otherwise
     """
     try:    
-        dashboard_url = "https://app.royaltyx.co/"
+        dashboard_url = os.getenv("REACT_APP_URL", "https://app.royaltyx.co")
         subject = "Welcome to RoyaltyX!"
 
         context = {
