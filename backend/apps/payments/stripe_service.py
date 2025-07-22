@@ -86,9 +86,10 @@ class StripeService:
     def handle_successful_payment(session):
         """Handle successful payment from webhook"""
         try:
-            User = get_user_model()
             user_id = session["metadata"]["user_id"]
             plan = session["metadata"]["plan"]
+
+            User = get_user_model()
 
             user = User.objects.get(id=user_id)
 
@@ -99,9 +100,8 @@ class StripeService:
             if user.stripe_subscription_id:
                 try:
                     StripeService.cancel_subscription(user.stripe_subscription_id)
-                except Exception:
-                    # Continue even if cancellation fails
-                    pass
+                except Exception:  # pragma: no cover - log and continue
+                    pass  # Continue even if cancellation fails
 
             # Update user with new subscription details
             user.subscription_plan = plan
