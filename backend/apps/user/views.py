@@ -1,13 +1,12 @@
+from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework import status
-from django.contrib.auth import authenticate
 
 from .models import User
 from .serializers import (
-    UserSerializer,
     SubscriptionPlanSerializer,
+    UserSerializer,
     UserUpdateSerializer,
 )
 
@@ -39,7 +38,10 @@ def get_subscription_plan(request):
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def change_subscription_plan(request):
-    """Change the current user's subscription plan - now redirects to payment for paid plans"""
+    """Change the user's subscription plan.
+
+    Redirects to payment for paid plans.
+    """
     user = request.user
     new_plan = request.data.get('subscription_plan')
     
@@ -53,10 +55,10 @@ def change_subscription_plan(request):
     valid_plans = [choice[0] for choice in User.SUBSCRIPTION_PLAN_CHOICES]
     
     if new_plan not in valid_plans:
-        return Response(
-            {"error": f"Invalid subscription plan. Valid options are: {', '.join(valid_plans)}"},
-            status=status.HTTP_400_BAD_REQUEST
+        msg = "Invalid subscription plan. Valid options are: {}".format(
+            ", ".join(valid_plans)
         )
+        return Response({"error": msg}, status=status.HTTP_400_BAD_REQUEST)
     
     # Check if user is already on this plan
     if user.subscription_plan == new_plan:
@@ -92,19 +94,28 @@ def change_subscription_plan(request):
     
     # For paid plans, redirect to payment processing
     else:
-        return Response({
-            "requires_payment": True,
-            "message": f"Payment required for {new_plan} plan. Use the create-checkout-session endpoint.",
-            "redirect_to": "/payments/create-checkout-session/",
-            "plan": new_plan
-        }, status=status.HTTP_402_PAYMENT_REQUIRED)
+        return Response(
+            {
+                "requires_payment": True,
+                "message": (
+                    f"Payment required for {new_plan} plan. Use the "
+                    "create-checkout-session endpoint."
+                ),
+                "redirect_to": "/payments/create-checkout-session/",
+                "plan": new_plan,
+            },
+            status=status.HTTP_402_PAYMENT_REQUIRED,
+        )
 
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def get_available_plans(request):
-    """Get all available subscription plans"""
-    plans = [{"value": choice[0], "label": choice[1]} for choice in User.SUBSCRIPTION_PLAN_CHOICES]
+    """Get all available subscription plans."""
+    plans = [
+        {"value": choice[0], "label": choice[1]}
+        for choice in User.SUBSCRIPTION_PLAN_CHOICES
+    ]
     return Response({"plans": plans})
 
 
