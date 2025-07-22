@@ -40,7 +40,8 @@ class Migration(migrations.Migration):
                 (
                     "currently_selected_project",
                     models.ForeignKey(
-                        default=None,
+                        null=True,
+                        blank=True,
                         on_delete=django.db.models.deletion.CASCADE,
                         to="project.project",
                     ),

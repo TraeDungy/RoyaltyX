@@ -63,10 +63,10 @@ class Migration(migrations.Migration):
             model_name="report",
             name="template",
             field=models.ForeignKey(
-                default=None,
+                null=True,
+                blank=True,
                 on_delete=django.db.models.deletion.CASCADE,
                 to="report.reporttemplates",
             ),
-            preserve_default=False,
         ),
     ]
