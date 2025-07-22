@@ -200,7 +200,7 @@ CELERY_BROKER_URL=redis://redis:6379/0
 - Stripe-powered payment processing
 - Automatic billing and subscription management
 - Prorated plan changes and add-on billing
-- Retrieve available add-ons from `/payments/add-ons/`
+- Retrieve active add-ons from `/payments/add-ons/`
 - Grace period handling for failed payments
 
 ### 📈 Analytics & Reporting

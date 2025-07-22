@@ -225,6 +225,6 @@ class AddOnListView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        addons = AddOn.objects.all()
+        addons = AddOn.objects.filter(is_active=True)
         serializer = AddOnSerializer(addons, many=True)
         return Response(serializer.data)

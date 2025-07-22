@@ -7,6 +7,7 @@ class AddOn(models.Model):
     code = models.CharField(max_length=50, unique=True)
     stripe_price_id = models.CharField(max_length=255)
     description = models.CharField(max_length=255, blank=True)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.code

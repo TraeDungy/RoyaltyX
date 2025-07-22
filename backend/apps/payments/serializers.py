@@ -6,4 +6,4 @@ from .models import AddOn
 class AddOnSerializer(serializers.ModelSerializer):
     class Meta:
         model = AddOn
-        fields = "__all__"
+        fields = ["id", "code", "stripe_price_id", "description"]

@@ -101,8 +101,9 @@ class PaymentViewsTests(TestCase):
 
     def test_add_on_list(self):
         AddOn = apps.get_model('payments', 'AddOn')
-        AddOn.objects.create(code='extra', stripe_price_id='price_1')
-        AddOn.objects.create(code='pro', stripe_price_id='price_2')
+        AddOn.objects.create(code='extra', stripe_price_id='price_1', is_active=True)
+        AddOn.objects.create(code='old', stripe_price_id='price_x', is_active=False)
+        AddOn.objects.create(code='pro', stripe_price_id='price_2', is_active=True)
 
         url = reverse('payments.add_on_list')
         response = self.client.get(url)
