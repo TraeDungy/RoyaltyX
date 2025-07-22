@@ -3,20 +3,22 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
-      rel="stylesheet"
-    />
+    {% if style.typography.font_link %}
+      <link href="{{ style.typography.font_link }}" rel="stylesheet" />
+    {% endif %}
     <style>
       .header {
         display: flex;
         justify-content: space-between;
         text-align: center;
+        background-color: {{ style.colors.header_bg|default:'transparent' }};
       }
       body {
-        font-family: "Roboto", sans-serif;
-        font-size: 11pt;
+        font-family: {{ style.typography.font_family|default:'"Roboto", sans-serif' }};
+        font-size: {{ style.typography.font_size|default:'11pt' }};
+        color: {{ style.colors.text|default:'#000' }};
       }
+      h2 { color: {{ style.colors.heading|default:'#000' }}; }
       .row {
         display: flex;
       }
@@ -36,7 +38,11 @@
   <body>
     <div class="header">
       {% if template.logo %}
-        <img src="{{ logo_url }}" style="max-width: 350px; height: auto; max-height: 100px;" alt="" />
+        <img
+          src="{{ logo_url }}"
+          style="max-width: {{ style.logo_settings.max_width|default:'350px' }}; height: auto; max-height: {{ style.logo_settings.max_height|default:'100px' }};"
+          alt=""
+        />
       {% else %}
         <img src="https://royaltyx.co/trial-x-fire-logo.png" style="width: 370px; height: auto" alt="" />
       {% endif %}

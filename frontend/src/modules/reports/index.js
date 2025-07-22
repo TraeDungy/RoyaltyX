@@ -4,6 +4,7 @@ import DeleteReportTemplate from "./pages/ReportTemplate/DeleteReportTemplate";
 import EditReportTemplate from "./pages/ReportTemplate/EditReportTemplate";
 import Reports from "./pages/Reports";
 import ReportTemplates from "./pages/ReportTemplate/ReportTemplates";
+import TemplateBuilder from "./templateBuilder";
 
 const reportRoutes = [
   {
@@ -29,6 +30,10 @@ const reportRoutes = [
   {
     path: "report-templates/:id/delete",
     element: <DeleteReportTemplate />,
+  },
+  {
+    path: "report-template-builder",
+    element: <TemplateBuilder />,
   },
 ];
 

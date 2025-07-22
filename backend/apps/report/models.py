@@ -14,6 +14,11 @@ class ReportTemplates(BaseModel):
     include_sales_revenue = models.BooleanField(default=True)
     include_impressions = models.BooleanField(default=True)
     include_impressions_revenue = models.BooleanField(default=True)
+    colors = models.JSONField(default=dict, blank=True, null=True)
+    typography = models.JSONField(default=dict, blank=True, null=True)
+    layout = models.JSONField(default=dict, blank=True, null=True)
+    logo_settings = models.JSONField(default=dict, blank=True, null=True)
+    is_active = models.BooleanField(default=False)
 
     class Meta:
         db_table = "report_templates"
