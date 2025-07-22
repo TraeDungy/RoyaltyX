@@ -321,6 +321,7 @@ docker-compose -f local.yml up -d postgres
 
 - **Swagger UI**: http://localhost:8000/docs/
 - **API Schema**: http://localhost:8000/schema/
+- More endpoints: [API Overview](documentation/API_OVERVIEW.md)
 
 ---
 

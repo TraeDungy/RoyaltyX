@@ -375,6 +375,189 @@ paths:
       responses:
         '200':
           description: No response body
+  /payments/create-checkout-session/:
+    post:
+      operationId: payments_create_checkout_session_create
+      tags:
+      - payments
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /payments/cancel-subscription/:
+    post:
+      operationId: payments_cancel_subscription_create
+      tags:
+      - payments
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /payments/update-subscription/:
+    post:
+      operationId: payments_update_subscription_create
+      tags:
+      - payments
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /payments/subscription-status/:
+    get:
+      operationId: payments_subscription_status_retrieve
+      tags:
+      - payments
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /payments/verify-session/:
+    get:
+      operationId: payments_verify_session_retrieve
+      parameters:
+      - in: query
+        name: session_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - payments
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /analytics/:
+    get:
+      operationId: analytics_retrieve
+      tags:
+      - analytics
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /analytics/export/:
+    get:
+      operationId: analytics_export_retrieve
+      tags:
+      - analytics
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /analytics/forecasts/:
+    get:
+      operationId: analytics_forecasts_retrieve
+      tags:
+      - analytics
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /analytics/{product_id}/:
+    get:
+      operationId: analytics_retrieve_2
+      parameters:
+      - in: path
+        name: product_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - analytics
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /sources/:
+    get:
+      operationId: sources_list
+      tags:
+      - sources
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: sources_create
+      tags:
+      - sources
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          description: No response body
+  /sources/{id}/:
+    get:
+      operationId: sources_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - sources
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: sources_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - sources
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: sources_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - sources
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /sources/{id}/youtube-analytics/:
+    get:
+      operationId: sources_youtube_analytics_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - sources
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
 components:
   schemas:
     File:
