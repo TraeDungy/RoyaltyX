@@ -43,15 +43,15 @@ payment_failure_count = models.IntegerField(default=0)
 ### 3. API Endpoints
 
 **Payment Endpoints:**
-- `POST /payments/create-checkout-session/` - Create Stripe checkout
-- `POST /payments/cancel-subscription/` - Cancel subscription
-- `POST /payments/update-subscription/` - Prorated plan or add-on changes
-- `GET /payments/subscription-status/` - Get detailed status
-- `GET /payments/verify-session/` - Verify payment session
-- `POST /payments/stripe-webhook/` - Handle Stripe webhooks
+- `POST /api/v1/payments/create-checkout-session/` - Create Stripe checkout
+- `POST /api/v1/payments/cancel-subscription/` - Cancel subscription
+- `POST /api/v1/payments/update-subscription/` - Prorated plan or add-on changes
+- `GET /api/v1/payments/subscription-status/` - Get detailed status
+- `GET /api/v1/payments/verify-session/` - Verify payment session
+- `POST /api/v1/payments/stripe-webhook/` - Handle Stripe webhooks
 
 **Updated User Endpoints:**
-- `POST /users/subscription-plan/change/` - Now handles payment flow
+- `POST /api/v1/users/subscription-plan/change/` - Now handles payment flow
 
 ### 4. Webhook Handling
 

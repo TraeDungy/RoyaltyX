@@ -97,8 +97,8 @@ from third-party platforms:
 
 4. **Access the application**
    - Frontend: http://localhost:3000
-   - Backend API: http://localhost:8000
-   - API Documentation: http://localhost:8000/docs/
+   - Backend API: http://localhost:8000/api/v1
+   - API Documentation: http://localhost:8000/api/v1/docs/
 
 ### Initial Setup
 
@@ -144,7 +144,7 @@ POSTGRES_PORT=5432
 DJANGO_SECRET_KEY=your_secret_key_here
 
 # Frontend Configuration
-REACT_APP_API_URL=http://localhost:8000
+REACT_APP_API_URL=http://localhost:8000/api/v1
 REACT_APP_URL=http://localhost:3000
 
 # Stripe Payment Configuration
@@ -175,7 +175,7 @@ CELERY_BROKER_URL=redis://redis:6379/0
 1. Create a Stripe account at https://stripe.com
 2. Create products for Basic ($19.99/month) and Premium ($49.99/month) plans
 3. Copy the price IDs to your environment variables
-4. Set up webhook endpoint: `https://yourdomain.com/payments/stripe-webhook/`
+4. Set up webhook endpoint: `https://yourdomain.com/api/v1/payments/stripe-webhook/`
 5. Subscribe to these webhook events:
    - `checkout.session.completed`
    - `invoice.payment_failed`
@@ -302,8 +302,8 @@ docker-compose -f local.yml up -d postgres
 
 ### API Documentation
 
-- **Swagger UI**: http://localhost:8000/docs/
-- **API Schema**: http://localhost:8000/schema/
+- **Swagger UI**: http://localhost:8000/api/v1/docs/
+- **API Schema**: http://localhost:8000/api/v1/schema/
 
 ---
 

@@ -23,7 +23,7 @@ All subscription plan endpoints require authentication (Bearer token).
 
 ### 1. Get Current User's Subscription Plan
 
-**GET** `/users/subscription-plan/`
+**GET** `/api/v1/users/subscription-plan/`
 
 **Response:**
 ```json
@@ -34,7 +34,7 @@ All subscription plan endpoints require authentication (Bearer token).
 
 ### 2. Get Available Subscription Plans
 
-**GET** `/users/subscription-plan/available/`
+**GET** `/api/v1/users/subscription-plan/available/`
 
 **Response:**
 ```json
@@ -49,7 +49,7 @@ All subscription plan endpoints require authentication (Bearer token).
 
 ### 3. Change Subscription Plan
 
-**POST** `/users/subscription-plan/change/`
+**POST** `/api/v1/users/subscription-plan/change/`
 
 **Request Body:**
 ```json
@@ -80,7 +80,7 @@ All subscription plan endpoints require authentication (Bearer token).
 1. **Get current subscription plan:**
 ```bash
 curl -H "Authorization: Bearer YOUR_TOKEN" \
-     http://localhost:8000/users/subscription-plan/
+     http://localhost:8000/api/v1/users/subscription-plan/
 ```
 
 2. **Change to premium plan:**
@@ -89,13 +89,13 @@ curl -X POST \
      -H "Authorization: Bearer YOUR_TOKEN" \
      -H "Content-Type: application/json" \
      -d '{"subscription_plan": "premium"}' \
-     http://localhost:8000/users/subscription-plan/change/
+     http://localhost:8000/api/v1/users/subscription-plan/change/
 ```
 
 3. **Get available plans:**
 ```bash
 curl -H "Authorization: Bearer YOUR_TOKEN" \
-     http://localhost:8000/users/subscription-plan/available/
+     http://localhost:8000/api/v1/users/subscription-plan/available/
 ```
 
 ### Using JavaScript/Fetch
@@ -103,7 +103,7 @@ curl -H "Authorization: Bearer YOUR_TOKEN" \
 ```javascript
 // Get current subscription plan
 const getCurrentPlan = async () => {
-    const response = await fetch('/users/subscription-plan/', {
+    const response = await fetch('/api/v1/users/subscription-plan/', {
         headers: {
             'Authorization': `Bearer ${token}`
         }
@@ -114,7 +114,7 @@ const getCurrentPlan = async () => {
 
 // Change subscription plan
 const changePlan = async (newPlan) => {
-    const response = await fetch('/users/subscription-plan/change/', {
+    const response = await fetch('/api/v1/users/subscription-plan/change/', {
         method: 'POST',
         headers: {
             'Authorization': `Bearer ${token}`,
@@ -131,7 +131,7 @@ const changePlan = async (newPlan) => {
 ## Default Behavior
 
 - New users are automatically assigned the "free" subscription plan
-- The subscription plan is included in the user info endpoint (`/users/get-my-info/`)
+- The subscription plan is included in the user info endpoint (`/api/v1/users/get-my-info/`)
 - All subscription plan operations require user authentication
 
 ## Testing

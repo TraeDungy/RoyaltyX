@@ -15,7 +15,7 @@ ngrok http 8000
 # 2. Copy the HTTPS URL (e.g., https://abc123.ngrok.io)
 
 # 3. In Stripe Dashboard → Developers → Webhooks:
-#    - Add endpoint: https://abc123.ngrok.io/payments/stripe-webhook/
+#    - Add endpoint: https://abc123.ngrok.io/api/v1/payments/stripe-webhook/
 #    - Select events: checkout.session.completed, invoice.payment_failed, 
 #      customer.subscription.deleted, customer.subscription.updated
 ```
@@ -23,13 +23,13 @@ ngrok http 8000
 ### Option 2: Stripe CLI
 ```bash
 # Stop current Stripe CLI and restart:
-stripe listen --forward-to 127.0.0.1:8000/payments/stripe-webhook/
+stripe listen --forward-to 127.0.0.1:8000/api/v1/payments/stripe-webhook/
 ```
 
 ## Production Setup
 
 ### 1. Stripe Dashboard Webhook
-- **URL**: `https://yourdomain.com/payments/stripe-webhook/`
+- **URL**: `https://yourdomain.com/api/v1/payments/stripe-webhook/`
 - **Events**: Same as development
 - **No ngrok/Stripe CLI needed**
 

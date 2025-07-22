@@ -105,7 +105,7 @@ def change_subscription_plan(request):
                     f"Payment required for {new_plan} plan. Use the "
                     "create-checkout-session endpoint."
                 ),
-                "redirect_to": "/payments/create-checkout-session/",
+                "redirect_to": "/api/v1/payments/create-checkout-session/",
                 "plan": new_plan,
             },
             status=status.HTTP_402_PAYMENT_REQUIRED,

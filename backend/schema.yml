@@ -4,7 +4,7 @@ info:
   version: 1.0.0
   description: Royalty X
 paths:
-  /authentication/change-password/:
+  /api/v1/authentication/change-password/:
     post:
       operationId: authentication_change_password_create
       tags:
@@ -14,7 +14,7 @@ paths:
       responses:
         '200':
           description: No response body
-  /authentication/register/:
+  /api/v1/authentication/register/:
     post:
       operationId: authentication_register_create
       tags:
@@ -25,7 +25,7 @@ paths:
       responses:
         '200':
           description: No response body
-  /authentication/token/:
+  /api/v1/authentication/token/:
     post:
       operationId: authentication_token_create
       description: |-
@@ -52,7 +52,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/MyTokenObtainPair'
           description: ''
-  /authentication/token/refresh/:
+  /api/v1/authentication/token/refresh/:
     post:
       operationId: authentication_token_refresh_create
       description: |-
@@ -79,7 +79,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/TokenRefresh'
           description: ''
-  /data_imports/files/:
+  /api/v1/data_imports/files/:
     get:
       operationId: data_imports_files_list
       tags:
@@ -116,7 +116,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/File'
           description: ''
-  /data_imports/files/{id}/:
+  /api/v1/data_imports/files/{id}/:
     get:
       operationId: data_imports_files_retrieve
       parameters:
@@ -209,7 +209,7 @@ paths:
       responses:
         '204':
           description: No response body
-  /products/:
+  /api/v1/products/:
     get:
       operationId: products_retrieve
       tags:
@@ -228,7 +228,7 @@ paths:
       responses:
         '200':
           description: No response body
-  /products/{product_id}/:
+  /api/v1/products/{product_id}/:
     get:
       operationId: products_retrieve_2
       parameters:
@@ -274,7 +274,7 @@ paths:
       responses:
         '204':
           description: No response body
-  /projects/:
+  /api/v1/projects/:
     get:
       operationId: projects_retrieve
       tags:
@@ -293,7 +293,7 @@ paths:
       responses:
         '200':
           description: No response body
-  /projects/info/:
+  /api/v1/projects/info/:
     get:
       operationId: projects_info_retrieve
       tags:
@@ -303,7 +303,7 @@ paths:
       responses:
         '200':
           description: No response body
-  /projects/my-projects/:
+  /api/v1/projects/my-projects/:
     get:
       operationId: projects_my_projects_retrieve
       tags:
@@ -313,7 +313,7 @@ paths:
       responses:
         '200':
           description: No response body
-  /projects/switch-project/:
+  /api/v1/projects/switch-project/:
     post:
       operationId: projects_switch_project_create
       tags:
@@ -323,7 +323,7 @@ paths:
       responses:
         '200':
           description: No response body
-  /projects/update/:
+  /api/v1/projects/update/:
     put:
       operationId: projects_update_update
       tags:
@@ -334,7 +334,7 @@ paths:
       responses:
         '200':
           description: No response body
-  /projects/users/:
+  /api/v1/projects/users/:
     get:
       operationId: projects_users_retrieve
       tags:
@@ -353,7 +353,7 @@ paths:
       responses:
         '200':
           description: No response body
-  /users/:
+  /api/v1/users/:
     get:
       operationId: users_retrieve
       tags:
@@ -364,7 +364,7 @@ paths:
       responses:
         '200':
           description: No response body
-  /users/get-my-info/:
+  /api/v1/users/get-my-info/:
     get:
       operationId: users_get_my_info_retrieve
       tags:

@@ -23,15 +23,15 @@ I have successfully integrated Stripe payment processing into your RoyaltyX subs
 
 ### 3. API Endpoints Created
 ```
-POST /payments/create-checkout-session/  # Create Stripe checkout
-POST /payments/cancel-subscription/      # Cancel subscription  
-GET  /payments/subscription-status/      # Get detailed status
-GET  /payments/verify-session/           # Verify payment session
-POST /payments/stripe-webhook/           # Handle Stripe webhooks
+POST /api/v1/payments/create-checkout-session/  # Create Stripe checkout
+POST /api/v1/payments/cancel-subscription/      # Cancel subscription
+GET  /api/v1/payments/subscription-status/      # Get detailed status
+GET  /api/v1/payments/verify-session/           # Verify payment session
+POST /api/v1/payments/stripe-webhook/           # Handle Stripe webhooks
 ```
 
 ### 4. Updated User Endpoints
-- `POST /users/subscription-plan/change/` now handles payment flow:
+- `POST /api/v1/users/subscription-plan/change/` now handles payment flow:
   - **Free plan**: Direct downgrade (cancels Stripe subscription)
   - **Paid plans**: Returns payment required response with checkout URL
 
@@ -89,7 +89,7 @@ STRIPE_PREMIUM_PRICE_ID=price_...
 ### Stripe Dashboard Setup
 1. **Create Products**: Basic ($19.99/month) and Premium ($49.99/month)
 2. **Get Price IDs**: Copy the price IDs for environment variables
-3. **Setup Webhook**: Point to `https://yourdomain.com/payments/stripe-webhook/`
+3. **Setup Webhook**: Point to `https://yourdomain.com/api/v1/payments/stripe-webhook/`
 4. **Configure Events**: Subscribe to payment and subscription events
 
 ## 🧪 Testing Results

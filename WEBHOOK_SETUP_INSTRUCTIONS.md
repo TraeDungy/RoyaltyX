@@ -72,7 +72,7 @@ if session.payment_status == 'paid':
 
 Test webhook endpoint (for local testing only):
 ```bash
-curl -X POST http://localhost:8000/payments/test-webhook/ \
+curl -X POST http://localhost:8000/api/v1/payments/test-webhook/ \
   -H "Content-Type: application/json" \
   -d '{"type": "checkout.session.completed", "data": {"object": {"id": "test"}}}'
 ```

@@ -28,7 +28,7 @@ class SourceAPITests(TestCase):
         self.user.currently_selected_project = self.project
         self.user.save()
         self.client.force_authenticate(user=self.user)
-        self.list_url = "/sources/"
+        self.list_url = "/api/v1/sources/"
 
     def test_list_sources_empty(self):
         response = self.client.get(self.list_url)
