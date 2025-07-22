@@ -1,48 +1,25 @@
-from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from rest_framework.views import APIView
+"""API endpoints for managing email templates."""
 
-from .models import EmailTemplate
-from .serializers import EmailTemplateSerializer
+from rest_framework import generics, permissions
 
-
-class EmailTemplateListCreateView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        templates = EmailTemplate.objects.all()
-        serializer = EmailTemplateSerializer(templates, many=True)
-        return Response(serializer.data)
-
-    def post(self, request):
-        serializer = EmailTemplateSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+from apps.emails.models import EmailTemplate
+from apps.emails.serializers import EmailTemplateSerializer
 
 
-class EmailTemplateDetailView(APIView):
-    permission_classes = [IsAuthenticated]
+class EmailTemplateListCreateView(generics.ListCreateAPIView):
+    """List all templates or create a new one."""
 
-    def get_object(self, pk):
-        return EmailTemplate.objects.get(pk=pk)
+    queryset = EmailTemplate.objects.all().order_by("-created_at")
+    serializer_class = EmailTemplateSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
-    def get(self, request, pk):
-        template = self.get_object(pk)
-        serializer = EmailTemplateSerializer(template)
-        return Response(serializer.data)
+    def perform_create(self, serializer):
+        serializer.save()
 
-    def put(self, request, pk):
-        template = self.get_object(pk)
-        serializer = EmailTemplateSerializer(template, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, pk):
-        template = self.get_object(pk)
-        template.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+class EmailTemplateDetailView(generics.RetrieveUpdateDestroyAPIView):
+    """Retrieve, update or delete a template."""
+
+    queryset = EmailTemplate.objects.all()
+    serializer_class = EmailTemplateSerializer
+    permission_classes = [permissions.IsAuthenticated]
