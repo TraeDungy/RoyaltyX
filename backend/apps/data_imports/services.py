@@ -7,7 +7,7 @@ from apps.product.models import ProductImpressions, ProductSale
 
 from .models import Dataset, File
 from .serializers import DatasetSerializer, FileSerializer
-from .utils.report_processing import process_report, read_csv
+from .utils.report_processing import process_report, read_report
 
 
 logger = logging.getLogger(__name__)
@@ -29,7 +29,7 @@ def create_file(file, data):
 
     month, year = 1, 1900
     try:
-        rows = read_csv(file)
+        rows = read_report(file)
         if rows:
             date_str = rows[0].get("Period Start")
             if date_str:
