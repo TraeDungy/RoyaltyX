@@ -38,7 +38,7 @@ function Sidebar() {
         setSidebarOpen(true);
         document.documentElement.style.setProperty(
           "--sidebar-width",
-          `${SIDEBAR_WIDTH}px`
+          `${SIDEBAR_WIDTH}px`,
         );
       }
     };
@@ -56,7 +56,7 @@ function Sidebar() {
     if (!sidebarOpen) {
       document.documentElement.style.setProperty(
         "--sidebar-width",
-        `${SIDEBAR_WIDTH}px`
+        `${SIDEBAR_WIDTH}px`,
       );
     } else {
       document.documentElement.style.setProperty("--sidebar-width", "0");
@@ -100,6 +100,27 @@ function Sidebar() {
               </ListItemIcon>
               <ListItemText
                 primary="Dashboard"
+                primaryTypographyProps={{ variant: "body2" }}
+              />
+            </ListItemButton>
+          </ListItem>
+
+          <ListItem disablePadding>
+            <ListItemButton
+              component={Link}
+              to="/admin/dashboard-settings"
+              selected={isActivePage("/admin/dashboard-settings")}
+              sx={{
+                borderRadius: 2,
+                mb: 0.5,
+                "&.Mui-selected": { backgroundColor: "action.selected" },
+              }}
+            >
+              <ListItemIcon sx={{ minWidth: 40 }}>
+                <LayoutDashboard size={18} color="var(--color-text-lighter)" />
+              </ListItemIcon>
+              <ListItemText
+                primary="Dashboard Settings"
                 primaryTypographyProps={{ variant: "body2" }}
               />
             </ListItemButton>

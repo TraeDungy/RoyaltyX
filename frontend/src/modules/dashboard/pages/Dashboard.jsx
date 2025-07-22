@@ -11,16 +11,16 @@ import { RevenueCard } from "../../analytics/components/RevenueCard";
 import { useSettings } from "../../common/contexts/SettingsContext";
 import { useLocation } from "react-router";
 import { Grid } from "@mui/material";
+import Announcements from "../components/Announcements";
+import FeatureUpdates from "../components/FeatureUpdates";
+import QuickActions from "../components/QuickActions";
 
 function Dashboard() {
   const { products, loading } = useProducts();
   const { sources } = useSources();
   const [analytics, setAnalytics] = useState(null);
-  const {
-    showTotalImpressionsCard,
-    showTotalSalesCard,
-    showTotalRevenueCard,
-  } = useSettings();
+  const { showTotalImpressionsCard, showTotalSalesCard, showTotalRevenueCard } =
+    useSettings();
   const location = useLocation();
 
   useEffect(() => {
@@ -47,16 +47,21 @@ function Dashboard() {
 
   return (
     <>
+      <Announcements />
+      <FeatureUpdates />
       {analytics && (
         <Grid container spacing={3} className="mb-4">
-          {showTotalImpressionsCard && <ImpressionsCard analytics={analytics} />}
+          {showTotalImpressionsCard && (
+            <ImpressionsCard analytics={analytics} />
+          )}
           {showTotalSalesCard && <SalesCard analytics={analytics} />}
           {showTotalRevenueCard && <RevenueCard analytics={analytics} />}
         </Grid>
       )}
-      
+
       <LinkedAccountsSection sources={sources} loading={loading} />
       <ProductsList products={products} loading={loading} />
+      <QuickActions />
     </>
   );
 }
