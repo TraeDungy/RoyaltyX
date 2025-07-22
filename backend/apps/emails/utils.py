@@ -1,6 +1,6 @@
 import logging
-
 import os
+
 from .services import Email
 
 logger = logging.getLogger(__name__)

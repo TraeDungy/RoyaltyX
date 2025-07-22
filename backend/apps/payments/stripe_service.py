@@ -95,8 +95,13 @@ class StripeService:
             raise Exception("User has no active subscription")
 
         try:
-            subscription = stripe.Subscription.retrieve(user.stripe_subscription_id)
-            item_id = user.stripe_subscription_item_id or subscription["items"]["data"][0]["id"]
+            subscription = stripe.Subscription.retrieve(
+                user.stripe_subscription_id
+            )
+            item_id = (
+                user.stripe_subscription_item_id
+                or subscription["items"]["data"][0]["id"]
+            )
 
             items = []
 
@@ -106,7 +111,12 @@ class StripeService:
                     raise Exception(f"No price ID configured for plan: {plan}")
                 items.append({"id": item_id, "price": price_id})
             else:
-                items.append({"id": item_id, "price": subscription["items"]["data"][0]["price"]["id"]})
+                items.append(
+                    {
+                        "id": item_id,
+                        "price": subscription["items"]["data"][0]["price"]["id"],
+                    }
+                )
 
             if add_ons is not None:
                 for addon in add_ons:
@@ -119,13 +129,31 @@ class StripeService:
                 items=items,
             )
 
+            # Handle both Stripe objects and dictionaries from tests
+            current_period_end = (
+                subscription.get("current_period_end")
+                if isinstance(subscription, dict)
+                else subscription.current_period_end
+            )
+            status = (
+                subscription.get("status")
+                if isinstance(subscription, dict)
+                else subscription.status
+            )
+            item_id = (
+                subscription["items"]["data"][0]["id"]
+                if isinstance(subscription, dict)
+                else subscription["items"]["data"][0]["id"]
+            )
+
             if plan:
                 user.subscription_plan = plan
             user.subscription_current_period_end = datetime.fromtimestamp(
-                subscription.current_period_end, tz=timezone.utc
+                current_period_end,
+                tz=timezone.utc,
             )
-            user.subscription_status = subscription.status
-            user.stripe_subscription_item_id = subscription["items"]["data"][0]["id"]
+            user.subscription_status = status
+            user.stripe_subscription_item_id = item_id
             if add_ons is not None:
                 user.add_ons.set(add_ons)
             user.save()

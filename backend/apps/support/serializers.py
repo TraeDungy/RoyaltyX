@@ -1,6 +1,6 @@
+import bleach
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-import bleach
 
 from .models import SupportAttachment, SupportMessage, SupportTicket
 
