@@ -140,12 +140,37 @@ POSTGRES_USER=your_user
 POSTGRES_PASSWORD=your_password
 POSTGRES_PORT=5432
 
-# Django Configuration
-DJANGO_SECRET_KEY=your_secret_key_here
+# Development Server
+WDS_SOCKET_HOST=127.0.0.1
+CHOKIDAR_USEPOLLING=true
+WATCHPACK_POLLING=true
 
 # Frontend Configuration
 REACT_APP_API_URL=http://localhost:8000
 REACT_APP_URL=http://localhost:3000
+REACT_APP_GOOGLE_CLIENT_ID=
+REACT_APP_TIKTOK_CLIENT_ID=
+REACT_APP_TWITCH_CLIENT_ID=
+
+# OAuth Configuration (Optional)
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+GOOGLE_REDIRECT_URI=http://localhost:3000/google-oauth-callback
+TIKTOK_CLIENT_ID=
+TIKTOK_CLIENT_SECRET=
+TIKTOK_REDIRECT_URI=https://<ngrok-url>/tiktok-oauth-callback
+TWITCH_CLIENT_ID=
+TWITCH_CLIENT_SECRET=
+TWITCH_REDIRECT_URI=https://<ngrok-url>/twitch-oauth-callback
+VIMEO_CLIENT_ID=
+VIMEO_CLIENT_SECRET=
+VIMEO_REDIRECT_URI=http://localhost:3000/vimeo-oauth-callback
+
+# Redis Configuration
+CELERY_BROKER_URL=redis://redis:6379/0
+
+# Django
+DJANGO_SECRET_KEY=your_secret_key_here
 
 # Stripe Payment Configuration
 STRIPE_PUBLISHABLE_KEY=pk_test_...
@@ -158,17 +183,62 @@ STRIPE_PREMIUM_PRICE_ID=price_...
 # Set this using a secure secret from your Codex settings
 OPENAI_API_KEY=
 
-# OAuth Configuration (Optional)
-GOOGLE_CLIENT_ID=your_google_client_id
-GOOGLE_CLIENT_SECRET=your_google_client_secret
-TIKTOK_CLIENT_ID=your_tiktok_client_id
-TIKTOK_CLIENT_SECRET=your_tiktok_client_secret
-VIMEO_CLIENT_ID=your_vimeo_client_id
-VIMEO_CLIENT_SECRET=your_vimeo_client_secret
-
-# Redis Configuration
-CELERY_BROKER_URL=redis://redis:6379/0
+# Email Configuration
+EMAIL_HOST=smtp.zoho.eu
+EMAIL_PORT=587
+EMAIL_USE_TLS=True
+EMAIL_USE_SSL=False
+EMAIL_HOST_USER=your-email@gmail.com
+EMAIL_HOST_PASSWORD=your-app-password
+DEFAULT_FROM_EMAIL=your-email@gmail.com
+SERVER_EMAIL=your-email@gmail.com
 ```
+
+Below is a quick reference explaining what each variable controls:
+
+| Variable | Purpose |
+|----------|---------|
+| `POSTGRES_HOST` | Database server hostname |
+| `POSTGRES_DB` | PostgreSQL database name |
+| `POSTGRES_USER` | PostgreSQL user |
+| `POSTGRES_PASSWORD` | PostgreSQL password |
+| `POSTGRES_PORT` | PostgreSQL port |
+| `WDS_SOCKET_HOST` | Hostname for the Webpack dev server socket |
+| `CHOKIDAR_USEPOLLING` | Enable polling for file watching in Docker |
+| `WATCHPACK_POLLING` | Additional polling for hot reload |
+| `REACT_APP_API_URL` | Base URL of the backend API |
+| `REACT_APP_URL` | Public URL of the frontend |
+| `REACT_APP_GOOGLE_CLIENT_ID` | Google OAuth client ID for frontend |
+| `REACT_APP_TIKTOK_CLIENT_ID` | TikTok OAuth client ID for frontend |
+| `REACT_APP_TWITCH_CLIENT_ID` | Twitch OAuth client ID for frontend |
+| `GOOGLE_CLIENT_ID` | Google OAuth client ID used by the backend |
+| `GOOGLE_CLIENT_SECRET` | Google OAuth client secret |
+| `GOOGLE_REDIRECT_URI` | Redirect URL for Google OAuth |
+| `TIKTOK_CLIENT_ID` | TikTok OAuth client ID |
+| `TIKTOK_CLIENT_SECRET` | TikTok OAuth client secret |
+| `TIKTOK_REDIRECT_URI` | Redirect URL for TikTok OAuth |
+| `TWITCH_CLIENT_ID` | Twitch OAuth client ID |
+| `TWITCH_CLIENT_SECRET` | Twitch OAuth client secret |
+| `TWITCH_REDIRECT_URI` | Redirect URL for Twitch OAuth |
+| `VIMEO_CLIENT_ID` | Vimeo OAuth client ID |
+| `VIMEO_CLIENT_SECRET` | Vimeo OAuth client secret |
+| `VIMEO_REDIRECT_URI` | Redirect URL for Vimeo OAuth |
+| `CELERY_BROKER_URL` | Redis URL for Celery tasks |
+| `DJANGO_SECRET_KEY` | Secret key for Django |
+| `STRIPE_PUBLISHABLE_KEY` | Stripe publishable API key |
+| `STRIPE_SECRET_KEY` | Stripe secret API key |
+| `STRIPE_WEBHOOK_SECRET` | Secret used to verify Stripe webhooks |
+| `STRIPE_BASIC_PRICE_ID` | Stripe price ID for the Basic plan |
+| `STRIPE_PREMIUM_PRICE_ID` | Stripe price ID for the Premium plan |
+| `OPENAI_API_KEY` | API key for OpenAI integration |
+| `EMAIL_HOST` | SMTP server hostname |
+| `EMAIL_PORT` | SMTP server port |
+| `EMAIL_USE_TLS` | Enable TLS for email |
+| `EMAIL_USE_SSL` | Enable SSL for email |
+| `EMAIL_HOST_USER` | SMTP authentication username |
+| `EMAIL_HOST_PASSWORD` | SMTP authentication password |
+| `DEFAULT_FROM_EMAIL` | Default sender address |
+| `SERVER_EMAIL` | Address used for server errors |
 
 ### Stripe Setup (For Payments)
 
