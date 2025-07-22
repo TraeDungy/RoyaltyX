@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Container, Spinner } from "react-bootstrap";
-import { getProjectAnalytics } from "../api/analytics";
+import { getProjectAnalytics, exportProjectAnalytics } from "../api/analytics";
 import { getYoutubeSourceAnalytics } from "../api/youtube";
 import { useSources } from "../../sources/api/sources";
 import YoutubeAnalyticsCard from "../components/YoutubeAnalyticsCard";
@@ -17,7 +17,7 @@ import { TopPerfomingContentBySales } from "../components/TopPerfomingContentByS
 import { SourceAnalytics } from "../components/SourceAnalytics";
 import SalesStatsCard from "../components/SalesStatsCard";
 import GeneralStatsCard from "../components/GeneralStatsCard";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, Button } from "@mui/material";
 
 function Analytics() {
   const [analytics, setAnalytics] = useState(null);
@@ -31,6 +31,28 @@ function Analytics() {
   } = useSettings();
   const location = useLocation();
   const params = new URLSearchParams(location.search);
+
+  const handleExport = async () => {
+    const periodStart = params.get("period_start");
+    const periodEnd = params.get("period_end");
+
+    try {
+      const blob = await exportProjectAnalytics({
+        period_start: periodStart,
+        period_end: periodEnd,
+      });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "analytics.csv");
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      toast.error(error.message || "Failed to export analytics");
+    }
+  };
 
   useEffect(() => {
     const periodStart = params.get("period_start");
@@ -91,7 +113,12 @@ function Analytics() {
         <Typography variant="h2" mb={0}>
           Analytics
         </Typography>
-        <DateRangeSelector />
+        <div className="d-flex gap-2">
+          <Button variant="outlined" onClick={handleExport}>
+            Export CSV
+          </Button>
+          <DateRangeSelector />
+        </div>
       </div>
 
 
