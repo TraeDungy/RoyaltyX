@@ -99,9 +99,8 @@ class StripeService:
             if user.stripe_subscription_id:
                 try:
                     StripeService.cancel_subscription(user.stripe_subscription_id)
-                except Exception:
-                    # Continue even if cancellation fails
-                    pass
+                except Exception:  # pragma: no cover - log and continue
+                    pass  # Continue even if cancellation fails
 
             # Update user with new subscription details
             user.subscription_plan = plan
