@@ -135,6 +135,10 @@ STRIPE_WEBHOOK_SECRET=whsec_...
 STRIPE_BASIC_PRICE_ID=price_...
 STRIPE_PREMIUM_PRICE_ID=price_...
 
+# OpenAI Configuration
+# Set this using a secure secret from your Codex settings
+OPENAI_API_KEY=
+
 # OAuth Configuration (Optional)
 GOOGLE_CLIENT_ID=your_google_client_id
 GOOGLE_CLIENT_SECRET=your_google_client_secret
