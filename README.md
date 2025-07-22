@@ -290,6 +290,10 @@ RoyaltyX/
    docker-compose -f production.yml exec nginx certbot --nginx
    ```
 
+4. **Enable Celery beat tasks**
+   The `celery-beat` service must run to schedule background jobs. This includes
+   a daily task that downgrades users with overdue payments to the free plan.
+
 ### Environment-Specific Configurations
 
 - **Development**: `local.yml` - Hot reloading, debug mode
