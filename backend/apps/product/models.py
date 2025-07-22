@@ -124,3 +124,38 @@ class ProductUser(BaseModel):
     class Meta:
         unique_together = ("product", "user")
         db_table = "product_user"
+
+class ProductImage(BaseModel):
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, blank=True)
+    image = models.ImageField(upload_to="product_images/", max_length=500)
+
+    class Meta:
+        db_table = "product_image"
+
+    def save(self, *args, **kwargs):
+        if not self.project_id or not self.product_id:
+            self._auto_assign_from_filename()
+        super().save(*args, **kwargs)
+
+    def _auto_assign_from_filename(self):
+        import os, re
+        base = os.path.splitext(os.path.basename(self.image.name))[0]
+        numbers = re.findall(r"\d+", base)
+        if numbers:
+            if not self.project_id:
+                try:
+                    pid = int(numbers[0])
+                    Project.objects.get(id=pid)
+                    self.project_id = pid
+                except (Project.DoesNotExist, ValueError):
+                    pass
+            if len(numbers) > 1 and not self.product_id:
+                try:
+                    prod_id = int(numbers[1])
+                    Product.objects.get(id=prod_id)
+                    self.product_id = prod_id
+                except (Product.DoesNotExist, ValueError):
+                    pass
+
+

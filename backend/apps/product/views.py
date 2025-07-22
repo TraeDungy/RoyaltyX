@@ -4,12 +4,18 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.parsers import MultiPartParser, FormParser
+from django.shortcuts import get_object_or_404
 
 from apps.project.models import ProjectUser
 from apps.project.permissions import IsProjectMember
 
-from .models import Product, ProductUser
-from .serializers import ProductSerializer, ProductUserSerializer
+from .models import Product, ProductUser, ProductImage
+from .serializers import (
+    ProductSerializer,
+    ProductUserSerializer,
+    ProductImageSerializer,
+)
 
 
 class ProductListCreateAPIView(APIView):
@@ -211,3 +217,47 @@ def getTopPerformingContentBySales(request):
     )
     serializer = ProductSerializer(products, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class ProductImageListCreateView(APIView):
+    permission_classes = [IsAuthenticated, IsProjectMember]
+    parser_classes = [MultiPartParser, FormParser]
+
+    def get(self, request):
+        images = ProductImage.objects.filter(
+            project_id=request.user.currently_selected_project_id
+        ).order_by("-created_at")
+        serializer = ProductImageSerializer(images, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        data = request.data.copy()
+        data["project"] = request.user.currently_selected_project_id
+        serializer = ProductImageSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ProductImageDetailView(APIView):
+    permission_classes = [IsAuthenticated, IsProjectMember]
+    parser_classes = [MultiPartParser, FormParser]
+
+    def get(self, request, pk):
+        image = get_object_or_404(ProductImage, pk=pk)
+        serializer = ProductImageSerializer(image)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def patch(self, request, pk):
+        image = get_object_or_404(ProductImage, pk=pk)
+        serializer = ProductImageSerializer(image, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        image = get_object_or_404(ProductImage, pk=pk)
+        image.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

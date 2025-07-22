@@ -4,7 +4,13 @@ from apps.sources.serializers import SourceSerializer
 from apps.user.models import User
 from apps.user.serializers import UserSerializer
 
-from .models import Product, ProductImpressions, ProductSale, ProductUser
+from .models import (
+    Product,
+    ProductImpressions,
+    ProductSale,
+    ProductUser,
+    ProductImage,
+)
 
 
 class ProductUserSerializer(serializers.ModelSerializer):
@@ -40,4 +46,10 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
+        fields = "__all__"
+
+
+class ProductImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductImage
         fields = "__all__"
