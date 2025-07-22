@@ -7,6 +7,7 @@ from rest_framework.views import APIView
 
 from apps.analytics.serializers import AnalyticsSerializer
 from apps.analytics.utils import calculate_analytics
+from apps.milestones.utils import check_milestones
 
 
 class AnalyticsView(APIView):
@@ -48,5 +49,9 @@ class AnalyticsView(APIView):
         data = calculate_analytics(
             project_id, filters, period_start, period_end, product_id, granularity
         )
+
+        achieved = check_milestones(request.user, data)
+        if achieved:
+            data["new_milestones"] = achieved
 
         return Response(data, status=status.HTTP_200_OK)

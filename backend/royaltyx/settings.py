@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "apps.support",
     "apps.sources",
     "apps.analytics",
+    "apps.milestones",
     "apps.admin_panel",
     "apps.payments",
     "apps.emails",

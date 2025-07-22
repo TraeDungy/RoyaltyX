@@ -70,6 +70,7 @@ class User(AbstractBaseUser):
     is_email_verified = models.BooleanField(default=False)
     verification_code = models.CharField(max_length=30, null=True)
     avatar = models.CharField(null=True, max_length=300)
+    phone_number = models.CharField(max_length=20, null=True, blank=True)
     subscription_plan = models.CharField(
         max_length=10, choices=SUBSCRIPTION_PLAN_CHOICES, default="free"
     )

@@ -14,10 +14,12 @@ import { TopPerfomingContentBySales } from "../components/TopPerfomingContentByS
 import { SourceAnalytics } from "../components/SourceAnalytics";
 import SalesStatsCard from "../components/SalesStatsCard";
 import GeneralStatsCard from "../components/GeneralStatsCard";
+import Confetti from "react-confetti";
 import { Grid, Typography } from "@mui/material";
 
 function Analytics() {
   const [analytics, setAnalytics] = useState(null);
+  const [celebrate, setCelebrate] = useState(false);
   const {
     showSalesOverTime,
     showRentalsOverTime,
@@ -40,6 +42,10 @@ function Analytics() {
       try {
         const fetchedAnalytics = await getProjectAnalytics(period_range);
         setAnalytics(fetchedAnalytics);
+        if (fetchedAnalytics.new_milestones) {
+          setCelebrate(true);
+          setTimeout(() => setCelebrate(false), 5000);
+        }
       } catch (error) {
         toast.error(error.message || "Failed to fetch analytics");
       }
@@ -58,6 +64,7 @@ function Analytics() {
 
   return (
     <>
+      {celebrate && <Confetti recycle={false} numberOfPieces={400} />}
       <div className="d-flex justify-content-between align-items-center mb-3 ps-1">
         <Typography variant="h2" mb={0}>
           Analytics
