@@ -298,7 +298,8 @@ class HelpChatView(generics.GenericAPIView):
             )
 
         try:
-            completion = openai.chat.completions.create(
+            client = openai.OpenAI(api_key=settings.OPENAI_API_KEY)
+            completion = client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[{"role": "user", "content": question}],
             )
