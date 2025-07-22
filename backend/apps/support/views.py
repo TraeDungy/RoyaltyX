@@ -291,8 +291,13 @@ class HelpChatView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         question = serializer.validated_data["question"]
 
+        if not settings.OPENAI_API_KEY:
+            return Response(
+                {"error": "OpenAI API key is not configured."},
+                status=status.HTTP_503_SERVICE_UNAVAILABLE,
+            )
+
         try:
-            openai.api_key = settings.OPENAI_API_KEY
             completion = openai.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[{"role": "user", "content": question}],
