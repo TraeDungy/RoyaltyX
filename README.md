@@ -123,6 +123,11 @@ POSTGRES_PORT=5432
 
 # Django Configuration
 DJANGO_SECRET_KEY=your_secret_key_here
+DJANGO_DEBUG=True              # Set to False in production
+DJANGO_ALLOWED_HOSTS=*         # Comma-separated hosts
+SESSION_COOKIE_SECURE=False    # Use True in production
+CSRF_COOKIE_SECURE=False       # Use True in production
+CORS_ALLOW_ALL_ORIGINS=True    # Set to False in production
 
 # Frontend Configuration
 REACT_APP_API_URL=http://localhost:8000
