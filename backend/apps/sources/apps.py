@@ -59,3 +59,21 @@ class SourcesConfig(AppConfig):
             },
         )
 
+        PeriodicTask.objects.get_or_create(
+            name="Fetch Vimeo Videos",
+            defaults={
+                "interval": schedule,
+                "task": "apps.sources.tasks.task_fetch_vimeo_videos",
+                "args": json.dumps([]),
+            },
+        )
+
+        PeriodicTask.objects.get_or_create(
+            name="Fetch Vimeo Stats",
+            defaults={
+                "interval": schedule,
+                "task": "apps.sources.tasks.task_fetch_vimeo_stats",
+                "args": json.dumps([]),
+            },
+        )
+
