@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "apps.notifications",
     "apps.support",
     "apps.sources",
+    "apps.stocks",
     "apps.analytics",
     "apps.admin_panel",
     "apps.payments",
@@ -202,6 +203,7 @@ TIKTOK_REDIRECT_URI = os.environ.get("TIKTOK_REDIRECT_URI")
 TWITCH_CLIENT_ID = os.environ.get("TWITCH_CLIENT_ID")
 TWITCH_CLIENT_SECRET = os.environ.get("TWITCH_CLIENT_SECRET")
 TWITCH_REDIRECT_URI = os.environ.get("TWITCH_REDIRECT_URI")
+STOCK_API_KEY = os.environ.get("STOCK_API_KEY")
 
 CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL", "redis://localhost:6379/0")
 

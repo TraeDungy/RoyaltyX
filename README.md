@@ -140,6 +140,7 @@ GOOGLE_CLIENT_ID=your_google_client_id
 GOOGLE_CLIENT_SECRET=your_google_client_secret
 TIKTOK_CLIENT_ID=your_tiktok_client_id
 TIKTOK_CLIENT_SECRET=your_tiktok_client_secret
+STOCK_API_KEY=your_alphavantage_key
 
 # Redis Configuration
 CELERY_BROKER_URL=redis://redis:6379/0
@@ -165,6 +166,7 @@ CELERY_BROKER_URL=redis://redis:6379/0
 - Secure user registration and login
 - JWT-based authentication
 - OAuth integration (Google, TikTok)
+- Stock price API integration
 - User profile management
 - Role-based access control
 
@@ -172,6 +174,7 @@ CELERY_BROKER_URL=redis://redis:6379/0
 - **Free Plan**: Basic features for getting started
 - **Basic Plan** ($19.99/month): Advanced features for growing creators
 - **Premium Plan** ($49.99/month): Full feature set for professionals
+- **Stock Analytics Add-on**: Advanced stock portfolio tracking (additional fee)
 - Stripe-powered payment processing
 - Automatic billing and subscription management
 - Grace period handling for failed payments
@@ -193,6 +196,7 @@ CELERY_BROKER_URL=redis://redis:6379/0
 ### 🔗 Platform Integrations
 - Multi-platform revenue tracking
 - API integrations with major services
+- Stock market analytics integration
 - Data synchronization
 - Automated reporting
 
