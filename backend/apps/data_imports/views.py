@@ -5,10 +5,11 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import File
-from .serializers import FileSerializer
+from .models import Dataset, File
+from .serializers import DatasetSerializer, FileSerializer
 from .services import create_file, delete_file
 from .utils.producer_processing import process_producers
+from .utils.report_processing import process_report
 
 
 class FileListCreateView(APIView):
@@ -70,3 +71,44 @@ class ProducerListCreateView(APIView):
         response = process_producers(uploaded_file, project_id)
 
         return Response(response)
+
+
+class DatasetDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        dataset = get_object_or_404(Dataset, pk=pk)
+        serializer = DatasetSerializer(dataset)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def patch(self, request, pk):
+        dataset = get_object_or_404(Dataset, pk=pk)
+        mapping = request.data.get("column_mapping")
+        if not isinstance(mapping, dict):
+            return Response(
+                {"error": "column_mapping must be an object"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        dataset.column_mapping = mapping
+        dataset.status = "processing"
+        dataset.error_message = ""
+        dataset.save()
+
+        file_obj = dataset.file.file
+        file_obj.open("rb")
+        try:
+            result = process_report(
+                file_obj, dataset.file.project_id, dataset.file.id, mapping
+            )
+        finally:
+            file_obj.close()
+
+        if result["status"] == "success":
+            dataset.status = "completed"
+        else:
+            dataset.status = "error"
+            dataset.error_message = result["message"]
+        dataset.save()
+
+        return Response(DatasetSerializer(dataset).data, status=status.HTTP_200_OK)

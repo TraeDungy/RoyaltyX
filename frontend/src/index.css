@@ -25,8 +25,8 @@
   --color-primary-lighter: #0bb050b1;
   --color-text: white;
   --color-text-lighter: #a5b0b9;
-  --color-body-background: #1a1b1c;
-  --sidebar-background: #1a1b1c;
+  --color-body-background: #000000;
+  --sidebar-background: #000000;
   --nav-link-hover-background: #ffffff0e;
   --color-light-contrast: #232425;
   --color-power-contrast: #2d3132;

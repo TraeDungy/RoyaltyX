@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import File
+from .models import File, Dataset
 
 
 class FileSerializer(serializers.ModelSerializer):
@@ -10,3 +10,9 @@ class FileSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             "name": {"required": False},
         }
+
+
+class DatasetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Dataset
+        fields = "__all__"
