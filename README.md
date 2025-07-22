@@ -143,6 +143,9 @@ TIKTOK_CLIENT_SECRET=your_tiktok_client_secret
 
 # Redis Configuration
 CELERY_BROKER_URL=redis://redis:6379/0
+
+# OpenAI Integration
+OPENAI_API_KEY=your_openai_api_key
 ```
 
 ### Stripe Setup (For Payments)

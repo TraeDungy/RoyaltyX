@@ -283,3 +283,14 @@ export const getAdminSupportStats = async () => {
   console.warn("getAdminSupportStats is deprecated. Use useAdminSupportStats hook instead.");
   // Implementation kept for backward compatibility if needed
 };
+
+export const useHelpAssistant = () => {
+  const { mutate: ask, loading, error } = useMutation("/support/help/chat/", "POST");
+
+  const sendQuestion = async (message) => {
+    const result = await ask({ message });
+    return result?.response;
+  };
+
+  return { sendQuestion, loading, error };
+};
