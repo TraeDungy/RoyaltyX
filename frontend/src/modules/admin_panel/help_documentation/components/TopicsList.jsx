@@ -30,6 +30,11 @@ const TopicsList = () => {
             Messaging
           </Link>
         </li>
+        <li className="py-2">
+          <Link to="/admin/documentation/chat" className="mb-0">
+            AI Help Chat
+          </Link>
+        </li>
       </ul>
     </>
   );
