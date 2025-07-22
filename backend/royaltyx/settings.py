@@ -14,6 +14,9 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
 DEBUG = True
 
+# Optional OpenAI API key for AI-powered features
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
+
 AUTH_USER_MODEL = "user.User"
 
 ALLOWED_HOSTS = ["*"]

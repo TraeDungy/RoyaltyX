@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from apps.analytics.openai_utils import generate_insights
 from apps.analytics.serializers import AnalyticsSerializer
 from apps.analytics.utils import calculate_analytics
 
@@ -48,5 +49,9 @@ class AnalyticsView(APIView):
         data = calculate_analytics(
             project_id, filters, period_start, period_end, product_id, granularity
         )
+
+        insights = generate_insights(data)
+        if insights:
+            data["smart_insights"] = insights
 
         return Response(data, status=status.HTTP_200_OK)
