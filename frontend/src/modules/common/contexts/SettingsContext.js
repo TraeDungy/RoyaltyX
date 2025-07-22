@@ -119,6 +119,19 @@ export const SettingsProvider = ({ children }) => {
     },
   );
 
+  const [favoriteAnalytics, setFavoriteAnalytics] = useState(() => {
+    const stored = localStorage.getItem("favoriteAnalytics");
+    return stored ? JSON.parse(stored) : ["analytics", "reports"];
+  });
+
+  const toggleFavoriteAnalytics = (id) => {
+    setFavoriteAnalytics((prev) => {
+      const exists = prev.includes(id);
+      const updated = exists ? prev.filter((p) => p !== id) : [...prev, id];
+      return updated;
+    });
+  };
+
   const [impressionsOverTimeGraphColor, setImpressionsOverTimeGraphColor] =
     useState(() => {
       const savedImpressionsOverTimeGraphColor = localStorage.getItem(
@@ -234,6 +247,13 @@ export const SettingsProvider = ({ children }) => {
     );
   }, [impressionRevenueOverTimeGraphColor]);
 
+  useEffect(() => {
+    localStorage.setItem(
+      "favoriteAnalytics",
+      JSON.stringify(favoriteAnalytics),
+    );
+  }, [favoriteAnalytics]);
+
   return (
     <SettingsContext.Provider
       value={{
@@ -265,6 +285,8 @@ export const SettingsProvider = ({ children }) => {
         setImpressionsOverTimeGraphColor,
         impressionRevenueOverTimeGraphColor,
         setImpressionRevenueOverTimeGraphColor,
+        favoriteAnalytics,
+        toggleFavoriteAnalytics,
       }}
     >
       {children}
