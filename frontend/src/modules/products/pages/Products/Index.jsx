@@ -1,12 +1,25 @@
 import { Spinner } from "react-bootstrap";
 import ProductCard from "../../../management/components/ProductCard";
 import { useProducts } from "../../api/products";
-import { Box, Typography } from "@mui/material";
-import { Shredder } from "lucide-react";
+import {
+  Box,
+  Typography,
+  TextField,
+  InputAdornment,
+} from "@mui/material";
+import { Search, Shredder } from "lucide-react";
 import PageHeader from "../../../common/components/PageHeader";
+import { useState } from "react";
 
 const Products = () => {
   const { products, loading } = useProducts();
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredProducts = products?.filter((product) =>
+    `${product.title} ${product.description}`
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase())
+  );
 
   return (
     <>
@@ -16,11 +29,37 @@ const Products = () => {
         </div>
       ) : products?.length > 0 ? (
         <>
-          <PageHeader title="Products" />
+          <PageHeader
+            title="Products"
+            action={
+              <TextField
+                placeholder="Search products..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Search size={20} />
+                    </InputAdornment>
+                  ),
+                }}
+                size="small"
+              />
+            }
+          />
           <div className="row">
-            {products?.map((product) => (
-              <ProductCard product={product} />
+            {(filteredProducts || []).map((product) => (
+              <ProductCard key={product.id} product={product} />
             ))}
+            {filteredProducts?.length === 0 && (
+              <Box sx={{ textAlign: "center", py: 4, width: "100%" }}>
+                <Typography variant="h6" color="text.secondary">
+                  {searchTerm
+                    ? "No products found matching your search"
+                    : "No products found"}
+                </Typography>
+              </Box>
+            )}
           </div>
         </>
       ) : (
