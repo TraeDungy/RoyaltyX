@@ -1,3 +1,4 @@
+import logging
 from datetime import date, timedelta
 
 from django.utils import timezone
@@ -5,6 +6,9 @@ from django.utils import timezone
 from apps.product.models import Product, ProductImpressions
 from apps.sources.models import Source
 from apps.sources.utils.tiktok_service import TikTokService
+
+
+logger = logging.getLogger(__name__)
 
 
 def fetch_tiktok_videos(source_id=None):
@@ -20,7 +24,10 @@ def fetch_tiktok_videos(source_id=None):
             source.save(update_fields=["_access_token"])
 
         if not source.access_token:
-            print(f"No access token set for source {source.id}, skipping videos fetch")
+            logger.warning(
+                "No access token set for source %s, skipping videos fetch",
+                source.id,
+            )
             continue
 
         service = TikTokService(access_token=source.access_token)
@@ -47,7 +54,7 @@ def fetch_tiktok_videos(source_id=None):
             source.save(update_fields=["last_fetched_at"])
 
         except Exception as e:
-            print(f"Failed to fetch videos for source {source.id}: {e}")
+            logger.error("Failed to fetch videos for source %s: %s", source.id, e)
 
 
 def fetch_tiktok_stats(source_id=None):
@@ -66,7 +73,10 @@ def fetch_tiktok_stats(source_id=None):
             source.save(update_fields=["_access_token"])
 
         if not source.access_token:
-            print(f"No access token set for source {source.id}, skipping stats fetch")
+            logger.warning(
+                "No access token set for source %s, skipping stats fetch",
+                source.id,
+            )
             continue
 
         service = TikTokService(access_token=source.access_token)
@@ -76,7 +86,7 @@ def fetch_tiktok_stats(source_id=None):
             try:
                 stats_list = service.fetch_video_stats(product.external_id)
                 stats = stats_list[0] if stats_list else None
-                print(stats, flush=True)
+                logger.info(stats)
                 
                 current_view_count = stats.get("view_count", 0)
                 
@@ -109,4 +119,6 @@ def fetch_tiktok_stats(source_id=None):
                     )
 
             except Exception as e:
-                print(f"Failed to fetch stats for product {product.id}: {e}")
+                logger.error(
+                    "Failed to fetch stats for product %s: %s", product.id, e
+                )

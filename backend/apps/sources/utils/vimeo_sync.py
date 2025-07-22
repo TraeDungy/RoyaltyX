@@ -1,3 +1,4 @@
+import logging
 from datetime import date, timedelta
 
 from django.utils import timezone
@@ -5,6 +6,9 @@ from django.utils import timezone
 from apps.product.models import Product, ProductImpressions
 from apps.sources.models import Source
 from apps.sources.utils.vimeo_service import VimeoService
+
+
+logger = logging.getLogger(__name__)
 
 
 def fetch_vimeo_videos(source_id=None):
@@ -19,7 +23,10 @@ def fetch_vimeo_videos(source_id=None):
             source.save(update_fields=["_access_token"])
 
         if not source.access_token:
-            print(f"No access token set for source {source.id}, skipping videos fetch")
+            logger.warning(
+                "No access token set for source %s, skipping videos fetch",
+                source.id,
+            )
             continue
 
         service = VimeoService(access_token=source.access_token)
@@ -48,7 +55,7 @@ def fetch_vimeo_videos(source_id=None):
             source.last_fetched_at = timezone.now()
             source.save(update_fields=["last_fetched_at"])
         except Exception as e:
-            print(f"Failed to fetch videos for source {source.id}: {e}")
+            logger.error("Failed to fetch videos for source %s: %s", source.id, e)
 
 
 def fetch_vimeo_stats(source_id=None):
@@ -66,7 +73,10 @@ def fetch_vimeo_stats(source_id=None):
             source.save(update_fields=["_access_token"])
 
         if not source.access_token:
-            print(f"No access token set for source {source.id}, skipping stats fetch")
+            logger.warning(
+                "No access token set for source %s, skipping stats fetch",
+                source.id,
+            )
             continue
 
         service = VimeoService(access_token=source.access_token)
@@ -99,4 +109,6 @@ def fetch_vimeo_stats(source_id=None):
                         period_end=end_date,
                     )
             except Exception as e:
-                print(f"Failed to fetch stats for product {product.id}: {e}")
+                logger.error(
+                    "Failed to fetch stats for product %s: %s", product.id, e
+                )

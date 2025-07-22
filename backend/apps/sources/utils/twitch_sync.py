@@ -1,3 +1,4 @@
+import logging
 from datetime import date, timedelta
 
 from django.utils import timezone
@@ -5,6 +6,9 @@ from django.utils import timezone
 from apps.product.models import Product, ProductImpressions
 from apps.sources.models import Source
 from apps.sources.utils.twitch_service import TwitchService
+
+
+logger = logging.getLogger(__name__)
 
 
 def fetch_twitch_videos(source_id=None):
@@ -20,7 +24,10 @@ def fetch_twitch_videos(source_id=None):
             source.save(update_fields=["_access_token"])
 
         if not source.access_token:
-            print(f"No access token set for source {source.id}, skipping videos fetch")
+            logger.warning(
+                "No access token set for source %s, skipping videos fetch",
+                source.id,
+            )
             continue
 
         service = TwitchService(access_token=source.access_token)
@@ -58,7 +65,7 @@ def fetch_twitch_videos(source_id=None):
             source.save(update_fields=["last_fetched_at"])
 
         except Exception as e:
-            print(f"Failed to fetch videos for source {source.id}: {e}")
+            logger.error("Failed to fetch videos for source %s: %s", source.id, e)
 
 
 def fetch_twitch_stats(source_id=None):
@@ -77,7 +84,10 @@ def fetch_twitch_stats(source_id=None):
             source.save(update_fields=["_access_token"])
 
         if not source.access_token:
-            print(f"No access token set for source {source.id}, skipping stats fetch")
+            logger.warning(
+                "No access token set for source %s, skipping stats fetch",
+                source.id,
+            )
             continue
 
         service = TwitchService(access_token=source.access_token)
@@ -86,7 +96,7 @@ def fetch_twitch_stats(source_id=None):
         for product in products:
             try:
                 stats = service.fetch_video_stats(product.external_id)
-                print(stats, flush=True)
+                logger.info(stats)
                 
                 current_view_count = stats.get("view_count", 0) if stats else 0
                 
@@ -118,4 +128,6 @@ def fetch_twitch_stats(source_id=None):
                     )
 
             except Exception as e:
-                print(f"Failed to fetch stats for product {product.id}: {e}")
+                logger.error(
+                    "Failed to fetch stats for product %s: %s", product.id, e
+                )

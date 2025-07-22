@@ -10,6 +10,9 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.append(str(BASE_DIR / "apps"))
 
+# Logging configuration
+LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
+
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
 DEBUG = True
@@ -240,3 +243,17 @@ SERVER_EMAIL = os.environ.get("SERVER_EMAIL", EMAIL_HOST_USER)
 
 # OpenAI configuration
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        }
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": LOG_LEVEL,
+    },
+}
