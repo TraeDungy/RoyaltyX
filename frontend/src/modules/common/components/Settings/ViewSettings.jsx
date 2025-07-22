@@ -1,4 +1,5 @@
-import { Typography } from "@mui/material";
+import { Button, Typography, Box, IconButton } from "@mui/material";
+import { ArrowUp, ArrowDown, RotateCcw } from "lucide-react";
 import { useSettings } from "../../contexts/SettingsContext";
 
 const ViewSettings = () => {
@@ -17,6 +18,9 @@ const ViewSettings = () => {
     setShowTotalSalesCard,
     showTotalRevenueCard,
     setShowTotalRevenueCard,
+    dashboardAnalyticsOrder,
+    setDashboardAnalyticsOrder,
+    resetDashboardAnalyticsOrder,
   } = useSettings();
 
   const toggleShowSalesOverTime = () => {
@@ -42,6 +46,13 @@ const ViewSettings = () => {
   };
   const toggleShowTotalRevenueCard = () => {
     setShowTotalRevenueCard(!showTotalRevenueCard);
+  };
+
+  const moveCard = (index, direction) => {
+    const newOrder = [...dashboardAnalyticsOrder];
+    const [removed] = newOrder.splice(index, 1);
+    newOrder.splice(index + direction, 0, removed);
+    setDashboardAnalyticsOrder(newOrder);
   };
 
   return (
@@ -150,6 +161,44 @@ const ViewSettings = () => {
         <p className="txt-lighter small mt-1">
           Hide/show the total revenue card in the analytics page.
         </p>
+      </div>
+
+      <div className="py-4">
+        <Typography variant="subtitle1" sx={{ fontWeight: 500, mb: 1 }}>
+          Analytics Card Order
+        </Typography>
+        {dashboardAnalyticsOrder.map((card, index) => (
+          <Box
+            key={card}
+            sx={{ display: "flex", alignItems: "center", mb: 1 }}
+          >
+            <Typography sx={{ flex: 1, textTransform: "capitalize" }}>
+              {card}
+            </Typography>
+            <IconButton
+              size="small"
+              disabled={index === 0}
+              onClick={() => moveCard(index, -1)}
+            >
+              <ArrowUp size={16} />
+            </IconButton>
+            <IconButton
+              size="small"
+              disabled={index === dashboardAnalyticsOrder.length - 1}
+              onClick={() => moveCard(index, 1)}
+            >
+              <ArrowDown size={16} />
+            </IconButton>
+          </Box>
+        ))}
+        <Button
+          variant="text"
+          size="small"
+          startIcon={<RotateCcw size={16} />}
+          onClick={resetDashboardAnalyticsOrder}
+        >
+          Reset Layout
+        </Button>
       </div>
     </div>
   );

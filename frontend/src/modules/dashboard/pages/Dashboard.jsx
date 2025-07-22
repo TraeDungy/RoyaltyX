@@ -20,6 +20,7 @@ function Dashboard() {
     showTotalImpressionsCard,
     showTotalSalesCard,
     showTotalRevenueCard,
+    dashboardAnalyticsOrder,
   } = useSettings();
   const location = useLocation();
 
@@ -45,13 +46,21 @@ function Dashboard() {
     fetchAnalytics();
   }, [location.search]);
 
+  const cardComponents = {
+    impressions: showTotalImpressionsCard ? (
+      <ImpressionsCard analytics={analytics} />
+    ) : null,
+    sales: showTotalSalesCard ? <SalesCard analytics={analytics} /> : null,
+    revenue: showTotalRevenueCard ? <RevenueCard analytics={analytics} /> : null,
+  };
+
   return (
     <>
       {analytics && (
         <Grid container spacing={3} className="mb-4">
-          {showTotalImpressionsCard && <ImpressionsCard analytics={analytics} />}
-          {showTotalSalesCard && <SalesCard analytics={analytics} />}
-          {showTotalRevenueCard && <RevenueCard analytics={analytics} />}
+          {dashboardAnalyticsOrder
+            .map((key) => cardComponents[key])
+            .filter(Boolean)}
         </Grid>
       )}
       
