@@ -4,7 +4,7 @@ from datetime import date, timedelta
 from unittest.mock import MagicMock, patch
 
 from django.contrib.auth import get_user_model
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
@@ -175,6 +175,7 @@ class AnalyticsViewTests(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.data, dict)
 
+    @override_settings(OPENAI_API_KEY="test")
     @patch("apps.analytics.openai_utils.openai.chat.completions.create")
     def test_ai_insights_added_to_response(self, mock_create):
         """Ensure smart_insights is returned when OpenAI responds"""
@@ -186,3 +187,36 @@ class AnalyticsViewTests(TestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("smart_insights", response.data)
+
+class GranularityTests(TestCase):
+    def test_determine_granularity_hourly(self):
+        from apps.analytics.views import AnalyticsView
+        view = AnalyticsView()
+        period_start = date.today()
+        period_end = date.today()
+        self.assertEqual(
+            view._determine_granularity(period_start, period_end),
+            "hourly",
+        )
+
+    def test_determine_granularity_daily(self):
+        from apps.analytics.views import AnalyticsView
+        view = AnalyticsView()
+        start = date.today() - timedelta(days=5)
+        end = date.today()
+        self.assertEqual(view._determine_granularity(start, end), "daily")
+
+    def test_determine_granularity_monthly(self):
+        from apps.analytics.views import AnalyticsView
+        view = AnalyticsView()
+        start = date.today() - timedelta(days=90)
+        end = date.today()
+        self.assertEqual(view._determine_granularity(start, end), "monthly")
+
+    def test_determine_granularity_yearly(self):
+        from apps.analytics.views import AnalyticsView
+        view = AnalyticsView()
+        start = date.today() - timedelta(days=800)
+        end = date.today()
+        self.assertEqual(view._determine_granularity(start, end), "yearly")
+

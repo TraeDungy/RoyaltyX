@@ -10,6 +10,7 @@ In today's digital economy, content creators face the challenge of managing reve
 
 - **Centralized Revenue Tracking**: Monitor all your income streams in one place
 - **Advanced Analytics**: Understand your performance with detailed insights and trends
+- **AI-Powered Insights**: Receive automated highlights from your data
 - **Content Management**: Organize and track your digital assets efficiently
 - **Subscription Management**: Flexible pricing plans that grow with your business
 - **Multi-Platform Integration**: Connect with major platforms and services
@@ -135,6 +136,9 @@ STRIPE_WEBHOOK_SECRET=whsec_...
 STRIPE_BASIC_PRICE_ID=price_...
 STRIPE_PREMIUM_PRICE_ID=price_...
 
+# OpenAI (Optional)
+OPENAI_API_KEY=your_openai_api_key
+
 # OAuth Configuration (Optional)
 GOOGLE_CLIENT_ID=your_google_client_id
 GOOGLE_CLIENT_SECRET=your_google_client_secret
@@ -179,6 +183,7 @@ CELERY_BROKER_URL=redis://redis:6379/0
 ### 📈 Analytics & Reporting
 - Revenue tracking and analytics
 - Performance metrics and trends
+- AI-powered smart insights
 - Custom report generation
 - Data export capabilities
 - Real-time dashboard updates
