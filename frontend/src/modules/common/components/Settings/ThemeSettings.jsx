@@ -5,15 +5,20 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  TextField,
 } from "@mui/material";
 import { Sun, Moon } from "lucide-react";
 import { useTheme } from "../../contexts/ThemeContext";
 
 const ThemeSettings = () => {
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, secondaryColor, setSecondaryColor } = useTheme();
 
   const handleThemeChange = (event) => {
     setTheme(event.target.value);
+  };
+
+  const handleColorChange = (event) => {
+    setSecondaryColor(event.target.value);
   };
 
   return (
@@ -22,7 +27,7 @@ const ThemeSettings = () => {
         Theme Settings
       </Typography>
 
-      <Typography variant="body1" sx={{color: "text.secondary" }}>
+      <Typography variant="body1" sx={{ color: "text.secondary" }}>
         Choose your preferred theme for the application
       </Typography>
 
@@ -56,6 +61,18 @@ const ThemeSettings = () => {
           </MenuItem>
         </Select>
       </FormControl>
+
+      <Box sx={{ mt: 4 }}>
+        <Typography variant="body1" sx={{ color: "text.secondary", mb: 1 }}>
+          Secondary Color
+        </Typography>
+        <TextField
+          type="color"
+          value={secondaryColor}
+          onChange={handleColorChange}
+          sx={{ width: 80, p: 0 }}
+        />
+      </Box>
 
       <Typography
         variant="caption"

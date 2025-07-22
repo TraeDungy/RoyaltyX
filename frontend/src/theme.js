@@ -1,12 +1,12 @@
 import { createTheme } from "@mui/material/styles";
 import { colors } from "./constants";
 
-export const getMuiTheme = (mode) => {
+export const getMuiTheme = (mode, primaryColor = colors[mode].primary) => {
   return createTheme({
     palette: {
       mode: mode,
       primary: {
-        main: colors[mode].primary,
+        main: primaryColor,
         lighter: colors[mode].textLighter,
       },
       error: {
