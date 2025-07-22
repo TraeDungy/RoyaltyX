@@ -87,6 +87,9 @@ RoyaltyX is built with modern, scalable technologies:
    - Frontend: http://localhost:3000
    - Backend API: http://localhost:8000
    - API Documentation: http://localhost:8000/docs/
+5. **Browse the Help Tab**
+   Open the **Help Documentation** tab in the sidebar to reveal animated help cards that walk you through the setup process.
+
 
 ### Initial Setup
 
@@ -326,6 +329,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Support
 
 - **Documentation**: Check our comprehensive docs
+- **In-App Help**: See [HELP_TAB_INSTRUCTIONS.md](HELP_TAB_INSTRUCTIONS.md) or open the Help Documentation tab in the app for step-by-step guides.
 - **Issues**: Report bugs on GitHub Issues
 - **Email**: support@royaltyx.com
 - **Community**: Join our Discord server
