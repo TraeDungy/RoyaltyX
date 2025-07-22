@@ -196,6 +196,13 @@ CELERY_BROKER_URL=redis://redis:6379/0
 - Data synchronization
 - Automated reporting
 
+### 🧾 Invoice Management
+- Generate invoices based on configurable rules
+- Include fees, royalties and taxes
+- Support multiple currencies
+- Manual generation and batch processing
+- Payment instructions with Stripe or PayPal links
+
 ### 📱 User Experience
 - Responsive design for all devices
 - Intuitive dashboard interface
