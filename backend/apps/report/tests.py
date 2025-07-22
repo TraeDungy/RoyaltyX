@@ -11,6 +11,7 @@ from rest_framework.test import APIClient
 
 from apps.project.models import Project, ProjectUser
 from apps.report.models import Report, ReportTemplates
+from apps.report.tasks import generate_report_pdf
 
 User = get_user_model()
 
@@ -140,15 +141,9 @@ class ReportsViewTests(TestCase):
         self.client.force_authenticate(user=self.user)
         self.reports_url = reverse("reports-view")
 
-    @patch("apps.report.views.report.create_notification")
-    @patch("apps.report.views.report.HTML")
-    def test_create_report(self, mock_html, mock_create_notification):
+    @patch("apps.report.views.report.generate_report_pdf.delay")
+    def test_create_report(self, mock_task_delay):
         """Test creating a new report"""
-
-        # Mock HTML to PDF conversion
-        mock_html_instance = Mock()
-        mock_html_instance.write_pdf.return_value = b"fake pdf content"
-        mock_html.return_value = mock_html_instance
 
         params = {
             "template": self.template.id,
@@ -158,17 +153,15 @@ class ReportsViewTests(TestCase):
         url = f"{self.reports_url}?{urlencode(params)}"
         response = self.client.post(url)
 
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.status_code, status.HTTP_202_ACCEPTED)
 
         report = Report.objects.first()
         self.assertEqual(report.template, self.template)
         self.assertEqual(report.created_by, self.user)
         self.assertEqual(report.project, self.project)
-        self.assertIsNotNone(report.file)
+        self.assertFalse(report.file)
 
-        # Verify mocks were called
-        mock_create_notification.assert_called_once()
-        mock_html.assert_called_once()
+        mock_task_delay.assert_called_once()
 
     def test_create_report_invalid_template(self):
         """Test creating report with invalid template"""
@@ -332,3 +325,39 @@ class ReportTemplateRenderingTests(TestCase):
         # Should not include impressions columns
         self.assertNotIn("Impressions</b>", html_content)
         self.assertNotIn("Impressions Revenue", html_content)
+
+
+class TestGenerateReportTask(TestCase):
+    """Tests for the generate_report_pdf Celery task."""
+
+    def setUp(self):
+        self.user = User.objects.create_user(
+            email="task@example.com", name="Task User", password="pass"
+        )
+        self.project = Project.objects.create(
+            name="Task Project", description="Task project description"
+        )
+        self.template = ReportTemplates.objects.create(
+            template_name="Task Template", project=self.project, created_by=self.user
+        )
+
+    @patch("apps.report.tasks.create_notification")
+    @patch("apps.report.tasks.HTML")
+    def test_generate_report_pdf(self, mock_html, mock_create_notification):
+        report = Report.objects.create(
+            filename="task.pdf",
+            project=self.project,
+            template=self.template,
+            created_by=self.user,
+        )
+
+        mock_html_instance = Mock()
+        mock_html_instance.write_pdf.return_value = b"pdf"
+        mock_html.return_value = mock_html_instance
+
+        generate_report_pdf(report.id, "http://testserver/")
+
+        report.refresh_from_db()
+        self.assertIsNotNone(report.file)
+        mock_create_notification.assert_called_once()
+        mock_html.assert_called_once()
