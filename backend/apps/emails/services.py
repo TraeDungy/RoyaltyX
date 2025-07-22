@@ -210,13 +210,20 @@ class Email:
             subject = Template(template_obj.subject).render(Context(context))
             html_content = Template(template_obj.content).render(Context(context))
 
-            return Email.send_html_email(
+            success = Email.send_html_email(
                 subject=subject,
                 html_content=html_content,
                 recipient_list=recipient_list,
                 from_email=from_email,
                 fail_silently=fail_silently,
             )
+            if success:
+                logger.info(
+                    "DB template email '%s' sent successfully to %s recipients",
+                    template_name,
+                    len(recipient_list),
+                )
+            return success
 
         except Exception as e:
             logger.error(
