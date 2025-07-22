@@ -182,6 +182,9 @@ CELERY_BROKER_URL=redis://redis:6379/0
 - Custom report generation
 - Data export capabilities
 - Real-time dashboard updates
+- **Stored data**: individual product sales and impression records
+- **Calculated on demand**: totals, time-series metrics and per-source analytics
+- More details: [Analytics Data Overview](documentation/ANALYTICS_OVERVIEW.md)
 
 ### 🎵 Content Management
 - Digital asset organization
@@ -234,6 +237,23 @@ docker-compose -f local.yml exec backend python manage.py test
 # Frontend tests
 docker-compose -f local.yml exec frontend npm test
 ```
+
+### Local Testing Environment Setup
+
+1. Copy the test environment variables and start services:
+   ```bash
+   cp .env.test .env
+   docker compose -f local.yml up -d
+   ```
+2. Run database migrations in the backend container:
+   ```bash
+   docker compose -f local.yml exec backend python manage.py migrate
+   ```
+3. Execute the test suite:
+   ```bash
+   docker compose -f local.yml exec backend python manage.py test
+   docker compose -f local.yml exec frontend npm test
+   ```
 
 ### API Documentation
 
