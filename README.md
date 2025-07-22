@@ -300,8 +300,8 @@ RoyaltyX/
 │   │   └── ...
 │   └── package.json        # Node.js dependencies
 ├── nginx/                  # Nginx configuration
-├── docker-compose files    # Docker orchestration
-└── documentation/          # Project documentation
+├── local.yml               # Docker Compose (development)
+├── production.yml          # Docker Compose (production)
 ```
 
 ---
