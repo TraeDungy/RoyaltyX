@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { uploadFile } from "../../management/api/files";
+import { getDataset, updateDataset } from "../../management/api/datasets";
 import { useDropzone } from "react-dropzone";
 import { Spinner } from "react-bootstrap";
 import { useProducts } from "../../products/api/products";
 
 const FileUploadInput = ({ setFiles }) => {
   const [uploading, setUploading] = useState(false);
+  const [processing, setProcessing] = useState(false);
+  const [statusMessage, setStatusMessage] = useState("");
   const { refetchProducts } = useProducts();
 
   const onDrop = async (acceptedFiles) => {
@@ -16,6 +19,9 @@ const FileUploadInput = ({ setFiles }) => {
     setUploading(true);
     try {
       const response = await uploadFile(file);
+      if (response.dataset) {
+        pollDataset(response.dataset.id);
+      }
       if (response.report.status === "success") {
         toast.success(response.report.message);
         setFiles((prevFiles) => [response.file, ...prevFiles]);
@@ -28,6 +34,43 @@ const FileUploadInput = ({ setFiles }) => {
     } finally {
       setUploading(false);
     }
+  };
+
+  const pollDataset = async (id) => {
+    setProcessing(true);
+    let status = "processing";
+    while (status === "processing") {
+      await new Promise((r) => setTimeout(r, 2000));
+      try {
+        const data = await getDataset(id);
+        status = data.status;
+        if (status === "processing") {
+          setStatusMessage("Processing file...");
+        } else if (status === "completed") {
+          setStatusMessage("Processing complete");
+        } else if (status === "error") {
+          setStatusMessage(data.error_message || "Processing failed");
+          const mappingInput = window.prompt(
+            "Column mapping JSON (e.g. {\"Title Name\": \"Title\"})",
+            ""
+          );
+          if (mappingInput) {
+            try {
+              const mapping = JSON.parse(mappingInput);
+              status = "processing";
+              setStatusMessage("Reprocessing...");
+              await updateDataset(id, mapping);
+            } catch (err) {
+              toast.error("Invalid mapping JSON");
+            }
+          }
+        }
+      } catch (e) {
+        status = "error";
+        setStatusMessage("Processing failed");
+      }
+    }
+    setProcessing(false);
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -46,10 +89,12 @@ const FileUploadInput = ({ setFiles }) => {
         style={{ cursor: "pointer" }}
       >
         <input {...getInputProps()} disabled={uploading} />
-        {uploading ? (
+        {uploading || processing ? (
           <div>
             <Spinner animation="border" variant="primary" />
-            <p className="mt-2 txt-primary fw-bold">Processing reports...</p>
+            <p className="mt-2 txt-primary fw-bold">
+              {statusMessage || "Uploading..."}
+            </p>
           </div>
         ) : (
           <div>
