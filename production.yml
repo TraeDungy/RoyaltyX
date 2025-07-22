@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: postgres:latest
+    image: postgres:14
     container_name: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
@@ -29,7 +29,7 @@ services:
       - .env
 
   landing:
-    image: nenad2807/royaltyx.landing:latest
+    image: nenad2807/royaltyx.landing:1.0
     env_file:
       - .env
 
@@ -91,7 +91,7 @@ services:
       - .env
 
   nginx:
-    image: nginx:latest
+    image: nginx:1.25
     depends_on:
       - backend
       - frontend
