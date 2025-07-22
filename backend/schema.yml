@@ -4,6 +4,109 @@ info:
   version: 1.0.0
   description: Royalty X
 paths:
+  /admin-panel/dashboard/stats/:
+    get:
+      operationId: admin_panel_dashboard_stats_retrieve
+      description: Get comprehensive dashboard statistics for admin panel
+      tags:
+      - admin-panel
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /admin-panel/projects/stats/:
+    get:
+      operationId: admin_panel_projects_stats_retrieve
+      description: Get detailed project statistics
+      tags:
+      - admin-panel
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /admin-panel/sources/stats/:
+    get:
+      operationId: admin_panel_sources_stats_retrieve
+      description: Get detailed source statistics
+      tags:
+      - admin-panel
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /admin-panel/users/:
+    get:
+      operationId: admin_panel_users_retrieve
+      description: Get paginated list of all users
+      tags:
+      - admin-panel
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /admin-panel/users/stats/:
+    get:
+      operationId: admin_panel_users_stats_retrieve
+      description: Get detailed user statistics
+      tags:
+      - admin-panel
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /analytics/:
+    get:
+      operationId: analytics_retrieve
+      tags:
+      - analytics
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /analytics/{product_id}/:
+    get:
+      operationId: analytics_retrieve_2
+      parameters:
+      - in: path
+        name: product_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - analytics
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /analytics/export/:
+    get:
+      operationId: analytics_export_retrieve
+      description: Export analytics data as CSV.
+      tags:
+      - analytics
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /analytics/forecasts/:
+    get:
+      operationId: analytics_forecasts_retrieve
+      description: Retrieve analytics forecasts for the current project.
+      tags:
+      - analytics
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
   /authentication/change-password/:
     post:
       operationId: authentication_change_password_create
@@ -11,6 +114,18 @@ paths:
       - authentication
       security:
       - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /authentication/google-auth/:
+    post:
+      operationId: authentication_google_auth_create
+      description: Handle Google OAuth authentication
+      tags:
+      - authentication
+      security:
+      - jwtAuth: []
+      - {}
       responses:
         '200':
           description: No response body
@@ -79,11 +194,103 @@ paths:
               schema:
                 $ref: '#/components/schemas/TokenRefresh'
           description: ''
-  /data_imports/files/:
+  /data_imports/datasets/{id}/:
     get:
-      operationId: data_imports_files_list
+      operationId: data_imports_datasets_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
       tags:
       - data_imports
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    patch:
+      operationId: data_imports_datasets_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - data_imports
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /data_imports/files/:
+    get:
+      operationId: data_imports_files_retrieve
+      tags:
+      - data_imports
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: data_imports_files_create
+      tags:
+      - data_imports
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /data_imports/files/{id}/:
+    get:
+      operationId: data_imports_files_retrieve_2
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - data_imports
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: data_imports_files_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - data_imports
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /data_imports/producers/:
+    post:
+      operationId: data_imports_producers_create
+      tags:
+      - data_imports
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /emails/templates/:
+    get:
+      operationId: emails_templates_list
+      description: List all templates or create a new one.
+      tags:
+      - emails
       security:
       - jwtAuth: []
       responses:
@@ -93,20 +300,25 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/File'
+                  $ref: '#/components/schemas/EmailTemplate'
           description: ''
     post:
-      operationId: data_imports_files_create
+      operationId: emails_templates_create
+      description: List all templates or create a new one.
       tags:
-      - data_imports
+      - emails
       requestBody:
         content:
-          multipart/form-data:
+          application/json:
             schema:
-              $ref: '#/components/schemas/File'
+              $ref: '#/components/schemas/EmailTemplate'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/File'
+              $ref: '#/components/schemas/EmailTemplate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EmailTemplate'
+        required: true
       security:
       - jwtAuth: []
       responses:
@@ -114,20 +326,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/File'
+                $ref: '#/components/schemas/EmailTemplate'
           description: ''
-  /data_imports/files/{id}/:
+  /emails/templates/{id}/:
     get:
-      operationId: data_imports_files_retrieve
+      operationId: emails_templates_retrieve
+      description: Retrieve, update or delete a template.
       parameters:
       - in: path
         name: id
         schema:
           type: integer
-        description: A unique integer value identifying this file.
         required: true
       tags:
-      - data_imports
+      - emails
       security:
       - jwtAuth: []
       responses:
@@ -135,27 +347,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/File'
+                $ref: '#/components/schemas/EmailTemplate'
           description: ''
     put:
-      operationId: data_imports_files_update
+      operationId: emails_templates_update
+      description: Retrieve, update or delete a template.
       parameters:
       - in: path
         name: id
         schema:
           type: integer
-        description: A unique integer value identifying this file.
         required: true
       tags:
-      - data_imports
+      - emails
       requestBody:
         content:
-          multipart/form-data:
+          application/json:
             schema:
-              $ref: '#/components/schemas/File'
+              $ref: '#/components/schemas/EmailTemplate'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/File'
+              $ref: '#/components/schemas/EmailTemplate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EmailTemplate'
+        required: true
       security:
       - jwtAuth: []
       responses:
@@ -163,27 +379,30 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/File'
+                $ref: '#/components/schemas/EmailTemplate'
           description: ''
     patch:
-      operationId: data_imports_files_partial_update
+      operationId: emails_templates_partial_update
+      description: Retrieve, update or delete a template.
       parameters:
       - in: path
         name: id
         schema:
           type: integer
-        description: A unique integer value identifying this file.
         required: true
       tags:
-      - data_imports
+      - emails
       requestBody:
         content:
-          multipart/form-data:
+          application/json:
             schema:
-              $ref: '#/components/schemas/PatchedFile'
+              $ref: '#/components/schemas/PatchedEmailTemplate'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedFile'
+              $ref: '#/components/schemas/PatchedEmailTemplate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedEmailTemplate'
       security:
       - jwtAuth: []
       responses:
@@ -191,23 +410,343 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/File'
+                $ref: '#/components/schemas/EmailTemplate'
           description: ''
     delete:
-      operationId: data_imports_files_destroy
+      operationId: emails_templates_destroy
+      description: Retrieve, update or delete a template.
       parameters:
       - in: path
         name: id
         schema:
           type: integer
-        description: A unique integer value identifying this file.
         required: true
       tags:
-      - data_imports
+      - emails
       security:
       - jwtAuth: []
       responses:
         '204':
+          description: No response body
+  /fees/report/:
+    get:
+      operationId: fees_report_retrieve
+      tags:
+      - fees
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /fees/rules/:
+    get:
+      operationId: fees_rules_retrieve
+      tags:
+      - fees
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: fees_rules_create
+      tags:
+      - fees
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /fees/rules/{id}/:
+    get:
+      operationId: fees_rules_retrieve_2
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - fees
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: fees_rules_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - fees
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: fees_rules_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - fees
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /fees/types/:
+    get:
+      operationId: fees_types_retrieve
+      tags:
+      - fees
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: fees_types_create
+      tags:
+      - fees
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /fees/types/{id}/:
+    get:
+      operationId: fees_types_retrieve_2
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - fees
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: fees_types_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - fees
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: fees_types_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - fees
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /notifications/:
+    get:
+      operationId: notifications_retrieve
+      description: |-
+        GET: List notifications
+        POST: Mark notifications as read.
+      tags:
+      - notifications
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: notifications_create
+      description: Mark all unread notifications as read
+      tags:
+      - notifications
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /oauth/google/exchange/:
+    post:
+      operationId: oauth_google_exchange_create
+      description: |-
+        POST: Get access and refresh token from Google OAuth2 by providing
+        an authorization code.
+      tags:
+      - oauth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GoogleOAuthCode'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/GoogleOAuthCode'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/GoogleOAuthCode'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /oauth/tiktok/exchange/:
+    post:
+      operationId: oauth_tiktok_exchange_create
+      description: |-
+        POST: Get access and refresh token from TikTok OAuth2 by providing
+        an authorization code.
+      tags:
+      - oauth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TikTokOAuthCode'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TikTokOAuthCode'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TikTokOAuthCode'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /oauth/twitch/exchange/:
+    post:
+      operationId: oauth_twitch_exchange_create
+      description: |-
+        POST: Get access and refresh token from Twitch OAuth2 by providing
+        an authorization code.
+      tags:
+      - oauth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TwitchOAuthCode'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TwitchOAuthCode'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TwitchOAuthCode'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /oauth/vimeo/exchange/:
+    post:
+      operationId: oauth_vimeo_exchange_create
+      description: Exchange authorization code for access token from Vimeo
+      tags:
+      - oauth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VimeoOAuthCode'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/VimeoOAuthCode'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/VimeoOAuthCode'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /payments/cancel-subscription/:
+    post:
+      operationId: payments_cancel_subscription_create
+      description: Cancel user's current subscription
+      tags:
+      - payments
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /payments/create-checkout-session/:
+    post:
+      operationId: payments_create_checkout_session_create
+      description: Create a Stripe checkout session for subscription upgrade
+      tags:
+      - payments
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /payments/subscription-status/:
+    get:
+      operationId: payments_subscription_status_retrieve
+      description: Get detailed subscription status for the user
+      tags:
+      - payments
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /payments/update-subscription/:
+    post:
+      operationId: payments_update_subscription_create
+      description: Update an existing subscription with proration
+      tags:
+      - payments
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /payments/verify-session/:
+    get:
+      operationId: payments_verify_session_retrieve
+      description: Verify a checkout session and return the result
+      tags:
+      - payments
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
           description: No response body
   /products/:
     get:
@@ -274,6 +813,185 @@ paths:
       responses:
         '204':
           description: No response body
+  /products/{product_id}/users:
+    get:
+      operationId: products_users_retrieve
+      parameters:
+      - in: path
+        name: product_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - products
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: products_users_create
+      parameters:
+      - in: path
+        name: product_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - products
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /products/{product_id}/users/{user_id}/:
+    get:
+      operationId: products_users_retrieve_2
+      parameters:
+      - in: path
+        name: product_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: user_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - products
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: products_users_update
+      parameters:
+      - in: path
+        name: product_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: user_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - products
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: products_users_destroy
+      parameters:
+      - in: path
+        name: product_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: user_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - products
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /products/images/:
+    get:
+      operationId: products_images_retrieve
+      tags:
+      - products
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: products_images_create
+      tags:
+      - products
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /products/images/{id}/:
+    get:
+      operationId: products_images_retrieve_2
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - products
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    patch:
+      operationId: products_images_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - products
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: products_images_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - products
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /products/top-performing-by-impressions/:
+    get:
+      operationId: products_top_performing_by_impressions_retrieve
+      tags:
+      - products
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /products/top-performing-by-sales/:
+    get:
+      operationId: products_top_performing_by_sales_retrieve
+      tags:
+      - products
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
   /projects/:
     get:
       operationId: projects_retrieve
@@ -292,6 +1010,16 @@ paths:
       - jwtAuth: []
       responses:
         '200':
+          description: No response body
+  /projects/delete/:
+    delete:
+      operationId: projects_delete_destroy
+      tags:
+      - projects
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
           description: No response body
   /projects/info/:
     get:
@@ -330,7 +1058,6 @@ paths:
       - projects
       security:
       - jwtAuth: []
-      - {}
       responses:
         '200':
           description: No response body
@@ -353,6 +1080,554 @@ paths:
       responses:
         '200':
           description: No response body
+  /projects/users/{id}:
+    get:
+      operationId: projects_users_retrieve_2
+      description: Retrieve a single ProjectUser by ID.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - projects
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: projects_users_destroy
+      description: Delete a ProjectUser by ID.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - projects
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /reports/:
+    get:
+      operationId: reports_retrieve
+      tags:
+      - reports
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: reports_create
+      tags:
+      - reports
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /reports/template/{id}/:
+    get:
+      operationId: reports_template_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - reports
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: reports_template_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - reports
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: reports_template_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - reports
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /reports/template/{id}/activate/:
+    post:
+      operationId: reports_template_activate_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - reports
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /reports/template/{id}/duplicate/:
+    post:
+      operationId: reports_template_duplicate_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - reports
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /reports/templates/:
+    get:
+      operationId: reports_templates_retrieve
+      tags:
+      - reports
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: reports_templates_create
+      tags:
+      - reports
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /reports/templates/upload/:
+    post:
+      operationId: reports_templates_upload_create
+      tags:
+      - reports
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /sources/:
+    get:
+      operationId: sources_retrieve
+      description: |-
+        GET: Returns a list of sources for this project.
+        POST: Create a new source
+      tags:
+      - sources
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: sources_create
+      description: |-
+        GET: Returns a list of sources for this project.
+        POST: Create a new source
+      tags:
+      - sources
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Source'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Source'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Source'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /sources/{id}/:
+    get:
+      operationId: sources_retrieve_2
+      description: |-
+        GET: Returns a single source
+        PUT: Update a source
+        DELETE: Delete a source
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - sources
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /sources/{id}/youtube-analytics/:
+    get:
+      operationId: sources_youtube_analytics_retrieve
+      description: Return YouTube specific analytics for a source.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - sources
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: sources_youtube_analytics_update
+      description: Return YouTube specific analytics for a source.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - sources
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Source'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Source'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Source'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: sources_youtube_analytics_destroy
+      description: Return YouTube specific analytics for a source.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - sources
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /support/admin/stats/:
+    get:
+      operationId: support_admin_stats_retrieve
+      description: Get dashboard statistics for admin panel
+      tags:
+      - support
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /support/admin/tickets/:
+    get:
+      operationId: support_admin_tickets_list
+      description: 'Admin view: List all support tickets with filtering'
+      tags:
+      - support
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SupportTicketList'
+          description: ''
+  /support/admin/tickets/{id}/:
+    get:
+      operationId: support_admin_tickets_retrieve
+      description: 'Admin view: Get and update ticket details'
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - support
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupportTicketDetail'
+          description: ''
+    put:
+      operationId: support_admin_tickets_update
+      description: 'Admin view: Get and update ticket details'
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - support
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTicketStatus'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UpdateTicketStatus'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UpdateTicketStatus'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateTicketStatus'
+          description: ''
+    patch:
+      operationId: support_admin_tickets_partial_update
+      description: 'Admin view: Get and update ticket details'
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - support
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateTicketStatus'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateTicketStatus'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateTicketStatus'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateTicketStatus'
+          description: ''
+  /support/admin/tickets/{ticket_id}/assign/:
+    post:
+      operationId: support_admin_tickets_assign_create
+      description: Assign a ticket to an admin
+      parameters:
+      - in: path
+        name: ticket_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - support
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /support/admin/tickets/{ticket_id}/take/:
+    post:
+      operationId: support_admin_tickets_take_create
+      description: Admin takes an unassigned ticket
+      parameters:
+      - in: path
+        name: ticket_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - support
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /support/help/chat/:
+    post:
+      operationId: support_help_chat_create
+      description: Simple OpenAI-powered help chat endpoint.
+      tags:
+      - support
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HelpChat'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/HelpChat'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/HelpChat'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelpChat'
+          description: ''
+  /support/stats/:
+    get:
+      operationId: support_stats_retrieve
+      description: Get support statistics for customer
+      tags:
+      - support
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /support/tickets/:
+    get:
+      operationId: support_tickets_list
+      description: 'Customer view: List their own tickets and create new ones'
+      tags:
+      - support
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SupportTicketList'
+          description: ''
+    post:
+      operationId: support_tickets_create
+      description: 'Customer view: List their own tickets and create new ones'
+      tags:
+      - support
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSupportTicket'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateSupportTicket'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateSupportTicket'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateSupportTicket'
+          description: ''
+  /support/tickets/{id}/:
+    get:
+      operationId: support_tickets_retrieve
+      description: 'Customer view: Get details of their own ticket'
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - support
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupportTicketDetail'
+          description: ''
+  /support/tickets/{ticket_id}/messages/:
+    post:
+      operationId: support_tickets_messages_create
+      description: Create a new message in a support ticket
+      parameters:
+      - in: path
+        name: ticket_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - support
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
   /users/:
     get:
       operationId: users_retrieve
@@ -361,6 +1636,17 @@ paths:
       security:
       - jwtAuth: []
       - {}
+      responses:
+        '200':
+          description: No response body
+  /users/change-password/:
+    post:
+      operationId: users_change_password_create
+      description: Change user password
+      tags:
+      - users
+      security:
+      - jwtAuth: []
       responses:
         '200':
           description: No response body
@@ -375,9 +1661,60 @@ paths:
       responses:
         '200':
           description: No response body
+  /users/subscription-plan/:
+    get:
+      operationId: users_subscription_plan_retrieve
+      description: Get the current user's subscription plan
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /users/subscription-plan/available/:
+    get:
+      operationId: users_subscription_plan_available_retrieve
+      description: Get all available subscription plans
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /users/subscription-plan/change/:
+    post:
+      operationId: users_subscription_plan_change_create
+      description: |-
+        Change the current user's subscription plan.
+
+        Redirects to payment for paid plans.
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
 components:
   schemas:
-    File:
+    CreateSupportTicket:
+      type: object
+      description: Serializer for creating new support tickets
+      properties:
+        subject:
+          type: string
+          maxLength: 255
+        priority:
+          $ref: '#/components/schemas/PriorityEnum'
+        initial_message:
+          type: string
+          writeOnly: true
+      required:
+      - initial_message
+      - subject
+    EmailTemplate:
       type: object
       properties:
         id:
@@ -393,20 +1730,55 @@ components:
           readOnly: true
         is_deleted:
           type: boolean
-        file:
-          type: string
-          format: uri
-          nullable: true
         name:
           type: string
+          maxLength: 100
+        subject:
+          type: string
           maxLength: 255
-        project:
+        content:
+          type: string
+        version:
           type: integer
-          nullable: true
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          default: 1
+        is_active:
+          type: boolean
       required:
+      - content
       - created_at
       - id
+      - name
+      - subject
       - updated_at
+    GoogleOAuthCode:
+      type: object
+      properties:
+        code:
+          type: string
+      required:
+      - code
+    HelpChat:
+      type: object
+      description: Serializer for OpenAI help chat requests.
+      properties:
+        question:
+          type: string
+          maxLength: 500
+      required:
+      - question
+    MessageTypeEnum:
+      enum:
+      - customer
+      - admin
+      - system
+      type: string
+      description: |-
+        * `customer` - Customer Message
+        * `admin` - Admin Reply
+        * `system` - System Message
     MyTokenObtainPair:
       type: object
       properties:
@@ -419,7 +1791,7 @@ components:
       required:
       - email
       - password
-    PatchedFile:
+    PatchedEmailTemplate:
       type: object
       properties:
         id:
@@ -435,16 +1807,312 @@ components:
           readOnly: true
         is_deleted:
           type: boolean
-        file:
-          type: string
-          format: uri
-          nullable: true
         name:
           type: string
+          maxLength: 100
+        subject:
+          type: string
+          maxLength: 255
+        content:
+          type: string
+        version:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          default: 1
+        is_active:
+          type: boolean
+    PatchedUpdateTicketStatus:
+      type: object
+      description: Serializer for updating ticket status and assignment
+      properties:
+        status:
+          $ref: '#/components/schemas/StatusEnum'
+        priority:
+          $ref: '#/components/schemas/PriorityEnum'
+        assigned_admin:
+          type: integer
+          nullable: true
+    PlatformEnum:
+      enum:
+      - youtube
+      - google_ads
+      - facebook
+      - amazon
+      - tiktok
+      - twitch
+      - vimeo
+      type: string
+      description: |-
+        * `youtube` - YouTube
+        * `google_ads` - Google Ads
+        * `facebook` - Facebook
+        * `amazon` - Amazon
+        * `tiktok` - TikTok
+        * `twitch` - Twitch
+        * `vimeo` - Vimeo
+    PriorityEnum:
+      enum:
+      - low
+      - medium
+      - high
+      - urgent
+      type: string
+      description: |-
+        * `low` - Low
+        * `medium` - Medium
+        * `high` - High
+        * `urgent` - Urgent
+    Source:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        access_token:
+          type: string
+          writeOnly: true
+          nullable: true
+        refresh_token:
+          type: string
+          writeOnly: true
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        is_deleted:
+          type: boolean
+        account_name:
+          type: string
+          maxLength: 50
+        platform:
+          $ref: '#/components/schemas/PlatformEnum'
+        token_expires_at:
+          type: string
+          format: date-time
+          nullable: true
+        last_fetched_at:
+          type: string
+          format: date-time
+          nullable: true
+        channel_id:
+          type: string
+          nullable: true
           maxLength: 255
         project:
           type: integer
+      required:
+      - account_name
+      - created_at
+      - id
+      - platform
+      - project
+      - updated_at
+    StatusEnum:
+      enum:
+      - open
+      - in_progress
+      - resolved
+      - closed
+      type: string
+      description: |-
+        * `open` - Open
+        * `in_progress` - In Progress
+        * `resolved` - Resolved
+        * `closed` - Closed
+    SupportAttachment:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        filename:
+          type: string
+          maxLength: 255
+        file:
+          type: string
+          format: uri
+        file_size:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - file
+      - file_size
+      - filename
+      - id
+    SupportMessage:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        sender:
+          allOf:
+          - $ref: '#/components/schemas/UserBasic'
+          readOnly: true
+        message_type:
+          allOf:
+          - $ref: '#/components/schemas/MessageTypeEnum'
+          readOnly: true
+        content:
+          type: string
+        is_internal_note:
+          type: boolean
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/SupportAttachment'
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - attachments
+      - content
+      - created_at
+      - id
+      - message_type
+      - sender
+      - updated_at
+    SupportTicketDetail:
+      type: object
+      description: Serializer for detailed ticket view
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        ticket_number:
+          type: string
+          readOnly: true
+        subject:
+          type: string
+          maxLength: 255
+        customer:
+          allOf:
+          - $ref: '#/components/schemas/UserBasic'
+          readOnly: true
+        assigned_admin:
+          allOf:
+          - $ref: '#/components/schemas/UserBasic'
+          readOnly: true
+        status:
+          $ref: '#/components/schemas/StatusEnum'
+        priority:
+          $ref: '#/components/schemas/PriorityEnum'
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/SupportMessage'
+          readOnly: true
+        first_response_at:
+          type: string
+          format: date-time
           nullable: true
+        resolved_at:
+          type: string
+          format: date-time
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - assigned_admin
+      - created_at
+      - customer
+      - id
+      - messages
+      - subject
+      - ticket_number
+      - updated_at
+    SupportTicketList:
+      type: object
+      description: Serializer for ticket list view
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        ticket_number:
+          type: string
+          readOnly: true
+        subject:
+          type: string
+          maxLength: 255
+        customer:
+          allOf:
+          - $ref: '#/components/schemas/UserBasic'
+          readOnly: true
+        assigned_admin:
+          allOf:
+          - $ref: '#/components/schemas/UserBasic'
+          readOnly: true
+        status:
+          $ref: '#/components/schemas/StatusEnum'
+        priority:
+          $ref: '#/components/schemas/PriorityEnum'
+        last_message:
+          type: string
+          readOnly: true
+        unread_count:
+          type: string
+          readOnly: true
+        first_response_at:
+          type: string
+          format: date-time
+          nullable: true
+        resolved_at:
+          type: string
+          format: date-time
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - assigned_admin
+      - created_at
+      - customer
+      - id
+      - last_message
+      - subject
+      - ticket_number
+      - unread_count
+      - updated_at
+    TikTokOAuthCode:
+      type: object
+      properties:
+        code:
+          type: string
+      required:
+      - code
     TokenRefresh:
       type: object
       properties:
@@ -456,6 +2124,55 @@ components:
       required:
       - access
       - refresh
+    TwitchOAuthCode:
+      type: object
+      properties:
+        code:
+          type: string
+      required:
+      - code
+    UpdateTicketStatus:
+      type: object
+      description: Serializer for updating ticket status and assignment
+      properties:
+        status:
+          $ref: '#/components/schemas/StatusEnum'
+        priority:
+          $ref: '#/components/schemas/PriorityEnum'
+        assigned_admin:
+          type: integer
+          nullable: true
+    UserBasic:
+      type: object
+      description: Basic user info for support system
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 30
+        email:
+          type: string
+          format: email
+          maxLength: 60
+        avatar:
+          type: string
+          nullable: true
+          maxLength: 300
+        is_staff:
+          type: boolean
+      required:
+      - email
+      - id
+      - name
+    VimeoOAuthCode:
+      type: object
+      properties:
+        code:
+          type: string
+      required:
+      - code
   securitySchemes:
     jwtAuth:
       type: http
