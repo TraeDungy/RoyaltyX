@@ -1,8 +1,13 @@
-import stripe
 import os
-from django.conf import settings
-from django.contrib.auth import get_user_model
 from datetime import datetime, timezone
+
+import stripe
+from django.contrib.auth import get_user_model
+
+from apps.emails.utils import (
+    send_payment_failed_email,
+    send_subscription_canceled_email,
+)
 
 User = get_user_model()
 
@@ -102,9 +107,12 @@ class StripeService:
             # Cancel existing subscription if any
             if user.stripe_subscription_id:
                 try:
-                    StripeService.cancel_subscription(user.stripe_subscription_id)
-                except:
-                    pass  # Continue even if cancellation fails
+                    StripeService.cancel_subscription(
+                        user.stripe_subscription_id
+                    )
+                except Exception:
+                    # Continue even if cancellation fails
+                    pass
             
             # Update user with new subscription details
             user.subscription_plan = plan
@@ -131,9 +139,12 @@ class StripeService:
             user.subscription_status = 'past_due'
             user.payment_failure_count += 1
             user.save()
-            
-            # TODO: Send notification email to user
-            
+
+            send_payment_failed_email(
+                user_email=user.email,
+                user_name=user.name or user.username,
+            )
+
             return user
         except User.DoesNotExist:
             raise Exception(f"User not found for subscription: {subscription_id}")
@@ -151,9 +162,12 @@ class StripeService:
             user.subscription_current_period_end = None
             user.grace_period_end = None
             user.save()
-            
-            # TODO: Send downgrade notification email
-            
+
+            send_subscription_canceled_email(
+                user_email=user.email,
+                user_name=user.name or user.username,
+            )
+
             return user
         except User.DoesNotExist:
             raise Exception(f"User not found for subscription: {subscription['id']}")

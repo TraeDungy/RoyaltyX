@@ -46,3 +46,67 @@ def send_welcome_email(
     except Exception as e:
         logger.error(f"Error sending welcome email to {user_email}: {str(e)}")
         return False
+
+
+def send_payment_failed_email(user_email: str, user_name: str) -> bool:
+    """Notify user of a failed payment."""
+    try:
+        subject = "Payment Failed"
+        context = {
+            "user_name": user_name,
+        }
+
+        success = Email.send_template_email(
+            subject=subject,
+            template_name="emails/payment_failed.html",
+            context=context,
+            recipient_list=[user_email],
+            fail_silently=False,
+        )
+
+        if success:
+            logger.info(f"Payment failed email sent successfully to {user_email}")
+        else:
+            logger.error(f"Failed to send payment failed email to {user_email}")
+
+        return success
+
+    except Exception as e:
+        logger.error(
+            f"Error sending payment failed email to {user_email}: {str(e)}"
+        )
+        return False
+
+
+def send_subscription_canceled_email(user_email: str, user_name: str) -> bool:
+    """Notify user their subscription has been canceled."""
+    try:
+        subject = "Subscription Cancelled"
+        context = {
+            "user_name": user_name,
+        }
+
+        success = Email.send_template_email(
+            subject=subject,
+            template_name="emails/subscription_canceled.html",
+            context=context,
+            recipient_list=[user_email],
+            fail_silently=False,
+        )
+
+        if success:
+            logger.info(
+                f"Subscription canceled email sent successfully to {user_email}"
+            )
+        else:
+            logger.error(
+                f"Failed to send subscription canceled email to {user_email}"
+            )
+
+        return success
+
+    except Exception as e:
+        logger.error(
+            f"Error sending subscription canceled email to {user_email}: {str(e)}"
+        )
+        return False

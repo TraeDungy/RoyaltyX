@@ -1,12 +1,14 @@
-from apps.sources.utils.tiktok_service import TikTokService
-from apps.sources.utils.tiktok_sync import fetch_tiktok_stats, fetch_tiktok_videos
-from apps.sources.utils.twitch_sync import fetch_twitch_stats, fetch_twitch_videos
-from apps.sources.utils.twitch_service import TwitchService
+from django.utils import timezone
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+from apps.sources.utils.tiktok_service import TikTokService
+from apps.sources.utils.tiktok_sync import fetch_tiktok_stats, fetch_tiktok_videos
+from apps.sources.utils.twitch_service import TwitchService
+from apps.sources.utils.twitch_sync import fetch_twitch_stats, fetch_twitch_videos
 
 from .models import Source
 from .serializers import SourceSerializer
@@ -62,7 +64,9 @@ class SourceListCreateView(APIView):
                     service = TikTokService(source.access_token)
                     channel_details = service.fetch_user_info()
                     source.channel_id = channel_details["open_id"]
-                    source.account_name = channel_details.get("display_name") or "TikTok User"
+                    source.account_name = (
+                        channel_details.get("display_name") or "TikTok User"
+                    )
                     source.save(update_fields=["channel_id", "account_name"])
                 except Exception as e:
                     print(f"Failed to fetch Tiktok channel details: {e}")
@@ -75,7 +79,9 @@ class SourceListCreateView(APIView):
                     service = TwitchService(source.access_token)
                     channel_details = service.fetch_user_info()
                     source.channel_id = channel_details["id"]
-                    source.account_name = channel_details.get("display_name") or "Twitch User"
+                    source.account_name = (
+                        channel_details.get("display_name") or "Twitch User"
+                    )
                     source.save(update_fields=["channel_id", "account_name"])
                 except Exception as e:
                     print(f"Failed to fetch Twitch channel details: {e}")
@@ -142,3 +148,29 @@ class SourceDetailView(APIView):
             return Response(
                 {"detail": "Source not found"}, status=status.HTTP_404_NOT_FOUND
             )
+
+
+class TokenStatusListView(APIView):
+    """Return token expiration status for all sources in the project."""
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        sources = Source.objects.filter(
+            project_id=request.user.currently_selected_project_id
+        )
+        data = []
+        now = timezone.now()
+        for source in sources:
+            expires_at = source.token_expires_at
+            data.append(
+                {
+                    "id": source.id,
+                    "platform": source.platform,
+                    "account_name": source.account_name,
+                    "token_expires_at": expires_at,
+                    "is_expired": bool(expires_at and now > expires_at),
+                }
+            )
+
+        return Response(data, status=status.HTTP_200_OK)
