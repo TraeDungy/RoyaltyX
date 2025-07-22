@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
+import bleach
 
 from .models import SupportAttachment, SupportMessage, SupportTicket
 
@@ -117,6 +118,9 @@ class CreateSupportTicketSerializer(serializers.ModelSerializer):
         model = SupportTicket
         fields = ["subject", "priority", "initial_message"]
 
+    def validate_initial_message(self, value):
+        return bleach.clean(value)
+
     def create(self, validated_data):
         initial_message = validated_data.pop("initial_message")
         customer = self.context["request"].user
@@ -141,6 +145,9 @@ class CreateSupportMessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = SupportMessage
         fields = ["content", "is_internal_note"]
+
+    def validate_content(self, value):
+        return bleach.clean(value)
 
     def create(self, validated_data):
         ticket = self.context["ticket"]

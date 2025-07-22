@@ -1,4 +1,5 @@
 from rest_framework import serializers
+import bleach
 
 from .models import Conversation, Message
 
@@ -14,3 +15,6 @@ class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
         fields = "__all__"
+
+    def validate_text(self, value):
+        return bleach.clean(value)
