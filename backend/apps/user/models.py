@@ -4,6 +4,17 @@ from django.db import models
 from apps.project.models import Project
 
 
+class Permission(models.Model):
+    code = models.CharField(max_length=50, unique=True)
+    description = models.CharField(max_length=255)
+
+    class Meta:
+        db_table = "permission"
+
+    def __str__(self):
+        return self.code
+
+
 class MyUserManager(BaseUserManager):
     def create_user(self, email, name, password):
         if not email:
@@ -84,6 +95,9 @@ class User(AbstractBaseUser):
     payment_failure_count = models.IntegerField(default=0)
     currently_selected_project = models.ForeignKey(
         Project, null=True, default=None, on_delete=models.CASCADE
+    )
+    permissions = models.ManyToManyField(
+        Permission, blank=True, related_name="users"
     )
 
     objects = MyUserManager()
