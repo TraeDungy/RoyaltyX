@@ -3,6 +3,8 @@ import io
 from decimal import Decimal
 from typing import Any, BinaryIO, Dict, List
 
+import openpyxl
+
 from apps.product.models import Product, ProductImpressions, ProductSale
 
 COLUMN_ALIASES = {
@@ -85,6 +87,52 @@ def read_csv(
     return data
 
 
+def validate_excel(file: BinaryIO) -> bool:
+    """Validate that the uploaded file is a valid Excel workbook."""
+    try:
+        openpyxl.load_workbook(file)
+        file.seek(0)
+        return True
+    except Exception as e:  # pragma: no cover - log the error for debugging
+        print(f"Excel validation error: {e}")
+        return False
+
+
+def read_excel(
+    file: BinaryIO, custom_mapping: Dict[str, str] | None = None
+) -> List[Dict[str, str]]:
+    """Read an Excel file and return its content as a list of dictionaries."""
+    workbook = openpyxl.load_workbook(file, data_only=True)
+    file.seek(0)
+    sheet = workbook.active
+
+    rows = list(sheet.iter_rows(values_only=True))
+    if not rows:
+        return []
+
+    headers = [map_header(str(h)) for h in rows[0]]
+    if custom_mapping:
+        headers = [custom_mapping.get(h, h) for h in headers]
+
+    data: List[Dict[str, Any]] = []
+    for row in rows[1:]:
+        if all(cell is None for cell in row):
+            continue
+        normalized = {headers[i]: row[i] for i in range(len(headers))}
+        data.append(normalized)
+    return data
+
+
+def read_report(
+    file: BinaryIO, custom_mapping: Dict[str, str] | None = None
+) -> List[Dict[str, str]]:
+    """Read a report file in CSV or Excel format."""
+    filename = getattr(file, "name", "").lower()
+    if filename.endswith(('.xlsx', '.xls')):
+        return read_excel(file, custom_mapping=custom_mapping)
+    return read_csv(file, custom_mapping=custom_mapping)
+
+
 def update_products(
     data: List[Dict[str, str]], project_id: int, file_id: int
 ) -> Dict[str, int]:
@@ -117,12 +165,17 @@ def process_report(
     file_id: int,
     column_mapping: Dict[str, str] | None = None,
 ) -> Dict[str, str]:
-    """Processes CSV report and updates products. Returns success or error message."""
+    """Process a report file (CSV or Excel) and update products."""
     try:
-        if not validate_csv(file):
-            return {"status": "error", "message": "Invalid CSV file"}
+        filename = getattr(file, "name", "").lower()
+        if filename.endswith((".xlsx", ".xls")):
+            if not validate_excel(file):
+                return {"status": "error", "message": "Invalid Excel file"}
+        else:
+            if not validate_csv(file):
+                return {"status": "error", "message": "Invalid CSV file"}
 
-        data = read_csv(file, custom_mapping=column_mapping)
+        data = read_report(file, custom_mapping=column_mapping)
         result = update_products(data, project_id, file_id)
 
         return {
