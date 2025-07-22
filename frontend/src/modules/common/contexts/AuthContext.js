@@ -2,6 +2,7 @@ import { createContext, useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { login } from "../../authentication/api/auth";
+import { getDashboardTemplates } from "../../dashboard/api/dashboard-templates";
 
 const AuthContext = createContext();
 
@@ -23,8 +24,26 @@ export const AuthProvider = ({ children }) => {
   const [currentlySelectedProjectId, setCurrentlySelectedProjectId] =
     useState(null);
   const [token, setToken] = useState("");
+  const [dashboardLayout, setDashboardLayout] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
+  const loadDashboardTemplates = async (authToken) => {
+    try {
+      const templates = await getDashboardTemplates();
+      if (templates && templates.length) {
+        const storedId = localStorage.getItem("activeDashboardTemplateId");
+        let template = templates.find((t) => t.id.toString() === storedId);
+        if (!template) {
+          template = templates[0];
+          localStorage.setItem("activeDashboardTemplateId", template.id);
+        }
+        setDashboardLayout(template.layout_json);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   // Function to log in
   const handleLogin = async (user) => {
@@ -45,6 +64,8 @@ export const AuthProvider = ({ children }) => {
         setSubscriptionPlan(decodedToken.subscription_plan || "free");
         setCurrentlySelectedProjectId(decodedToken.currently_selected_project_id);
         setToken(user.access_token);
+
+        await loadDashboardTemplates(user.access_token);
 
         // Don't navigate - let the calling component handle navigation
         return { success: true };
@@ -100,6 +121,8 @@ export const AuthProvider = ({ children }) => {
       setToken(response.access);
 
       localStorage.setItem("accessToken", response.access);
+
+      await loadDashboardTemplates(response.access);
       
       // Clear the new user flag and redirect appropriately
       if (isNewUser) {
@@ -150,6 +173,7 @@ export const AuthProvider = ({ children }) => {
       setRole(decodedToken.role);
       setSubscriptionPlan(decodedToken.subscription_plan || "free");
       setCurrentlySelectedProjectId(decodedToken.currently_selected_project_id);
+      loadDashboardTemplates(storedToken);
     }
     setLoading(false);
   }, []);
@@ -167,6 +191,13 @@ export const AuthProvider = ({ children }) => {
     token,
     login: handleLogin,
     logout: handleLogout,
+    dashboardLayout,
+    selectDashboardTemplate: (template) => {
+      if (template) {
+        localStorage.setItem("activeDashboardTemplateId", template.id);
+        setDashboardLayout(template.layout_json);
+      }
+    },
     loading,
   };
 

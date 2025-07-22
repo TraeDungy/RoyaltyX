@@ -10,12 +10,13 @@ import { ImpressionsCard } from "../../analytics/components/ImpressionsCard";
 import { RevenueCard } from "../../analytics/components/RevenueCard";
 import { useSettings } from "../../common/contexts/SettingsContext";
 import { useLocation } from "react-router";
-import { Grid } from "@mui/material";
+import { useAuth } from "../../common/contexts/AuthContext";
 
 function Dashboard() {
   const { products, loading } = useProducts();
   const { sources } = useSources();
   const [analytics, setAnalytics] = useState(null);
+  const { dashboardLayout } = useAuth();
   const {
     showTotalImpressionsCard,
     showTotalSalesCard,
@@ -45,20 +46,39 @@ function Dashboard() {
     fetchAnalytics();
   }, [location.search]);
 
-  return (
-    <>
-      {analytics && (
-        <Grid container spacing={3} className="mb-4">
-          {showTotalImpressionsCard && <ImpressionsCard analytics={analytics} />}
-          {showTotalSalesCard && <SalesCard analytics={analytics} />}
-          {showTotalRevenueCard && <RevenueCard analytics={analytics} />}
-        </Grid>
-      )}
-      
-      <LinkedAccountsSection sources={sources} loading={loading} />
-      <ProductsList products={products} loading={loading} />
-    </>
-  );
+  const defaultLayout = [
+    "impressions",
+    "sales",
+    "revenue",
+    "linked_accounts",
+    "products",
+  ];
+
+  const layout = dashboardLayout && dashboardLayout.length ? dashboardLayout : defaultLayout;
+
+  const renderWidget = (widget) => {
+    switch (widget) {
+      case "impressions":
+        return (
+          analytics &&
+          showTotalImpressionsCard && <ImpressionsCard analytics={analytics} />
+        );
+      case "sales":
+        return analytics && showTotalSalesCard && <SalesCard analytics={analytics} />;
+      case "revenue":
+        return (
+          analytics && showTotalRevenueCard && <RevenueCard analytics={analytics} />
+        );
+      case "linked_accounts":
+        return <LinkedAccountsSection sources={sources} loading={loading} />;
+      case "products":
+        return <ProductsList products={products} loading={loading} />;
+      default:
+        return null;
+    }
+  };
+
+  return <>{layout.map((w) => renderWidget(w))}</>;
 }
 
 export default Dashboard;

@@ -1,10 +1,10 @@
 import logging
-from typing import List, Optional, Dict, Any
-from django.core.mail import EmailMessage, EmailMultiAlternatives, send_mail
-from django.template.loader import render_to_string
-from django.conf import settings
-from django.utils.html import strip_tags
+from typing import Any, Dict, List, Optional
 
+from django.conf import settings
+from django.core.mail import EmailMultiAlternatives, send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 logger = logging.getLogger(__name__)
 
