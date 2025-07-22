@@ -164,7 +164,7 @@ CELERY_BROKER_URL=redis://redis:6379/0
 ### 🔐 Authentication & User Management
 - Secure user registration and login
 - JWT-based authentication
-- OAuth integration (Google, TikTok)
+- OAuth integration (Google, TikTok, Twitch, Spotify)
 - User profile management
 - Role-based access control
 

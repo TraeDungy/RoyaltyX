@@ -59,3 +59,21 @@ class SourcesConfig(AppConfig):
             },
         )
 
+        PeriodicTask.objects.get_or_create(
+            name="Fetch Spotify Tracks",
+            defaults={
+                "interval": schedule,
+                "task": "apps.sources.tasks.task_fetch_spotify_tracks",
+                "args": json.dumps([]),
+            },
+        )
+
+        PeriodicTask.objects.get_or_create(
+            name="Fetch Spotify Stats",
+            defaults={
+                "interval": schedule,
+                "task": "apps.sources.tasks.task_fetch_spotify_stats",
+                "args": json.dumps([]),
+            },
+        )
+

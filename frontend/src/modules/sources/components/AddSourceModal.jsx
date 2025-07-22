@@ -14,13 +14,13 @@ import { useState } from "react";
 import { LinkYoutubeCard } from "./LinkYoutubeCard";
 import { LinkTikTokCard } from "./LinkTikTokCard";
 import { LinkTwitchCard } from "./LinkTwitchCard";
+import { LinkSpotifyCard } from "./LinkSpotifyCard";
 import googleAdsLogo from "../../common/assets/img/platform_logos/google_ads.webp";
 import amazonLogo from "../../common/assets/img/platform_logos/amazon.webp";
 import instagramLogo from "../../common/assets/img/platform_logos/instagram.webp";
 import patreonLogo from "../../common/assets/img/platform_logos/patreon.webp";
 import appleAppStoreLogo from "../../common/assets/img/platform_logos/apple_app_store.png";
 import googlePlayLogo from "../../common/assets/img/platform_logos/google_play.svg";
-import spotifyLogo from "../../common/assets/img/platform_logos/spotify.svg";
 import audibleLogo from "../../common/assets/img/platform_logos/audible.svg";
 import temuLogo from "../../common/assets/img/platform_logos/temu.svg";
 import { ReactComponent as FacebookLogo } from "../../common/assets/img/platform_logos/facebook.svg";
@@ -113,11 +113,8 @@ export const AddSourceModal = ({ open, onClose, createSource }) => {
     },
     {
       name: "Spotify",
-      logo: spotifyLogo,
-      description:
-        "Link your Spotify for Artists account to analyze streaming data, listener demographics, and track performance.",
-      buttonText: "Link Spotify",
-      isCustomComponent: false,
+      component: <LinkSpotifyCard createSource={createSource} />,
+      isCustomComponent: true,
     },
     {
       name: "Temu",
