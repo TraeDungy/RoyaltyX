@@ -1,7 +1,11 @@
+import logging
 from django.db import models
 
 from apps.project.models import Project
 from common.models import BaseModel
+
+
+logger = logging.getLogger(__name__)
 
 
 class ReportTemplates(BaseModel):
@@ -25,8 +29,8 @@ class ReportTemplates(BaseModel):
 
     def logo_absolute_url(self, request):
         if self.logo:
-            print(self.logo)
-            print(request.build_absolute_uri(self.logo.url))
+            logger.debug(self.logo)
+            logger.debug(request.build_absolute_uri(self.logo.url))
             return request.build_absolute_uri(self.logo.url)
         return None
 

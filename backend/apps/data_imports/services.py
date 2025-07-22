@@ -1,12 +1,16 @@
 from datetime import datetime
 
 from django.shortcuts import get_object_or_404
+import logging
 
 from apps.product.models import ProductImpressions, ProductSale
 
 from .models import Dataset, File
 from .serializers import DatasetSerializer, FileSerializer
 from .utils.report_processing import process_report, read_csv
+
+
+logger = logging.getLogger(__name__)
 
 
 def create_file(file, data):
@@ -18,7 +22,7 @@ def create_file(file, data):
 
     serializer = FileSerializer(data=data)
     if not serializer.is_valid():
-        print(serializer.errors, flush=True)
+        logger.error(serializer.errors)
         raise ValueError(serializer.errors)
 
     saved_file = serializer.save()

@@ -1,9 +1,13 @@
 import csv
 import io
+import logging
 from typing import BinaryIO, Dict, List
 
 from apps.product.models import Product, ProductUser
 from apps.user.models import User
+
+
+logger = logging.getLogger(__name__)
 
 
 def validate_csv(file: BinaryIO) -> bool:
@@ -17,7 +21,7 @@ def validate_csv(file: BinaryIO) -> bool:
             return False
         return True
     except Exception as e:
-        print(f"CSV validation error: {e}")
+        logger.error("CSV validation error: %s", e)
         return False
 
 

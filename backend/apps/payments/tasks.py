@@ -1,12 +1,15 @@
+import logging
 from celery import shared_task
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 
+logger = logging.getLogger(__name__)
 User = get_user_model()
 
 @shared_task
 def downgrade_past_due_users():
     """Downgrade users whose grace period has expired."""
+    logger.info("Checking for past due users to downgrade")
     now = timezone.now()
     users = User.objects.filter(
         subscription_status="past_due",
@@ -30,4 +33,5 @@ def downgrade_past_due_users():
             "payment_failure_count",
         ])
         count += 1
+    logger.info("Downgraded %s users", count)
     return count

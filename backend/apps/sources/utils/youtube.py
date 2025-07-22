@@ -1,4 +1,5 @@
 from datetime import date, timedelta
+import logging
 
 import requests
 from django.conf import settings
@@ -6,6 +7,9 @@ from django.utils import timezone
 
 from apps.product.models import Product, ProductImpressions
 from apps.sources.models import Source
+
+
+logger = logging.getLogger(__name__)
 
 
 def request_users_youtube_content(access_token: str, channel_id: str) -> dict:
@@ -158,7 +162,7 @@ def fetch_youtube_videos(source_id=None):
             source.save(update_fields=["_access_token"])
 
         if not source.channel_id:
-            print(f"No channel_id set for source {source.id}, skipping video fetch")
+            logger.warning("No channel_id set for source %s, skipping video fetch", source.id)
             continue
 
         youtube_videos = request_users_youtube_content(
@@ -199,19 +203,19 @@ def fetch_youtube_stats(source_id=None):
             source.save(update_fields=["_access_token"])
 
         if not source.channel_id:
-            print(f"No channel_id set for source {source.id}, skipping stats fetch")
+            logger.warning("No channel_id set for source %s, skipping stats fetch", source.id)
             continue
 
         products = Product.objects.filter(source=source)
         for product in products:
             stats = fetch_youtube_video_stats(product, source, start_date, end_date)
-            print(stats, flush=True)
+            logger.debug(stats)
             rows = stats.get("rows", [])
             if rows:
                 current_view_count = rows[0][0]
-                print(f"Views: {current_view_count}")
+                logger.debug("Views: %s", current_view_count)
             else:
-                print("No rows returned in stats.")
+                logger.debug("No rows returned in stats.")
                 current_view_count = 0
             
             # Get yesterday's view count from ProductImpressions

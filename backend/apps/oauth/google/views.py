@@ -1,9 +1,13 @@
 import requests
+import logging
 from django.conf import settings
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+
+logger = logging.getLogger(__name__)
 
 from .serializers import GoogleOAuthCodeSerializer
 
@@ -38,8 +42,8 @@ class GoogleTokenExchange(APIView):
             headers={"Content-Type": "application/x-www-form-urlencoded"},
         )
 
-        print(f"Response from Google token exchange: {response}")
-        print(f"Response from Google token exchange: {response.json()}")
+        logger.debug("Response from Google token exchange: %s", response)
+        logger.debug("Response from Google token exchange: %s", response.json())
 
         response.raise_for_status()
 

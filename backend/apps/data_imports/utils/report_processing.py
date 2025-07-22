@@ -1,9 +1,13 @@
 import csv
 import io
+import logging
 from decimal import Decimal
 from typing import Any, BinaryIO, Dict, List
 
 from apps.product.models import Product, ProductImpressions, ProductSale
+
+
+logger = logging.getLogger(__name__)
 
 COLUMN_ALIASES = {
     "Title": ["Title", "title", "program_name", "Title Name"],
@@ -53,7 +57,7 @@ def validate_csv(file: BinaryIO) -> bool:
             return False
         return True
     except Exception as e:
-        print(f"CSV validation error: {e}")
+        logger.error("CSV validation error: %s", e)
         return False
 
 
@@ -162,4 +166,4 @@ def storeProductImpressions(
             from_file_id=file_id,
         )
     except Exception as e:
-        print(e, flush=True)
+        logger.error(e)

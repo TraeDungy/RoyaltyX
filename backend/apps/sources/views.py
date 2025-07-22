@@ -1,4 +1,5 @@
 from datetime import date, timedelta
+import logging
 
 from django.utils.dateparse import parse_date
 from drf_spectacular.utils import extend_schema
@@ -21,6 +22,9 @@ from .utils.youtube import (
     fetch_youtube_stats,
     fetch_youtube_videos,
 )
+
+
+logger = logging.getLogger(__name__)
 
 
 class SourceListCreateView(APIView):
@@ -56,7 +60,7 @@ class SourceListCreateView(APIView):
                     source.account_name = channel_details["name"]
                     source.save(update_fields=["channel_id", "account_name"])
                 except Exception as e:
-                    print(f"Failed to fetch YouTube channel details: {e}")
+                    logger.error("Failed to fetch YouTube channel details: %s", e)
                     # Continue without channel details.
                     # The fetch functions will skip this source.
 
@@ -73,7 +77,7 @@ class SourceListCreateView(APIView):
                     )
                     source.save(update_fields=["channel_id", "account_name"])
                 except Exception as e:
-                    print(f"Failed to fetch Tiktok channel details: {e}")
+                    logger.error("Failed to fetch Tiktok channel details: %s", e)
 
                 fetch_tiktok_videos(source.id)
                 fetch_tiktok_stats(source.id)
@@ -88,7 +92,7 @@ class SourceListCreateView(APIView):
                     )
                     source.save(update_fields=["channel_id", "account_name"])
                 except Exception as e:
-                    print(f"Failed to fetch Twitch channel details: {e}")
+                    logger.error("Failed to fetch Twitch channel details: %s", e)
 
                 fetch_twitch_videos(source.id)
                 fetch_twitch_stats(source.id)
@@ -107,7 +111,7 @@ class SourceListCreateView(APIView):
                     source.account_name = channel_details.get("name") or "Vimeo User"
                     source.save(update_fields=["channel_id", "account_name"])
                 except Exception as e:
-                    print(f"Failed to fetch Vimeo channel details: {e}")
+                    logger.error("Failed to fetch Vimeo channel details: %s", e)
 
                 fetch_vimeo_videos(source.id)
                 fetch_vimeo_stats(source.id)
