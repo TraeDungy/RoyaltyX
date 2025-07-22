@@ -4,12 +4,14 @@ import { getMuiTheme } from "../../../theme";
 import { useTheme } from "../../common/contexts/ThemeContext";
 
 export const MUIThemeWrapper = ({ children }) => {
-  const { theme } = useTheme(); // "light" or "dark"
-  const [muiTheme, setMuiTheme] = useState(() => getMuiTheme(theme));
+  const { theme, secondaryColor } = useTheme(); // "light" or "dark"
+  const [muiTheme, setMuiTheme] = useState(() =>
+    getMuiTheme(theme, secondaryColor),
+  );
 
   useEffect(() => {
-    setMuiTheme(getMuiTheme(theme));
-  }, [theme]);
+    setMuiTheme(getMuiTheme(theme, secondaryColor));
+  }, [theme, secondaryColor]);
 
   return (
     <MUIThemeProvider theme={muiTheme}>
