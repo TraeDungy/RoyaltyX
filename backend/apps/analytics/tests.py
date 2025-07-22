@@ -64,6 +64,7 @@ class AnalyticsViewTests(TestCase):
         self.product_analytics_url = reverse(
             "product-analytics", kwargs={"product_id": self.product.id}
         )
+        self.forecasts_url = reverse("analytics-forecasts")
 
     def test_analytics_endpoint_without_parameters(self):
         """Test analytics endpoint without any query parameters"""
@@ -141,6 +142,11 @@ class AnalyticsViewTests(TestCase):
         response = self.client.get(self.analytics_url)
 
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_get_forecasts(self):
+        """Forecast list should return 200"""
+        response = self.client.get(self.forecasts_url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_product_analytics_endpoint_requires_authentication(self):
         """Test that product analytics endpoint requires authentication"""
