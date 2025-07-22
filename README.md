@@ -235,6 +235,11 @@ docker-compose -f local.yml exec backend python manage.py test
 docker-compose -f local.yml exec frontend npm test
 ```
 
+### Continuous Integration
+
+Automated GitHub Actions workflows run both backend and frontend tests on every
+pull request. The workflows can be found under `.github/workflows`.
+
 ### API Documentation
 
 - **Swagger UI**: http://localhost:8000/docs/
