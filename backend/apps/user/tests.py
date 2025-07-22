@@ -131,3 +131,46 @@ class SubscriptionPlanTests(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("subscription_plan", response.data)
         self.assertEqual(response.data["subscription_plan"], "free")
+
+
+class UserUpdateTests(TestCase):
+    """Tests for updating user information."""
+
+    def setUp(self):
+        self.client = APIClient()
+        self.User = get_user_model()
+
+        random_number = "".join(random.choices(string.digits, k=4))
+        self.email = f"update_user_{random_number}@test.com"
+        self.password = "Testaccount1_"
+        self.name = "Update User"
+
+        self.user = self.User.objects.create_user(
+            email=self.email,
+            name=self.name,
+            password=self.password,
+        )
+
+        login_url = reverse("token_obtain_pair")
+        login_data = {"email": self.email, "password": self.password}
+        response = self.client.post(login_url, login_data, format="json")
+        self.access_token = response.data["access"]
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {self.access_token}")
+
+    def test_update_user_success(self):
+        url = reverse("user.update")
+        data = {"name": "Updated", "avatar": "http://example.com/avatar.png"}
+        response = self.client.put(url, data, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.name, data["name"])
+        self.assertEqual(self.user.avatar, data["avatar"])
+
+    def test_update_user_invalid_name(self):
+        url = reverse("user.update")
+        data = {"name": "x" * 40}
+        response = self.client.put(url, data, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("name", response.data)

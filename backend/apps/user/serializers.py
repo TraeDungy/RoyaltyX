@@ -20,3 +20,11 @@ class SubscriptionPlanSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["subscription_plan"]
+
+
+class UserUpdateSerializer(serializers.ModelSerializer):
+    """Serializer for updating basic user fields."""
+
+    class Meta:
+        model = User
+        fields = ["name", "avatar"]

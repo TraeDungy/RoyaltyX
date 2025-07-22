@@ -5,7 +5,11 @@ from rest_framework import status
 from django.contrib.auth import authenticate
 
 from .models import User
-from .serializers import UserSerializer, SubscriptionPlanSerializer
+from .serializers import (
+    UserSerializer,
+    SubscriptionPlanSerializer,
+    UserUpdateSerializer,
+)
 
 
 @api_view(["GET"])
@@ -139,3 +143,15 @@ def change_password(request):
     return Response({
         "message": "Password changed successfully"
     }, status=status.HTTP_200_OK)
+
+
+@api_view(["PUT"])
+@permission_classes([IsAuthenticated])
+def update_user(request):
+    """Update the authenticated user's basic information."""
+    user = request.user
+    serializer = UserUpdateSerializer(user, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
