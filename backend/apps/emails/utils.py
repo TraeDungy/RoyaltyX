@@ -21,16 +21,14 @@ def send_welcome_email(
     """
     try:    
         dashboard_url = "https://app.royaltyx.co/"
-        subject = "Welcome to RoyaltyX!"
 
         context = {
             "user_name": user_name,
             "dashboard_url": dashboard_url,
         }
 
-        success = Email.send_template_email(
-            subject=subject,
-            template_name="emails/welcome.html",
+        success = Email.send_db_template_email(
+            template_name="welcome",
             context=context,
             recipient_list=[user_email],
             fail_silently=False,

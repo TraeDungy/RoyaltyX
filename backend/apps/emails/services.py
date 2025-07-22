@@ -2,8 +2,11 @@ import logging
 from typing import List, Optional, Dict, Any
 from django.core.mail import EmailMessage, EmailMultiAlternatives, send_mail
 from django.template.loader import render_to_string
+from django.template import Template, Context
 from django.conf import settings
 from django.utils.html import strip_tags
+
+from apps.emails.models import EmailTemplate
 
 
 logger = logging.getLogger(__name__)
@@ -152,3 +155,32 @@ class Email:
             if not fail_silently:
                 raise
             return False
+
+    @staticmethod
+    def send_db_template_email(
+        template_name: str,
+        context: Dict[str, Any],
+        recipient_list: List[str],
+        from_email: Optional[str] = None,
+        fail_silently: bool = False,
+    ) -> bool:
+        """Send an email using a template stored in the database."""
+        try:
+            template = EmailTemplate.objects.get(name=template_name)
+        except EmailTemplate.DoesNotExist:
+            logger.error(f"EmailTemplate '{template_name}' not found")
+            return False
+
+        subject_template = Template(template.subject)
+        html_template = Template(template.body_html)
+
+        subject = subject_template.render(Context(context))
+        html_content = html_template.render(Context(context))
+
+        return Email.send_html_email(
+            subject=subject,
+            html_content=html_content,
+            recipient_list=recipient_list,
+            from_email=from_email,
+            fail_silently=fail_silently,
+        )

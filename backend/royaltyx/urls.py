@@ -21,6 +21,7 @@ urlpatterns = [
     path("sources/", include("apps.sources.urls")),
     path("admin-panel/", include("apps.admin_panel.urls")),
     path("payments/", include("apps.payments.urls")),
+    path("emails/", include("apps.emails.urls")),
     ## OAuth2
     path("oauth/google/", include("apps.oauth.google.urls")),
     path("oauth/tiktok/", include("apps.oauth.tiktok.urls")),
