@@ -59,3 +59,21 @@ class SourcesConfig(AppConfig):
             },
         )
 
+        PeriodicTask.objects.get_or_create(
+            name="Fetch Square Sales",
+            defaults={
+                "interval": schedule,
+                "task": "apps.sources.tasks.task_fetch_square_sales",
+                "args": json.dumps([]),
+            },
+        )
+
+        PeriodicTask.objects.get_or_create(
+            name="Fetch Square Stats",
+            defaults={
+                "interval": schedule,
+                "task": "apps.sources.tasks.task_fetch_square_stats",
+                "args": json.dumps([]),
+            },
+        )
+

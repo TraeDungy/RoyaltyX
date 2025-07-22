@@ -18,7 +18,7 @@ In today's digital economy, content creators face the challenge of managing reve
 ### 🎨 Perfect For:
 
 - **Musicians & Artists**: Track streaming royalties, licensing fees, and merchandise sales
-- **Content Creators**: Monitor YouTube, TikTok, and social media revenue
+- **Content Creators**: Monitor YouTube, TikTok, Twitch, Square, and social media revenue
 - **Digital Entrepreneurs**: Manage multiple revenue streams and business metrics
 - **Small Agencies**: Handle client content and revenue tracking
 - **Freelancers**: Track project income and business performance
@@ -191,7 +191,7 @@ CELERY_BROKER_URL=redis://redis:6379/0
 - Version control
 
 ### 🔗 Platform Integrations
-- Multi-platform revenue tracking
+- Multi-platform revenue tracking (YouTube, Twitch, TikTok, Square)
 - API integrations with major services
 - Data synchronization
 - Automated reporting
