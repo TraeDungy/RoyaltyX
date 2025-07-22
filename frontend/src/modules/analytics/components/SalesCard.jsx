@@ -4,6 +4,7 @@ import { useState } from "react";
 import { EyeSlash, Palette } from "react-bootstrap-icons";
 import { useSettings } from "../../common/contexts/SettingsContext";
 import { GraphColorPalette } from "./GraphColorPalette";
+import GraphTypeSelector from "./GraphTypeSelector";
 import {
   IconButton,
   Grid,
@@ -15,14 +16,21 @@ import {
   MenuItem,
   Button,
 } from "@mui/material";
-import { EllipsisVertical, ArrowRight } from "lucide-react";
+import { EllipsisVertical, ArrowRight, BarChart2, Type } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export const SalesCard = ({ analytics }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const { setShowTotalSalesCard } = useSettings();
   const [showGraphColorPalette, setShowGraphColorPalette] = useState(false);
-  const { setsalesGraphColor } = useSettings();
+  const [showGraphTypeSelector, setShowGraphTypeSelector] = useState(false);
+  const {
+    setsalesGraphColor,
+    setSalesGraphType,
+    salesGraphType,
+    salesValueFormat,
+    setSalesValueFormat,
+  } = useSettings();
   const navigate = useNavigate();
 
   const handleMenuOpen = (event) => {
@@ -109,11 +117,35 @@ export const SalesCard = ({ analytics }) => {
                     <Palette style={{ marginRight: 8 }} />
                     Customize color
                   </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      setShowGraphTypeSelector(true);
+                      handleMenuClose();
+                    }}
+                    sx={{ py: 1 }}
+                  >
+                    <BarChart2 style={{ marginRight: 8 }} />
+                    Graph type
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      setSalesValueFormat(
+                        salesValueFormat === "currency" ? "number" : "currency"
+                      );
+                      handleMenuClose();
+                    }}
+                    sx={{ py: 1 }}
+                  >
+                    <Type style={{ marginRight: 8 }} />
+                    Toggle format
+                  </MenuItem>
                 </Menu>
               </Box>
             </Box>
             <Typography variant="h1" sx={{ fontWeight: "bold", mb: 3, pl: 1 }}>
-              {analytics?.total_sales_count}
+              {salesValueFormat === "currency"
+                ? `$${analytics?.total_sales_count.toLocaleString()}`
+                : analytics?.total_sales_count}
             </Typography>
 
             <SalesChart analytics={analytics} />
@@ -141,6 +173,14 @@ export const SalesCard = ({ analytics }) => {
         showGraphColorPalette={showGraphColorPalette}
         setShowGraphColorPalette={setShowGraphColorPalette}
         onSelectColor={onSelectColor}
+      />
+      <GraphTypeSelector
+        open={showGraphTypeSelector}
+        onClose={() => setShowGraphTypeSelector(false)}
+        onSelectType={(type) => {
+          setSalesGraphType(type);
+          setShowGraphTypeSelector(false);
+        }}
       />
     </>
   );

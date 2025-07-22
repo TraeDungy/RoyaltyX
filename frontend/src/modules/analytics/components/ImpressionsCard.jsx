@@ -4,6 +4,7 @@ import { useState } from "react";
 import { EyeSlash, Palette } from "react-bootstrap-icons";
 import { useSettings } from "../../common/contexts/SettingsContext";
 import { GraphColorPalette } from "./GraphColorPalette";
+import GraphTypeSelector from "./GraphTypeSelector";
 import {
   IconButton,
   Grid,
@@ -15,14 +16,21 @@ import {
   MenuItem,
   Button,
 } from "@mui/material";
-import { EllipsisVertical, ArrowRight } from "lucide-react";
+import { EllipsisVertical, ArrowRight, BarChart2, Type } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export const ImpressionsCard = ({ analytics }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const { setShowTotalImpressionsCard } = useSettings();
   const [showGraphColorPalette, setShowGraphColorPalette] = useState(false);
-  const { setimpressionsGraphColor } = useSettings();
+  const [showGraphTypeSelector, setShowGraphTypeSelector] = useState(false);
+  const {
+    setimpressionsGraphColor,
+    setImpressionsGraphType,
+    impressionsGraphType,
+    impressionsValueFormat,
+    setImpressionsValueFormat,
+  } = useSettings();
   const navigate = useNavigate();
 
   const handleMenuOpen = (event) => {
@@ -110,11 +118,35 @@ export const ImpressionsCard = ({ analytics }) => {
                     <Palette style={{ marginRight: 8 }} />
                     Customize color
                   </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      setShowGraphTypeSelector(true);
+                      handleMenuClose();
+                    }}
+                    sx={{ py: 1 }}
+                  >
+                    <BarChart2 style={{ marginRight: 8 }} />
+                    Graph type
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      setImpressionsValueFormat(
+                        impressionsValueFormat === "currency" ? "number" : "currency"
+                      );
+                      handleMenuClose();
+                    }}
+                    sx={{ py: 1 }}
+                  >
+                    <Type style={{ marginRight: 8 }} />
+                    Toggle format
+                  </MenuItem>
                 </Menu>
               </Box>
             </Box>
             <Typography variant="h1" sx={{ fontWeight: "bold", mb: 3, pl: 1 }}>
-              {analytics?.total_impressions.toLocaleString()}
+              {impressionsValueFormat === "currency"
+                ? `$${analytics?.total_impressions.toLocaleString()}`
+                : analytics?.total_impressions.toLocaleString()}
             </Typography>
 
             <ImpressionsChart analytics={analytics} />
@@ -142,6 +174,14 @@ export const ImpressionsCard = ({ analytics }) => {
         showGraphColorPalette={showGraphColorPalette}
         setShowGraphColorPalette={setShowGraphColorPalette}
         onSelectColor={onSelectColor}
+      />
+      <GraphTypeSelector
+        open={showGraphTypeSelector}
+        onClose={() => setShowGraphTypeSelector(false)}
+        onSelectType={(type) => {
+          setImpressionsGraphType(type);
+          setShowGraphTypeSelector(false);
+        }}
       />
     </>
   );

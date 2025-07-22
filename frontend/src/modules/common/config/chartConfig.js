@@ -4,6 +4,7 @@ import {
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend,
@@ -16,6 +17,7 @@ ChartJS.register(
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend,
@@ -66,6 +68,23 @@ export const getBaseLineDataset = (label, data, color, customConfig = {}) => {
     tension: 0.4,
     pointRadius: 0, // Hide points/nodes
     pointHoverRadius: 0, // Hide points on hover
+    ...customConfig,
+  };
+};
+
+// Base dataset configuration for sharp line charts
+export const getSharpLineDataset = (label, data, color, customConfig = {}) => {
+  return getBaseLineDataset(label, data, color, { tension: 0, ...customConfig });
+};
+
+// Base dataset configuration for bar charts
+export const getBaseBarDataset = (label, data, color, customConfig = {}) => {
+  return {
+    label,
+    data,
+    backgroundColor: color,
+    borderColor: color,
+    borderWidth: 1,
     ...customConfig,
   };
 };

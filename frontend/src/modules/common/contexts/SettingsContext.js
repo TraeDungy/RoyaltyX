@@ -89,6 +89,36 @@ export const SettingsProvider = ({ children }) => {
         : "#009efd";
     });
 
+  const [impressionsGraphType, setImpressionsGraphType] = useState(() => {
+    const saved = localStorage.getItem("impressionsGraphType");
+    return saved || "line";
+  });
+
+  const [salesGraphType, setSalesGraphType] = useState(() => {
+    const saved = localStorage.getItem("salesGraphType");
+    return saved || "line";
+  });
+
+  const [revenueGraphType, setRevenueGraphType] = useState(() => {
+    const saved = localStorage.getItem("revenueGraphType");
+    return saved || "line";
+  });
+
+  const [impressionsValueFormat, setImpressionsValueFormat] = useState(() => {
+    const saved = localStorage.getItem("impressionsValueFormat");
+    return saved || "number";
+  });
+
+  const [salesValueFormat, setSalesValueFormat] = useState(() => {
+    const saved = localStorage.getItem("salesValueFormat");
+    return saved || "number";
+  });
+
+  const [revenueValueFormat, setRevenueValueFormat] = useState(() => {
+    const saved = localStorage.getItem("revenueValueFormat");
+    return saved || "currency";
+  });
+
   const [revenueGraphColor, setrevenueGraphColor] =
     useState(() => {
       const savedrevenueGraphColor = localStorage.getItem(
@@ -196,6 +226,30 @@ export const SettingsProvider = ({ children }) => {
   }, [salesGraphColor]);
 
   useEffect(() => {
+    localStorage.setItem("impressionsGraphType", impressionsGraphType);
+  }, [impressionsGraphType]);
+
+  useEffect(() => {
+    localStorage.setItem("salesGraphType", salesGraphType);
+  }, [salesGraphType]);
+
+  useEffect(() => {
+    localStorage.setItem("revenueGraphType", revenueGraphType);
+  }, [revenueGraphType]);
+
+  useEffect(() => {
+    localStorage.setItem("impressionsValueFormat", impressionsValueFormat);
+  }, [impressionsValueFormat]);
+
+  useEffect(() => {
+    localStorage.setItem("salesValueFormat", salesValueFormat);
+  }, [salesValueFormat]);
+
+  useEffect(() => {
+    localStorage.setItem("revenueValueFormat", revenueValueFormat);
+  }, [revenueValueFormat]);
+
+  useEffect(() => {
     localStorage.setItem(
       "revenueGraphColor",
       revenueGraphColor,
@@ -253,10 +307,22 @@ export const SettingsProvider = ({ children }) => {
         setShowTotalRevenueCard,
         impressionsGraphColor,
         setimpressionsGraphColor,
+        impressionsGraphType,
+        setImpressionsGraphType,
+        impressionsValueFormat,
+        setImpressionsValueFormat,
         salesGraphColor,
         setsalesGraphColor,
+        salesGraphType,
+        setSalesGraphType,
+        salesValueFormat,
+        setSalesValueFormat,
         revenueGraphColor,
         setrevenueGraphColor,
+        revenueGraphType,
+        setRevenueGraphType,
+        revenueValueFormat,
+        setRevenueValueFormat,
         salesOverTimeGraphColor,
         setSalesOverTimeGraphColor,
         rentalsOverTimeGraphColor,
