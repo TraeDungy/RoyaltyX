@@ -196,6 +196,13 @@ CELERY_BROKER_URL=redis://redis:6379/0
 - Data synchronization
 - Automated reporting
 
+### 🧾 Invoice Management
+- Invoice generation with royalty and fee calculations
+- Multi-currency support and tax handling
+- Customizable templates with preview and export
+- Dashboard with status tracking and bulk actions
+- Payment instructions with Stripe or PayPal links
+
 ### 📱 User Experience
 - Responsive design for all devices
 - Intuitive dashboard interface
@@ -325,7 +332,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- **Documentation**: Check our comprehensive docs
+- **Documentation**: Check our comprehensive docs. See [Invoice Management](INVOICE_MANAGEMENT_GUIDE.md)
 - **Issues**: Report bugs on GitHub Issues
 - **Email**: support@royaltyx.com
 - **Community**: Join our Discord server
