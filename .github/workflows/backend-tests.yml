@@ -1,4 +1,4 @@
-name: Backend Tests
+name: Test Suite
 
 on:
   pull_request:
@@ -7,7 +7,7 @@ on:
       - dev
 
 jobs:
-  test:
+  backend-tests:
     runs-on: ubuntu-latest
 
     steps:
@@ -33,3 +33,27 @@ jobs:
           cd backend
           python manage.py migrate --noinput
           python manage.py test
+
+  frontend-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm install
+
+      - name: Run frontend tests
+        env:
+          CI: true
+        run: |
+          cd frontend
+          npm test -- --watchAll=false
