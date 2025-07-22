@@ -26,6 +26,7 @@ urlpatterns = [
     path("oauth/google/", include("apps.oauth.google.urls")),
     path("oauth/tiktok/", include("apps.oauth.tiktok.urls")),
     path("oauth/twitch/", include("apps.oauth.twitch.urls")),
+    path("oauth/shopify/", include("apps.oauth.shopify.urls")),
     ## API documentation urls
     path("schema/", SpectacularAPIView.as_view(), name="schema"),
     path("docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),

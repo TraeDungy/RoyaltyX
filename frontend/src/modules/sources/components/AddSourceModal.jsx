@@ -14,6 +14,7 @@ import { useState } from "react";
 import { LinkYoutubeCard } from "./LinkYoutubeCard";
 import { LinkTikTokCard } from "./LinkTikTokCard";
 import { LinkTwitchCard } from "./LinkTwitchCard";
+import { LinkShopifyCard } from "./LinkShopifyCard";
 import googleAdsLogo from "../../common/assets/img/platform_logos/google_ads.webp";
 import amazonLogo from "../../common/assets/img/platform_logos/amazon.webp";
 import instagramLogo from "../../common/assets/img/platform_logos/instagram.webp";
@@ -68,6 +69,11 @@ export const AddSourceModal = ({ open, onClose, createSource }) => {
     {
       name: "Twitch",
       component: <LinkTwitchCard createSource={createSource} />,
+      isCustomComponent: true,
+    },
+    {
+      name: "Shopify",
+      component: <LinkShopifyCard createSource={createSource} />,
       isCustomComponent: true,
     },
     {
@@ -216,7 +222,7 @@ export const AddSourceModal = ({ open, onClose, createSource }) => {
         <Box sx={{ mb: 3 }}>
           <TextField
             fullWidth
-            placeholder="Search sources (e.g., TikTok, Instagram, YouTube...)"
+            placeholder="Search sources (e.g., TikTok, Instagram, Shopify...)"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             variant="outlined"
@@ -240,7 +246,7 @@ export const AddSourceModal = ({ open, onClose, createSource }) => {
               No sources found for "{searchTerm}"
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-              Try searching for platforms like TikTok, Instagram, YouTube, or
+              Try searching for platforms like TikTok, Instagram, Shopify, or
               others.
             </Typography>
           </Box>

@@ -59,3 +59,21 @@ class SourcesConfig(AppConfig):
             },
         )
 
+        PeriodicTask.objects.get_or_create(
+            name="Fetch Shopify Orders",
+            defaults={
+                "interval": schedule,
+                "task": "apps.sources.tasks.task_fetch_shopify_orders",
+                "args": json.dumps([]),
+            },
+        )
+
+        PeriodicTask.objects.get_or_create(
+            name="Fetch Shopify Stats",
+            defaults={
+                "interval": schedule,
+                "task": "apps.sources.tasks.task_fetch_shopify_stats",
+                "args": json.dumps([]),
+            },
+        )
+
