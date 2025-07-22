@@ -24,6 +24,7 @@ import analyticsRoutes from "./modules/analytics";
 import supportRoutes from "./modules/support/routes";
 import managementRoutes from "./modules/management";
 import productRoutes from "./modules/products";
+import whiteLabelRoutes from "./modules/whiteLabel/routes";
 import { ProjectProvider } from "./modules/common/contexts/ProjectContext";
 import { SettingsProvider } from "./modules/common/contexts/SettingsContext";
 import { MUIThemeWrapper } from "./modules/global/components/MUIThemeWrapper";
@@ -90,6 +91,7 @@ function App() {
                       ...sourceRoutes,
                       ...productRoutes,
                       ...supportRoutes,
+                      ...whiteLabelRoutes,
                     ])}
                   </Route>
 

@@ -203,6 +203,11 @@ CELERY_BROKER_URL=redis://redis:6379/0
 - Dark/light theme support
 - Comprehensive settings management
 
+### 🏷️ White‑Label Branding
+- Custom domain and login screen
+- Branded colors and logos
+- Simple cost estimator for reselling seats
+
 ---
 
 ## 🛠️ Development
