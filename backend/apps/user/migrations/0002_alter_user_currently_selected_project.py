@@ -15,8 +15,8 @@ class Migration(migrations.Migration):
             model_name="user",
             name="currently_selected_project",
             field=models.ForeignKey(
-                default=None,
                 null=True,
+                blank=True,
                 on_delete=django.db.models.deletion.CASCADE,
                 to="project.project",
             ),
