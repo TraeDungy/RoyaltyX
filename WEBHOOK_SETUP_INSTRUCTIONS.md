@@ -1,4 +1,5 @@
 # Webhook Setup Instructions for RoyaltyX Stripe Integration
+See [README](README.md) for the full list of guides.
 
 ## Problem
 Stripe webhooks are not reaching your local development server, so successful payments don't automatically update subscription plans.

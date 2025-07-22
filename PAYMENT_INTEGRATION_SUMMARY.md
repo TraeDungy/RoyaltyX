@@ -1,4 +1,5 @@
 # Complete Stripe Payment Integration Summary
+See [README](README.md) for project setup and other documentation resources.
 
 ## 🎉 Implementation Complete
 

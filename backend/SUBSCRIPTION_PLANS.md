@@ -1,4 +1,5 @@
 # Subscription Plans API Documentation
+See [README](../README.md) for overall documentation.
 
 This document describes the subscription plan functionality that has been integrated into the RoyaltyX backend.
 

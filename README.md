@@ -24,6 +24,17 @@ In today's digital economy, content creators face the challenge of managing reve
 - **Small Agencies**: Handle client content and revenue tracking
 - **Freelancers**: Track project income and business performance
 
+## 📚 Documentation
+
+Additional guides and reference materials:
+
+- [Complete Stripe Integration Setup Guide](STRIPE_SETUP_COMPLETE_GUIDE.md)
+- [Stripe Payment Integration Documentation](STRIPE_PAYMENT_INTEGRATION.md)
+- [Webhook Setup Instructions](WEBHOOK_SETUP_INSTRUCTIONS.md)
+- [Subscription Plans API Documentation](backend/SUBSCRIPTION_PLANS.md)
+- [Implementation Summary](PAYMENT_INTEGRATION_SUMMARY.md)
+
+
 ---
 
 ## 🏗️ Technical Architecture

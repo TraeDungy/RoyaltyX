@@ -16,11 +16,11 @@ const HelpDocumentation = () => {
           icon={<InfoCircleFill className="h5 mb-0" />}
         >
           <AlertTitle>Information</AlertTitle>
-          This page will contain multiple topics all containing instructions and
-          rules on how to use particular features as a project owner. As we make
-          updates to the project, including how different features are used, we
-          will also make sure to keep this page up to date and provide support
-          in case project owners experience any issues.
+          This page contains short explanations of common features. Detailed
+          guides are available in the repository README and accompanying
+          markdown documents. As we make updates to the project we will keep
+          this section up to date and provide support if project owners
+          experience any issues.
         </Alert>
       </div>
 
