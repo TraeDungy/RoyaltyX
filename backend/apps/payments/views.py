@@ -28,7 +28,10 @@ def create_checkout_session(request):
             try:
                 addons.append(AddOn.objects.get(code=code))
             except AddOn.DoesNotExist:
-                return Response({"error": f"Invalid add-on: {code}"}, status=status.HTTP_400_BAD_REQUEST)
+                return Response(
+                    {"error": f"Invalid add-on: {code}"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
 
         if not plan:
             return Response(
@@ -101,7 +104,10 @@ def update_subscription(request):
         try:
             addons.append(AddOn.objects.get(code=code))
         except AddOn.DoesNotExist:
-            return Response({"error": f"Invalid add-on: {code}"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"error": f"Invalid add-on: {code}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
     try:
         StripeService.update_subscription(request.user, plan, addons)
