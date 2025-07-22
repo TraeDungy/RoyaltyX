@@ -1,6 +1,6 @@
+import bleach
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-import bleach
 
 from .models import SupportAttachment, SupportMessage, SupportTicket
 
@@ -191,3 +191,4 @@ class HelpChatSerializer(serializers.Serializer):
     """Serializer for OpenAI help chat requests."""
 
     question = serializers.CharField(max_length=500)
+    thread_id = serializers.IntegerField(required=False)

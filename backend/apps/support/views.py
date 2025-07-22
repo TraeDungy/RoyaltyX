@@ -1,3 +1,5 @@
+import openai
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db.models import Count, Q
 from django.shortcuts import get_object_or_404
@@ -6,17 +8,15 @@ from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
-import openai
-from django.conf import settings
 
-from .models import SupportTicket
+from .models import HelpChatMessage, HelpChatThread, SupportTicket
 from .serializers import (
     CreateSupportMessageSerializer,
     CreateSupportTicketSerializer,
+    HelpChatSerializer,
     SupportTicketDetailSerializer,
     SupportTicketListSerializer,
     UpdateTicketStatusSerializer,
-    HelpChatSerializer,
 )
 
 User = get_user_model()
@@ -290,6 +290,18 @@ class HelpChatView(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         question = serializer.validated_data["question"]
+        thread_id = serializer.validated_data.get("thread_id")
+
+        if thread_id:
+            thread = get_object_or_404(HelpChatThread, pk=thread_id, user=request.user)
+        else:
+            thread = HelpChatThread.objects.create(user=request.user)
+
+        # Save the user's question in the thread
+        HelpChatMessage.objects.create(thread=thread, role="user", content=question)
+
+        history = list(thread.messages.order_by("created_at").values("role", "content"))
+        messages = [{"role": msg["role"], "content": msg["content"]} for msg in history]
 
         if not settings.OPENAI_API_KEY:
             return Response(
@@ -301,7 +313,7 @@ class HelpChatView(generics.GenericAPIView):
             client = openai.OpenAI(api_key=settings.OPENAI_API_KEY)
             completion = client.chat.completions.create(
                 model="gpt-3.5-turbo",
-                messages=[{"role": "user", "content": question}],
+                messages=messages,
             )
             answer = completion.choices[0].message.content.strip()
         except Exception as exc:  # pragma: no cover - network call
@@ -310,4 +322,6 @@ class HelpChatView(generics.GenericAPIView):
                 status=status.HTTP_502_BAD_GATEWAY,
             )
 
-        return Response({"answer": answer})
+        HelpChatMessage.objects.create(thread=thread, role="assistant", content=answer)
+
+        return Response({"answer": answer, "thread_id": thread.id})
