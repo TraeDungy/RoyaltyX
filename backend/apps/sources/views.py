@@ -2,6 +2,8 @@ from apps.sources.utils.tiktok_service import TikTokService
 from apps.sources.utils.tiktok_sync import fetch_tiktok_stats, fetch_tiktok_videos
 from apps.sources.utils.twitch_sync import fetch_twitch_stats, fetch_twitch_videos
 from apps.sources.utils.twitch_service import TwitchService
+from apps.sources.utils.spotify_sync import fetch_spotify_tracks, fetch_spotify_stats
+from apps.sources.utils.spotify_service import SpotifyService
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
@@ -83,9 +85,22 @@ class SourceListCreateView(APIView):
                     source.save(update_fields=["channel_id", "account_name"])
                 except Exception as e:
                     print(f"Failed to fetch Twitch channel details: {e}")
-                
+
                 fetch_twitch_videos(source.id)
                 fetch_twitch_stats(source.id)
+
+            elif source.platform == Source.PLATFORM_SPOTIFY and source.access_token:
+                try:
+                    service = SpotifyService(source.access_token)
+                    user_info = service.fetch_user_info()
+                    source.channel_id = user_info.get("id")
+                    source.account_name = user_info.get("display_name") or "Spotify User"
+                    source.save(update_fields=["channel_id", "account_name"])
+                except Exception as e:
+                    print(f"Failed to fetch Spotify account details: {e}")
+
+                fetch_spotify_tracks(source.id)
+                fetch_spotify_stats(source.id)
 
             return Response(
                 SourceSerializer(source).data, status=status.HTTP_201_CREATED
