@@ -4,6 +4,11 @@ from datetime import datetime, timezone
 import stripe
 from django.contrib.auth import get_user_model
 
+from .tasks import (
+    send_payment_failed_email,
+    send_subscription_canceled_email,
+)
+
 # Initialize Stripe
 stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
 
@@ -182,7 +187,7 @@ class StripeService:
             user.payment_failure_count += 1
             user.save()
 
-            # TODO: Send notification email to user
+            send_payment_failed_email.delay(user.id)
 
             return user
         except User.DoesNotExist:
@@ -203,7 +208,7 @@ class StripeService:
             user.grace_period_end = None
             user.save()
 
-            # TODO: Send downgrade notification email
+            send_subscription_canceled_email.delay(user.id)
 
             return user
         except User.DoesNotExist:
