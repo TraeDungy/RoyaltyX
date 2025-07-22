@@ -165,6 +165,10 @@ class ProjectUserViewDeleteTests(TestCase):
             role=ProjectUser.PROJECT_USER_ROLE_OWNER,
         )
 
+        # Ensure permission checks succeed
+        self.owner.currently_selected_project = self.project
+        self.owner.save()
+
         self.project_user_to_delete = ProjectUser.objects.create(
             project=self.project,
             user=self.user_to_remove,
