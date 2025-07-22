@@ -85,6 +85,67 @@ def refresh_access_token(refresh_token: str) -> str:
         response.raise_for_status()
 
 
+def fetch_youtube_channel_statistics(access_token: str, channel_id: str) -> dict:
+    """Fetch channel statistics like subscribers and total views."""
+    url = "https://www.googleapis.com/youtube/v3/channels"
+    params = {
+        "part": "statistics",
+        "id": channel_id,
+    }
+    headers = {"Authorization": f"Bearer {access_token}"}
+
+    response = requests.get(url, headers=headers, params=params)
+
+    if response.status_code == 200:
+        data = response.json()
+        items = data.get("items", [])
+        if items:
+            return items[0].get("statistics", {})
+        else:
+            raise ValueError("No statistics found for channel")
+    else:
+        response.raise_for_status()
+
+
+def fetch_youtube_channel_analytics(
+    access_token: str,
+    channel_id: str,
+    start_date: str,
+    end_date: str,
+) -> dict:
+    """Fetch analytics metrics like views and watch time for a channel."""
+    url = "https://youtubeanalytics.googleapis.com/v2/reports"
+
+    params = {
+        "ids": f"channel=={channel_id}",
+        "startDate": start_date,
+        "endDate": end_date,
+        "metrics": "views,estimatedMinutesWatched,averageViewDuration",
+    }
+    headers = {"Authorization": f"Bearer {access_token}"}
+
+    response = requests.get(url, headers=headers, params=params)
+
+    if response.status_code == 200:
+        data = response.json()
+        rows = data.get("rows", [])
+        if rows:
+            views, minutes_watched, avg_duration = rows[0]
+            return {
+                "views": views,
+                "estimatedMinutesWatched": minutes_watched,
+                "averageViewDuration": avg_duration,
+            }
+        else:
+            return {
+                "views": 0,
+                "estimatedMinutesWatched": 0,
+                "averageViewDuration": 0,
+            }
+    else:
+        response.raise_for_status()
+
+
 def fetch_youtube_videos(source_id=None):
     sources = Source.objects.filter(platform=Source.PLATFORM_YOUTUBE)
     if source_id:

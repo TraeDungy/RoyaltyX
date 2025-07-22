@@ -7,6 +7,8 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from datetime import date, timedelta
+from django.utils.dateparse import parse_date
 
 from .models import Source
 from .serializers import SourceSerializer
@@ -14,6 +16,8 @@ from .utils.youtube import (
     fetch_youtube_channel_details,
     fetch_youtube_stats,
     fetch_youtube_videos,
+    fetch_youtube_channel_statistics,
+    fetch_youtube_channel_analytics,
 )
 
 
@@ -110,6 +114,59 @@ class SourceDetailView(APIView):
             return Response(
                 {"detail": "Source not found"}, status=status.HTTP_404_NOT_FOUND
             )
+
+
+class YoutubeAnalyticsView(APIView):
+    """Return YouTube specific analytics for a source."""
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        try:
+            source = Source.objects.get(
+                pk=pk,
+                project_id=request.user.currently_selected_project_id,
+                platform=Source.PLATFORM_YOUTUBE,
+            )
+        except Source.DoesNotExist:
+            return Response(
+                {"detail": "Source not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        period_start = request.query_params.get("period_start")
+        period_end = request.query_params.get("period_end")
+
+        if period_start and period_end:
+            start_date = parse_date(period_start)
+            end_date = parse_date(period_end)
+        else:
+            end_date = date.today()
+            start_date = end_date - timedelta(days=30)
+
+        try:
+            statistics = fetch_youtube_channel_statistics(
+                source.access_token, source.channel_id
+            )
+        except Exception as e:
+            return Response(
+                {"detail": f"Failed to fetch channel statistics: {e}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            analytics = fetch_youtube_channel_analytics(
+                source.access_token,
+                source.channel_id,
+                start_date.isoformat(),
+                end_date.isoformat(),
+            )
+        except Exception as e:
+            return Response(
+                {"detail": f"Failed to fetch channel analytics: {e}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        return Response({"statistics": statistics, "analytics": analytics})
 
     @extend_schema(
         request=SourceSerializer,
