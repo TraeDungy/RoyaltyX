@@ -1,6 +1,8 @@
 import random
 import string
 from datetime import date, timedelta
+from types import SimpleNamespace
+from unittest.mock import patch
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
@@ -259,3 +261,13 @@ class ForecastViewTests(TestCase):
         self.client.force_authenticate(user=None)
         response = self.client.get(self.forecast_url)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    @patch("apps.analytics.views.openai.chat.completions.create")
+    def test_generate_forecast(self, mock_create):
+        mock_create.return_value = SimpleNamespace(
+            choices=[SimpleNamespace(message=SimpleNamespace(content="AI text"))]
+        )
+        url = reverse("analytics-forecast-generate")
+        response = self.client.post(url, {})
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data["forecast"], "AI text")

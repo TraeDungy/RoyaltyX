@@ -1,18 +1,20 @@
-from datetime import datetime, time
 import csv
+from datetime import datetime, time
 
+import openai
+from django.conf import settings
+from django.db.models import Sum
 from django.http import HttpResponse
-
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from apps.analytics.models import AnalyticsForecast, AnalyticsRecord
 from apps.analytics.serializers import (
-    AnalyticsSerializer,
     AnalyticsForecastSerializer,
+    AnalyticsSerializer,
 )
-from apps.analytics.models import AnalyticsForecast
 from apps.analytics.utils import calculate_analytics
 
 
@@ -124,3 +126,56 @@ class AnalyticsForecastView(APIView):
         forecasts = AnalyticsForecast.objects.filter(project_id=project_id)
         serializer = AnalyticsForecastSerializer(forecasts, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class GenerateAnalyticsForecastView(APIView):
+    """Generate a new analytics forecast using OpenAI."""
+
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        project_id = request.user.currently_selected_project_id
+        product_id = request.data.get("product_id")
+
+        if not settings.OPENAI_API_KEY:
+            return Response(
+                {"error": "OpenAI API key is not configured."},
+                status=status.HTTP_503_SERVICE_UNAVAILABLE,
+            )
+
+        # Simple summary of totals to provide context for the forecast
+        filters = {"project_id": project_id}
+        if product_id:
+            filters["product_id"] = product_id
+
+        records = AnalyticsRecord.objects.filter(**filters)
+        totals = records.aggregate(
+            total_sales=Sum("sales"), total_revenue=Sum("royalty_revenue")
+        )
+        total_sales = totals.get("total_sales") or 0
+        total_revenue = totals.get("total_revenue") or 0
+
+        prompt = (
+            "Provide a short forecast for the next quarter based on "
+            f"total sales {total_sales} and revenue {total_revenue:.2f}."
+        )
+
+        try:  # pragma: no cover - network call
+            completion = openai.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=[{"role": "user", "content": prompt}],
+            )
+            forecast_text = completion.choices[0].message.content.strip()
+        except Exception as exc:  # pragma: no cover - network call
+            return Response(
+                {"error": f"OpenAI request failed: {exc}"},
+                status=status.HTTP_502_BAD_GATEWAY,
+            )
+
+        forecast = AnalyticsForecast.objects.create(
+            project_id=project_id,
+            product_id=product_id,
+            forecast=forecast_text,
+        )
+        serializer = AnalyticsForecastSerializer(forecast)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
