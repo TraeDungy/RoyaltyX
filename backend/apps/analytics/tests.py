@@ -9,6 +9,7 @@ from rest_framework import status
 from rest_framework.test import APIClient
 
 from apps.product.models import Product
+from apps.analytics.models import AnalyticsRecord
 from apps.project.models import Project, ProjectUser
 
 
@@ -173,3 +174,39 @@ class AnalyticsViewTests(TestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.data, dict)
+
+class AnalyticsRecordModelTests(TestCase):
+    def setUp(self):
+        User = get_user_model()
+        self.user = User.objects.create_user(
+            email="record@test.com", name="Record User", password="pass1234"
+        )
+        self.project = Project.objects.create(name="Record Project")
+        ProjectUser.objects.create(
+            project=self.project, user=self.user, role=ProjectUser.PROJECT_USER_ROLE_OWNER
+        )
+        self.product = Product.objects.create(
+            project=self.project,
+            title="Record Product",
+            description="desc",
+            statement_frequency="Monthly",
+            first_statement_end_date=date.today(),
+            payment_threshold=0,
+            payment_window=30,
+            is_active=True,
+        )
+
+    def test_create_analytics_record(self):
+        record = AnalyticsRecord.objects.create(
+            project=self.project,
+            product=self.product,
+            period_start=date.today(),
+            period_end=date.today(),
+            impressions=10,
+            impression_revenue=1.23,
+            sales_count=2,
+            rentals_count=1,
+            royalty_revenue=5.50,
+        )
+        self.assertEqual(AnalyticsRecord.objects.count(), 1)
+        self.assertEqual(record.sales_count, 2)

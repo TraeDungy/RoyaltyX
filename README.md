@@ -9,7 +9,7 @@ RoyaltyX is a comprehensive content and royalty management platform designed to 
 In today's digital economy, content creators face the challenge of managing revenue from multiple sources - streaming platforms, social media, licensing deals, and direct sales. RoyaltyX solves this by providing:
 
 - **Centralized Revenue Tracking**: Monitor all your income streams in one place
-- **Advanced Analytics**: Understand your performance with detailed insights and trends
+ - **Advanced Analytics**: Understand your performance with detailed insights and trends. The backend now stores aggregated metrics in an `AnalyticsRecord` model for fast reporting.
 - **Content Management**: Organize and track your digital assets efficiently
 - **Subscription Management**: Flexible pricing plans that grow with your business
 - **Multi-Platform Integration**: Connect with major platforms and services
