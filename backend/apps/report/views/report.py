@@ -102,6 +102,12 @@ class ReportsView(APIView):
             "created_at": now(),
             "template": template,
             "logo_url": template.logo_absolute_url(request),
+            "style": {
+                "colors": template.colors or {},
+                "typography": template.typography or {},
+                "layout": template.layout or {},
+                "logo_settings": template.logo_settings or {},
+            },
         }
 
         html_content = render_to_string("report_template.html", context)
