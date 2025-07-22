@@ -38,6 +38,17 @@ RoyaltyX is built with modern, scalable technologies:
 - **Celery** - Background task processing
 - **Stripe Integration** - Secure payment processing
 
+### Celery Beat Tasks
+
+The backend uses **django-celery-beat** to schedule synchronization jobs. When
+the application starts, `SourcesConfig.ready` creates daily tasks to pull data
+from third-party platforms:
+
+- **Fetch Youtube Videos** – runs `task_fetch_youtube_videos`
+- **Fetch YouTube Stats** – runs `task_fetch_youtube_stats`
+- **Fetch TikTok Videos** – runs `task_fetch_tiktok_videos`
+- **Fetch TikTok Stats** – runs `task_fetch_tiktok_stats`
+
 ### Frontend
 - **React 18** - Modern JavaScript framework
 - **Material-UI** - Professional component library

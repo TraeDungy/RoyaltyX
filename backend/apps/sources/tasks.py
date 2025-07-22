@@ -9,35 +9,41 @@ from .utils.youtube import fetch_youtube_stats, fetch_youtube_videos
 
 @shared_task
 def task_fetch_youtube_videos():
+    """Fetch newly uploaded videos from connected YouTube channels."""
     print("Running task for fetching YouTube videos.", flush=True)
     fetch_youtube_videos()
 
 
 @shared_task
 def task_fetch_youtube_stats():
+    """Update statistics for existing YouTube videos."""
     print("Running task for fetching YouTube stats.", flush=True)
     fetch_youtube_stats()
 
 @shared_task
 def task_fetch_tiktok_videos():
+    """Fetch newly uploaded videos from connected TikTok accounts."""
     print("Running task for fetching TikTok videos.", flush=True)
     fetch_tiktok_videos()
 
 
 @shared_task
 def task_fetch_tiktok_stats():
+    """Update statistics for existing TikTok videos."""
     print("Running task for fetching TikTok stats.", flush=True)
     fetch_tiktok_stats()
 
 
 @shared_task
 def task_fetch_twitch_videos():
+    """Fetch newly streamed videos from connected Twitch channels."""
     print("Running task for fetching Twitch videos.", flush=True)
     fetch_twitch_videos()
 
 
 @shared_task
 def task_fetch_twitch_stats():
+    """Update statistics for existing Twitch videos."""
     print("Running task for fetching Twitch stats.", flush=True)
     fetch_twitch_stats()
 
