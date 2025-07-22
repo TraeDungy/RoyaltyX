@@ -1,10 +1,14 @@
 import json
+import logging
 
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
 from .stripe_service import StripeService
+
+
+logger = logging.getLogger(__name__)
 
 
 @csrf_exempt
@@ -15,44 +19,52 @@ def test_webhook(request):
         payload = json.loads(request.body)
         event_type = payload.get("type")
 
-        print(f"Received webhook event: {event_type}")
+        logger.info("Received webhook event: %s", event_type)
 
         if event_type == "checkout.session.completed":
             session = payload["data"]["object"]
-            print(f"Processing checkout session: {session.get('id')}")
+            logger.info("Processing checkout session: %s", session.get('id'))
 
             # Handle the successful payment
             try:
                 user = StripeService.handle_successful_payment(session)
-                print(
-                    "Successfully updated user "
-                    f"{user.email} to plan {user.subscription_plan}"
+                logger.info(
+                    "Successfully updated user %s to plan %s",
+                    user.email,
+                    user.subscription_plan,
                 )
             except Exception as e:
-                print(f"Error handling successful payment: {str(e)}")
+                logger.error("Error handling successful payment: %s", e)
 
         elif event_type == "invoice.payment_failed":
             invoice = payload["data"]["object"]
-            print(f"Processing failed payment: {invoice.get('id')}")
+            logger.info("Processing failed payment: %s", invoice.get('id'))
 
             try:
                 user = StripeService.handle_payment_failed(invoice)
-                print(f"Updated user {user.email} status to {user.subscription_status}")
+                logger.info(
+                    "Updated user %s status to %s",
+                    user.email,
+                    user.subscription_status,
+                )
             except Exception as e:
-                print(f"Error handling payment failure: {str(e)}")
+                logger.error("Error handling payment failure: %s", e)
 
         elif event_type == "customer.subscription.deleted":
             subscription = payload["data"]["object"]
-            print(f"Processing subscription deletion: {subscription.get('id')}")
+            logger.info(
+                "Processing subscription deletion: %s",
+                subscription.get('id'),
+            )
 
             try:
                 user = StripeService.handle_subscription_deleted(subscription)
-                print(f"Downgraded user {user.email} to Discovery plan")
+                logger.info("Downgraded user %s to Discovery plan", user.email)
             except Exception as e:
-                print(f"Error handling subscription deletion: {str(e)}")
+                logger.error("Error handling subscription deletion: %s", e)
 
         return HttpResponse(status=200)
 
     except Exception as e:
-        print(f"Webhook error: {str(e)}")
+        logger.error("Webhook error: %s", e)
         return HttpResponse(status=500)

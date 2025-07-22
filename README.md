@@ -193,7 +193,7 @@ CELERY_BROKER_URL=redis://redis:6379/0
 - User profile management
 - Role-based access control
 
--### 💳 Subscription Management
+### 💳 Subscription Management
 - **Discovery Plan**: 30-day free trial then $19.99/month
 - **Professional Plan** ($49.99/month): Advanced features for growing creators
 - **Premium Plan** ($99.99/month): Full feature set for professionals
