@@ -18,6 +18,7 @@ import {
 import {
   Shield,
   CreditCard,
+  Bell,
   Mail,
   Calendar,
   CheckCircle,
@@ -58,6 +59,12 @@ function Overview() {
       description: "View and manage your subscription plan",
       icon: <CreditCard size={20} color="currentColor" />,
       path: "/account/membership",
+    },
+    {
+      title: "Notifications",
+      description: "Set your notification preferences",
+      icon: <Bell size={20} color="currentColor" />,
+      path: "/account/notifications",
     },
   ];
 

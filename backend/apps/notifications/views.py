@@ -3,8 +3,11 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import Notification
-from .serializers import NotificationSerializer
+from .models import Notification, NotificationPreference
+from .serializers import (
+    NotificationSerializer,
+    NotificationPreferenceSerializer,
+)
 
 
 class UserNotificationView(APIView):
@@ -37,3 +40,21 @@ class UserNotificationView(APIView):
             is_read=True
         )
         return Response(status=status.HTTP_200_OK)
+
+
+class NotificationPreferenceView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        pref, _ = NotificationPreference.objects.get_or_create(user=request.user)
+        serializer = NotificationPreferenceSerializer(pref)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def put(self, request):
+        pref, _ = NotificationPreference.objects.get_or_create(user=request.user)
+        serializer = NotificationPreferenceSerializer(
+            pref, data=request.data, partial=True
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
