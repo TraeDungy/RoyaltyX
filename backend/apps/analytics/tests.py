@@ -166,7 +166,6 @@ class GranularityTests(TestCase):
         from apps.analytics.views import AnalyticsView
         view = AnalyticsView()
         start = date.today()
-        end = date.today()
         self.assertEqual(view._determine_granularity(start, start), "hourly")
 
     def test_determine_granularity_daily(self):

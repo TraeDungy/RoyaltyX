@@ -1,6 +1,10 @@
 from django.urls import path
 
-from apps.analytics.views import AnalyticsView, AnalyticsExportView, ForecastListView
+from apps.analytics.views import (
+    AnalyticsExportView,
+    AnalyticsView,
+    ForecastListView,
+)
 
 urlpatterns = [
     path("", AnalyticsView.as_view(), name="project-analytics"),

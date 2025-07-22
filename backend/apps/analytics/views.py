@@ -1,10 +1,14 @@
 from datetime import datetime, time
+import csv
+import io
 
+from django.http import HttpResponse
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from apps.analytics.models import AnalyticsForecast
 from apps.analytics.serializers import AnalyticsSerializer
 from apps.analytics.utils import calculate_analytics
 
@@ -50,12 +54,6 @@ class AnalyticsView(APIView):
         )
 
         return Response(data, status=status.HTTP_200_OK)
-
-import csv
-import io
-from django.http import HttpResponse
-
-from apps.analytics.models import AnalyticsForecast
 
 
 class AnalyticsExportView(AnalyticsView):
