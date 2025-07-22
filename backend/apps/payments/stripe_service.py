@@ -4,6 +4,8 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from datetime import datetime, timezone
 
+from apps.emails.utils import send_welcome_email
+
 User = get_user_model()
 
 # Initialize Stripe
@@ -127,13 +129,17 @@ class StripeService:
         try:
             subscription_id = invoice['subscription']
             user = User.objects.get(stripe_subscription_id=subscription_id)
-            
+
             user.subscription_status = 'past_due'
             user.payment_failure_count += 1
             user.save()
-            
-            # TODO: Send notification email to user
-            
+
+            # Send notification email to user about payment failure
+            send_welcome_email(
+                user_email=user.email,
+                user_name=user.name or user.username,
+            )
+
             return user
         except User.DoesNotExist:
             raise Exception(f"User not found for subscription: {subscription_id}")
@@ -143,7 +149,7 @@ class StripeService:
         """Handle subscription deletion from webhook"""
         try:
             user = User.objects.get(stripe_subscription_id=subscription['id'])
-            
+
             # Downgrade to free plan
             user.subscription_plan = 'free'
             user.subscription_status = 'canceled'
@@ -151,9 +157,13 @@ class StripeService:
             user.subscription_current_period_end = None
             user.grace_period_end = None
             user.save()
-            
-            # TODO: Send downgrade notification email
-            
+
+            # Send downgrade notification email
+            send_welcome_email(
+                user_email=user.email,
+                user_name=user.name or user.username,
+            )
+
             return user
         except User.DoesNotExist:
             raise Exception(f"User not found for subscription: {subscription['id']}")
