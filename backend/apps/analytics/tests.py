@@ -64,6 +64,7 @@ class AnalyticsViewTests(TestCase):
         self.product_analytics_url = reverse(
             "product-analytics", kwargs={"product_id": self.product.id}
         )
+        self.analytics_export_url = reverse("analytics-export")
 
     def test_analytics_endpoint_without_parameters(self):
         """Test analytics endpoint without any query parameters"""
@@ -173,3 +174,19 @@ class AnalyticsViewTests(TestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.data, dict)
+
+    def test_export_analytics_csv(self):
+        """Test exporting analytics data as CSV"""
+        response = self.client.get(self.analytics_export_url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response["Content-Type"], "text/csv")
+        self.assertTrue(response["Content-Disposition"].startswith("attachment"))
+
+    def test_export_requires_authentication(self):
+        """Export endpoint should require authentication"""
+        self.client.force_authenticate(user=None)
+
+        response = self.client.get(self.analytics_export_url)
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)

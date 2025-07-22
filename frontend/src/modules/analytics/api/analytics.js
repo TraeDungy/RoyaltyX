@@ -35,3 +35,31 @@ export const getProjectAnalytics = async (period_range) => {
     throw new Error(error);
   }
 };
+
+export const exportProjectAnalytics = async (period_range) => {
+  const token = localStorage.getItem("accessToken");
+  const params = new URLSearchParams();
+
+  if (period_range.period_start) {
+    params.append("period_start", period_range.period_start);
+  }
+  if (period_range.period_end) {
+    params.append("period_end", period_range.period_end);
+  }
+
+  const queryString = params.toString();
+  const url = `${apiUrl}/analytics/export/${queryString ? "?" + queryString : ""}`;
+
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to export analytics");
+  }
+
+  return await response.blob();
+};
