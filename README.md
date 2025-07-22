@@ -117,6 +117,13 @@ from third-party platforms:
    docker-compose -f local.yml exec backend python manage.py loaddata initial_data.json
    ```
 
+### Using the Help Tab
+
+After signing in, open **Help Documentation** from the admin sidebar. Each setup step
+is presented as a collapsible help card. Click a card title to expand or collapse
+the instructions. The smooth animation keeps guidance available without getting in
+your way.
+
 ---
 
 ## 🔧 Configuration
