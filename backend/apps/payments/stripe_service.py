@@ -86,9 +86,10 @@ class StripeService:
     def handle_successful_payment(session):
         """Handle successful payment from webhook"""
         try:
-            User = get_user_model()
             user_id = session["metadata"]["user_id"]
             plan = session["metadata"]["plan"]
+
+            User = get_user_model()
 
             user = User.objects.get(id=user_id)
 
