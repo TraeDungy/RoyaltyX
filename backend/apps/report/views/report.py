@@ -1,22 +1,13 @@
 import uuid
-from datetime import datetime, time
 
-from django.core.files.base import ContentFile
-from django.template.loader import render_to_string
-from django.utils import timezone
-from django.utils.timezone import now
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from weasyprint import HTML
 
-from apps.analytics.utils import calculate_analytics
-from apps.notifications.utils import create_notification
-from apps.product.models import Product
-from apps.project.models import Project
 from apps.report.models import Report
 from apps.report.serializers import ReportRequestSerializer, ReportSerializer
+from apps.report.tasks import generate_report_pdf
 
 
 class ReportsView(APIView):
@@ -42,88 +33,19 @@ class ReportsView(APIView):
         period_end = serializer.validated_data.get("period_end", None)
         template = serializer.validated_data.get("template", None)
 
-        filters = {}
-
-        start_date = None
-        end_date = None
-
-        if period_start and period_end:
-            try:
-                start_date = timezone.make_aware(
-                    datetime.combine(period_start, time.min)
-                )
-                end_date = timezone.make_aware(datetime.combine(period_end, time.max))
-                filters["period_start__gte"] = start_date
-                filters["period_end__lte"] = end_date
-            except ValueError:
-                return Response(
-                    {"error": "Invalid date format. Use YYYY-MM-DD."},
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
-                
-
-        analytics = calculate_analytics(
-            currently_selected_project_id, filters, period_start, period_end,
-        )
-
-        user = request.user
-        project = Project.objects.get(id=currently_selected_project_id)
-        products = Product.objects.filter(project=project)
-
-        product_data = []
-        total_royalty_sum = 0
-
-        for product in products:
-            total_royalty = product.total_royalty_earnings(start_date, end_date)
-            total_impressions = product.total_impressions(start_date, end_date)
-            impressions_revenue = product.impressions_revenue(start_date, end_date)
-
-            total_royalty_sum += total_royalty
-            total_royalty_sum += impressions_revenue
-
-            product_data.append(
-                {
-                    "title": product.title,
-                    "total_royalty": total_royalty,
-                    "total_impressions": total_impressions,
-                    "impressions_revenue": impressions_revenue,
-                }
-            )
-
         filename = f"rx_report_{uuid.uuid4().hex}.pdf"
-        context = {
-            "project": project,
-            "products": product_data,
-            "total_royalty_sum": total_royalty_sum,
-            "user": user,
-            "analytics": analytics,
-            "period_start": period_start,
-            "period_end": period_end,
-            "created_at": now(),
-            "template": template,
-            "logo_url": template.logo_absolute_url(request),
-            "style": {
-                "colors": template.colors or {},
-                "typography": template.typography or {},
-                "layout": template.layout or {},
-                "logo_settings": template.logo_settings or {},
-            },
-        }
-
-        html_content = render_to_string("report_template.html", context)
-        pdf_file = HTML(string=html_content).write_pdf()
 
         report = Report.objects.create(
             template=template,
             filename=filename,
             project_id=currently_selected_project_id,
-            created_by=user,
+            created_by=request.user,
             period_start=period_start,
             period_end=period_end,
         )
-        report.file.save(filename, ContentFile(pdf_file))
 
-        create_notification(user, "Your requested report was successfully created!")
+        base_url = request.build_absolute_uri("/")
+        generate_report_pdf.delay(report.id, base_url)
 
         serializer = ReportSerializer(report)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
