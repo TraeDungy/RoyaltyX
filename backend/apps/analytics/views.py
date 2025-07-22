@@ -1,4 +1,7 @@
 from datetime import datetime, time
+import csv
+
+from django.http import HttpResponse
 
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
@@ -50,3 +53,58 @@ class AnalyticsView(APIView):
         )
 
         return Response(data, status=status.HTTP_200_OK)
+
+
+class AnalyticsExportView(APIView):
+    """Export analytics data as CSV."""
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        serializer = AnalyticsSerializer(data=request.query_params)
+        serializer.is_valid(raise_exception=True)
+
+        project_id = request.user.currently_selected_project_id
+        period_start = serializer.validated_data.get("period_start", None)
+        period_end = serializer.validated_data.get("period_end", None)
+
+        filters = {}
+        if period_start and period_end:
+            start_date = datetime.combine(period_start, time.min)
+            end_date = datetime.combine(period_end, time.max)
+            filters["period_start__gte"] = start_date
+            filters["period_end__lte"] = end_date
+
+        granularity = AnalyticsView()._determine_granularity(period_start, period_end)
+
+        data = calculate_analytics(
+            project_id, filters, period_start, period_end, None, granularity
+        )
+
+        response = HttpResponse(content_type="text/csv")
+        response["Content-Disposition"] = 'attachment; filename="analytics.csv"'
+
+        writer = csv.writer(response)
+        writer.writerow(
+            [
+                "period",
+                "impressions",
+                "sales",
+                "rentals",
+                "royalty_revenue",
+                "impression_revenue",
+            ]
+        )
+        for item in data.get("time_stats", []):
+            writer.writerow(
+                [
+                    item.get("period"),
+                    item.get("impressions"),
+                    item.get("sales"),
+                    item.get("rentals"),
+                    item.get("royalty_revenue"),
+                    item.get("impression_revenue"),
+                ]
+            )
+
+        return response
