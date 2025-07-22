@@ -2,7 +2,7 @@ from datetime import date, datetime, timedelta
 from typing import Any, Dict, List, Optional, Union
 
 from django.db.models import Count, DecimalField, ExpressionWrapper, F, QuerySet, Sum
-from django.db.models.functions import TruncYear, TruncMonth, TruncDate, TruncHour
+from django.db.models.functions import TruncDate, TruncHour, TruncMonth, TruncYear
 
 from apps.product.models import Product, ProductImpressions, ProductSale
 from apps.sources.models import Source
@@ -432,6 +432,14 @@ def calculate_totals(
         or 0
     )
 
+    avg_royalty_per_sale = (
+        total_royalty_revenue / total_sales_count if total_sales_count else 0
+    )
+    avg_impression_revenue = (
+        total_impression_revenue / total_impressions if total_impressions else 0
+    )
+    conversion_rate = total_sales_count / total_impressions if total_impressions else 0
+
     data = {
         "total_impressions": total_impressions,
         "total_sales_count": total_sales_count,
@@ -441,6 +449,9 @@ def calculate_totals(
         "purchases_count": purchases_count,
         "purchases_revenue": purchases_revenue,
         "total_impression_revenue": total_impression_revenue,
+        "avg_royalty_per_sale": round(float(avg_royalty_per_sale), 6),
+        "avg_impression_revenue": round(float(avg_impression_revenue), 6),
+        "conversion_rate": round(float(conversion_rate), 6),
     }
 
     return data
@@ -451,9 +462,7 @@ def calculate_analytics_per_source(
     impressions_qs: QuerySet,
     sales_qs: QuerySet,
 ) -> List[Dict[str, Any]]:
-    """
-    Calculate analytics per source, returning source information along with impressions and sales data.
-    """
+    """Return analytics grouped by source."""
     # Get all sources for the project
     sources = Source.objects.filter(project_id=project_id)
 

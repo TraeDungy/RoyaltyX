@@ -173,3 +173,15 @@ class AnalyticsViewTests(TestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.data, dict)
+
+    def test_advanced_metrics_in_response(self):
+        """Ensure advanced analytics metrics are included in the response"""
+        response = self.client.get(self.analytics_url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        for field in [
+            "avg_royalty_per_sale",
+            "avg_impression_revenue",
+            "conversion_rate",
+        ]:
+            self.assertIn(field, response.data)
