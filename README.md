@@ -264,7 +264,7 @@ RoyaltyX/
 │   └── package.json        # Node.js dependencies
 ├── nginx/                  # Nginx configuration
 ├── docker-compose files    # Docker orchestration
-└── documentation/          # Project documentation
+└── docs/          # Project documentation
 ```
 
 ---
@@ -314,6 +314,11 @@ We welcome contributions to RoyaltyX! Please follow these steps:
 - Write tests for new features
 - Update documentation as needed
 - Ensure all tests pass before submitting
+
+## 📚 Additional Documentation
+
+For detailed guides on payments, webhooks and subscription plans, see the [docs directory](docs/README.md).
+
 
 ---
 

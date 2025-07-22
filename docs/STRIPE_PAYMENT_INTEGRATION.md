@@ -130,7 +130,7 @@ STRIPE_PREMIUM_PRICE_ID=price_...
 ### Payment Failure Flow
 1. Stripe payment fails → Webhook fired
 2. Backend updates status to `past_due`
-3. User gets email notification (TODO)
+3. User receives an email notification
 4. Grace period starts (7 days)
 5. If not resolved → Automatic downgrade to free
 
