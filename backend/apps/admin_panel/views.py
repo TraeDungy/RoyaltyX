@@ -14,8 +14,8 @@ from apps.sources.models import Source
 def has_admin_access(user):
     if getattr(user, "role", None) == "admin":
         return True
-    if hasattr(user, "permissions"):
-        return user.permissions.filter(code="admin_access").exists()
+    if hasattr(user, "has_permission"):
+        return user.has_permission("admin_access")
     return False
 
 User = get_user_model()
