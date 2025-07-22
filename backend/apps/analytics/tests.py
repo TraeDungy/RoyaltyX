@@ -173,3 +173,33 @@ class AnalyticsViewTests(TestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.data, dict)
+
+class GranularityTests(TestCase):
+
+    def test_determine_granularity_hourly(self):
+        from apps.analytics.views import AnalyticsView
+        view = AnalyticsView()
+        period_start = date.today()
+        period_end = date.today()
+        self.assertEqual(view._determine_granularity(period_start, period_start), "hourly")
+
+    def test_determine_granularity_daily(self):
+        from apps.analytics.views import AnalyticsView
+        view = AnalyticsView()
+        start = date.today() - timedelta(days=5)
+        end = date.today()
+        self.assertEqual(view._determine_granularity(start, end), "daily")
+
+    def test_determine_granularity_monthly(self):
+        from apps.analytics.views import AnalyticsView
+        view = AnalyticsView()
+        start = date.today() - timedelta(days=90)
+        end = date.today()
+        self.assertEqual(view._determine_granularity(start, end), "monthly")
+
+    def test_determine_granularity_yearly(self):
+        from apps.analytics.views import AnalyticsView
+        view = AnalyticsView()
+        start = date.today() - timedelta(days=800)
+        end = date.today()
+        self.assertEqual(view._determine_granularity(start, end), "yearly")
