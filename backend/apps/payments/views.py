@@ -9,9 +9,11 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .stripe_service import StripeService
 from .models import AddOn
+from .serializers import AddOnSerializer
 
 User = get_user_model()
 
@@ -215,3 +217,14 @@ def verify_session(request):
             {"error": f"Failed to verify session: {str(e)}"},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
+
+
+class AddOnListView(APIView):
+    """Return all active add-ons."""
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        addons = AddOn.objects.all()
+        serializer = AddOnSerializer(addons, many=True)
+        return Response(serializer.data)
