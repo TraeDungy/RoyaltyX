@@ -59,3 +59,12 @@ class SourcesConfig(AppConfig):
             },
         )
 
+        PeriodicTask.objects.get_or_create(
+            name="Fetch PayPal Transactions",
+            defaults={
+                "interval": schedule,
+                "task": "apps.sources.tasks.task_fetch_paypal_transactions",
+                "args": json.dumps([]),
+            },
+        )
+

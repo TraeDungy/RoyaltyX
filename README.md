@@ -140,6 +140,8 @@ GOOGLE_CLIENT_ID=your_google_client_id
 GOOGLE_CLIENT_SECRET=your_google_client_secret
 TIKTOK_CLIENT_ID=your_tiktok_client_id
 TIKTOK_CLIENT_SECRET=your_tiktok_client_secret
+PAYPAL_CLIENT_ID=your_paypal_client_id
+PAYPAL_CLIENT_SECRET=your_paypal_client_secret
 
 # Redis Configuration
 CELERY_BROKER_URL=redis://redis:6379/0
@@ -193,6 +195,7 @@ CELERY_BROKER_URL=redis://redis:6379/0
 ### 🔗 Platform Integrations
 - Multi-platform revenue tracking
 - API integrations with major services
+- Automated PayPal transaction import
 - Data synchronization
 - Automated reporting
 
