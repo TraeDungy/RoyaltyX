@@ -1,7 +1,7 @@
 import logging
-
 import os
-from .services import Email
+
+from .tasks import task_send_db_template_email
 
 logger = logging.getLogger(__name__)
 
@@ -28,19 +28,15 @@ def send_welcome_email(
             "dashboard_url": dashboard_url,
         }
 
-        success = Email.send_db_template_email(
+        task_send_db_template_email.delay(
             template_name="welcome",
             context=context,
             recipient_list=[user_email],
             fail_silently=False,
         )
 
-        if success:
-            logger.info(f"Welcome email sent successfully to {user_email}")
-        else:
-            logger.error(f"Failed to send welcome email to {user_email}")
-
-        return success
+        logger.info(f"Queued welcome email to {user_email}")
+        return True
 
     except Exception as e:
         logger.error(f"Error sending welcome email to {user_email}: {str(e)}")
