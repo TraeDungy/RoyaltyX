@@ -1,5 +1,6 @@
 import Producers from "./pages/Producers";
 import Settings from "./pages/Settings";
+import WhiteLabelPage from "./pages/WhiteLabelPage";
 
 const managementRoutes = [
   {
@@ -9,6 +10,10 @@ const managementRoutes = [
   {
     path: "/management/producers",
     element: <Producers />,
+  },
+  {
+    path: "/management/white-label",
+    element: <WhiteLabelPage />,
   },
 ];
 
