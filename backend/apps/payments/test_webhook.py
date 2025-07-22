@@ -1,13 +1,10 @@
 import json
 
-from django.contrib.auth import get_user_model
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
 from .stripe_service import StripeService
-
-User = get_user_model()
 
 
 @csrf_exempt
