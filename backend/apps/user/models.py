@@ -65,7 +65,7 @@ class User(AbstractBaseUser):
     is_staff = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default="user")
-    date_joined = models.DateTimeField(auto_now=True)
+    date_joined = models.DateTimeField(auto_now_add=True)
     is_deleted = models.BooleanField(default=False)
     is_email_verified = models.BooleanField(default=False)
     verification_code = models.CharField(max_length=30, null=True)
