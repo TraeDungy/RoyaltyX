@@ -207,23 +207,16 @@ class Email:
                 )
                 return False
 
-            django_template = Template(template_obj.content)
-            html_content = django_template.render(Context(context))
-            text_content = strip_tags(html_content)
+            subject = Template(template_obj.subject).render(Context(context))
+            html_content = Template(template_obj.content).render(Context(context))
 
-            email = EmailMultiAlternatives(
-                subject=template_obj.subject,
-                body=text_content,
+            return Email.send_html_email(
+                subject=subject,
+                html_content=html_content,
+                recipient_list=recipient_list,
                 from_email=from_email,
-                to=recipient_list,
+                fail_silently=fail_silently,
             )
-            email.attach_alternative(html_content, "text/html")
-            email.send(fail_silently=fail_silently)
-
-            logger.info(
-                f"DB template email '{template_name}' sent successfully to {len(recipient_list)} recipients"
-            )
-            return True
 
         except Exception as e:
             logger.error(
