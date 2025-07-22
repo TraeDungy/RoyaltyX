@@ -87,7 +87,9 @@ class User(AbstractBaseUser):
     # Stripe-related fields
     stripe_customer_id = models.CharField(max_length=255, null=True, blank=True)
     stripe_subscription_id = models.CharField(max_length=255, null=True, blank=True)
-    stripe_subscription_item_id = models.CharField(max_length=255, null=True, blank=True)
+    stripe_subscription_item_id = models.CharField(
+        max_length=255, null=True, blank=True
+    )
     subscription_status = models.CharField(
         max_length=50, choices=SUBSCRIPTION_STATUS_CHOICES, default="inactive"
     )
