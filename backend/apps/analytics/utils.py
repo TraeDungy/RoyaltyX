@@ -605,4 +605,20 @@ def calculate_analytics(
         # Only include product count for full project analytics
         data["product_count"] = Product.objects.filter(project_id=project_id).count()
 
+    # Persist analytics results for historical reference
+    from apps.analytics.models import AnalyticsRecord
+
+    product_obj = None
+    if product_id:
+        product_obj = Product.objects.filter(id=product_id).first()
+
+    AnalyticsRecord.objects.create(
+        project_id=project_id,
+        product=product_obj,
+        period_start=period_start or date.today(),
+        period_end=period_end or date.today(),
+        granularity=granularity,
+        data=data,
+    )
+
     return data
