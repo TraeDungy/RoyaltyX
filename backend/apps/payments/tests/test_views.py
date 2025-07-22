@@ -1,9 +1,10 @@
+from unittest.mock import MagicMock, patch
+
 from django.contrib.auth import get_user_model
-from django.urls import reverse
 from django.test import TestCase
-from rest_framework.test import APIClient
+from django.urls import reverse
 from rest_framework import status
-from unittest.mock import patch, MagicMock
+from rest_framework.test import APIClient
 
 User = get_user_model()
 
@@ -62,7 +63,9 @@ class PaymentViewsTests(TestCase):
 
     @patch("apps.payments.views.stripe.checkout.Session.retrieve")
     def test_verify_session_success(self, mock_retrieve):
-        mock_retrieve.return_value = MagicMock(payment_status="paid", metadata={"plan": "basic"})
+        mock_retrieve.return_value = MagicMock(
+            payment_status="paid", metadata={"plan": "basic"}
+        )
         url = reverse("payments.verify_session") + "?session_id=sess_1"
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)

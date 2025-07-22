@@ -219,12 +219,17 @@ class Email:
             email.send(fail_silently=fail_silently)
 
             logger.info(
-                f"DB template email '{template_name}' sent successfully to {len(recipient_list)} recipients"
+                (
+                    "DB template email '%s' sent successfully to %s recipients"
+                    % (template_name, len(recipient_list))
+                )
             )
             return True
 
         except Exception as e:
-            logger.error(f"Failed to send db template email '{template_name}': {str(e)}")
+            logger.error(
+                "Failed to send db template email '%s': %s" % (template_name, str(e))
+            )
             if not fail_silently:
                 raise
             return False

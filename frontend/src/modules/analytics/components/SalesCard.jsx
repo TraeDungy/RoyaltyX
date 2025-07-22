@@ -27,7 +27,6 @@ export const SalesCard = ({ analytics }) => {
   const {
     setsalesGraphColor,
     setSalesGraphType,
-    salesGraphType,
     salesValueFormat,
     setSalesValueFormat,
   } = useSettings();

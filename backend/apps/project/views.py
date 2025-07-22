@@ -1,17 +1,17 @@
-from django.shortcuts import get_object_or_404
 import logging
+
+from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .permissions import IsProjectOwner, IsProjectMember
+from .models import Project, ProjectUser
+from .permissions import IsProjectMember, IsProjectOwner
+from .serializers import ProjectSerializer, ProjectUserSerializer
 
 logger = logging.getLogger(__name__)
-
-from .models import Project, ProjectUser
-from .serializers import ProjectSerializer, ProjectUserSerializer
 
 
 class ProjectListCreateView(APIView):
@@ -67,7 +67,10 @@ class ProjectUserListView(APIView):
         if serializer.is_valid():
             project_user = serializer.save()
             logger.info(
-                "User %s added to project %s as %s", project_user.user.id, project_user.project.id, project_user.role
+                "User %s added to project %s as %s",
+                project_user.user.id,
+                project_user.project.id,
+                project_user.role,
             )
             return Response(
                 ProjectUserSerializer(project_user).data, status=status.HTTP_201_CREATED
@@ -89,7 +92,9 @@ class ProjectUserView(APIView):
         project_user = get_object_or_404(ProjectUser, id=id)
         project_user.delete()
         logger.info(
-            "User %s removed from project %s", project_user.user.id, project_user.project.id
+            "User %s removed from project %s",
+            project_user.user.id,
+            project_user.project.id,
         )
         return Response(
             {"message": "ProjectUser deleted successfully"},

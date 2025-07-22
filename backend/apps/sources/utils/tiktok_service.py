@@ -81,7 +81,9 @@ class TikTokService:
             "max_count": 20
         }
         url = "https://open.tiktokapis.com/v2/video/list/"
-        response = requests.post(url, headers=self.headers, params=params, json=json_data)
+        response = requests.post(
+            url, headers=self.headers, params=params, json=json_data
+        )
         if response.status_code == 200:
             return response.json().get("data", {}).get("videos", [])
         else:

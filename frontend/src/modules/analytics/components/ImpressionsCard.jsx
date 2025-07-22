@@ -27,7 +27,6 @@ export const ImpressionsCard = ({ analytics }) => {
   const {
     setimpressionsGraphColor,
     setImpressionsGraphType,
-    impressionsGraphType,
     impressionsValueFormat,
     setImpressionsValueFormat,
   } = useSettings();

@@ -2,11 +2,11 @@ from django.db.models import Sum
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
-from apps.project.permissions import IsProjectMember, IsProjectEditorOrAbove
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.project.models import ProjectUser
+from apps.project.permissions import IsProjectMember
 
 from .models import Product, ProductUser
 from .serializers import ProductSerializer, ProductUserSerializer
@@ -31,9 +31,13 @@ class ProductListCreateAPIView(APIView):
 
         if project_user.role == ProjectUser.PROJECT_USER_ROLE_OWNER:
             products = Product.objects.filter(project_id=currently_selected_project_id)
-        elif project_user.role in [ProjectUser.PROJECT_USER_ROLE_PRODUCER, ProjectUser.PROJECT_USER_ROLE_EDITOR]:
+        elif project_user.role in [
+            ProjectUser.PROJECT_USER_ROLE_PRODUCER,
+            ProjectUser.PROJECT_USER_ROLE_EDITOR,
+        ]:
             products = Product.objects.filter(
-                project_id=currently_selected_project_id, productuser__user=user
+                project_id=currently_selected_project_id,
+                productuser__user=user,
             )
         else:
             products = Product.objects.filter(project_id=currently_selected_project_id)
@@ -42,8 +46,14 @@ class ProductListCreateAPIView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
-        if getattr(request, "project_user_role", None) == ProjectUser.PROJECT_USER_ROLE_VIEWER:
-            return Response({"detail": "Permission denied."}, status=status.HTTP_403_FORBIDDEN)
+        if (
+            getattr(request, "project_user_role", None)
+            == ProjectUser.PROJECT_USER_ROLE_VIEWER
+        ):
+            return Response(
+                {"detail": "Permission denied."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
         serializer = ProductSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -66,8 +76,14 @@ def product_detail(request, product_id):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     elif request.method == "PUT":
-        if getattr(request, "project_user_role", None) == ProjectUser.PROJECT_USER_ROLE_VIEWER:
-            return Response({"detail": "Permission denied."}, status=status.HTTP_403_FORBIDDEN)
+        if (
+            getattr(request, "project_user_role", None)
+            == ProjectUser.PROJECT_USER_ROLE_VIEWER
+        ):
+            return Response(
+                {"detail": "Permission denied."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
         serializer = ProductSerializer(product, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -75,8 +91,14 @@ def product_detail(request, product_id):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == "DELETE":
-        if getattr(request, "project_user_role", None) == ProjectUser.PROJECT_USER_ROLE_VIEWER:
-            return Response({"detail": "Permission denied."}, status=status.HTTP_403_FORBIDDEN)
+        if (
+            getattr(request, "project_user_role", None)
+            == ProjectUser.PROJECT_USER_ROLE_VIEWER
+        ):
+            return Response(
+                {"detail": "Permission denied."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
         product.delete()
         return Response(
             {"message": "Product deleted successfully"},
@@ -95,8 +117,14 @@ def product_user_list_create(request, product_id):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     elif request.method == "POST":
-        if getattr(request, "project_user_role", None) == ProjectUser.PROJECT_USER_ROLE_VIEWER:
-            return Response({"detail": "Permission denied."}, status=status.HTTP_403_FORBIDDEN)
+        if (
+            getattr(request, "project_user_role", None)
+            == ProjectUser.PROJECT_USER_ROLE_VIEWER
+        ):
+            return Response(
+                {"detail": "Permission denied."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
         serializer = ProductUserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -126,8 +154,14 @@ class ProductUserDetail(APIView):
     def put(self, request, product_id, user_id):
         product_user = self.get_object(product_id, user_id)
         if product_user is not None:
-            if getattr(request, "project_user_role", None) == ProjectUser.PROJECT_USER_ROLE_VIEWER:
-                return Response({"detail": "Permission denied."}, status=status.HTTP_403_FORBIDDEN)
+            if (
+                getattr(request, "project_user_role", None)
+                == ProjectUser.PROJECT_USER_ROLE_VIEWER
+            ):
+                return Response(
+                    {"detail": "Permission denied."},
+                    status=status.HTTP_403_FORBIDDEN,
+                )
             serializer = ProductUserSerializer(product_user, data=request.data)
             if serializer.is_valid():
                 serializer.save()
@@ -140,8 +174,14 @@ class ProductUserDetail(APIView):
     def delete(self, request, product_id, user_id):
         product_user = self.get_object(product_id, user_id)
         if product_user is not None:
-            if getattr(request, "project_user_role", None) == ProjectUser.PROJECT_USER_ROLE_VIEWER:
-                return Response({"detail": "Permission denied."}, status=status.HTTP_403_FORBIDDEN)
+            if (
+                getattr(request, "project_user_role", None)
+                == ProjectUser.PROJECT_USER_ROLE_VIEWER
+            ):
+                return Response(
+                    {"detail": "Permission denied."},
+                    status=status.HTTP_403_FORBIDDEN,
+                )
             product_user.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         return Response(

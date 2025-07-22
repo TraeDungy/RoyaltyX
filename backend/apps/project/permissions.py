@@ -1,4 +1,5 @@
 import logging
+
 from rest_framework.permissions import BasePermission
 
 from .models import ProjectUser
@@ -16,7 +17,9 @@ class ProjectRolePermission(BasePermission):
         if not project_id:
             return False
         try:
-            project_user = ProjectUser.objects.get(project_id=project_id, user=request.user)
+            project_user = ProjectUser.objects.get(
+                project_id=project_id, user=request.user
+            )
         except ProjectUser.DoesNotExist:
             return False
         request.project_user_role = project_user.role
