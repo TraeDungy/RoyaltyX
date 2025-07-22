@@ -1,3 +1,4 @@
+import logging
 import requests
 from django.contrib.auth import get_user_model
 from rest_framework import status
@@ -5,6 +6,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.emails.utils import send_welcome_email
+
+
+logger = logging.getLogger(__name__)
 
 from .views import MyTokenObtainPairSerializer
 
@@ -83,7 +87,7 @@ class GoogleAuthView(APIView):
                         user_name=user.name or user.username
                     )
                 except Exception as e:
-                    print(e, flush=True)
+                    logger.error("Failed to send welcome email: %s", e)
                 
             # Generate JWT tokens
             token = MyTokenObtainPairSerializer.get_token(user)

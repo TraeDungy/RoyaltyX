@@ -1,3 +1,4 @@
+import logging
 import os
 
 import stripe
@@ -12,6 +13,9 @@ from rest_framework.response import Response
 
 from .stripe_service import StripeService
 from .models import AddOn
+
+
+logger = logging.getLogger(__name__)
 
 User = get_user_model()
 
@@ -171,10 +175,10 @@ def stripe_webhook(request):
                 pass
 
         else:
-            print(f'Unhandled event type: {event["type"]}')
+            logger.warning('Unhandled event type: %s', event["type"]) 
 
     except Exception as e:
-        print(f"Error handling webhook: {str(e)}")
+        logger.error("Error handling webhook: %s", e)
         return HttpResponse(status=500)
 
     return HttpResponse(status=200)

@@ -1,3 +1,4 @@
+import logging
 from django.contrib.auth.hashers import check_password
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
@@ -7,6 +8,9 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from apps.authentication.serializer import UserRegistrationSerializer
 from apps.emails.utils import send_welcome_email
+
+
+logger = logging.getLogger(__name__)
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -39,7 +43,7 @@ class RegisterView(generics.GenericAPIView):
                     user_name=user.name or user.username
                 )
             except Exception as e:
-                print(e, flush=True)
+                logger.error("Failed to send welcome email: %s", e)
             
             # Generate JWT tokens for the newly created user
             token_serializer = MyTokenObtainPairSerializer()
