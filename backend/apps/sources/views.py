@@ -79,9 +79,25 @@ class SourceListCreateView(APIView):
                     source.save(update_fields=["channel_id", "account_name"])
                 except Exception as e:
                     print(f"Failed to fetch Twitch channel details: {e}")
-                
+
                 fetch_twitch_videos(source.id)
                 fetch_twitch_stats(source.id)
+
+            elif source.platform == Source.PLATFORM_VIMEO and source.access_token:
+                try:
+                    from apps.sources.utils.vimeo_service import VimeoService
+                    from apps.sources.utils.vimeo_sync import fetch_vimeo_stats, fetch_vimeo_videos
+
+                    service = VimeoService(source.access_token)
+                    channel_details = service.fetch_user_info()
+                    source.channel_id = channel_details.get("uri")
+                    source.account_name = channel_details.get("name") or "Vimeo User"
+                    source.save(update_fields=["channel_id", "account_name"])
+                except Exception as e:
+                    print(f"Failed to fetch Vimeo channel details: {e}")
+
+                fetch_vimeo_videos(source.id)
+                fetch_vimeo_stats(source.id)
 
             return Response(
                 SourceSerializer(source).data, status=status.HTTP_201_CREATED

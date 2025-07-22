@@ -18,7 +18,7 @@ In today's digital economy, content creators face the challenge of managing reve
 ### 🎨 Perfect For:
 
 - **Musicians & Artists**: Track streaming royalties, licensing fees, and merchandise sales
-- **Content Creators**: Monitor YouTube, TikTok, and social media revenue
+- **Content Creators**: Monitor YouTube, TikTok, Vimeo, and social media revenue
 - **Digital Entrepreneurs**: Manage multiple revenue streams and business metrics
 - **Small Agencies**: Handle client content and revenue tracking
 - **Freelancers**: Track project income and business performance
@@ -140,6 +140,8 @@ GOOGLE_CLIENT_ID=your_google_client_id
 GOOGLE_CLIENT_SECRET=your_google_client_secret
 TIKTOK_CLIENT_ID=your_tiktok_client_id
 TIKTOK_CLIENT_SECRET=your_tiktok_client_secret
+VIMEO_CLIENT_ID=your_vimeo_client_id
+VIMEO_CLIENT_SECRET=your_vimeo_client_secret
 
 # Redis Configuration
 CELERY_BROKER_URL=redis://redis:6379/0
@@ -164,7 +166,7 @@ CELERY_BROKER_URL=redis://redis:6379/0
 ### 🔐 Authentication & User Management
 - Secure user registration and login
 - JWT-based authentication
-- OAuth integration (Google, TikTok)
+- OAuth integration (Google, TikTok, Twitch, Vimeo)
 - User profile management
 - Role-based access control
 
