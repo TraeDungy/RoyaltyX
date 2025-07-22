@@ -15,11 +15,21 @@ LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
-DEBUG = True
+# Configure debug mode via environment variable. Defaults to False for safety.
+def _str_to_bool(value: str) -> bool:
+    return str(value).lower() in {"1", "true", "t", "yes"}
+
+DEBUG = _str_to_bool(os.environ.get("DJANGO_DEBUG", "False"))
 
 AUTH_USER_MODEL = "user.User"
 
-ALLOWED_HOSTS = ["*"]
+# Allow hosts to be specified via environment variable. When not provided,
+# allow all hosts in debug mode and none in production.
+_allowed_hosts = os.environ.get("DJANGO_ALLOWED_HOSTS")
+if _allowed_hosts:
+    ALLOWED_HOSTS = [host.strip() for host in _allowed_hosts.split(",") if host]
+else:
+    ALLOWED_HOSTS = ["*"] if DEBUG else []
 
 AUTHENTICATION_BACKENDS = ("django.contrib.auth.backends.ModelBackend",)
 
