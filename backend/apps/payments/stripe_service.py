@@ -4,8 +4,6 @@ from datetime import datetime, timezone
 import stripe
 from django.contrib.auth import get_user_model
 
-User = get_user_model()
-
 # Initialize Stripe
 stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
 
@@ -88,6 +86,7 @@ class StripeService:
     def handle_successful_payment(session):
         """Handle successful payment from webhook"""
         try:
+            User = get_user_model()
             user_id = session["metadata"]["user_id"]
             plan = session["metadata"]["plan"]
 
@@ -123,6 +122,7 @@ class StripeService:
     def handle_payment_failed(invoice):
         """Handle failed payment from webhook"""
         try:
+            User = get_user_model()
             subscription_id = invoice["subscription"]
             user = User.objects.get(stripe_subscription_id=subscription_id)
 
@@ -140,6 +140,7 @@ class StripeService:
     def handle_subscription_deleted(subscription):
         """Handle subscription deletion from webhook"""
         try:
+            User = get_user_model()
             user = User.objects.get(stripe_subscription_id=subscription["id"])
 
             # Downgrade to free plan
