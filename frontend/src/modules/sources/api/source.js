@@ -46,7 +46,7 @@ export const useSource = (sourceId) => {
 
   useEffect(() => {
     if (error) {
-      console.log(error.message);
+      console.error(error.message);
     }
   }, [error]);
 
