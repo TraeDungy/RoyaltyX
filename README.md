@@ -14,6 +14,7 @@ In today's digital economy, content creators face the challenge of managing reve
 - **Subscription Management**: Flexible pricing plans that grow with your business
 - **Multi-Platform Integration**: Connect with major platforms and services
 - **Professional Reporting**: Generate detailed reports for tax purposes and business planning
+- **White-Label Branding**: Offer the platform under your own domain and logo
 
 ### 🎨 Perfect For:
 
@@ -203,6 +204,11 @@ CELERY_BROKER_URL=redis://redis:6379/0
 - Dark/light theme support
 - Comprehensive settings management
 - **AI-Powered Help Chat**: Get instant answers from the documentation using OpenAI
+
+### 🤝 White-Label Branding
+- Rebrand RoyaltyX with your logo and domain
+- Built-in cost estimator for resale pricing
+- Simple setup—see [WHITE_LABEL_BRANDING.md](WHITE_LABEL_BRANDING.md)
 
 ---
 
