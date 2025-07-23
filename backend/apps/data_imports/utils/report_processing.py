@@ -2,8 +2,10 @@ import csv
 import io
 import logging
 import hashlib
+import re
+from datetime import datetime
 from decimal import Decimal
-from typing import Any, BinaryIO, Dict, List
+from typing import Any, BinaryIO, Dict, List, Optional, Tuple
 
 import openpyxl
 
@@ -26,6 +28,87 @@ COLUMN_ALIASES = {
     "impressions": ["impressions"],
     "ecpm": ["ecpm", "eCPM"],
 }
+
+
+MONTH_NAMES = {
+    "jan": 1,
+    "feb": 2,
+    "mar": 3,
+    "apr": 4,
+    "may": 5,
+    "jun": 6,
+    "jul": 7,
+    "aug": 8,
+    "sep": 9,
+    "sept": 9,
+    "oct": 10,
+    "nov": 11,
+    "dec": 12,
+}
+
+
+def parse_date_string(text: str) -> Optional[datetime]:
+    """Attempt to parse a date from a string."""
+    text = str(text).strip()
+    try:
+        return datetime.fromisoformat(text)
+    except Exception:
+        pass
+
+    for fmt in (
+        "%Y-%m-%d",
+        "%Y/%m/%d",
+        "%d/%m/%Y",
+        "%m/%d/%Y",
+        "%Y-%m",
+        "%Y_%m",
+        "%b %Y",
+        "%B %Y",
+    ):
+        try:
+            return datetime.strptime(text, fmt)
+        except Exception:
+            continue
+    return None
+
+
+def parse_month_year_from_filename(filename: str) -> Optional[Tuple[int, int]]:
+    """Extract month and year information from a filename."""
+    name = filename.lower()
+
+    match = re.search(r"(20\d{2})[\-_\. ]?(\d{1,2})", name)
+    if match:
+        year = int(match.group(1))
+        month = int(match.group(2))
+        if 1 <= month <= 12:
+            return month, year
+
+    match = re.search(r"(\d{1,2})[\-_\. ]?(20\d{2})", name)
+    if match:
+        month = int(match.group(1))
+        year = int(match.group(2))
+        if 1 <= month <= 12:
+            return month, year
+
+    match = re.search(
+        r"(jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*[\-_ ]*(20\d{2})",
+        name,
+    )
+    if match:
+        month = MONTH_NAMES[match.group(1)[:3]]
+        year = int(match.group(2))
+        return month, year
+
+    match = re.search(
+        r"(20\d{2})[\-_ ]*(jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*",
+        name,
+    )
+    if match:
+        year = int(match.group(1))
+        month = MONTH_NAMES[match.group(2)[:3]]
+        return month, year
+
+    return None
 
 
 def detect_delimiter(file: BinaryIO) -> str:

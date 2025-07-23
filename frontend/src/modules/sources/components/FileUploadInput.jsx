@@ -48,6 +48,17 @@ const FileUploadInput = ({ setFiles }) => {
           setStatusMessage("Processing file...");
         } else if (status === "completed") {
           setStatusMessage("Processing complete");
+          if (data.month === 1 && data.year === 1900) {
+            const month = window.prompt("Enter month number (1-12)");
+            const year = window.prompt("Enter year (e.g. 2024)");
+            if (month && year) {
+              try {
+                await updateDataset(id, { month: parseInt(month), year: parseInt(year) });
+              } catch (err) {
+                toast.error("Failed to set period");
+              }
+            }
+          }
         } else if (status === "error") {
           setStatusMessage(data.error_message || "Processing failed");
           const mappingInput = window.prompt(
@@ -59,7 +70,7 @@ const FileUploadInput = ({ setFiles }) => {
               const mapping = JSON.parse(mappingInput);
               status = "processing";
               setStatusMessage("Reprocessing...");
-              await updateDataset(id, mapping);
+              await updateDataset(id, { column_mapping: mapping });
             } catch (err) {
               toast.error("Invalid mapping JSON");
             }
