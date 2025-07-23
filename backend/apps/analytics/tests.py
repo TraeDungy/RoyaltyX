@@ -9,7 +9,7 @@ from rest_framework import status
 from rest_framework.test import APIClient
 
 from apps.analytics.models import AnalyticsForecast
-from apps.product.models import Product
+from apps.product.models import Product, ProductImpressions, ProductSale
 from apps.project.models import Project, ProjectUser
 
 
@@ -259,3 +259,49 @@ class ForecastViewTests(TestCase):
         self.client.force_authenticate(user=None)
         response = self.client.get(self.forecast_url)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+
+class CalculateTotalsTests(TestCase):
+    def test_calculate_totals_basic(self):
+        project = Project.objects.create(name="Totals", description="d")
+        product = Product.objects.create(
+            project=project,
+            title="Prod",
+            description="d",
+            statement_frequency="Monthly",
+            first_statement_end_date=date.today(),
+            payment_threshold=0,
+            payment_window=30,
+            is_active=True,
+        )
+        ProductImpressions.objects.create(
+            product=product,
+            impressions=100,
+            ecpm=2,
+            period_start=date.today(),
+            period_end=date.today(),
+        )
+        ProductSale.objects.create(
+            product=product,
+            type=ProductSale.TYPE_PURCHASE,
+            unit_price=10,
+            unit_price_currency="USD",
+            quantity=1,
+            from_file=None,
+            is_refund=False,
+            royalty_amount=5,
+            royalty_currency="USD",
+            period_start=date.today(),
+            period_end=date.today(),
+        )
+
+        from apps.analytics.utils import calculate_totals
+
+        totals = calculate_totals(
+            ProductImpressions.objects.all(),
+            ProductSale.objects.all(),
+        )
+        self.assertEqual(totals["total_impressions"], 100)
+        self.assertEqual(totals["total_sales_count"], 1)
+        self.assertEqual(totals["total_royalty_revenue"], 5)
+        self.assertEqual(totals["total_impression_revenue"], 0)
