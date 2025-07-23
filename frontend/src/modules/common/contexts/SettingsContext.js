@@ -74,6 +74,21 @@ export const SettingsProvider = ({ children }) => {
     return saved !== null ? saved === "true" : true;
   });
 
+  const [showAverageEcpmCard, setShowAverageEcpmCard] = useState(() => {
+    const saved = localStorage.getItem("showAverageEcpmCard");
+    return saved !== null ? saved === "true" : true;
+  });
+
+  const [showRoyaltyPerSaleCard, setShowRoyaltyPerSaleCard] = useState(() => {
+    const saved = localStorage.getItem("showRoyaltyPerSaleCard");
+    return saved !== null ? saved === "true" : true;
+  });
+
+  const [showImpressionsPerProductCard, setShowImpressionsPerProductCard] = useState(() => {
+    const saved = localStorage.getItem("showImpressionsPerProductCard");
+    return saved !== null ? saved === "true" : true;
+  });
+
   const [dashboardAnalyticsOrder, setDashboardAnalyticsOrder] = useState(() => {
     const savedOrder = localStorage.getItem("dashboardAnalyticsOrder");
     return savedOrder ? JSON.parse(savedOrder) : defaultAnalyticsOrder;
@@ -236,6 +251,27 @@ export const SettingsProvider = ({ children }) => {
 
   useEffect(() => {
     localStorage.setItem(
+      "showAverageEcpmCard",
+      showAverageEcpmCard.toString(),
+    );
+  }, [showAverageEcpmCard]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "showRoyaltyPerSaleCard",
+      showRoyaltyPerSaleCard.toString(),
+    );
+  }, [showRoyaltyPerSaleCard]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "showImpressionsPerProductCard",
+      showImpressionsPerProductCard.toString(),
+    );
+  }, [showImpressionsPerProductCard]);
+
+  useEffect(() => {
+    localStorage.setItem(
       "impressionsGraphColor",
       impressionsGraphColor,
     );
@@ -337,6 +373,12 @@ export const SettingsProvider = ({ children }) => {
         setShowTotalRevenueCard,
         showProductImageCard,
         setShowProductImageCard,
+        showAverageEcpmCard,
+        setShowAverageEcpmCard,
+        showRoyaltyPerSaleCard,
+        setShowRoyaltyPerSaleCard,
+        showImpressionsPerProductCard,
+        setShowImpressionsPerProductCard,
         impressionsGraphColor,
         setimpressionsGraphColor,
         impressionsGraphType,
