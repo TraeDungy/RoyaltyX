@@ -77,10 +77,10 @@ function Analytics() {
       </div>
 
       <Grid container spacing={3}>
+        {showProductImageCard && <ProductImageCard product={product} />}
         {showTotalImpressionsCard && <ImpressionsCard analytics={analytics} />}
         {showTotalSalesCard && <SalesCard analytics={analytics} />}
         {showTotalRevenueCard && <RevenueCard analytics={analytics} />}
-        {showProductImageCard && <ProductImageCard product={product} />}
       </Grid>
 
       <Grid container columnSpacing={3}>
