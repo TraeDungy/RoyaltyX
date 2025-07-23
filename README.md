@@ -232,6 +232,7 @@ CELERY_BROKER_URL=redis://redis:6379/0
 - **Stored data**: individual product sales and impression records
 - **Calculated on demand**: totals, time-series metrics and per-source analytics
 - More details: [Analytics Data Overview](documentation/ANALYTICS_OVERVIEW.md)
+- Fee setup guide: [Fee System Overview](documentation/FEE_SYSTEM.md)
 
 ### 🎵 Content Management
 - Digital asset organization
