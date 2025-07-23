@@ -73,10 +73,10 @@ export const RevenueCard = ({ analytics }) => {
                   color: "text.secondary",
                 }}
               >
-                Revenue in last 4 months
+                ROYALTY REVENUE
                 <InfoPopover
                   title="Monthly revenue"
-                  text="This stat represents the total royalty revenue generated over the last month."
+                  text="This stat represents the total royalty revenue generated over the selected period."
                 />
               </Typography>
               <Box sx={{ display: "flex", alignItems: "center" }}>

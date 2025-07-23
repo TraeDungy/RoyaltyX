@@ -73,7 +73,7 @@ export const SalesCard = ({ analytics }) => {
                   color: "text.secondary",
                 }}
               >
-                Sales in last 4 months
+                SALES
                 <InfoPopover
                   title="Sales over time"
                   text="Total number of sales during the selected period for the analytics"
