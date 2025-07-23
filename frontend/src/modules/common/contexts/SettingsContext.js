@@ -74,6 +74,21 @@ export const SettingsProvider = ({ children }) => {
     return saved !== null ? saved === "true" : true;
   });
 
+  const [impressionsCardLabel, setImpressionsCardLabel] = useState(() => {
+    const saved = localStorage.getItem("impressionsCardLabel");
+    return saved || "Impressions";
+  });
+
+  const [salesCardLabel, setSalesCardLabel] = useState(() => {
+    const saved = localStorage.getItem("salesCardLabel");
+    return saved || "Sales";
+  });
+
+  const [revenueCardLabel, setRevenueCardLabel] = useState(() => {
+    const saved = localStorage.getItem("revenueCardLabel");
+    return saved || "Royalty Revenue";
+  });
+
   const [dashboardAnalyticsOrder, setDashboardAnalyticsOrder] = useState(() => {
     const savedOrder = localStorage.getItem("dashboardAnalyticsOrder");
     return savedOrder ? JSON.parse(savedOrder) : defaultAnalyticsOrder;
@@ -235,6 +250,18 @@ export const SettingsProvider = ({ children }) => {
   }, [showProductImageCard]);
 
   useEffect(() => {
+    localStorage.setItem("impressionsCardLabel", impressionsCardLabel);
+  }, [impressionsCardLabel]);
+
+  useEffect(() => {
+    localStorage.setItem("salesCardLabel", salesCardLabel);
+  }, [salesCardLabel]);
+
+  useEffect(() => {
+    localStorage.setItem("revenueCardLabel", revenueCardLabel);
+  }, [revenueCardLabel]);
+
+  useEffect(() => {
     localStorage.setItem(
       "impressionsGraphColor",
       impressionsGraphColor,
@@ -337,6 +364,12 @@ export const SettingsProvider = ({ children }) => {
         setShowTotalRevenueCard,
         showProductImageCard,
         setShowProductImageCard,
+        impressionsCardLabel,
+        setImpressionsCardLabel,
+        salesCardLabel,
+        setSalesCardLabel,
+        revenueCardLabel,
+        setRevenueCardLabel,
         impressionsGraphColor,
         setimpressionsGraphColor,
         impressionsGraphType,

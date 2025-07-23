@@ -21,7 +21,7 @@ import { useNavigate } from "react-router-dom";
 
 export const ImpressionsCard = ({ analytics }) => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const { setShowTotalImpressionsCard } = useSettings();
+  const { setShowTotalImpressionsCard, impressionsCardLabel } = useSettings();
   const [showGraphColorPalette, setShowGraphColorPalette] = useState(false);
   const [showGraphTypeSelector, setShowGraphTypeSelector] = useState(false);
   const {
@@ -73,7 +73,7 @@ export const ImpressionsCard = ({ analytics }) => {
                   color: "text.secondary",
                 }}
               >
-                IMPRESSIONS
+                {impressionsCardLabel.toUpperCase()}
                 <InfoPopover
                   title="Monthly impressions"
                   text="Impressions represent the number of times your content has been

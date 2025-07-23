@@ -1,4 +1,4 @@
-import { Button, Typography, Box, IconButton } from "@mui/material";
+import { Button, Typography, Box, IconButton, TextField } from "@mui/material";
 import { ArrowUp, ArrowDown, RotateCcw } from "lucide-react";
 import { useSettings } from "../../contexts/SettingsContext";
 
@@ -20,6 +20,12 @@ const ViewSettings = () => {
     setShowTotalRevenueCard,
     showProductImageCard,
     setShowProductImageCard,
+    impressionsCardLabel,
+    setImpressionsCardLabel,
+    salesCardLabel,
+    setSalesCardLabel,
+    revenueCardLabel,
+    setRevenueCardLabel,
     dashboardAnalyticsOrder,
     setDashboardAnalyticsOrder,
     resetDashboardAnalyticsOrder,
@@ -180,6 +186,32 @@ const ViewSettings = () => {
         <p className="txt-lighter small mt-1">
           Hide/show the product image card in the analytics page.
         </p>
+      </div>
+
+      <div className="py-4">
+        <Typography variant="subtitle1" sx={{ fontWeight: 500, mb: 1 }}>
+          Analytics Card Labels
+        </Typography>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+          <TextField
+            label="Impressions Card Label"
+            size="small"
+            value={impressionsCardLabel}
+            onChange={(e) => setImpressionsCardLabel(e.target.value)}
+          />
+          <TextField
+            label="Sales Card Label"
+            size="small"
+            value={salesCardLabel}
+            onChange={(e) => setSalesCardLabel(e.target.value)}
+          />
+          <TextField
+            label="Revenue Card Label"
+            size="small"
+            value={revenueCardLabel}
+            onChange={(e) => setRevenueCardLabel(e.target.value)}
+          />
+        </Box>
       </div>
 
       <div className="py-4">

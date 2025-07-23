@@ -21,7 +21,7 @@ import { useNavigate } from "react-router-dom";
 
 export const RevenueCard = ({ analytics }) => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const { setShowTotalRevenueCard } = useSettings();
+  const { setShowTotalRevenueCard, revenueCardLabel } = useSettings();
   const [showGraphColorPalette, setShowGraphColorPalette] = useState(false);
   const [showGraphTypeSelector, setShowGraphTypeSelector] = useState(false);
   const {
@@ -73,7 +73,7 @@ export const RevenueCard = ({ analytics }) => {
                   color: "text.secondary",
                 }}
               >
-                ROYALTY REVENUE
+                {revenueCardLabel.toUpperCase()}
                 <InfoPopover
                   title="Monthly revenue"
                   text="This stat represents the total royalty revenue generated over the selected period."

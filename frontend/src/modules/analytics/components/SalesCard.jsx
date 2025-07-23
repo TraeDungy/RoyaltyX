@@ -21,7 +21,7 @@ import { useNavigate } from "react-router-dom";
 
 export const SalesCard = ({ analytics }) => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const { setShowTotalSalesCard } = useSettings();
+  const { setShowTotalSalesCard, salesCardLabel } = useSettings();
   const [showGraphColorPalette, setShowGraphColorPalette] = useState(false);
   const [showGraphTypeSelector, setShowGraphTypeSelector] = useState(false);
   const {
@@ -73,7 +73,7 @@ export const SalesCard = ({ analytics }) => {
                   color: "text.secondary",
                 }}
               >
-                SALES
+                {salesCardLabel.toUpperCase()}
                 <InfoPopover
                   title="Sales over time"
                   text="Total number of sales during the selected period for the analytics"
