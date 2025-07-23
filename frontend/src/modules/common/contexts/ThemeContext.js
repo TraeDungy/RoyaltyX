@@ -15,11 +15,18 @@ export const ThemeProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem("themePreference", theme);
 
+    document.body.classList.add("theme-transition");
+    const timeout = setTimeout(() => {
+      document.body.classList.remove("theme-transition");
+    }, 300);
+
     if (theme === "dark") {
       document.body.classList.add("dark-mode");
     } else {
       document.body.classList.remove("dark-mode");
     }
+
+    return () => clearTimeout(timeout);
   }, [theme]);
 
   useEffect(() => {
