@@ -24,6 +24,7 @@ import SalesStatsCard from "../components/SalesStatsCard";
 import GeneralStatsCard from "../components/GeneralStatsCard";
 import { Grid, Typography, Button } from "@mui/material";
 import ForecastInsights from "../components/ForecastInsights";
+import ExpandableExampleCard from "../components/ExpandableExampleCard";
 
 function Analytics() {
   const [analytics, setAnalytics] = useState(null);
@@ -154,6 +155,8 @@ function Analytics() {
       <SourceAnalytics analytics={analytics} />
 
       <ForecastInsights forecasts={forecasts} />
+
+      <ExpandableExampleCard analytics={analytics} />
 
       <TopPerfomingContentByImpressions />
 
