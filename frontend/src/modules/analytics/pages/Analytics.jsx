@@ -27,6 +27,7 @@ import RoyaltyPerSaleCard from "../components/RoyaltyPerSaleCard";
 import ImpressionsPerProductCard from "../components/ImpressionsPerProductCard";
 import { Grid, Typography, Button } from "@mui/material";
 import ForecastInsights from "../components/ForecastInsights";
+import ExpandableExampleCard from "../components/ExpandableExampleCard";
 
 function Analytics() {
   const [analytics, setAnalytics] = useState(null);
@@ -165,6 +166,8 @@ function Analytics() {
       <SourceAnalytics analytics={analytics} />
 
       <ForecastInsights forecasts={forecasts} />
+
+      <ExpandableExampleCard analytics={analytics} />
 
       <TopPerfomingContentByImpressions />
 
