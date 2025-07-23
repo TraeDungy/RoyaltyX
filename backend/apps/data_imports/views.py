@@ -5,11 +5,15 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import Dataset, File
+from .models import Dataset, File, ImportTemplate
 from .serializers import DatasetSerializer, FileSerializer
 from .services import create_file, delete_file
 from .utils.producer_processing import process_producers
-from .utils.report_processing import process_report
+from .utils.report_processing import (
+    process_report,
+    detect_headers,
+    header_signature,
+)
 
 
 class FileListCreateView(APIView):
@@ -98,6 +102,16 @@ class DatasetDetailView(APIView):
         file_obj = dataset.file.file
         file_obj.open("rb")
         try:
+            headers = detect_headers(file_obj)
+            signature = header_signature(headers)
+            template, _ = ImportTemplate.objects.get_or_create(
+                project_id=dataset.file.project_id,
+                header_signature=signature,
+                defaults={"name": dataset.file.name},
+            )
+            template.column_mapping = mapping
+            template.save()
+            dataset.template = template
             result = process_report(
                 file_obj, dataset.file.project_id, dataset.file.id, mapping
             )

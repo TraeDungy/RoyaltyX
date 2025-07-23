@@ -1,13 +1,19 @@
 from datetime import datetime
 import logging
 
+from .utils.report_processing import (
+    process_report,
+    read_report,
+    detect_headers,
+    header_signature,
+)
+
 from django.shortcuts import get_object_or_404
 
 from apps.product.models import ProductImpressions, ProductSale
 
-from .models import Dataset, File
+from .models import Dataset, File, ImportTemplate
 from .serializers import DatasetSerializer, FileSerializer
-from .utils.report_processing import process_report, read_report
 
 
 logger = logging.getLogger(__name__)
@@ -39,13 +45,25 @@ def create_file(file, data):
     except Exception:
         pass
 
+    headers = detect_headers(file)
+    signature = header_signature(headers)
+    template = None
+    if headers:
+        template = ImportTemplate.objects.filter(
+            project=data["project"], header_signature=signature
+        ).first()
+
     column_mapping = data.get("column_mapping", {})
+    if template and not column_mapping:
+        column_mapping = template.column_mapping
+
     dataset = Dataset.objects.create(
         file=saved_file,
         month=month,
         year=year,
         status="processing",
         column_mapping=column_mapping,
+        template=template,
     )
 
     report_response = process_report(
@@ -54,6 +72,16 @@ def create_file(file, data):
         saved_file.id,
         column_mapping,
     )
+
+    if not template and column_mapping:
+        template = ImportTemplate.objects.create(
+            project_id=data["project"],
+            name=file_name,
+            header_signature=signature,
+            column_mapping=column_mapping,
+        )
+        dataset.template = template
+        dataset.save(update_fields=["template"])
 
     if report_response["status"] == "success":
         dataset.status = "completed"

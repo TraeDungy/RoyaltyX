@@ -1,6 +1,7 @@
 import csv
 import io
 import logging
+import hashlib
 from decimal import Decimal
 from typing import Any, BinaryIO, Dict, List
 
@@ -44,6 +45,34 @@ def map_header(header: str) -> str:
         if header in aliases:
             return canonical
     return header
+
+
+def detect_headers(file: BinaryIO) -> List[str]:
+    """Return normalized header names from the first row of the file."""
+    filename = getattr(file, "name", "").lower()
+    headers: List[str] = []
+    if filename.endswith((".xlsx", ".xls")):
+        workbook = openpyxl.load_workbook(file, data_only=True)
+        file.seek(0)
+        sheet = workbook.active
+        rows = list(sheet.iter_rows(values_only=True))
+        if rows:
+            headers = [map_header(str(h)) for h in rows[0]]
+    else:
+        delimiter = detect_delimiter(file)
+        decoded_file = io.StringIO(file.read().decode("utf-8"))
+        file.seek(0)
+        reader = csv.reader(decoded_file, delimiter=delimiter)
+        headers = next(reader, [])
+        headers = [map_header(h) for h in headers]
+    file.seek(0)
+    return headers
+
+
+def header_signature(headers: List[str]) -> str:
+    """Create a deterministic signature for a set of headers."""
+    normalized = [str(h).strip().lower() for h in headers if h is not None]
+    return hashlib.sha256(",".join(sorted(normalized)).encode("utf-8")).hexdigest()
 
 
 
