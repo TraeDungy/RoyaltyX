@@ -1,14 +1,16 @@
 import csv
+import hashlib
 import io
 import logging
-import hashlib
+import re
+from datetime import datetime
 from decimal import Decimal
-from typing import Any, BinaryIO, Dict, List
+from pathlib import Path
+from typing import Any, BinaryIO, Dict, List, Tuple
 
 import openpyxl
 
 from apps.product.models import Product, ProductImpressions, ProductSale
-
 
 logger = logging.getLogger(__name__)
 
@@ -26,6 +28,71 @@ COLUMN_ALIASES = {
     "impressions": ["impressions"],
     "ecpm": ["ecpm", "eCPM"],
 }
+
+
+MONTH_NAMES = {
+    "january": 1,
+    "february": 2,
+    "march": 3,
+    "april": 4,
+    "may": 5,
+    "june": 6,
+    "july": 7,
+    "august": 8,
+    "september": 9,
+    "october": 10,
+    "november": 11,
+    "december": 12,
+}
+
+
+def detect_period_from_filename(name: str) -> Tuple[int | None, int | None]:
+    """Return (month, year) if a date can be parsed from the file name."""
+    stem = Path(name).stem.lower()
+    match = re.search(r"(20\d{2})[-_](\d{1,2})", stem)
+    if match:
+        year = int(match.group(1))
+        month = int(match.group(2))
+        if 1 <= month <= 12:
+            return month, year
+
+    match = re.search(r"(\d{1,2})[-_](20\d{2})", stem)
+    if match:
+        month = int(match.group(1))
+        year = int(match.group(2))
+        if 1 <= month <= 12:
+            return month, year
+
+    match = re.search(r"(20\d{2})", stem)
+    if match:
+        year = int(match.group(1))
+        for name_part, idx in MONTH_NAMES.items():
+            if name_part in stem:
+                return idx, year
+    return None, None
+
+
+def detect_period_from_rows(
+    rows: List[Dict[str, Any]],
+) -> Tuple[int | None, int | None]:
+    """Return (month, year) from the first row if possible."""
+    if not rows:
+        return None, None
+    row = rows[0]
+    for key in ["Period Start", "period_start", "Date", "date"]:
+        value = row.get(key)
+        if value:
+            try:
+                parsed = datetime.fromisoformat(str(value))
+                return parsed.month, parsed.year
+            except Exception:
+                continue
+    if row.get("Month") and row.get("Year"):
+        try:
+            return int(row["Month"]), int(row["Year"])
+        except Exception:
+            pass
+    return None, None
 
 
 def detect_delimiter(file: BinaryIO) -> str:

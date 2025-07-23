@@ -1,15 +1,20 @@
 import io
 from decimal import Decimal
 
-from django.test import TestCase
+from django.contrib.auth import get_user_model
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.test import TestCase
 from openpyxl import Workbook
+from rest_framework import status
+from rest_framework.test import APIClient
 
-from apps.data_imports.models import File, ImportTemplate, Dataset
-from apps.data_imports.utils.report_processing import process_report
+from apps.data_imports.models import Dataset, File, ImportTemplate
 from apps.data_imports.services import create_file
+from apps.data_imports.utils.report_processing import process_report
 from apps.product.models import Product, ProductSale
-from apps.project.models import Project
+from apps.project.models import Project, ProjectUser
+
+User = get_user_model()
 
 
 class ProcessReportExcelTests(TestCase):
@@ -61,11 +66,16 @@ class ImportTemplateTests(TestCase):
 
     def _make_csv_file(self, name="sales.csv"):
         content = (
-            "Title,Unit Price,Unit Price Currency,Quantity,Royalty Amount,Royalty Currency,"
+            "Title,Unit Price,Unit Price Currency,Quantity,Royalty Amount,"
+            "Royalty Currency,"
             "Period Start,Period End\n"
             "Movie,10,USD,1,5,USD,2024-01-01,2024-01-31\n"
         )
-        return SimpleUploadedFile(name, content.encode("utf-8"), content_type="text/csv")
+        return SimpleUploadedFile(
+            name,
+            content.encode("utf-8"),
+            content_type="text/csv",
+        )
 
     def test_template_autodetection(self):
         file1 = self._make_csv_file("sales1.csv")
@@ -87,5 +97,48 @@ class ImportTemplateTests(TestCase):
         dataset2 = Dataset.objects.get(id=response2["dataset"]["id"])
         self.assertEqual(dataset2.template, template)
         self.assertEqual(dataset2.column_mapping, template.column_mapping)
+
+
+class PeriodDetectionTests(TestCase):
+    def setUp(self):
+        self.project = Project.objects.create(name="Proj", description="d")
+
+    def test_detect_period_from_filename(self):
+        content = "Title\nMovie"
+        file_obj = SimpleUploadedFile(
+            "report_2024-05.csv", content.encode("utf-8"), content_type="text/csv"
+        )
+        data = {"file": file_obj, "project": self.project.id, "name": file_obj.name}
+        response = create_file(file_obj, data)
+        dataset = Dataset.objects.get(id=response["dataset"]["id"])
+        self.assertEqual(dataset.month, 5)
+        self.assertEqual(dataset.year, 2024)
+
+    def test_update_dataset_period_via_patch(self):
+        content = "Title\nMovie"
+        file_obj = SimpleUploadedFile(
+            "no_period.csv", content.encode("utf-8"), content_type="text/csv"
+        )
+        data = {"file": file_obj, "project": self.project.id, "name": file_obj.name}
+        response = create_file(file_obj, data)
+        dataset_id = response["dataset"]["id"]
+
+        client = APIClient()
+        user = User.objects.create_user(
+            email="p@example.com", name="U", password="pass1234"
+        )
+        ProjectUser.objects.create(
+            project=self.project, user=user, role=ProjectUser.PROJECT_USER_ROLE_OWNER
+        )
+        user.currently_selected_project = self.project
+        user.save()
+        client.force_authenticate(user=user)
+
+        url = f"/data-imports/datasets/{dataset_id}/"
+        response = client.patch(url, {"month": 8, "year": 2023}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        dataset = Dataset.objects.get(id=dataset_id)
+        self.assertEqual(dataset.month, 8)
+        self.assertEqual(dataset.year, 2023)
 
 
