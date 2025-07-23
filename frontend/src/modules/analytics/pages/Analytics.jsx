@@ -22,6 +22,9 @@ import { TopPerfomingContentBySales } from "../components/TopPerfomingContentByS
 import { SourceAnalytics } from "../components/SourceAnalytics";
 import SalesStatsCard from "../components/SalesStatsCard";
 import GeneralStatsCard from "../components/GeneralStatsCard";
+import AverageEcpmCard from "../components/AverageEcpmCard";
+import RoyaltyPerSaleCard from "../components/RoyaltyPerSaleCard";
+import ImpressionsPerProductCard from "../components/ImpressionsPerProductCard";
 import { Grid, Typography, Button } from "@mui/material";
 import ForecastInsights from "../components/ForecastInsights";
 
@@ -35,6 +38,9 @@ function Analytics() {
     showRentalsOverTime,
     showImpressionsOverTime,
     showImpressionRevenueOverTime,
+    showAverageEcpmCard,
+    showRoyaltyPerSaleCard,
+    showImpressionsPerProductCard,
   } = useSettings();
   const location = useLocation();
   const params = new URLSearchParams(location.search);
@@ -148,6 +154,11 @@ function Analytics() {
       <Grid container spacing={3}>
         <SalesStatsCard analytics={analytics} />
         <GeneralStatsCard analytics={analytics} showProductCount={true} />
+        {showAverageEcpmCard && <AverageEcpmCard analytics={analytics} />}
+        {showRoyaltyPerSaleCard && <RoyaltyPerSaleCard analytics={analytics} />}
+        {showImpressionsPerProductCard && (
+          <ImpressionsPerProductCard analytics={analytics} />
+        )}
         {youtubeAnalytics && <YoutubeAnalyticsCard data={youtubeAnalytics} />}
       </Grid>
 
