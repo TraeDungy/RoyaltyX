@@ -73,7 +73,7 @@ export const RevenueCard = ({ analytics }) => {
                   color: "text.secondary",
                 }}
               >
-                {revenueCardLabel.toUpperCase()}
+                {revenueCardLabel}
                 <InfoPopover
                   title="Monthly revenue"
                   text="This stat represents the total royalty revenue generated over the selected period."
