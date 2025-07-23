@@ -14,12 +14,19 @@ export const ThemeProvider = ({ children }) => {
 
   useEffect(() => {
     localStorage.setItem("themePreference", theme);
+    const body = document.body;
+    body.classList.add("theme-transition");
+    const timeout = setTimeout(() => {
+      body.classList.remove("theme-transition");
+    }, 300);
 
     if (theme === "dark") {
-      document.body.classList.add("dark-mode");
+      body.classList.add("dark-mode");
     } else {
-      document.body.classList.remove("dark-mode");
+      body.classList.remove("dark-mode");
     }
+
+    return () => clearTimeout(timeout);
   }, [theme]);
 
   useEffect(() => {
