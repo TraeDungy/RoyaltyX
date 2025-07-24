@@ -68,8 +68,8 @@ def change_subscription_plan(request):
             status=status.HTTP_400_BAD_REQUEST,
         )
 
-    # If downgrading to free, handle directly
-    if new_plan == "free":
+    # If downgrading to discovery (free trial), handle directly
+    if new_plan == "discovery":
         # Cancel existing subscription if any
         if user.stripe_subscription_id:
             try:
@@ -82,8 +82,8 @@ def change_subscription_plan(request):
                     status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 )
 
-        # Update user to free plan
-        user.subscription_plan = "free"
+        # Update user to discovery plan
+        user.subscription_plan = "discovery"
         user.subscription_status = "canceled"
         user.stripe_subscription_id = None
         user.subscription_current_period_end = None
@@ -91,8 +91,8 @@ def change_subscription_plan(request):
 
         return Response(
             {
-                "message": "Successfully downgraded to free plan",
-                "subscription_plan": "free",
+                "message": "Successfully changed to discovery plan",
+                "subscription_plan": "discovery",
             }
         )
 

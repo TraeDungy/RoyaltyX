@@ -4,18 +4,19 @@ This document describes the subscription plan functionality that has been integr
 
 ## Overview
 
-The system supports three subscription plans:
-- **Free** (default for new users)
-- **Basic**
-- **Premium**
+The system supports four subscription plans:
+- **Discovery** (30-day free trial, then $19/mo or $199/yr)
+- **Professional** ($49/mo or $499/yr)
+- **Premium** ($99/mo or $999/yr)
+- **Enterprise** (contact for pricing)
 
 ## Database Changes
 
 A new field `subscription_plan` has been added to the User model with the following characteristics:
 - Type: CharField with choices
-- Default: "free"
-- Max length: 10 characters
-- Choices: free, basic, premium
+- Default: "discovery"
+- Max length: 15 characters
+- Choices: discovery, professional, premium, enterprise
 
 ## API Endpoints
 
@@ -28,7 +29,7 @@ All subscription plan endpoints require authentication (Bearer token).
 **Response:**
 ```json
 {
-    "subscription_plan": "free"
+    "subscription_plan": "discovery"
 }
 ```
 
@@ -40,9 +41,10 @@ All subscription plan endpoints require authentication (Bearer token).
 ```json
 {
     "plans": [
-        {"value": "free", "label": "Free"},
-        {"value": "basic", "label": "Basic"},
-        {"value": "premium", "label": "Premium"}
+        {"value": "discovery", "label": "Discovery"},
+        {"value": "professional", "label": "Professional"},
+        {"value": "premium", "label": "Premium"},
+        {"value": "enterprise", "label": "Enterprise"}
     ]
 }
 ```
@@ -54,22 +56,22 @@ All subscription plan endpoints require authentication (Bearer token).
 **Request Body:**
 ```json
 {
-    "subscription_plan": "basic"
+    "subscription_plan": "professional"
 }
 ```
 
 **Success Response:**
 ```json
 {
-    "message": "Subscription plan successfully changed to basic",
-    "subscription_plan": "basic"
+    "message": "Subscription plan successfully changed to professional",
+    "subscription_plan": "professional"
 }
 ```
 
 **Error Response (Invalid Plan):**
 ```json
 {
-    "error": "Invalid subscription plan. Valid options are: free, basic, premium"
+    "error": "Invalid subscription plan. Valid options are: discovery, professional, premium, enterprise"
 }
 ```
 
@@ -130,7 +132,7 @@ const changePlan = async (newPlan) => {
 
 ## Default Behavior
 
-- New users are automatically assigned the "free" subscription plan
+- New users are automatically assigned the "discovery" subscription plan
 - The subscription plan is included in the user info endpoint (`/users/get-my-info/`)
 - All subscription plan operations require user authentication
 
@@ -152,7 +154,7 @@ docker-compose -f local.yml exec backend python manage.py test apps.user.tests.S
 ## Migration
 
 The subscription plan field was added via migration `0007_user_subscription_plan.py`. This migration:
-- Adds the `subscription_plan` field to existing users with default value "free"
+- Adds the `subscription_plan` field to existing users with default value "discovery"
 - Does not require any data migration as the default value is applied automatically
 
 ## Future Enhancements

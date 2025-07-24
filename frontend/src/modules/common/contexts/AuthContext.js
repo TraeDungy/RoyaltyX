@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
   const [name, setName] = useState("");
   const [avatar, setAvatar] = useState("");
   const [role, setRole] = useState("");
-  const [subscriptionPlan, setSubscriptionPlan] = useState("free");
+  const [subscriptionPlan, setSubscriptionPlan] = useState("discovery");
 
   const [currentlySelectedProjectId, setCurrentlySelectedProjectId] =
     useState(null);
@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }) => {
         setName(decodedToken.name);
         setAvatar(decodedToken.avatar);
         setRole(decodedToken.role);
-        setSubscriptionPlan(decodedToken.subscription_plan || "free");
+        setSubscriptionPlan(decodedToken.subscription_plan || "discovery");
         setCurrentlySelectedProjectId(decodedToken.currently_selected_project_id);
         setToken(user.access_token);
 
@@ -64,7 +64,7 @@ export const AuthProvider = ({ children }) => {
         setName(decodedToken.name);
         setAvatar(decodedToken.avatar);
         setRole(decodedToken.role);
-        setSubscriptionPlan(decodedToken.subscription_plan || "free");
+        setSubscriptionPlan(decodedToken.subscription_plan || "discovery");
         setCurrentlySelectedProjectId(decodedToken.currently_selected_project_id);
         setToken(user.access_token);
 
@@ -95,7 +95,7 @@ export const AuthProvider = ({ children }) => {
       setName(decodedToken.name);
       setAvatar(decodedToken.avatar);
       setRole(decodedToken.role);
-      setSubscriptionPlan(decodedToken.subscription_plan || "free");
+      setSubscriptionPlan(decodedToken.subscription_plan || "discovery");
       setCurrentlySelectedProjectId(decodedToken.currently_selected_project_id);
       setToken(response.access);
 
@@ -121,7 +121,7 @@ export const AuthProvider = ({ children }) => {
     setName("");
     setAvatar("");
     setRole("");
-    setSubscriptionPlan("free");
+    setSubscriptionPlan("discovery");
     setCurrentlySelectedProjectId(null);
     setToken("");
     localStorage.removeItem("accessToken");
@@ -148,7 +148,7 @@ export const AuthProvider = ({ children }) => {
       setName(decodedToken.name);
       setAvatar(decodedToken.avatar);
       setRole(decodedToken.role);
-      setSubscriptionPlan(decodedToken.subscription_plan || "free");
+      setSubscriptionPlan(decodedToken.subscription_plan || "discovery");
       setCurrentlySelectedProjectId(decodedToken.currently_selected_project_id);
     }
     setLoading(false);

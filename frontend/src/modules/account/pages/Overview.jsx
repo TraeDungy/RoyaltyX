@@ -243,12 +243,12 @@ function Overview() {
                         subscriptionPlan
                           ? subscriptionPlan.charAt(0).toUpperCase() +
                             subscriptionPlan.slice(1)
-                          : "Free"
+                          : "Discovery"
                       }
                       color={
                         subscriptionPlan === "premium"
                           ? "primary"
-                          : subscriptionPlan === "basic"
+                          : subscriptionPlan === "professional"
                             ? "secondary"
                             : "default"
                       }

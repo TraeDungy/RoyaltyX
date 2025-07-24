@@ -43,9 +43,9 @@ def create_checkout_session(request):
                 {"error": "Plan is required"}, status=status.HTTP_400_BAD_REQUEST
             )
 
-        if plan not in ["basic", "premium"]:
+        if plan not in ["discovery", "professional", "premium"]:
             return Response(
-                {"error": "Invalid plan. Must be basic or premium"},
+                {"error": "Invalid plan. Must be discovery, professional or premium"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -81,7 +81,7 @@ def cancel_subscription(request):
         StripeService.cancel_subscription(user.stripe_subscription_id)
 
         # Update user status
-        user.subscription_plan = "free"
+        user.subscription_plan = "discovery"
         user.subscription_status = "canceled"
         user.stripe_subscription_id = None
         user.subscription_current_period_end = None
@@ -90,7 +90,7 @@ def cancel_subscription(request):
         return Response(
             {
                 "message": "Subscription cancelled successfully",
-                "subscription_plan": "free",
+                "subscription_plan": "discovery",
             }
         )
 

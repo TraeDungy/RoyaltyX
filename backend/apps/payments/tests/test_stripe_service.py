@@ -26,9 +26,9 @@ class StripeServiceTests(TestCase):
         self.assertEqual(self.user.stripe_customer_id, "cust_1")
 
     def test_get_price_id_for_plan(self):
-        with patch.dict("os.environ", {"STRIPE_BASIC_PRICE_ID": "price_basic"}):
+        with patch.dict("os.environ", {"STRIPE_PROFESSIONAL_PRICE_ID": "price_prof"}):
             self.assertEqual(
-                StripeService.get_price_id_for_plan("basic"), "price_basic"
+                StripeService.get_price_id_for_plan("professional"), "price_prof"
             )
             self.assertIsNone(StripeService.get_price_id_for_plan("premium"))
 
@@ -112,11 +112,11 @@ class StripeServiceTests(TestCase):
             "current_period_end": 123456,
         }
         session = {
-            "metadata": {"user_id": self.user.id, "plan": "basic"},
+            "metadata": {"user_id": self.user.id, "plan": "professional"},
             "subscription": "sub_new",
         }
 
         user = StripeService.handle_successful_payment(session)
 
-        self.assertEqual(user.subscription_plan, "basic")
+        self.assertEqual(user.subscription_plan, "professional")
         mock_logger.error.assert_called_once()

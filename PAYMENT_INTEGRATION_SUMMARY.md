@@ -32,7 +32,7 @@ POST /payments/stripe-webhook/           # Handle Stripe webhooks
 
 ### 4. Updated User Endpoints
 - `POST /users/subscription-plan/change/` now handles payment flow:
-  - **Free plan**: Direct downgrade (cancels Stripe subscription)
+  - **Discovery plan**: Direct downgrade (cancels Stripe subscription)
   - **Paid plans**: Returns payment required response with checkout URL
 
 ## ✅ Frontend Integration
@@ -54,7 +54,7 @@ POST /payments/stripe-webhook/           # Handle Stripe webhooks
 
 ## 🔄 Payment Flow
 
-### Upgrade Flow (Free → Paid)
+### Upgrade Flow (Trial → Paid)
 1. User clicks "Upgrade" → Confirmation dialog
 2. User confirms → API creates Stripe checkout session
 3. User redirected to Stripe checkout page
@@ -62,10 +62,10 @@ POST /payments/stripe-webhook/           # Handle Stripe webhooks
 5. Backend processes webhook → Updates user subscription
 6. User redirected back → Frontend verifies and shows success
 
-### Downgrade Flow (Paid → Free)
+### Downgrade Flow (Paid → Discovery)
 1. User clicks "Downgrade" → Confirmation dialog
 2. User confirms → API cancels Stripe subscription
-3. Backend updates user to free plan
+3. Backend updates user to discovery plan
 4. Frontend shows success message
 
 ### Payment Failure Handling
@@ -82,7 +82,8 @@ POST /payments/stripe-webhook/           # Handle Stripe webhooks
 STRIPE_PUBLISHABLE_KEY=pk_test_...
 STRIPE_SECRET_KEY=sk_test_...
 STRIPE_WEBHOOK_SECRET=whsec_...
-STRIPE_BASIC_PRICE_ID=price_...
+STRIPE_DISCOVERY_PRICE_ID=price_...
+STRIPE_PROFESSIONAL_PRICE_ID=price_...
 STRIPE_PREMIUM_PRICE_ID=price_...
 ```
 
