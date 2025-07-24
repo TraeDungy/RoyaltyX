@@ -4,7 +4,12 @@ from typing import Any, Dict, List, Optional, Union
 from django.db.models import Count, DecimalField, ExpressionWrapper, F, QuerySet, Sum
 from django.db.models.functions import TruncDate, TruncHour, TruncMonth, TruncYear
 
-from apps.product.models import Product, ProductImpressions, ProductSale
+from apps.product.models import (
+    Product,
+    ProductImpressions,
+    ProductSale,
+    ProductMetric,
+)
 from apps.sources.models import Source
 
 
@@ -578,6 +583,34 @@ def _aggregate_platform(source_data: List[Dict[str, Any]]) -> List[Dict[str, Any
     return list(platform_map.values())
 
 
+def calculate_extra_metrics(
+    project_id: int,
+    filters: Dict[str, Any],
+    product_id: int | None = None,
+) -> Dict[str, float]:
+    """Aggregate custom metrics for a project or product."""
+    metric_filters: Dict[str, Any] = {}
+    if product_id:
+        metric_filters["product_id"] = product_id
+    else:
+        metric_filters["product__project_id"] = project_id
+
+    if filters:
+        start = filters.get("period_start__gte")
+        end = filters.get("period_end__lte")
+        if start:
+            metric_filters["period_start__gte"] = start
+        if end:
+            metric_filters["period_end__lte"] = end
+
+    metrics = (
+        ProductMetric.objects.filter(**metric_filters)
+        .values("name")
+        .annotate(total=Sum("value"))
+    )
+    return {m["name"]: float(m["total"] or 0) for m in metrics}
+
+
 def calculate_analytics_by_dimension(
     project_id: int,
     filters: Dict[str, Any],
@@ -660,6 +693,9 @@ def calculate_analytics(
         )
 
     data = calculate_totals(impressions_qs, sales_qs)
+    extra = calculate_extra_metrics(project_id, filters, product_id)
+    if extra:
+        data["extra_metrics"] = extra
 
     data["time_stats"] = time_stats
 

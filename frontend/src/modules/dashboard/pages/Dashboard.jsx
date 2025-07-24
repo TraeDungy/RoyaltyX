@@ -9,6 +9,7 @@ import { SalesCard } from "../../analytics/components/SalesCard";
 import { ImpressionsCard } from "../../analytics/components/ImpressionsCard";
 import { RevenueCard } from "../../analytics/components/RevenueCard";
 import { ClockCard } from "../../analytics/components/ClockCard";
+import DynamicMetricCard from "../../analytics/components/DynamicMetricCard";
 import { useSettings } from "../../common/contexts/SettingsContext";
 import { useLocation, useNavigate } from "react-router";
 import { Grid } from "@mui/material";
@@ -29,6 +30,8 @@ function Dashboard() {
     showClockCard,
     dashboardAnalyticsOrder,
     setDashboardAnalyticsOrder,
+    dynamicMetricVisibility,
+    registerDynamicMetrics,
   } = useSettings();
   const location = useLocation();
   const navigate = useNavigate();
@@ -70,6 +73,7 @@ function Dashboard() {
     const fetchAnalytics = async () => {
       try {
         const fetchedAnalytics = await getProjectAnalytics(period_range);
+        registerDynamicMetrics(Object.keys(fetchedAnalytics.extra_metrics || {}));
         setAnalytics(fetchedAnalytics);
       } catch (error) {
         toast.error(error.message || "Failed to fetch analytics");
@@ -87,6 +91,14 @@ function Dashboard() {
     revenue: showTotalRevenueCard ? <RevenueCard analytics={analytics} /> : null,
     clock: showClockCard ? <ClockCard /> : null,
   };
+
+  if (analytics?.extra_metrics) {
+    Object.entries(analytics.extra_metrics).forEach(([k, v]) => {
+      if (dynamicMetricVisibility[k] !== false) {
+        cardComponents[k] = <DynamicMetricCard name={k} value={v} />;
+      }
+    });
+  }
 
   const onDragEnd = (result) => {
     if (!result.destination) return;

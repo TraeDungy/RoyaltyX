@@ -165,3 +165,16 @@ class ProductImage(BaseModel):
                     pass
 
 
+class ProductMetric(BaseModel):
+    """Store custom metrics loaded from manual reports or APIs."""
+
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    value = models.DecimalField(max_digits=30, decimal_places=6)
+    from_file = models.ForeignKey(File, on_delete=models.CASCADE, null=True, blank=True)
+    period_start = models.DateField()
+    period_end = models.DateField()
+
+    class Meta:
+        db_table = "product_metric"
+
