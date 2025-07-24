@@ -1,0 +1,52 @@
+export const DEFAULT_TEMPLATE = {
+  id: 'default',
+  name: 'Default Template',
+  colors: {
+    pageBackground: '#ffffff',
+    bodyText: '#000000',
+    primary: '#333333',
+    secondary: '#ff4081',
+    tableHeader: '#e0e0e0',
+    totalSection: '#f5f5f5',
+  },
+  typography: {
+    headerFont: 'Helvetica',
+    bodyFont: 'Helvetica',
+    headerFontSize: 22,
+    bodyFontSize: 12,
+    labelFontSize: 10,
+  },
+  layout: {
+    headerAlignment: 'center',
+    companyInfoAlignment: 'right',
+    labelPosition: 'top',
+    labelAlignment: 'left',
+    tableSpacing: 10,
+    pageMargins: 20,
+  },
+  logo: {
+    url: null,
+    width: 100,
+    height: 50,
+    alignment: 'left',
+  },
+  tables: {
+    showBorders: true,
+    borderWidth: 1,
+    borderColor: '#000000',
+    alternateRows: false,
+    alternateRowColor: '#f9f9f9',
+  },
+  producerInfo: {
+    include: true,
+    showPhone: true,
+    showAddress: true,
+    showEmail: true,
+    fields: [],
+  },
+  custom: {
+    beforeReport: '',
+    afterReport: '',
+    footerNote: '',
+  },
+};

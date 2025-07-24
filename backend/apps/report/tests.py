@@ -114,6 +114,34 @@ class ReportTemplateViewTests(TestCase):
         self.assertEqual(template.created_by, self.user)
         self.assertEqual(template.project, self.project)
 
+    def test_create_template_sets_active(self):
+        ReportTemplates.objects.create(
+            template_name="Old", project=self.project, created_by=self.user, is_active=True
+        )
+
+        data = {"template_name": "New", "include_sales_revenue": True}
+        response = self.client.post(self.template_list_url, data, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(ReportTemplates.objects.filter(project=self.project, is_active=True).count(), 1)
+
+    def test_update_template_sets_active(self):
+        t1 = ReportTemplates.objects.create(
+            template_name="T1", project=self.project, created_by=self.user, is_active=True
+        )
+        t2 = ReportTemplates.objects.create(
+            template_name="T2", project=self.project, created_by=self.user
+        )
+
+        url = reverse("report-detail-view", args=[t2.id])
+        response = self.client.put(url, {"template_name": "T2"}, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        t1.refresh_from_db()
+        t2.refresh_from_db()
+        self.assertFalse(t1.is_active)
+        self.assertTrue(t2.is_active)
+
 
 class ReportsViewTests(TestCase):
     """Test cases for Reports API views"""
