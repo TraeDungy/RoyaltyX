@@ -457,4 +457,5 @@ class TestProcessReportSchedules(TestCase):
         mock_email.assert_called_once()
         attachments = mock_email.call_args.kwargs["kwargs"]["attachments"]
         self.assertEqual(len(attachments), 1)
+        self.assertTrue(attachments[0][0].endswith(".pdf"))
         self.assertEqual(attachments[0][2], "application/pdf")
