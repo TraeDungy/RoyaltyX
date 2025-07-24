@@ -1,24 +1,25 @@
 import { createTheme } from "@mui/material/styles";
 import { colors } from "./constants";
 
-export const getMuiTheme = (mode, primaryColor = colors[mode].primary) => {
+export const getMuiTheme = (theme, primaryColor = colors[theme].primary) => {
+  const paletteMode = colors[theme].paletteMode;
   return createTheme({
     palette: {
-      mode: mode,
+      mode: paletteMode,
       primary: {
         main: primaryColor,
-        lighter: colors[mode].textLighter,
+        lighter: colors[theme].textLighter,
       },
       error: {
-        main: colors[mode].danger,
+        main: colors[theme].danger,
       },
       background: {
-        default: colors[mode].bodyBackground,
-        paper: colors[mode].paper,
+        default: colors[theme].bodyBackground,
+        paper: colors[theme].paper,
       },
       text: {
-        primary: colors[mode].text,
-        secondary: colors[mode].textLighter,
+        primary: colors[theme].text,
+        secondary: colors[theme].textLighter,
       },
     },
     typography: {
@@ -68,7 +69,7 @@ export const getMuiTheme = (mode, primaryColor = colors[mode].primary) => {
       MuiCard: {
         styleOverrides: {
           root: {
-            boxShadow: mode === "dark" ? "none" : 3,
+            boxShadow: paletteMode === "dark" ? "none" : 3,
           },
         },
       },

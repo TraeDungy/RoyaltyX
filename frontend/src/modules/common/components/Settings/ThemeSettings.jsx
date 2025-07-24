@@ -59,6 +59,12 @@ const ThemeSettings = () => {
               <Typography>Dark Theme</Typography>
             </Box>
           </MenuItem>
+          <MenuItem value="matrix">Matrix</MenuItem>
+          <MenuItem value="desert">Desert</MenuItem>
+          <MenuItem value="camouflage">Camouflage</MenuItem>
+          <MenuItem value="sniper">Sniper</MenuItem>
+          <MenuItem value="cottonCandy">Cotton Candy</MenuItem>
+          <MenuItem value="pinky">Pinky</MenuItem>
         </Select>
       </FormControl>
 
