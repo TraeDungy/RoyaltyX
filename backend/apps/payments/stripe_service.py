@@ -1,6 +1,7 @@
 import os
 from datetime import datetime, timezone
 
+import logging
 import stripe
 from django.contrib.auth import get_user_model
 
@@ -11,6 +12,8 @@ from .tasks import (
 
 # Initialize Stripe
 stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
+
+logger = logging.getLogger(__name__)
 
 
 class StripeService:
@@ -156,8 +159,13 @@ class StripeService:
             if user.stripe_subscription_id:
                 try:
                     StripeService.cancel_subscription(user.stripe_subscription_id)
-                except Exception:  # pragma: no cover - log and continue
-                    pass  # Continue even if cancellation fails
+                except Exception as e:  # pragma: no cover - log and continue
+                    logger.error(
+                        "Failed to cancel existing subscription %s for user %s: %s",
+                        user.stripe_subscription_id,
+                        user.id,
+                        str(e),
+                    )
 
             # Update user with new subscription details
             user.subscription_plan = plan

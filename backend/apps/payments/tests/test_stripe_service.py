@@ -90,3 +90,27 @@ class StripeServiceTests(TestCase):
         self.user.stripe_customer_id = "cus_1"
         StripeService.set_default_payment_method(self.user, "pm_1")
         mock_modify.assert_called_once()
+
+    @patch("apps.payments.stripe_service.logger")
+    @patch("apps.payments.stripe_service.stripe.Subscription.retrieve")
+    @patch("apps.payments.stripe_service.StripeService.cancel_subscription")
+    def test_handle_successful_payment_logs_cancel_error(
+        self, mock_cancel, mock_retrieve, mock_logger
+    ):
+        self.user.stripe_subscription_id = "sub_old"
+        self.user.save()
+        mock_cancel.side_effect = Exception("boom")
+        mock_retrieve.return_value = {
+            "id": "sub_new",
+            "items": {"data": [{"id": "item_1"}]},
+            "current_period_end": 123456,
+        }
+        session = {
+            "metadata": {"user_id": self.user.id, "plan": "basic"},
+            "subscription": "sub_new",
+        }
+
+        user = StripeService.handle_successful_payment(session)
+
+        self.assertEqual(user.subscription_plan, "basic")
+        mock_logger.error.assert_called_once()
