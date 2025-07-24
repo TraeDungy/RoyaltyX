@@ -72,7 +72,7 @@ POST /payments/stripe-webhook/           # Handle Stripe webhooks
 1. Stripe payment fails → Webhook fired
 2. Backend updates status to `past_due`
 3. User enters grace period (7 days)
-4. If not resolved → Automatic downgrade to free
+4. If not resolved → Automatic downgrade to discovery
 
 ## 🔧 Configuration Required
 
@@ -98,7 +98,7 @@ STRIPE_PREMIUM_PRICE_ID=price_...
 ### Backend Tests ✅
 - **API endpoints**: All working correctly
 - **Payment flow**: Properly redirects to Stripe for paid plans
-- **Downgrade flow**: Successfully downgrades to free
+- **Downgrade flow**: Successfully downgrades to discovery
 - **Webhook handling**: Ready for Stripe events
 - **Database integration**: All fields working properly
 
@@ -113,7 +113,7 @@ STRIPE_PREMIUM_PRICE_ID=price_...
 
 ### What Works Now
 - **Complete payment infrastructure** in place
-- **Downgrade to free** works immediately
+- **Downgrade to discovery** works immediately
 - **API endpoints** ready for Stripe integration
 - **Frontend** ready for payment processing
 - **Webhook handling** configured for automatic processing
