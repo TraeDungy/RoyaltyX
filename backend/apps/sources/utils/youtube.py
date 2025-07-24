@@ -204,3 +204,22 @@ def fetch_youtube_video_stats(product, source, start_date, end_date):
         return response.json()
     else:
         response.raise_for_status()
+
+
+def fetch_youtube_channel_statistics(access_token: str, channel_id: str) -> dict:
+    """Fetch statistics for a YouTube channel."""
+    url = "https://www.googleapis.com/youtube/v3/channels"
+    params = {"part": "statistics", "id": channel_id}
+    headers = {"Authorization": f"Bearer {access_token}"}
+
+    response = requests.get(url, headers=headers, params=params)
+
+    if response.status_code == 200:
+        data = response.json()
+        items = data.get("items", [])
+        if items:
+            return items[0].get("statistics", {})
+        raise ValueError("No statistics returned for this channel")
+    else:
+        response.raise_for_status()
+

@@ -14,6 +14,7 @@ import { TopPerfomingContentBySales } from "../components/TopPerfomingContentByS
 import { SourceAnalytics } from "../components/SourceAnalytics";
 import SalesStatsCard from "../components/SalesStatsCard";
 import GeneralStatsCard from "../components/GeneralStatsCard";
+import YouTubeChannelStatsCard from "../components/YouTubeChannelStatsCard";
 import { Grid, Typography } from "@mui/material";
 
 function Analytics() {
@@ -56,6 +57,9 @@ function Analytics() {
     );
   }
 
+  const youtubeSource =
+    analytics.source_analytics?.find((s) => s.platform === "youtube");
+
   return (
     <>
       <div className="d-flex justify-content-between align-items-center mb-3 ps-1">
@@ -83,6 +87,13 @@ function Analytics() {
       </Grid>
 
       <SourceAnalytics analytics={analytics} />
+
+      {youtubeSource && (
+        <YouTubeChannelStatsCard
+          sourceId={youtubeSource.id}
+          accountName={youtubeSource.account_name}
+        />
+      )}
 
       <TopPerfomingContentByImpressions />
 

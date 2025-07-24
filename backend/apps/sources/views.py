@@ -2,6 +2,7 @@ from apps.sources.utils.tiktok_service import TikTokService
 from apps.sources.utils.tiktok_sync import fetch_tiktok_stats, fetch_tiktok_videos
 from apps.sources.utils.twitch_sync import fetch_twitch_stats, fetch_twitch_videos
 from apps.sources.utils.twitch_service import TwitchService
+from django.utils import timezone
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
@@ -14,6 +15,8 @@ from .utils.youtube import (
     fetch_youtube_channel_details,
     fetch_youtube_stats,
     fetch_youtube_videos,
+    fetch_youtube_channel_statistics,
+    refresh_access_token,
 )
 
 
@@ -142,3 +145,35 @@ class SourceDetailView(APIView):
             return Response(
                 {"detail": "Source not found"}, status=status.HTTP_404_NOT_FOUND
             )
+
+
+class YouTubeChannelStatsView(APIView):
+    """Return YouTube channel statistics for a source"""
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        try:
+            source = Source.objects.get(
+                pk=pk,
+                project_id=request.user.currently_selected_project_id,
+                platform=Source.PLATFORM_YOUTUBE,
+            )
+        except Source.DoesNotExist:
+            return Response(
+                {"detail": "Source not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        if source.token_expires_at and timezone.now() > source.token_expires_at:
+            new_token = refresh_access_token(source.refresh_token)
+            source.access_token = new_token
+            source.save(update_fields=["_access_token"])
+
+        try:
+            stats = fetch_youtube_channel_statistics(
+                source.access_token, source.channel_id
+            )
+        except Exception as e:
+            return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response(stats, status=status.HTTP_200_OK)
