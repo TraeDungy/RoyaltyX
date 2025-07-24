@@ -227,6 +227,7 @@ CELERY_BROKER_URL=redis://redis:6379/0
 - Revenue tracking and analytics
 - Performance metrics and trends
 - Custom report generation
+- Extensive PDF template customization (see [PDF Template Customizer](documentation/PDF_TEMPLATE_CUSTOMIZER.md))
 - Data export capabilities
 - Real-time dashboard updates
 - **Stored data**: individual product sales and impression records

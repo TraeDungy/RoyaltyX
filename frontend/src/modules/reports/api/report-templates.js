@@ -29,13 +29,17 @@ export const createReportTemplate = async (body) => {
   try {
     const token = localStorage.getItem("accessToken");
     const formData = new FormData();
-    
-    for (const key in body) {   
+
+    for (const key in body) {
       if (body[key] !== null && body[key] !== undefined) {
-        formData.append(key, body[key]);
+        const value =
+          typeof body[key] === "object" && !(body[key] instanceof File)
+            ? JSON.stringify(body[key])
+            : body[key];
+        formData.append(key, value);
       }
     }
-    
+
     const response = await fetch(`${apiUrl}/reports/templates/`, {
       method: "POST",
       headers: {
@@ -99,32 +103,36 @@ export const deleteReportTemplate = async (id) => {
 };
 
 export const updateReportTemplate = async (id, body) => {
-try {
-  const token = localStorage.getItem("accessToken");
-  const formData = new FormData();
-  
-  for (const key in body) {   
-    if (body[key] !== null && body[key] !== undefined) {
-      formData.append(key, body[key]);
+  try {
+    const token = localStorage.getItem("accessToken");
+    const formData = new FormData();
+
+    for (const key in body) {
+      if (body[key] !== null && body[key] !== undefined) {
+        const value =
+          typeof body[key] === "object" && !(body[key] instanceof File)
+            ? JSON.stringify(body[key])
+            : body[key];
+        formData.append(key, value);
+      }
     }
-  }
-  
-  const response = await fetch(`${apiUrl}/reports/template/${id}/`, {
-    method: "PUT",
-    headers: {
-      Accept: "application/json",
-      Authorization: "Bearer " + token,
-    },
-    body: formData,
-  });
 
-  const responseData = await response.json();
-  if (!response.ok) {
-    throw responseData;
-  }
+    const response = await fetch(`${apiUrl}/reports/template/${id}/`, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + token,
+      },
+      body: formData,
+    });
 
-  return responseData;
-} catch (error) {
-  throw error;
-}
+    const responseData = await response.json();
+    if (!response.ok) {
+      throw responseData;
+    }
+
+    return responseData;
+  } catch (error) {
+    throw error;
+  }
 };

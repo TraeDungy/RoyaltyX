@@ -27,10 +27,16 @@ class ReportTemplateView(APIView):
     def post(self, request):
         serializer = ReportTemplateCreateSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(
+            template = serializer.save(
                 created_by=request.user, project=request.user.currently_selected_project
             )
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            ReportTemplates.objects.filter(
+                project=request.user.currently_selected_project
+            ).update(is_active=False)
+            template.is_active = True
+            template.save()
+            out_serializer = ReportTemplateSerializer(template)
+            return Response(out_serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -50,7 +56,11 @@ class ReportTemplateDetailAPIView(APIView):
         serializer = ReportTemplateUpdateSerializer(template, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            ReportTemplates.objects.filter(project=template.project).update(is_active=False)
+            template.is_active = True
+            template.save()
+            out_serializer = ReportTemplateSerializer(template)
+            return Response(out_serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
