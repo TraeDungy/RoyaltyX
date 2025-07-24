@@ -20,7 +20,17 @@ export const InfoPopover = ({ title = "", text }) => {
       overlay={popover}
       trigger={["hover", "focus"]}
     >
-      <InfoCircleFill className="ms-2" role="button" />
+      <InfoCircleFill
+        className="ms-2"
+        role="button"
+        tabIndex={0}
+        aria-label="More information"
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.currentTarget.click();
+          }
+        }}
+      />
     </OverlayTrigger>
   );
 };

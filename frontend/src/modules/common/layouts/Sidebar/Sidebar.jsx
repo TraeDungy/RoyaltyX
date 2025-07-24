@@ -112,6 +112,8 @@ function Sidebar() {
         }}
       >
         <List
+          role="menu"
+          aria-label="Sidebar links"
           sx={{
             px: 2,
             width: "100%",
@@ -213,6 +215,7 @@ function Sidebar() {
                   backgroundColor: "action.selected",
                 },
               }}
+              aria-label="Dashboard"
             >
               <ListItemIcon sx={{ minWidth: 40 }}>
                 <LayoutDashboard size={18} color="var(--color-text-lighter)" />
@@ -238,6 +241,7 @@ function Sidebar() {
                   backgroundColor: "action.selected",
                 },
               }}
+              aria-label="Sources"
             >
               <ListItemIcon sx={{ minWidth: 40 }}>
                 <Database size={18} color="var(--color-text-lighter)" />
@@ -263,6 +267,7 @@ function Sidebar() {
                   backgroundColor: "action.selected",
                 },
               }}
+              aria-label="Members"
             >
               <ListItemIcon sx={{ minWidth: 40 }}>
                 <Users size={18} color="var(--color-text-lighter)" />
@@ -288,6 +293,7 @@ function Sidebar() {
                   backgroundColor: "action.selected",
                 },
               }}
+              aria-label="Products"
             >
               <ListItemIcon sx={{ minWidth: 40 }}>
                 <Package2 size={18} color="var(--color-text-lighter)" />
@@ -313,6 +319,7 @@ function Sidebar() {
                   backgroundColor: "action.selected",
                 },
               }}
+              aria-label="Analytics"
             >
               <ListItemIcon sx={{ minWidth: 40 }}>
                 <Gauge size={18} color="var(--color-text-lighter)" />
@@ -338,6 +345,7 @@ function Sidebar() {
                   backgroundColor: "action.selected",
                 },
               }}
+              aria-label="Reports"
             >
               <ListItemIcon sx={{ minWidth: 40 }}>
                 <FileText size={18} color="var(--color-text-lighter)" />
@@ -363,6 +371,7 @@ function Sidebar() {
                   backgroundColor: "action.selected",
                 },
               }}
+              aria-label="Report Templates"
             >
               <ListItemIcon sx={{ minWidth: 40 }}>
                 <LayoutPanelTop size={18} color="var(--color-text-lighter)" />
@@ -391,6 +400,8 @@ function Sidebar() {
         variant="temporary"
         open={sidebarOpen}
         onClose={toggleSidebar}
+        role="navigation"
+        aria-label="Main navigation"
         ModalProps={{
           keepMounted: true,
         }}
@@ -413,6 +424,8 @@ function Sidebar() {
       variant="persistent"
       anchor="left"
       open={sidebarOpen}
+      role="navigation"
+      aria-label="Main navigation"
       sx={{
         width: sidebarOpen ? SIDEBAR_WIDTH : 0,
         flexShrink: 0,
