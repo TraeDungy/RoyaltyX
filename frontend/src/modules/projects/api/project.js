@@ -149,8 +149,8 @@ export const updateProject = async (project) => {
   try {
     const token = localStorage.getItem("accessToken");
 
-    const response = await fetch(apiUrl + "/projects/update", {
-      method: "POST",
+    const response = await fetch(apiUrl + "/projects/update/", {
+      method: "PUT",
       headers: {
         Authorization: "Bearer " + token,
       },
