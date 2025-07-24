@@ -1,9 +1,9 @@
 import logging
+
 from django.db import models
 
 from apps.project.models import Project
 from common.models import BaseModel
-
 
 logger = logging.getLogger(__name__)
 
@@ -48,3 +48,33 @@ class Report(BaseModel):
 
     class Meta:
         db_table = "report"
+
+
+class ReportSchedule(BaseModel):
+    """Schedule periodic generation and emailing of a report."""
+
+    INTERVAL_WEEKLY = "weekly"
+    INTERVAL_MONTHLY = "monthly"
+    INTERVAL_QUARTERLY = "quarterly"
+    INTERVAL_YEARLY = "yearly"
+
+    INTERVAL_CHOICES = [
+        (INTERVAL_WEEKLY, "Weekly"),
+        (INTERVAL_MONTHLY, "Monthly"),
+        (INTERVAL_QUARTERLY, "Quarterly"),
+        (INTERVAL_YEARLY, "Yearly"),
+    ]
+
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    template = models.ForeignKey(ReportTemplates, on_delete=models.CASCADE)
+    created_by = models.ForeignKey("user.User", on_delete=models.CASCADE)
+    recipients = models.JSONField(default=list)
+    interval = models.CharField(max_length=10, choices=INTERVAL_CHOICES)
+    next_run = models.DateField()
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        db_table = "report_schedule"
+
+    def __str__(self):  # pragma: no cover - simple representation
+        return f"Schedule {self.id} for {self.project.name}"

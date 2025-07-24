@@ -1,3 +1,6 @@
+import uuid
+from datetime import datetime, time, timedelta
+
 from celery import shared_task
 from django.core.files.base import ContentFile
 from django.template.loader import render_to_string
@@ -6,13 +9,11 @@ from django.utils.timezone import now
 from weasyprint import HTML
 
 from apps.analytics.utils import calculate_analytics
+from apps.emails.tasks import task_send_db_template_email
 from apps.notifications.utils import create_notification
 from apps.product.models import Product
-from apps.project.models import Project
-from .models import Report
 
-import uuid
-from datetime import datetime, time
+from .models import Report, ReportSchedule
 
 
 @shared_task
@@ -89,4 +90,60 @@ def generate_report_pdf(report_id, base_url=None):
     report.file.save(filename, ContentFile(pdf_file))
 
     create_notification(user, "Your requested report was successfully created!")
+    return True
+
+
+@shared_task
+def process_report_schedules(base_url=None):
+    """Generate and email reports for due schedules."""
+    today = timezone.now().date()
+    schedules = ReportSchedule.objects.filter(is_active=True, next_run__lte=today)
+
+    for schedule in schedules:
+        # Determine reporting period based on interval
+        if schedule.interval == ReportSchedule.INTERVAL_WEEKLY:
+            period_end = schedule.next_run - timedelta(days=1)
+            period_start = period_end - timedelta(days=6)
+            schedule.next_run += timedelta(weeks=1)
+        elif schedule.interval == ReportSchedule.INTERVAL_MONTHLY:
+            period_end = schedule.next_run - timedelta(days=1)
+            period_start = (period_end.replace(day=1))
+            schedule.next_run = (schedule.next_run + timedelta(days=32)).replace(day=1)
+        elif schedule.interval == ReportSchedule.INTERVAL_QUARTERLY:
+            period_end = schedule.next_run - timedelta(days=1)
+            period_start = (period_end - timedelta(days=89)).replace(day=1)
+            schedule.next_run = (schedule.next_run + timedelta(days=92)).replace(day=1)
+        else:  # yearly
+            period_end = schedule.next_run - timedelta(days=1)
+            period_start = period_end.replace(month=1, day=1)
+            schedule.next_run = schedule.next_run.replace(
+                year=schedule.next_run.year + 1
+            )
+
+        report = Report.objects.create(
+            filename=f"schedule_{uuid.uuid4().hex}.pdf",
+            project=schedule.project,
+            template=schedule.template,
+            created_by=schedule.created_by,
+            period_start=period_start,
+            period_end=period_end,
+        )
+
+        generate_report_pdf.apply(args=[report.id, base_url])
+
+        if report.file:
+            with report.file.open("rb") as f:
+                attachment = (report.filename, f.read(), "application/pdf")
+            task_send_db_template_email.apply(
+                kwargs={
+                    "template_name": "scheduled_report",
+                    "context": {"project": schedule.project.name},
+                    "recipient_list": schedule.recipients,
+                    "attachments": [attachment],
+                    "fail_silently": False,
+                }
+            )
+
+        schedule.save(update_fields=["next_run"])
+
     return True

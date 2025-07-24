@@ -19,12 +19,14 @@ class EmailServiceTests(TestCase):
         mock_email_cls.return_value = mock_email
         result = Email.send_html_email("Hi", "<p>Body</p>", ["test@example.com"])
         self.assertTrue(result)
-        mock_email.attach_alternative.assert_called_once_with("<p>Body</p>", "text/html")
+        mock_email.attach_alternative.assert_called_once_with(
+            "<p>Body</p>", "text/html"
+        )
         mock_email.send.assert_called_once()
 
     @patch("apps.emails.services.EmailMultiAlternatives")
     def test_send_db_template_email(self, mock_email_cls):
-        template = EmailTemplate.objects.create(
+        EmailTemplate.objects.create(
             name="welcome",
             subject="Welcome",
             content="<p>Hello {{name}}</p>",
@@ -35,6 +37,8 @@ class EmailServiceTests(TestCase):
             "welcome",
             {"name": "Tester"},
             ["user@example.com"],
+            attachments=[("test.txt", b"data", "text/plain")],
         )
         self.assertTrue(result)
         mock_email.send.assert_called_once()
+        mock_email.attach.assert_called_once()

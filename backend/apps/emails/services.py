@@ -179,6 +179,7 @@ class Email:
         recipient_list: List[str],
         from_email: Optional[str] = None,
         fail_silently: bool = False,
+        attachments: Optional[List[tuple]] = None,
     ) -> bool:
         """Send an email using a template stored in the database.
 
@@ -188,6 +189,8 @@ class Email:
             recipient_list: List of recipient email addresses
             from_email: Sender email address (defaults to DEFAULT_FROM_EMAIL)
             fail_silently: Whether to suppress exceptions
+            attachments: Optional list of attachments as
+                ``(filename, content, mimetype)``
 
         Returns:
             bool: True if email was sent successfully, False otherwise
@@ -216,6 +219,8 @@ class Email:
                 to=recipient_list,
             )
             email.attach_alternative(html_content, "text/html")
+            for attach in attachments or []:
+                email.attach(*attach)
             email.send(fail_silently=fail_silently)
 
             logger.info(
