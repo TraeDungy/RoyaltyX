@@ -61,7 +61,11 @@ export default function Login() {
           className="mb-3 mx-auto d-block"
           alt="Brand Icon"
         />
-        <Typography variant="h3" sx={{ mb: 5, textAlign: "center", fontWeight: 600 }}>
+        <Typography
+          component="h1"
+          variant="h3"
+          sx={{ mb: 5, textAlign: "center", fontWeight: 600 }}
+        >
           {t('sign_in_to_your_account')}
         </Typography>
         
