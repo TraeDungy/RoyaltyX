@@ -623,6 +623,7 @@ def calculate_analytics(
         sales_qs = sales_qs.filter(**filters)
 
     # Calculate time-based stats based on granularity
+    time_stats: List[Dict[str, Any]] = []
     if granularity == "daily":
         if period_start and period_end:
             time_stats = calculate_daily_stats(
