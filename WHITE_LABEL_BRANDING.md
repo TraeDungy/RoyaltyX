@@ -12,13 +12,22 @@ This guide explains how to brand RoyaltyX as your own platform and resell it to 
 
 Set up DNS records for your domain to point to your hosting provider. Configure the `nginx` container to respond to your domain by editing `nginx/nginx.conf`.
 
+You can automate this step by running `scripts/update-domain.sh yourdomain.com`. The script rewrites server names in `nginx/default.conf` and updates `REACT_APP_URL` values in your `.env` file.
+
+
 The login screen automatically uses the logo files from step 1. No code changes are required.
 
-## 3. Resell Pricing
+## 3. Customize Email Templates
+
+1. Open **Admin → Email Templates** in your dashboard.
+2. Edit the subject or HTML content directly in the form. Use placeholders such as `{{ user_name }}` or `{{ dashboard_url }}` for dynamic values.
+3. Save changes to create a new template version. The active template will be used for all outgoing emails.
+
+## 4. Resell Pricing
 
 Wholesale pricing starts at **$25 per seat per month**. You are free to set your own resale price. Use the **Cost Estimator** in the application (under `White‑Label → Cost Estimator`) to calculate monthly and yearly profit based on your chosen markup.
 
-## 4. Sharing Your Branded Platform
+## 5. Sharing Your Branded Platform
 
 Once configured, you can invite your clients to your custom domain. All emails and links will use your branding.
 
