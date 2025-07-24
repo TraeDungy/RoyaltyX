@@ -19,7 +19,12 @@ import {
 import { EllipsisVertical, ArrowRight, BarChart2, Type } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-export const SalesCard = ({ analytics }) => {
+export const SalesCard = ({
+  analytics,
+  innerRef,
+  draggableProps = {},
+  dragHandleProps = {},
+}) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const { setShowTotalSalesCard } = useSettings();
   const [showGraphColorPalette, setShowGraphColorPalette] = useState(false);
@@ -46,7 +51,12 @@ export const SalesCard = ({ analytics }) => {
 
   return (
     <>
-      <Grid size={{ md: 4, xs: 12 }}>
+      <Grid
+        ref={innerRef}
+        {...draggableProps}
+        {...dragHandleProps}
+        size={{ md: 4, xs: 12 }}
+      >
         <Card
           variant="outlined"
           sx={{
