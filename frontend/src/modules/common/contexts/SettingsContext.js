@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
-const defaultAnalyticsOrder = ["impressions", "sales", "revenue"];
+const defaultAnalyticsOrder = ["impressions", "sales", "revenue", "clock"];
 
 const SettingsContext = createContext();
 
@@ -68,6 +68,47 @@ export const SettingsProvider = ({ children }) => {
       ? savedShowTotalRevenueCardPreference === "true"
       : true;
   });
+
+  const [showClockCard, setShowClockCard] = useState(() => {
+    const saved = localStorage.getItem("showClockCard");
+    return saved !== null ? saved === "true" : true;
+  });
+
+  const convertCountdownToMs = (value, unit) => {
+    const hour = 60 * 60 * 1000;
+    switch (unit) {
+      case "years":
+        return value * 365 * 24 * hour;
+      case "months":
+        return value * 30 * 24 * hour;
+      case "weeks":
+        return value * 7 * 24 * hour;
+      case "days":
+        return value * 24 * hour;
+      default:
+        return value * hour; // hours
+    }
+  };
+
+  const initialCountdownValue = () => {
+    const v = localStorage.getItem("countdownValue");
+    return v !== null ? Number(v) : 1;
+  };
+
+  const initialCountdownUnit = () =>
+    localStorage.getItem("countdownUnit") || "days";
+
+  const initialCountdownTarget = () => {
+    const saved = localStorage.getItem("countdownTargetTime");
+    if (saved) return new Date(saved);
+    return new Date(
+      Date.now() + convertCountdownToMs(initialCountdownValue(), initialCountdownUnit()),
+    );
+  };
+
+  const [countdownValue, setCountdownValue] = useState(initialCountdownValue);
+  const [countdownUnit, setCountdownUnit] = useState(initialCountdownUnit);
+  const [countdownTargetTime, setCountdownTargetTime] = useState(initialCountdownTarget);
 
   const [showProductImageCard, setShowProductImageCard] = useState(() => {
     const saved = localStorage.getItem("showProductImageCard");
@@ -250,6 +291,32 @@ export const SettingsProvider = ({ children }) => {
   }, [showProductImageCard]);
 
   useEffect(() => {
+    localStorage.setItem("showClockCard", showClockCard.toString());
+  }, [showClockCard]);
+
+  useEffect(() => {
+    localStorage.setItem("countdownValue", countdownValue.toString());
+  }, [countdownValue]);
+
+  useEffect(() => {
+    localStorage.setItem("countdownUnit", countdownUnit);
+  }, [countdownUnit]);
+
+  useEffect(() => {
+    const target = new Date(
+      Date.now() + convertCountdownToMs(countdownValue, countdownUnit),
+    );
+    setCountdownTargetTime(target);
+  }, [countdownValue, countdownUnit]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "countdownTargetTime",
+      countdownTargetTime.toISOString(),
+    );
+  }, [countdownTargetTime]);
+
+  useEffect(() => {
     localStorage.setItem(
       "showAverageEcpmCard",
       showAverageEcpmCard.toString(),
@@ -371,6 +438,14 @@ export const SettingsProvider = ({ children }) => {
         setShowTotalSalesCard,
         showTotalRevenueCard,
         setShowTotalRevenueCard,
+        showClockCard,
+        setShowClockCard,
+        countdownValue,
+        setCountdownValue,
+        countdownUnit,
+        setCountdownUnit,
+        countdownTargetTime,
+        setCountdownTargetTime,
         showProductImageCard,
         setShowProductImageCard,
         showAverageEcpmCard,

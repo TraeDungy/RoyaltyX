@@ -8,6 +8,7 @@ import { getProjectAnalytics } from "../../analytics/api/analytics";
 import { SalesCard } from "../../analytics/components/SalesCard";
 import { ImpressionsCard } from "../../analytics/components/ImpressionsCard";
 import { RevenueCard } from "../../analytics/components/RevenueCard";
+import { ClockCard } from "../../analytics/components/ClockCard";
 import { useSettings } from "../../common/contexts/SettingsContext";
 import { useLocation } from "react-router";
 import { Grid } from "@mui/material";
@@ -20,6 +21,7 @@ function Dashboard() {
     showTotalImpressionsCard,
     showTotalSalesCard,
     showTotalRevenueCard,
+    showClockCard,
     dashboardAnalyticsOrder,
   } = useSettings();
   const location = useLocation();
@@ -52,6 +54,7 @@ function Dashboard() {
     ) : null,
     sales: showTotalSalesCard ? <SalesCard analytics={analytics} /> : null,
     revenue: showTotalRevenueCard ? <RevenueCard analytics={analytics} /> : null,
+    clock: showClockCard ? <ClockCard /> : null,
   };
 
   return (
