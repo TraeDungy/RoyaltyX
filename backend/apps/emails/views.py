@@ -1,6 +1,7 @@
 """API endpoints for managing email templates."""
 
 import json
+
 import openai
 from django.conf import settings
 from rest_framework import generics, permissions, status
