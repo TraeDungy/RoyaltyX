@@ -1,7 +1,10 @@
 import { Button } from "@mui/material";
 import { ExclamationCircleFill } from "react-bootstrap-icons";
+import { useTranslation } from "react-i18next";
 
 function PageNotFound() {
+  const { t } = useTranslation();
+
   return (
     <section className="py-3 py-md-5 min-vh-100 d-flex justify-content-center align-items-center">
       <div className="container">
@@ -13,12 +16,10 @@ function PageNotFound() {
                 <ExclamationCircleFill className="text-danger" />
                 <span className="display-1 fw-bold bsb-flip-h">4</span>
               </h1>
-              <h1 className="bold mb-2">Oops! You're lost.</h1>
-              <p className="mb-5">
-                The page you are looking for was not found.
-              </p>
+              <h1 className="bold mb-2">{t('oops_lost')}</h1>
+              <p className="mb-5">{t('not_found')}</p>
               <Button variant="contained" color="primary">
-                Back to Home
+                {t('back_to_home')}
               </Button>
             </div>
           </div>

@@ -12,6 +12,7 @@ import { Settings } from "lucide-react";
 import UserDropdown from "./UserDropdown";
 import SettingsModal from "../../components/Settings/SettingsModal";
 import NotificationsDropdown from "./NotificationsDropdown";
+import LanguageSwitcher from "../../components/LanguageSwitcher";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { useProject } from "../../contexts/ProjectContext";
 
@@ -86,6 +87,8 @@ function Header() {
             >
               <Settings size={20} strokeWidth={1.5} />
             </IconButton>
+
+            <LanguageSwitcher />
 
             <NotificationsDropdown />
             <UserDropdown />
