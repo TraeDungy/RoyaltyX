@@ -44,6 +44,11 @@ cd backend
 python -m venv venv
 source venv/bin/activate  # On Windows use `venv\Scripts\activate`
 pip install -r requirements.txt
+
+# WeasyPrint depends on additional system packages like cairo and pango.
+# If you encounter "ModuleNotFoundError: weasyprint" after installing
+# Python requirements, install the OS dependencies. On Debian/Ubuntu:
+# sudo apt-get install libpango-1.0-0 libpangocairo-1.0-0 libgdk-pixbuf2.0-0 libcairo2
 ```
 
 ## 5. Run migrations and start the backend
