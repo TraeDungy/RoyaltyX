@@ -10,17 +10,33 @@ import { ImpressionsCard } from "../../analytics/components/ImpressionsCard";
 import { RevenueCard } from "../../analytics/components/RevenueCard";
 import { useSettings } from "../../common/contexts/SettingsContext";
 import { useLocation } from "react-router";
-import { Grid } from "@mui/material";
+import {
+  Grid,
+  Box,
+  TextField,
+  Button as MuiButton,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
+import { ReactSortable } from "react-sortablejs";
 
 function Dashboard() {
   const { products, loading } = useProducts();
   const { sources } = useSources();
   const [analytics, setAnalytics] = useState(null);
+  const [newLayoutName, setNewLayoutName] = useState("");
   const {
     showTotalImpressionsCard,
     showTotalSalesCard,
     showTotalRevenueCard,
     dashboardAnalyticsOrder,
+    setDashboardAnalyticsOrder,
+    dashboardLayouts,
+    currentDashboardLayout,
+    saveDashboardLayout,
+    applyDashboardLayout,
   } = useSettings();
   const location = useLocation();
 
@@ -51,19 +67,68 @@ function Dashboard() {
       <ImpressionsCard analytics={analytics} />
     ) : null,
     sales: showTotalSalesCard ? <SalesCard analytics={analytics} /> : null,
-    revenue: showTotalRevenueCard ? <RevenueCard analytics={analytics} /> : null,
+    revenue: showTotalRevenueCard ? (
+      <RevenueCard analytics={analytics} />
+    ) : null,
   };
 
   return (
     <>
+      <Box sx={{ display: "flex", gap: 1, alignItems: "center", mb: 2 }}>
+        <FormControl size="small" sx={{ minWidth: 160 }}>
+          <InputLabel id="layout-select-label">Load Layout</InputLabel>
+          <Select
+            labelId="layout-select-label"
+            value={currentDashboardLayout}
+            label="Load Layout"
+            onChange={(e) => applyDashboardLayout(e.target.value)}
+          >
+            <MenuItem value="">
+              <em>Default</em>
+            </MenuItem>
+            {Object.keys(dashboardLayouts).map((name) => (
+              <MenuItem key={name} value={name}>
+                {name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <TextField
+          size="small"
+          label="Save layout as"
+          value={newLayoutName}
+          onChange={(e) => setNewLayoutName(e.target.value)}
+        />
+        <MuiButton
+          variant="outlined"
+          size="small"
+          onClick={() => {
+            saveDashboardLayout(newLayoutName);
+            setNewLayoutName("");
+          }}
+        >
+          Save
+        </MuiButton>
+      </Box>
+
       {analytics && (
-        <Grid container spacing={3} className="mb-4">
+        <ReactSortable
+          tag={Grid}
+          list={dashboardAnalyticsOrder.map((id) => ({ id }))}
+          setList={(list) =>
+            setDashboardAnalyticsOrder(list.map((item) => item.id))
+          }
+          className="mb-4"
+          animation={200}
+          container
+          spacing={3}
+        >
           {dashboardAnalyticsOrder
             .map((key) => cardComponents[key])
             .filter(Boolean)}
-        </Grid>
+        </ReactSortable>
       )}
-      
+
       <LinkedAccountsSection sources={sources} loading={loading} />
       <ProductsList products={products} loading={loading} />
     </>

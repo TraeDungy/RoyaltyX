@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
 const defaultAnalyticsOrder = ["impressions", "sales", "revenue"];
+const defaultAnalyticsStatsOrder = ["sales", "general", "youtube"];
 
 const SettingsContext = createContext();
 
@@ -79,14 +80,46 @@ export const SettingsProvider = ({ children }) => {
     return savedOrder ? JSON.parse(savedOrder) : defaultAnalyticsOrder;
   });
 
+  const [dashboardLayouts, setDashboardLayouts] = useState(() => {
+    const savedLayouts = localStorage.getItem("dashboardLayouts");
+    return savedLayouts ? JSON.parse(savedLayouts) : {};
+  });
+
+  const [currentDashboardLayout, setCurrentDashboardLayout] = useState(() => {
+    return localStorage.getItem("currentDashboardLayout") || "";
+  });
+
+  const saveDashboardLayout = (name) => {
+    if (!name) return;
+    setDashboardLayouts((layouts) => ({
+      ...layouts,
+      [name]: dashboardAnalyticsOrder,
+    }));
+    setCurrentDashboardLayout(name);
+  };
+
+  const applyDashboardLayout = (name) => {
+    const layout = dashboardLayouts[name];
+    if (layout) {
+      setDashboardAnalyticsOrder(layout);
+      setCurrentDashboardLayout(name);
+    }
+  };
+
+  const [analyticsStatsOrder, setAnalyticsStatsOrder] = useState(() => {
+    const savedOrder = localStorage.getItem("analyticsStatsOrder");
+    return savedOrder ? JSON.parse(savedOrder) : defaultAnalyticsStatsOrder;
+  });
+
+  const resetAnalyticsStatsOrder = () => {
+    setAnalyticsStatsOrder(defaultAnalyticsStatsOrder);
+  };
+
   const resetDashboardAnalyticsOrder = () => {
     setDashboardAnalyticsOrder(defaultAnalyticsOrder);
   };
 
-  const [
-    impressionsGraphColor,
-    setimpressionsGraphColor,
-  ] = useState(() => {
+  const [impressionsGraphColor, setimpressionsGraphColor] = useState(() => {
     const savedimpressionsGraphColor = localStorage.getItem(
       "impressionsGraphColor",
     );
@@ -95,15 +128,10 @@ export const SettingsProvider = ({ children }) => {
       : "#009efd";
   });
 
-  const [salesGraphColor, setsalesGraphColor] =
-    useState(() => {
-      const savedsalesGraphColor = localStorage.getItem(
-        "salesGraphColor",
-      );
-      return savedsalesGraphColor !== null
-        ? savedsalesGraphColor
-        : "#009efd";
-    });
+  const [salesGraphColor, setsalesGraphColor] = useState(() => {
+    const savedsalesGraphColor = localStorage.getItem("salesGraphColor");
+    return savedsalesGraphColor !== null ? savedsalesGraphColor : "#009efd";
+  });
 
   const [impressionsGraphType, setImpressionsGraphType] = useState(() => {
     const saved = localStorage.getItem("impressionsGraphType");
@@ -135,15 +163,10 @@ export const SettingsProvider = ({ children }) => {
     return saved || "currency";
   });
 
-  const [revenueGraphColor, setrevenueGraphColor] =
-    useState(() => {
-      const savedrevenueGraphColor = localStorage.getItem(
-        "revenueGraphColor",
-      );
-      return savedrevenueGraphColor !== null
-        ? savedrevenueGraphColor
-        : "#009efd";
-    });
+  const [revenueGraphColor, setrevenueGraphColor] = useState(() => {
+    const savedrevenueGraphColor = localStorage.getItem("revenueGraphColor");
+    return savedrevenueGraphColor !== null ? savedrevenueGraphColor : "#009efd";
+  });
 
   const [salesOverTimeGraphColor, setSalesOverTimeGraphColor] = useState(() => {
     const savedSalesOverTimeGraphColor = localStorage.getItem(
@@ -235,17 +258,11 @@ export const SettingsProvider = ({ children }) => {
   }, [showProductImageCard]);
 
   useEffect(() => {
-    localStorage.setItem(
-      "impressionsGraphColor",
-      impressionsGraphColor,
-    );
+    localStorage.setItem("impressionsGraphColor", impressionsGraphColor);
   }, [impressionsGraphColor]);
 
   useEffect(() => {
-    localStorage.setItem(
-      "salesGraphColor",
-      salesGraphColor,
-    );
+    localStorage.setItem("salesGraphColor", salesGraphColor);
   }, [salesGraphColor]);
 
   useEffect(() => {
@@ -273,10 +290,7 @@ export const SettingsProvider = ({ children }) => {
   }, [revenueValueFormat]);
 
   useEffect(() => {
-    localStorage.setItem(
-      "revenueGraphColor",
-      revenueGraphColor,
-    );
+    localStorage.setItem("revenueGraphColor", revenueGraphColor);
   }, [revenueGraphColor]);
 
   useEffect(() => {
@@ -299,13 +313,6 @@ export const SettingsProvider = ({ children }) => {
 
   useEffect(() => {
     localStorage.setItem(
-      "impressionsOverTimeGraphColor",
-      impressionsOverTimeGraphColor,
-    );
-  }, [impressionsOverTimeGraphColor]);
-
-  useEffect(() => {
-    localStorage.setItem(
       "impressionRevenueOverTimeGraphColor",
       impressionRevenueOverTimeGraphColor,
     );
@@ -317,6 +324,21 @@ export const SettingsProvider = ({ children }) => {
       JSON.stringify(dashboardAnalyticsOrder),
     );
   }, [dashboardAnalyticsOrder]);
+
+  useEffect(() => {
+    localStorage.setItem("dashboardLayouts", JSON.stringify(dashboardLayouts));
+  }, [dashboardLayouts]);
+
+  useEffect(() => {
+    localStorage.setItem("currentDashboardLayout", currentDashboardLayout);
+  }, [currentDashboardLayout]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "analyticsStatsOrder",
+      JSON.stringify(analyticsStatsOrder),
+    );
+  }, [analyticsStatsOrder]);
 
   return (
     <SettingsContext.Provider
@@ -366,6 +388,13 @@ export const SettingsProvider = ({ children }) => {
         dashboardAnalyticsOrder,
         setDashboardAnalyticsOrder,
         resetDashboardAnalyticsOrder,
+        dashboardLayouts,
+        currentDashboardLayout,
+        saveDashboardLayout,
+        applyDashboardLayout,
+        analyticsStatsOrder,
+        setAnalyticsStatsOrder,
+        resetAnalyticsStatsOrder,
       }}
     >
       {children}
