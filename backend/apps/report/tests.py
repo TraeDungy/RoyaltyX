@@ -1,9 +1,9 @@
 from datetime import date, datetime
 from unittest.mock import Mock, patch
-from django.core.files.base import ContentFile
 from urllib.parse import urlencode
 
 from django.contrib.auth import get_user_model
+from django.core.files.base import ContentFile
 from django.template.loader import render_to_string
 from django.test import TestCase
 from django.urls import reverse
