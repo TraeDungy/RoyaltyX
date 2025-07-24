@@ -130,6 +130,8 @@ def process_report_schedules(base_url=None):
         )
 
         generate_report_pdf.apply(args=[report.id, base_url])
+        # Reload the file field so the scheduled email includes the attachment
+        report.refresh_from_db(fields=["file"])
 
         attachments = []
         if report.file:
