@@ -1,4 +1,5 @@
 import base64
+import hashlib
 import os
 
 from cryptography.fernet import Fernet
@@ -10,16 +11,16 @@ def get_fernet():
     """Return a ``Fernet`` instance using either ``FERNET_KEY`` or ``SECRET_KEY``.
 
     ``FERNET_KEY`` should be a 32 url‑safe base64 encoded value. If it is not
-    provided, the function falls back to ``DJANGO_SECRET_KEY`` which is trimmed
-    to 32 bytes and base64 encoded.
+    provided, the function falls back to ``DJANGO_SECRET_KEY`` which is hashed
+    and base64 encoded to generate a valid Fernet key.
     """
 
     env_key = os.environ.get("FERNET_KEY")
     if env_key:
         return Fernet(env_key.encode())
 
-    key = settings.SECRET_KEY[:32].encode()  # Ensure it's 32 bytes
-    key = base64.urlsafe_b64encode(key)
+    key_bytes = hashlib.sha256(settings.SECRET_KEY.encode()).digest()
+    key = base64.urlsafe_b64encode(key_bytes)
     return Fernet(key)
 
 
