@@ -379,3 +379,34 @@ class ReportingAPITests(TestCase):
         response = self.client.get(self.reporting_url, {"dimension": "platform"})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.data, list)
+
+
+class InsightsUtilsTests(TestCase):
+    def test_generate_monthly_insights(self):
+        from apps.analytics.insights import generate_monthly_insights
+
+        stats = [
+            {
+                "month": "2024-05",
+                "impressions": 100,
+                "sales": 10,
+                "royalty_revenue": 50,
+            },
+            {
+                "month": "2024-06",
+                "impressions": 150,
+                "sales": 5,
+                "royalty_revenue": 75,
+            },
+            {
+                "month": "2024-07",
+                "impressions": 150,
+                "sales": 5,
+                "royalty_revenue": 75,
+            },
+        ]
+
+        insights = generate_monthly_insights(stats)
+        self.assertEqual(len(insights), 2)
+        self.assertEqual(insights[0]["month"], "2024-06")
+        self.assertIn("increased", insights[0]["insight"])

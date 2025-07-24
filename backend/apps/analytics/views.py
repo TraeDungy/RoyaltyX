@@ -7,6 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from apps.analytics.insights import generate_monthly_insights
 from apps.analytics.models import AnalyticsForecast
 from apps.analytics.serializers import (
     AnalyticsForecastSerializer,
@@ -127,6 +128,33 @@ class AnalyticsForecastView(APIView):
         forecasts = AnalyticsForecast.objects.filter(project_id=project_id)
         serializer = AnalyticsForecastSerializer(forecasts, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class AnalyticsInsightsView(APIView):
+    """Return month over month performance insights."""
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        serializer = AnalyticsSerializer(data=request.query_params)
+        serializer.is_valid(raise_exception=True)
+
+        project_id = request.user.currently_selected_project_id
+        period_start = serializer.validated_data.get("period_start", None)
+        period_end = serializer.validated_data.get("period_end", None)
+
+        filters = {}
+        if period_start and period_end:
+            start_date = datetime.combine(period_start, time.min)
+            end_date = datetime.combine(period_end, time.max)
+            filters["period_start__gte"] = start_date
+            filters["period_end__lte"] = end_date
+
+        data = calculate_analytics(
+            project_id, filters, period_start, period_end, None, "monthly"
+        )
+        insights = generate_monthly_insights(data.get("time_stats", []))
+        return Response(insights, status=status.HTTP_200_OK)
 
 
 class AnalyticsReportingView(APIView):
