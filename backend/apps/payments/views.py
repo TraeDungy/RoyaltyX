@@ -66,6 +66,28 @@ def create_checkout_session(request):
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
+def create_billing_portal_session(request):
+    """Create a Stripe billing portal session for the user"""
+    try:
+        user = request.user
+        customer_id = user.stripe_customer_id
+        if not customer_id:
+            customer = StripeService.create_customer(user)
+            customer_id = customer.id
+
+        session = stripe.billing_portal.Session.create(
+            customer=customer_id,
+            return_url=f"{os.getenv('REACT_APP_URL')}/account/billing",
+        )
+
+        return Response({"url": session.url})
+
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
 def cancel_subscription(request):
     """Cancel user's current subscription"""
     try:

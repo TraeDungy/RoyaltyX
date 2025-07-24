@@ -108,3 +108,16 @@ class PaymentViewsTests(TestCase):
         self.assertEqual(len(response.data), 1)
         self.assertEqual(response.data[0]["code"], "extra")
 
+    @patch("apps.payments.views.stripe.billing_portal.Session.create")
+    @patch("apps.payments.views.StripeService.create_customer")
+    def test_create_billing_portal_session(self, mock_create_customer, mock_create):
+        mock_session = MagicMock(url="http://portal.test")
+        mock_create.return_value = mock_session
+        mock_create_customer.return_value = MagicMock(id="cus_new")
+
+        url = reverse("payments.billing_portal_session")
+        response = self.client.post(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["url"], "http://portal.test")
+        mock_create.assert_called_once()
+

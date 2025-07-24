@@ -59,6 +59,12 @@ function Overview() {
       icon: <CreditCard size={20} color="currentColor" />,
       path: "/account/membership",
     },
+    {
+      title: "Billing",
+      description: "Update payment methods and view invoices",
+      icon: <CreditCard size={20} color="currentColor" />,
+      path: "/account/billing",
+    },
   ];
 
   const formatDate = (dateString) => {
