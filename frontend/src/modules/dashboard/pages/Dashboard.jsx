@@ -45,24 +45,14 @@ function Dashboard() {
     const start = params.get("period_start");
     const end = params.get("period_end");
     if (!start || !end) {
-      let latest = null;
-      if (Array.isArray(sources) && sources.length) {
-        sources.forEach((s) => {
-          if (s.last_fetched_at) {
-            const d = new Date(s.last_fetched_at);
-            if (!latest || d > latest) latest = d;
-          }
-        });
-      }
-      const endDate = latest || new Date();
+      const endDate = new Date();
       const startDate = new Date(endDate);
       startDate.setMonth(endDate.getMonth() - 1);
       params.set("period_start", startDate.toLocaleDateString("en-CA"));
       params.set("period_end", endDate.toLocaleDateString("en-CA"));
       navigate(`${location.pathname}?${params.toString()}`, { replace: true });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sources]);
+  }, [location.pathname]);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
