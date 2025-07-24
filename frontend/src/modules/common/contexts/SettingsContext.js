@@ -78,6 +78,11 @@ export const SettingsProvider = ({ children }) => {
     return saved !== null ? saved === "true" : true;
   });
 
+  const [showBanner, setShowBanner] = useState(() => {
+    const saved = localStorage.getItem("showBanner");
+    return saved !== null ? saved === "true" : true;
+  });
+
   const convertCountdownToMs = (value, unit) => {
     const hour = 60 * 60 * 1000;
     switch (unit) {
@@ -329,6 +334,10 @@ export const SettingsProvider = ({ children }) => {
   }, [showClockCard]);
 
   useEffect(() => {
+    localStorage.setItem("showBanner", showBanner.toString());
+  }, [showBanner]);
+
+  useEffect(() => {
     localStorage.setItem("countdownValue", countdownValue.toString());
   }, [countdownValue]);
 
@@ -501,6 +510,8 @@ export const SettingsProvider = ({ children }) => {
         setShowTotalRevenueCard,
         showClockCard,
         setShowClockCard,
+        showBanner,
+        setShowBanner,
         countdownValue,
         setCountdownValue,
         countdownUnit,
