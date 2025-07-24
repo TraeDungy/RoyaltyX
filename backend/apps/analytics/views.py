@@ -1,19 +1,22 @@
-from datetime import datetime, time
 import csv
+from datetime import datetime, time
 
 from django.http import HttpResponse
-
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from apps.analytics.serializers import (
-    AnalyticsSerializer,
-    AnalyticsForecastSerializer,
-)
 from apps.analytics.models import AnalyticsForecast
-from apps.analytics.utils import calculate_analytics
+from apps.analytics.serializers import (
+    AnalyticsForecastSerializer,
+    AnalyticsSerializer,
+    ReportingSerializer,
+)
+from apps.analytics.utils import (
+    calculate_analytics,
+    calculate_analytics_by_dimension,
+)
 
 
 class AnalyticsView(APIView):
@@ -124,3 +127,28 @@ class AnalyticsForecastView(APIView):
         forecasts = AnalyticsForecast.objects.filter(project_id=project_id)
         serializer = AnalyticsForecastSerializer(forecasts, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class AnalyticsReportingView(APIView):
+    """Return analytics grouped by a dimension."""
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        serializer = ReportingSerializer(data=request.query_params)
+        serializer.is_valid(raise_exception=True)
+
+        project_id = request.user.currently_selected_project_id
+        period_start = serializer.validated_data.get("period_start")
+        period_end = serializer.validated_data.get("period_end")
+        dimension = serializer.validated_data.get("dimension")
+
+        filters = {}
+        if period_start and period_end:
+            start_date = datetime.combine(period_start, time.min)
+            end_date = datetime.combine(period_end, time.max)
+            filters["period_start__gte"] = start_date
+            filters["period_end__lte"] = end_date
+
+        data = calculate_analytics_by_dimension(project_id, filters, dimension)
+        return Response(data, status=status.HTTP_200_OK)

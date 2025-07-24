@@ -544,6 +544,63 @@ def calculate_analytics_per_source(
     return source_analytics
 
 
+def _aggregate_platform(source_data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """Aggregate source analytics by platform."""
+
+    platform_map: Dict[str, Dict[str, Any]] = {}
+    for entry in source_data:
+        plat = entry["platform"]
+        if plat not in platform_map:
+            platform_map[plat] = {
+                "platform": plat,
+                "platform_display": entry["platform_display"],
+                "analytics": {
+                    "total_impressions": 0,
+                    "total_impression_revenue": 0.0,
+                    "total_sales_count": 0,
+                    "total_royalty_revenue": 0.0,
+                    "rentals_count": 0,
+                    "rentals_revenue": 0.0,
+                    "purchases_count": 0,
+                    "purchases_revenue": 0.0,
+                    "product_count": 0,
+                },
+            }
+
+        for key, value in entry["analytics"].items():
+            platform_map[plat]["analytics"][key] += value
+
+    return list(platform_map.values())
+
+
+def calculate_analytics_by_dimension(
+    project_id: int,
+    filters: Dict[str, Any],
+    dimension: str,
+) -> List[Dict[str, Any]]:
+    """Return analytics grouped by a specific dimension."""
+
+    impressions_qs = ProductImpressions.objects.filter(
+        product__project_id=project_id
+    )
+    sales_qs = ProductSale.objects.filter(product__project_id=project_id)
+
+    if filters:
+        impressions_qs = impressions_qs.filter(**filters)
+        sales_qs = sales_qs.filter(**filters)
+
+    source_data = calculate_analytics_per_source(
+        project_id, impressions_qs, sales_qs
+    )
+
+    if dimension == "source":
+        return source_data
+    if dimension == "platform":
+        return _aggregate_platform(source_data)
+
+    raise ValueError("Unknown dimension")
+
+
 def calculate_analytics(
     project_id: int,
     filters: Dict[str, Any],
