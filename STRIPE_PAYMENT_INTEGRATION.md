@@ -174,7 +174,7 @@ STRIPE_PREMIUM_PRICE_ID=price_...
 ## Deployment Considerations
 
 ### Stripe Configuration
-1. Create Stripe products for Basic and Premium plans
+1. Create Stripe products for Discovery, Professional and Premium plans
 2. Get price IDs for monthly recurring billing
 3. Set up webhook endpoint in Stripe dashboard
 4. Configure webhook events to listen for

@@ -88,7 +88,7 @@ STRIPE_PREMIUM_PRICE_ID=price_...
 ```
 
 ### Stripe Dashboard Setup
-1. **Create Products**: Basic ($19.99/month) and Premium ($49.99/month)
+1. **Create Products**: Discovery ($19/month after 30-day trial), Professional ($49/month) and Premium ($99/month)
 2. **Get Price IDs**: Copy the price IDs for environment variables
 3. **Setup Webhook**: Point to `https://yourdomain.com/payments/stripe-webhook/`
 4. **Configure Events**: Subscribe to payment and subscription events
@@ -127,7 +127,7 @@ STRIPE_PREMIUM_PRICE_ID=price_...
 
 ### 1. Stripe Account Setup
 - Create Stripe account (if not already done)
-- Create Basic and Premium products
+- Create Discovery, Professional and Premium products
 - Get API keys and price IDs
 - Add environment variables
 
