@@ -108,3 +108,50 @@ class PaymentViewsTests(TestCase):
         self.assertEqual(len(response.data), 1)
         self.assertEqual(response.data[0]["code"], "extra")
 
+    @patch("apps.payments.views.StripeService.list_invoices")
+    def test_billing_history(self, mock_list):
+        mock_list.return_value = []
+        url = reverse("payments.billing_history")
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        mock_list.assert_called_once()
+
+    @patch("apps.payments.views.StripeService.list_payment_methods")
+    def test_payment_methods(self, mock_list):
+        mock_list.return_value = []
+        url = reverse("payments.payment_methods")
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        mock_list.assert_called_once()
+
+    @patch("apps.payments.views.StripeService.attach_payment_method")
+    def test_add_payment_method(self, mock_attach):
+        url = reverse("payments.add_payment_method")
+        response = self.client.post(url, {"payment_method_id": "pm_1"})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        mock_attach.assert_called_once()
+
+    def test_add_payment_method_missing_id(self):
+        url = reverse("payments.add_payment_method")
+        response = self.client.post(url, {})
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    @patch("apps.payments.views.StripeService.detach_payment_method")
+    def test_remove_payment_method(self, mock_detach):
+        url = reverse("payments.remove_payment_method")
+        response = self.client.post(url, {"payment_method_id": "pm_1"})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        mock_detach.assert_called_once()
+
+    @patch("apps.payments.views.StripeService.set_default_payment_method")
+    def test_set_default_payment_method(self, mock_set):
+        url = reverse("payments.set_default_payment_method")
+        response = self.client.post(url, {"payment_method_id": "pm_1"})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        mock_set.assert_called_once()
+
+    def test_set_default_payment_method_missing_id(self):
+        url = reverse("payments.set_default_payment_method")
+        response = self.client.post(url, {})
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+

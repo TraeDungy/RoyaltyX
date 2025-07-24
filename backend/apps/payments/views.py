@@ -237,3 +237,64 @@ class AddOnListView(APIView):
         serializer = AddOnSerializer(addons, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def billing_history(request):
+    """Return billing history (invoices) for the user."""
+    try:
+        invoices = StripeService.list_invoices(request.user)
+        return Response(invoices, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def payment_methods(request):
+    """Return payment methods attached to the user."""
+    try:
+        methods = StripeService.list_payment_methods(request.user)
+        return Response(methods, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def add_payment_method(request):
+    payment_method_id = request.data.get("payment_method_id")
+    if not payment_method_id:
+        return Response({"error": "Payment method ID is required"}, status=status.HTTP_400_BAD_REQUEST)
+    try:
+        StripeService.attach_payment_method(request.user, payment_method_id)
+        return Response({"message": "Payment method added"})
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def remove_payment_method(request):
+    payment_method_id = request.data.get("payment_method_id")
+    if not payment_method_id:
+        return Response({"error": "Payment method ID is required"}, status=status.HTTP_400_BAD_REQUEST)
+    try:
+        StripeService.detach_payment_method(request.user, payment_method_id)
+        return Response({"message": "Payment method removed"})
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def set_default_payment_method(request):
+    payment_method_id = request.data.get("payment_method_id")
+    if not payment_method_id:
+        return Response({"error": "Payment method ID is required"}, status=status.HTTP_400_BAD_REQUEST)
+    try:
+        StripeService.set_default_payment_method(request.user, payment_method_id)
+        return Response({"message": "Default payment method updated"})
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
