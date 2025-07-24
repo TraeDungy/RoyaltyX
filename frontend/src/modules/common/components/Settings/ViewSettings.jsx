@@ -1,4 +1,15 @@
-import { Button, Typography, Box, IconButton } from "@mui/material";
+import { useState } from "react";
+import {
+  Button,
+  Typography,
+  Box,
+  IconButton,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
 import { ArrowUp, ArrowDown, RotateCcw } from "lucide-react";
 import { useSettings } from "../../contexts/SettingsContext";
 
@@ -23,7 +34,12 @@ const ViewSettings = () => {
     dashboardAnalyticsOrder,
     setDashboardAnalyticsOrder,
     resetDashboardAnalyticsOrder,
+    dashboardLayouts,
+    currentDashboardLayout,
+    saveDashboardLayout,
+    applyDashboardLayout,
   } = useSettings();
+  const [layoutName, setLayoutName] = useState("");
 
   const toggleShowSalesOverTime = () => {
     setShowSalesOverTime(!showSalesOverTime);
@@ -187,10 +203,7 @@ const ViewSettings = () => {
           Analytics Card Order
         </Typography>
         {dashboardAnalyticsOrder.map((card, index) => (
-          <Box
-            key={card}
-            sx={{ display: "flex", alignItems: "center", mb: 1 }}
-          >
+          <Box key={card} sx={{ display: "flex", alignItems: "center", mb: 1 }}>
             <Typography sx={{ flex: 1, textTransform: "capitalize" }}>
               {card}
             </Typography>
@@ -218,6 +231,44 @@ const ViewSettings = () => {
         >
           Reset Layout
         </Button>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1, mt: 2 }}>
+          <TextField
+            size="small"
+            label="Save layout as"
+            value={layoutName}
+            onChange={(e) => setLayoutName(e.target.value)}
+          />
+          <Button
+            variant="outlined"
+            size="small"
+            onClick={() => {
+              saveDashboardLayout(layoutName);
+              setLayoutName("");
+            }}
+          >
+            Save
+          </Button>
+        </Box>
+        {Object.keys(dashboardLayouts).length > 0 && (
+          <FormControl sx={{ mt: 2, minWidth: 160 }} size="small">
+            <InputLabel id="view-layout-select">Load Layout</InputLabel>
+            <Select
+              labelId="view-layout-select"
+              value={currentDashboardLayout}
+              label="Load Layout"
+              onChange={(e) => applyDashboardLayout(e.target.value)}
+            >
+              <MenuItem value="">
+                <em>Default</em>
+              </MenuItem>
+              {Object.keys(dashboardLayouts).map((name) => (
+                <MenuItem key={name} value={name}>
+                  {name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        )}
       </div>
     </div>
   );

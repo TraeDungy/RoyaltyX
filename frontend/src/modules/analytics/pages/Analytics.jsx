@@ -22,7 +22,17 @@ import { TopPerfomingContentBySales } from "../components/TopPerfomingContentByS
 import { SourceAnalytics } from "../components/SourceAnalytics";
 import SalesStatsCard from "../components/SalesStatsCard";
 import GeneralStatsCard from "../components/GeneralStatsCard";
-import { Grid, Typography, Button } from "@mui/material";
+import {
+  Grid,
+  Typography,
+  Button,
+  Box,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
+import { ReactSortable } from "react-sortablejs";
 import ForecastInsights from "../components/ForecastInsights";
 
 function Analytics() {
@@ -35,6 +45,11 @@ function Analytics() {
     showRentalsOverTime,
     showImpressionsOverTime,
     showImpressionRevenueOverTime,
+    analyticsStatsOrder,
+    setAnalyticsStatsOrder,
+    dashboardLayouts,
+    applyDashboardLayout,
+    currentDashboardLayout,
   } = useSettings();
   const location = useLocation();
   const params = new URLSearchParams(location.search);
@@ -134,6 +149,27 @@ function Analytics() {
         </div>
       </div>
 
+      <Box sx={{ display: "flex", gap: 1, alignItems: "center", mb: 2 }}>
+        <FormControl size="small" sx={{ minWidth: 160 }}>
+          <InputLabel id="dash-select-label">Dashboard Layout</InputLabel>
+          <Select
+            labelId="dash-select-label"
+            value={currentDashboardLayout}
+            label="Dashboard Layout"
+            onChange={(e) => applyDashboardLayout(e.target.value)}
+          >
+            <MenuItem value="">
+              <em>Default</em>
+            </MenuItem>
+            {Object.keys(dashboardLayouts).map((name) => (
+              <MenuItem key={name} value={name}>
+                {name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Box>
+
       <Grid container columnSpacing={3}>
         {showSalesOverTime && <SalesOverTime analytics={analytics} />}
         {showRentalsOverTime && <RentalsOverTime analytics={analytics} />}
@@ -145,11 +181,37 @@ function Analytics() {
         )}
       </Grid>
 
-      <Grid container spacing={3}>
-        <SalesStatsCard analytics={analytics} />
-        <GeneralStatsCard analytics={analytics} showProductCount={true} />
-        {youtubeAnalytics && <YoutubeAnalyticsCard data={youtubeAnalytics} />}
-      </Grid>
+      <ReactSortable
+        tag={Grid}
+        list={analyticsStatsOrder.map((id) => ({ id }))}
+        setList={(list) => setAnalyticsStatsOrder(list.map((i) => i.id))}
+        animation={200}
+        container
+        spacing={3}
+      >
+        {analyticsStatsOrder.map((key) => {
+          switch (key) {
+            case "sales":
+              return <SalesStatsCard key="sales" analytics={analytics} />;
+            case "general":
+              return (
+                <GeneralStatsCard
+                  key="general"
+                  analytics={analytics}
+                  showProductCount={true}
+                />
+              );
+            case "youtube":
+              return (
+                youtubeAnalytics && (
+                  <YoutubeAnalyticsCard key="youtube" data={youtubeAnalytics} />
+                )
+              );
+            default:
+              return null;
+          }
+        })}
+      </ReactSortable>
 
       <SourceAnalytics analytics={analytics} />
 

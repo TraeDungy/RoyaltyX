@@ -47,7 +47,9 @@
     "react-slider": "^2.0.6",
     "react-spinners": "^0.14.1",
     "react-toastify": "^10.0.5",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "react-sortablejs": "^6.1.4",
+    "sortablejs": "^1.15.6"
   },
   "scripts": {
     "start": "react-scripts start",

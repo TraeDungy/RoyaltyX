@@ -1,6 +1,8 @@
-describe('Home page', () => {
-  it('loads successfully', () => {
-    cy.visit('/');
-    cy.contains('Kitchen');
+/* global cy */
+
+describe("Home page", () => {
+  it("loads successfully", () => {
+    cy.visit("/");
+    cy.contains("Kitchen");
   });
 });
