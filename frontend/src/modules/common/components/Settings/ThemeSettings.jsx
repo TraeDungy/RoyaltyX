@@ -59,6 +59,36 @@ const ThemeSettings = () => {
               <Typography>Dark Theme</Typography>
             </Box>
           </MenuItem>
+          <MenuItem value="matrix">
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              <Typography>Matrix</Typography>
+            </Box>
+          </MenuItem>
+          <MenuItem value="desert">
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              <Typography>Desert</Typography>
+            </Box>
+          </MenuItem>
+          <MenuItem value="camouflage">
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              <Typography>Camouflage</Typography>
+            </Box>
+          </MenuItem>
+          <MenuItem value="sniper">
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              <Typography>Sniper</Typography>
+            </Box>
+          </MenuItem>
+          <MenuItem value="cottonCandy">
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              <Typography>Cotton Candy</Typography>
+            </Box>
+          </MenuItem>
+          <MenuItem value="pinky">
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              <Typography>Pinky</Typography>
+            </Box>
+          </MenuItem>
         </Select>
       </FormControl>
 

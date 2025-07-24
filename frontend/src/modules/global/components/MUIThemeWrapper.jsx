@@ -4,7 +4,7 @@ import { getMuiTheme } from "../../../theme";
 import { useTheme } from "../../common/contexts/ThemeContext";
 
 export const MUIThemeWrapper = ({ children }) => {
-  const { theme, secondaryColor } = useTheme(); // "light" or "dark"
+  const { theme, secondaryColor } = useTheme(); // theme name
   const [muiTheme, setMuiTheme] = useState(() =>
     getMuiTheme(theme, secondaryColor),
   );

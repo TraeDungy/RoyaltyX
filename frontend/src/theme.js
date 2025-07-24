@@ -1,24 +1,26 @@
 import { createTheme } from "@mui/material/styles";
 import { colors } from "./constants";
 
-export const getMuiTheme = (mode, primaryColor = colors[mode].primary) => {
+export const getMuiTheme = (themeName, primaryColor = colors[themeName].primary) => {
+  const themeColors = colors[themeName];
+  const mode = themeColors.mode || themeName;
   return createTheme({
     palette: {
-      mode: mode,
+      mode,
       primary: {
         main: primaryColor,
-        lighter: colors[mode].textLighter,
+        lighter: themeColors.textLighter,
       },
       error: {
-        main: colors[mode].danger,
+        main: themeColors.danger,
       },
       background: {
-        default: colors[mode].bodyBackground,
-        paper: colors[mode].paper,
+        default: themeColors.bodyBackground,
+        paper: themeColors.paper,
       },
       text: {
-        primary: colors[mode].text,
-        secondary: colors[mode].textLighter,
+        primary: themeColors.text,
+        secondary: themeColors.textLighter,
       },
     },
     typography: {

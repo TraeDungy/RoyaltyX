@@ -99,262 +99,53 @@ export default function ThemeSelection() {
         </Box>
 
         {/* Theme Options */}
-        <Stack direction="row" spacing={3} sx={{ mb: 4 }}>
-          {/* Light Theme Option */}
-          <Zoom in timeout={600}>
-            <Paper
-              elevation={selectedTheme === "light" ? 8 : 2}
-              sx={{
-                flex: 1,
-                p: 3,
-                cursor: "pointer",
-                border: selectedTheme === "light" ? 2 : 1,
-                borderColor:
-                  selectedTheme === "light" ? "primary.main" : "divider",
-                transition: "all 0.3s ease",
-                position: "relative",
-                "&:hover": {
-                  elevation: 6,
-                  transform: "translateY(-2px)",
-                },
-              }}
-              onClick={() => handleThemeSelect("light")}
-            >
-              {selectedTheme === "light" && (
-                <CheckCircle
-                  sx={{
-                    position: "absolute",
-                    top: 12,
-                    right: 12,
-                    color: "primary.main",
-                    fontSize: 24,
-                  }}
-                />
-              )}
-
-              <Box sx={{ textAlign: "center" }}>
-                <IconButton
-                  sx={{
-                    mb: 2,
-                    bgcolor: "rgba(255, 193, 7, 0.1)",
-                    color: "#FFC107",
-                    width: 64,
-                    height: 64,
-                    "&:hover": {
-                      bgcolor: "rgba(255, 193, 7, 0.2)",
-                    },
-                  }}
-                >
-                  <LightMode sx={{ fontSize: 32 }} />
-                </IconButton>
-
-                <Typography variant="h5" sx={{ mb: 1, fontWeight: 500 }}>
-                  Light Theme
-                </Typography>
-                <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                  Clean and bright interface perfect for daytime use
-                </Typography>
-              </Box>
-
-              {/* Preview mockup */}
-              <Box
+        <Stack direction="row" spacing={2} sx={{ mb: 4 }} flexWrap="wrap">
+          {[
+            { value: "light", label: "Light Theme", icon: <LightMode /> },
+            { value: "dark", label: "Dark Theme", icon: <DarkMode /> },
+            { value: "matrix", label: "Matrix" },
+            { value: "desert", label: "Desert" },
+            { value: "camouflage", label: "Camouflage" },
+            { value: "sniper", label: "Sniper" },
+            { value: "cottonCandy", label: "Cotton Candy" },
+            { value: "pinky", label: "Pinky" },
+          ].map((option) => (
+            <Zoom in timeout={600} key={option.value}>
+              <Paper
+                elevation={selectedTheme === option.value ? 8 : 2}
                 sx={{
-                  mt: 3,
-                  height: 80,
-                  bgcolor: "#f5f5f5",
-                  borderRadius: 1,
-                  border: "1px solid #e0e0e0",
+                  flex: "1 0 120px",
+                  p: 3,
+                  textAlign: "center",
+                  cursor: "pointer",
+                  border: selectedTheme === option.value ? 2 : 1,
+                  borderColor:
+                    selectedTheme === option.value ? "primary.main" : "divider",
                   position: "relative",
-                  overflow: "hidden",
+                  mb: 2,
                 }}
+                onClick={() => handleThemeSelect(option.value)}
               >
-                <Box
-                  sx={{
-                    height: 20,
-                    bgcolor: "#fff",
-                    borderBottom: "1px solid #e0e0e0",
-                    display: "flex",
-                    alignItems: "center",
-                    px: 1,
-                  }}
-                >
-                  <Box
+                {selectedTheme === option.value && (
+                  <CheckCircle
                     sx={{
-                      width: 8,
-                      height: 8,
-                      bgcolor: "#1976d2",
-                      borderRadius: "50%",
-                      mr: 0.5,
+                      position: "absolute",
+                      top: 12,
+                      right: 12,
+                      color: "primary.main",
+                      fontSize: 24,
                     }}
                   />
-                  <Box
-                    sx={{
-                      width: 40,
-                      height: 4,
-                      bgcolor: "#e0e0e0",
-                      borderRadius: 1,
-                    }}
-                  />
-                </Box>
-                <Box sx={{ p: 1 }}>
-                  <Box
-                    sx={{
-                      width: "60%",
-                      height: 6,
-                      bgcolor: "#333",
-                      borderRadius: 1,
-                      mb: 0.5,
-                    }}
-                  />
-                  <Box
-                    sx={{
-                      width: "40%",
-                      height: 4,
-                      bgcolor: "#666",
-                      borderRadius: 1,
-                      mb: 0.5,
-                    }}
-                  />
-                  <Box
-                    sx={{
-                      width: "80%",
-                      height: 4,
-                      bgcolor: "#999",
-                      borderRadius: 1,
-                    }}
-                  />
-                </Box>
-              </Box>
-            </Paper>
-          </Zoom>
-
-          {/* Dark Theme Option */}
-          <Zoom in timeout={800}>
-            <Paper
-              elevation={selectedTheme === "dark" ? 8 : 2}
-              sx={{
-                flex: 1,
-                p: 3,
-                cursor: "pointer",
-                border: selectedTheme === "dark" ? 2 : 1,
-                borderColor:
-                  selectedTheme === "dark" ? "primary.main" : "divider",
-                transition: "all 0.3s ease",
-                position: "relative",
-                "&:hover": {
-                  elevation: 6,
-                  transform: "translateY(-2px)",
-                },
-              }}
-              onClick={() => handleThemeSelect("dark")}
-            >
-              {selectedTheme === "dark" && (
-                <CheckCircle
-                  sx={{
-                    position: "absolute",
-                    top: 12,
-                    right: 12,
-                    color: "primary.main",
-                    fontSize: 24,
-                  }}
-                />
-              )}
-
-              <Box sx={{ textAlign: "center" }}>
-                <IconButton
-                  sx={{
-                    mb: 2,
-                    bgcolor: "rgba(121, 85, 72, 0.1)",
-                    color: "#795548",
-                    width: 64,
-                    height: 64,
-                    "&:hover": {
-                      bgcolor: "rgba(121, 85, 72, 0.2)",
-                    },
-                  }}
-                >
-                  <DarkMode sx={{ fontSize: 32 }} />
-                </IconButton>
-
-                <Typography variant="h5" sx={{ mb: 1, fontWeight: 500 }}>
-                  Dark Theme
+                )}
+                {option.icon && (
+                  <IconButton sx={{ mb: 1 }}>{option.icon}</IconButton>
+                )}
+                <Typography variant="h6" sx={{ fontWeight: 500 }}>
+                  {option.label}
                 </Typography>
-                <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                  Easy on the eyes with reduced strain for extended use
-                </Typography>
-              </Box>
-
-              {/* Preview mockup */}
-              <Box
-                sx={{
-                  mt: 3,
-                  height: 80,
-                  bgcolor: "#1e1e1e",
-                  borderRadius: 1,
-                  border: "1px solid #333",
-                  position: "relative",
-                  overflow: "hidden",
-                }}
-              >
-                <Box
-                  sx={{
-                    height: 20,
-                    bgcolor: "#2d2d2d",
-                    borderBottom: "1px solid #333",
-                    display: "flex",
-                    alignItems: "center",
-                    px: 1,
-                  }}
-                >
-                  <Box
-                    sx={{
-                      width: 8,
-                      height: 8,
-                      bgcolor: "#1976d2",
-                      borderRadius: "50%",
-                      mr: 0.5,
-                    }}
-                  />
-                  <Box
-                    sx={{
-                      width: 40,
-                      height: 4,
-                      bgcolor: "#555",
-                      borderRadius: 1,
-                    }}
-                  />
-                </Box>
-                <Box sx={{ p: 1 }}>
-                  <Box
-                    sx={{
-                      width: "60%",
-                      height: 6,
-                      bgcolor: "#fff",
-                      borderRadius: 1,
-                      mb: 0.5,
-                    }}
-                  />
-                  <Box
-                    sx={{
-                      width: "40%",
-                      height: 4,
-                      bgcolor: "#ccc",
-                      borderRadius: 1,
-                      mb: 0.5,
-                    }}
-                  />
-                  <Box
-                    sx={{
-                      width: "80%",
-                      height: 4,
-                      bgcolor: "#999",
-                      borderRadius: 1,
-                    }}
-                  />
-                </Box>
-              </Box>
-            </Paper>
-          </Zoom>
+              </Paper>
+            </Zoom>
+          ))}
         </Stack>
 
         {/* Action Buttons */}
