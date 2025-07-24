@@ -1,5 +1,5 @@
-from rest_framework import serializers
 from django.contrib.auth import get_user_model
+from rest_framework import serializers
 
 User = get_user_model()
 
@@ -26,11 +26,16 @@ class UserRegistrationSerializer(serializers.Serializer):
         user.role = role
         user.save()
         if role == "admin":
-            from apps.user.models import Permission
+            from apps.user.models import Permission, Role
 
             perm, _ = Permission.objects.get_or_create(
                 code="admin_access",
                 defaults={"description": "Access admin panel"},
             )
-            user.permissions.add(perm)
+            admin_role, _ = Role.objects.get_or_create(
+                name="Admin",
+                defaults={"description": "Administrators"},
+            )
+            admin_role.permissions.add(perm)
+            user.roles.add(admin_role)
         return user

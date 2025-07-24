@@ -4,8 +4,8 @@ import string
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
-from rest_framework.test import APIClient
 from rest_framework import status
+from rest_framework.test import APIClient
 
 
 class SubscriptionPlanTests(TestCase):
@@ -45,6 +45,17 @@ class SubscriptionPlanTests(TestCase):
         
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["subscription_plan"], "free")
+
+    def test_permission_via_role(self):
+        """User gains permission through assigned role"""
+        from apps.user.models import Permission, Role
+
+        perm = Permission.objects.create(code="sample", description="Sample")
+        role = Role.objects.create(name="SampleRole", description="sample role")
+        role.permissions.add(perm)
+        self.user.roles.add(role)
+
+        self.assertTrue(self.user.has_permission("sample"))
 
     def test_get_available_plans(self):
         """Test getting all available subscription plans"""

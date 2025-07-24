@@ -24,6 +24,10 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token["name"] = user.name
         token["avatar"] = user.avatar
         token["role"] = user.role
+        token["roles"] = list(user.roles.values_list("name", flat=True))
+        token["permissions"] = list(
+            user.permissions.values_list("code", flat=True)
+        )
         token["subscription_plan"] = user.subscription_plan
         token["currently_selected_project_id"] = user.currently_selected_project_id
 

@@ -15,6 +15,20 @@ class Permission(models.Model):
         return self.code
 
 
+class Role(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    description = models.CharField(max_length=255)
+    permissions = models.ManyToManyField(
+        Permission, blank=True, related_name="roles"
+    )
+
+    class Meta:
+        db_table = "role"
+
+    def __str__(self):
+        return self.name
+
+
 class MyUserManager(BaseUserManager):
     def create_user(self, email, name, password):
         if not email:
@@ -88,7 +102,9 @@ class User(AbstractBaseUser):
     # Stripe-related fields
     stripe_customer_id = models.CharField(max_length=255, null=True, blank=True)
     stripe_subscription_id = models.CharField(max_length=255, null=True, blank=True)
-    stripe_subscription_item_id = models.CharField(max_length=255, null=True, blank=True)
+    stripe_subscription_item_id = models.CharField(
+        max_length=255, null=True, blank=True
+    )
     subscription_status = models.CharField(
         max_length=50, choices=SUBSCRIPTION_STATUS_CHOICES, default="inactive"
     )
@@ -104,6 +120,9 @@ class User(AbstractBaseUser):
     permissions = models.ManyToManyField(
         Permission, blank=True, related_name="users"
     )
+    roles = models.ManyToManyField(
+        Role, blank=True, related_name="users"
+    )
 
     objects = MyUserManager()
 
@@ -113,8 +132,17 @@ class User(AbstractBaseUser):
     def has_module_perms(self, app_label):
         return True
 
-    def has_perm(self, app_label):
-        return True
+    def has_permission(self, code: str) -> bool:
+        if self.is_superuser:
+            return True
+        if self.permissions.filter(code=code).exists():
+            return True
+        if self.roles.filter(permissions__code=code).exists():
+            return True
+        return False
+
+    def has_perm(self, code: str, obj=None) -> bool:
+        return self.has_permission(code)
 
     def __str__(self):
         return self.username
