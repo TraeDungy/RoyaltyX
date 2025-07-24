@@ -31,3 +31,18 @@ def test_parse_month_year_from_filename():
     assert report_processing.parse_month_year_from_filename("03-2024_report.csv") == (3, 2024)
     assert report_processing.parse_month_year_from_filename("jan2025data.csv") == (1, 2025)
 
+
+def test_parse_date_string_various_formats():
+    dt = report_processing.parse_date_string("2024-05-01")
+    assert dt.year == 2024 and dt.month == 5 and dt.day == 1
+
+    dt = report_processing.parse_date_string("01/05/2024")
+    assert dt.year == 2024 and dt.month == 5 and dt.day == 1
+
+    dt = report_processing.parse_date_string("May 2024")
+    assert dt.year == 2024 and dt.month == 5 and dt.day == 1
+
+
+def test_parse_date_string_invalid():
+    assert report_processing.parse_date_string("not-a-date") is None
+
