@@ -1,6 +1,11 @@
 from django.urls import path
 
-from .views import SendSMSUpdateView, UserNotificationView
+from .views import (
+    BannerAdminView,
+    BannerView,
+    SendSMSUpdateView,
+    UserNotificationView,
+)
 
 urlpatterns = [
     path(
@@ -13,4 +18,6 @@ urlpatterns = [
         SendSMSUpdateView.as_view(),
         name="notifications-send-sms",
     ),
+    path("banner/", BannerView.as_view(), name="active-banner"),
+    path("banner/admin/", BannerAdminView.as_view(), name="admin-banner"),
 ]

@@ -3,8 +3,10 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import Notification
-from .serializers import NotificationSerializer
+from apps.admin_panel.views import has_admin_access
+
+from .models import Banner, Notification
+from .serializers import BannerSerializer, NotificationSerializer
 from .tasks import send_sms_task
 
 
@@ -74,3 +76,36 @@ class SendSMSUpdateView(APIView):
 
         send_sms_task.delay(message, user.phone_number)
         return Response({"message": "SMS queued"}, status=status.HTTP_200_OK)
+
+
+class BannerView(APIView):
+    """Return the currently active banner for dashboards."""
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        banner = Banner.objects.filter(is_active=True).order_by("-created_at").first()
+        if not banner:
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        data = BannerSerializer(banner).data
+        return Response(data, status=status.HTTP_200_OK)
+
+
+class BannerAdminView(APIView):
+    """Create or update banners (admin only)."""
+
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        if not has_admin_access(request.user):
+            return Response(
+                {"error": "You do not have permission to perform this action."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer = BannerSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        if serializer.validated_data.get("is_active"):
+            Banner.objects.filter(is_active=True).update(is_active=False)
+        banner = serializer.save()
+        return Response(BannerSerializer(banner).data, status=status.HTTP_201_CREATED)
