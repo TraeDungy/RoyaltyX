@@ -10,7 +10,7 @@ import { ImpressionsCard } from "../../analytics/components/ImpressionsCard";
 import { RevenueCard } from "../../analytics/components/RevenueCard";
 import { ClockCard } from "../../analytics/components/ClockCard";
 import { useSettings } from "../../common/contexts/SettingsContext";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { Grid } from "@mui/material";
 import {
   DragDropContext,
@@ -31,6 +31,31 @@ function Dashboard() {
     setDashboardAnalyticsOrder,
   } = useSettings();
   const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const start = params.get("period_start");
+    const end = params.get("period_end");
+    if (!start || !end) {
+      let latest = null;
+      if (Array.isArray(sources) && sources.length) {
+        sources.forEach((s) => {
+          if (s.last_fetched_at) {
+            const d = new Date(s.last_fetched_at);
+            if (!latest || d > latest) latest = d;
+          }
+        });
+      }
+      const endDate = latest || new Date();
+      const startDate = new Date(endDate);
+      startDate.setMonth(endDate.getMonth() - 1);
+      params.set("period_start", startDate.toLocaleDateString("en-CA"));
+      params.set("period_end", endDate.toLocaleDateString("en-CA"));
+      navigate(`${location.pathname}?${params.toString()}`, { replace: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sources]);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
