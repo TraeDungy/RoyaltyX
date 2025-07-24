@@ -4,38 +4,55 @@ from celery import shared_task
 from apps.sources.utils.tiktok_sync import fetch_tiktok_stats, fetch_tiktok_videos
 from apps.sources.utils.twitch_sync import fetch_twitch_stats, fetch_twitch_videos
 from apps.sources.utils.vimeo_sync import fetch_vimeo_stats, fetch_vimeo_videos
+from apps.sources.plugins import get_plugin
 
 
 logger = logging.getLogger(__name__)
 
-from .utils.youtube import fetch_youtube_stats, fetch_youtube_videos
+
+@shared_task
+def run_plugin_fetch_videos(plugin_name: str) -> None:
+    """Run ``fetch_videos`` for the given plugin."""
+    plugin = get_plugin(plugin_name)
+    if not plugin:
+        logger.error("No plugin registered for %s", plugin_name)
+        return
+    logger.info("Running video sync for %s", plugin_name)
+    plugin.fetch_videos()
+
+
+@shared_task
+def run_plugin_fetch_stats(plugin_name: str) -> None:
+    """Run ``fetch_stats`` for the given plugin."""
+    plugin = get_plugin(plugin_name)
+    if not plugin:
+        logger.error("No plugin registered for %s", plugin_name)
+        return
+    logger.info("Running stats sync for %s", plugin_name)
+    plugin.fetch_stats()
 
 
 @shared_task
 def task_fetch_youtube_videos():
     """Fetch newly uploaded videos from connected YouTube channels."""
-    logger.info("Running task for fetching YouTube videos.")
-    fetch_youtube_videos()
+    run_plugin_fetch_videos("youtube")
 
 
 @shared_task
 def task_fetch_youtube_stats():
     """Update statistics for existing YouTube videos."""
-    logger.info("Running task for fetching YouTube stats.")
-    fetch_youtube_stats()
+    run_plugin_fetch_stats("youtube")
 
 @shared_task
 def task_fetch_tiktok_videos():
     """Fetch newly uploaded videos from connected TikTok accounts."""
-    logger.info("Running task for fetching TikTok videos.")
-    fetch_tiktok_videos()
+    run_plugin_fetch_videos("tiktok")
 
 
 @shared_task
 def task_fetch_tiktok_stats():
     """Update statistics for existing TikTok videos."""
-    logger.info("Running task for fetching TikTok stats.")
-    fetch_tiktok_stats()
+    run_plugin_fetch_stats("tiktok")
 
 
 @shared_task

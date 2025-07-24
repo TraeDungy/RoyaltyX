@@ -96,3 +96,15 @@ class SourceDetailAPITests(TestCase):
         response = self.client.delete(self.detail_url)
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
         self.assertTrue(Source.objects.filter(id=self.source.id).exists())
+
+
+class PluginLoadingTests(TestCase):
+    def test_builtin_plugins_registered(self):
+        from django.conf import settings
+        from apps.sources.plugins import load_plugins, registry
+
+        registry.clear()
+        load_plugins(settings.SOURCE_PLUGIN_APPS)
+
+        self.assertIn("youtube", registry)
+        self.assertIn("tiktok", registry)

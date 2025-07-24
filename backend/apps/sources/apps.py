@@ -24,12 +24,14 @@ class SourcesConfig(AppConfig):
         import json
         import os
 
-        from django_celery_beat.models import (
-            IntervalSchedule,
-            PeriodicTask,
-        )
+        from django_celery_beat.models import IntervalSchedule, PeriodicTask
+
+        from django.conf import settings
 
         from . import tasks  # noqa: F401
+        from .plugins import load_plugins, registry
+
+        load_plugins(settings.SOURCE_PLUGIN_APPS)
 
         if os.environ.get("RUN_MAIN") != "true":
             return
@@ -39,61 +41,22 @@ class SourcesConfig(AppConfig):
             every=24, period=IntervalSchedule.HOURS
         )
 
-        # Daily synchronization of new videos from YouTube.
-        PeriodicTask.objects.get_or_create(
-            name="Fetch Youtube Videos",
-            defaults={
-                "interval": schedule,
-                "task": "apps.sources.tasks.task_fetch_youtube_videos",
-                "args": json.dumps([]),
-            },
-        )
+        for plugin_name in registry.keys():
+            PeriodicTask.objects.get_or_create(
+                name=f"{plugin_name}-fetch-videos",
+                defaults={
+                    "interval": schedule,
+                    "task": "apps.sources.tasks.run_plugin_fetch_videos",
+                    "args": json.dumps([plugin_name]),
+                },
+            )
 
-        # Daily refresh of YouTube statistics.
-        PeriodicTask.objects.get_or_create(
-            name="Fetch YouTube Stats",
-            defaults={
-                "interval": schedule,
-                "task": "apps.sources.tasks.task_fetch_youtube_stats",
-                "args": json.dumps([]),
-            },
-        )
-
-        # Daily synchronization of new videos from TikTok.
-        PeriodicTask.objects.get_or_create(
-            name="Fetch TikTok Videos",
-            defaults={
-                "interval": schedule,
-                "task": "apps.sources.tasks.task_fetch_tiktok_videos",
-                "args": json.dumps([]),
-            },
-        )
-
-        # Daily refresh of TikTok video statistics.
-        PeriodicTask.objects.get_or_create(
-            name="Fetch TikTok Stats",
-            defaults={
-                "interval": schedule,
-                "task": "apps.sources.tasks.task_fetch_tiktok_stats",
-                "args": json.dumps([]),
-            },
-        )
-
-        PeriodicTask.objects.get_or_create(
-            name="Fetch Vimeo Videos",
-            defaults={
-                "interval": schedule,
-                "task": "apps.sources.tasks.task_fetch_vimeo_videos",
-                "args": json.dumps([]),
-            },
-        )
-
-        PeriodicTask.objects.get_or_create(
-            name="Fetch Vimeo Stats",
-            defaults={
-                "interval": schedule,
-                "task": "apps.sources.tasks.task_fetch_vimeo_stats",
-                "args": json.dumps([]),
-            },
-        )
+            PeriodicTask.objects.get_or_create(
+                name=f"{plugin_name}-fetch-stats",
+                defaults={
+                    "interval": schedule,
+                    "task": "apps.sources.tasks.run_plugin_fetch_stats",
+                    "args": json.dumps([plugin_name]),
+                },
+            )
 

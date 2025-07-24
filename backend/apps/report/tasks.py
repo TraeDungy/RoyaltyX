@@ -131,18 +131,20 @@ def process_report_schedules(base_url=None):
 
         generate_report_pdf.apply(args=[report.id, base_url])
 
+        attachments = []
         if report.file:
             with report.file.open("rb") as f:
-                attachment = (report.filename, f.read(), "application/pdf")
-            task_send_db_template_email.apply(
-                kwargs={
-                    "template_name": "scheduled_report",
-                    "context": {"project": schedule.project.name},
-                    "recipient_list": schedule.recipients,
-                    "attachments": [attachment],
-                    "fail_silently": False,
-                }
-            )
+                attachments.append((report.filename, f.read(), "application/pdf"))
+
+        task_send_db_template_email.apply(
+            kwargs={
+                "template_name": "scheduled_report",
+                "context": {"project": schedule.project.name},
+                "recipient_list": schedule.recipients,
+                "attachments": attachments,
+                "fail_silently": False,
+            }
+        )
 
         schedule.save(update_fields=["next_run"])
 

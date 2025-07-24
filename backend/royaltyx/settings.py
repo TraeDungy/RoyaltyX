@@ -64,6 +64,14 @@ INSTALLED_APPS = [
     "django_celery_beat",
 ]
 
+# Comma-separated list of dotted paths to source integration plugins. These
+# modules must define a ``plugin`` instance of ``SourcePlugin``. Defaults to the
+# built-in YouTube and TikTok integrations.
+SOURCE_PLUGIN_APPS = os.environ.get(
+    "SOURCE_PLUGIN_APPS",
+    "apps.sources.plugins.youtube_plugin,apps.sources.plugins.tiktok_plugin",
+).split(",")
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "corsheaders.middleware.CorsMiddleware",

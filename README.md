@@ -49,6 +49,12 @@ from third-party platforms:
 - **Fetch TikTok Videos** – runs `task_fetch_tiktok_videos`
 - **Fetch TikTok Stats** – runs `task_fetch_tiktok_stats`
 
+RoyaltyX supports a **plugin system** for additional integrations. Plugins
+implement video and stats sync logic and are loaded via the
+`SOURCE_PLUGIN_APPS` setting. Each plugin automatically gets two Celery beat
+tasks (`<plugin>-fetch-videos` and `<plugin>-fetch-stats`). See
+`documentation/PLUGIN_SYSTEM.md` for details on creating your own plugin.
+
 ### Frontend
 - **React 18** - Modern JavaScript framework
 - **Material-UI** - Professional component library
