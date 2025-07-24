@@ -14,6 +14,7 @@ This document lists the primary REST endpoints exposed by RoyaltyX. The complete
 - `POST /payments/update-subscription/` – Change plan or add‑ons
 - `GET  /payments/subscription-status/` – Retrieve subscription state
 - `GET  /payments/verify-session/` – Verify a Stripe checkout session
+- `GET  /payments/add-ons/` – List available subscription add‑ons
 
 ## Analytics
 - `GET  /analytics/` – Project analytics overview

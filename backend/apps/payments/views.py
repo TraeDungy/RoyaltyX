@@ -10,10 +10,11 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from .stripe_service import StripeService
 from .models import AddOn
-
+from .serializers import AddOnSerializer
+from .stripe_service import StripeService
 
 logger = logging.getLogger(__name__)
 
@@ -32,7 +33,10 @@ def create_checkout_session(request):
             try:
                 addons.append(AddOn.objects.get(code=code))
             except AddOn.DoesNotExist:
-                return Response({"error": f"Invalid add-on: {code}"}, status=status.HTTP_400_BAD_REQUEST)
+                return Response(
+                    {"error": f"Invalid add-on: {code}"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
 
         if not plan:
             return Response(
@@ -105,7 +109,10 @@ def update_subscription(request):
         try:
             addons.append(AddOn.objects.get(code=code))
         except AddOn.DoesNotExist:
-            return Response({"error": f"Invalid add-on: {code}"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"error": f"Invalid add-on: {code}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
     try:
         StripeService.update_subscription(request.user, plan, addons)
@@ -219,3 +226,14 @@ def verify_session(request):
             {"error": f"Failed to verify session: {str(e)}"},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
+
+class AddOnListView(APIView):
+    """Return a list of active subscription add-ons."""
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        addons = AddOn.objects.all()
+        serializer = AddOnSerializer(addons, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+

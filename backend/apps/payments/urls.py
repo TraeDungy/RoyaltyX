@@ -3,6 +3,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path("add-ons/", views.AddOnListView.as_view(), name="payments.add_on_list"),
     path(
         "create-checkout-session/",
         views.create_checkout_session,

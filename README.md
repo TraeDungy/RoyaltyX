@@ -202,6 +202,7 @@ CELERY_BROKER_URL=redis://redis:6379/0
    - `invoice.payment_failed`
    - `customer.subscription.deleted`
    - `customer.subscription.updated`
+6. Retrieve available add-ons via `GET /payments/add-ons/`
 
 ---
 
