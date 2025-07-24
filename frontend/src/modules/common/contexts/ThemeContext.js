@@ -15,13 +15,19 @@ export const ThemeProvider = ({ children }) => {
 
   useEffect(() => {
     localStorage.setItem("themePreference", theme);
+    const body = document.body;
+    body.classList.add("theme-transition");
+    const timeout = setTimeout(() => {
+      body.classList.remove("theme-transition");
+    }, 300);
+
     const themeColors = colors[theme] || colors.light;
     const isDark = themeColors.mode === "dark";
 
     if (isDark) {
-      document.body.classList.add("dark-mode");
+      body.classList.add("dark-mode");
     } else {
-      document.body.classList.remove("dark-mode");
+      body.classList.remove("dark-mode");
     }
 
     Object.entries({
@@ -37,6 +43,7 @@ export const ThemeProvider = ({ children }) => {
     }).forEach(([key, value]) => {
       document.documentElement.style.setProperty(key, value);
     });
+    return () => clearTimeout(timeout);
   }, [theme]);
 
   useEffect(() => {

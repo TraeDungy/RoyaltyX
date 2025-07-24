@@ -20,6 +20,7 @@
   --content-over-widget-color: #fff;
   --scrollbar-color: #a7a7a7;
   --sidebar-width: 275px;
+  --transition-duration: 0.3s;
 }
 
 .dark-mode {
@@ -69,6 +70,24 @@ body {
   font-weight: 400 !important;
   font-size: 12pt;
   font-style: normal;
+  transition:
+    background-color var(--transition-duration) ease,
+    color var(--transition-duration) ease;
+}
+
+body.theme-transition * {
+  transition:
+    background-color var(--transition-duration) ease,
+    color var(--transition-duration) ease,
+    border-color var(--transition-duration) ease;
+}
+
+body.theme-transition img.theme-invertible {
+  transition: filter var(--transition-duration) ease;
+}
+
+.dark-mode img.theme-invertible {
+  filter: brightness(0) invert(1);
 }
 
 .page-content-wrapper {
