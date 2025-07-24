@@ -86,3 +86,41 @@ export const verifySession = async (sessionId) => {
     throw new Error(error.message);
   }
 };
+
+export const createBillingPortalSession = async () => {
+  try {
+    const response = await fetch(apiUrl + "/payments/billing-portal-session/", {
+      method: "GET",
+      headers: getAuthHeaders(),
+    });
+
+    const responseData = await response.json();
+
+    if (response.ok) {
+      return responseData;
+    } else {
+      throw new Error(responseData.error || "Failed to create billing portal session");
+    }
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+export const getInvoiceHistory = async () => {
+  try {
+    const response = await fetch(apiUrl + "/payments/invoices/", {
+      method: "GET",
+      headers: getAuthHeaders(),
+    });
+
+    const responseData = await response.json();
+
+    if (response.ok) {
+      return responseData;
+    } else {
+      throw new Error(responseData.error || "Failed to fetch invoices");
+    }
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};

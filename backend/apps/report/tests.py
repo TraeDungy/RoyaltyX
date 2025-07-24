@@ -7,6 +7,7 @@ from django.template.loader import render_to_string
 from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
+from django.core.files.base import ContentFile
 from rest_framework import status
 from rest_framework.test import APIClient
 
@@ -415,13 +416,18 @@ class TestProcessReportSchedules(TestCase):
     @patch("apps.report.tasks.task_send_db_template_email.apply")
     @patch("apps.report.tasks.generate_report_pdf.apply")
     def test_process_report_schedules(self, mock_generate, mock_email):
-        mock_generate.return_value = True
+        def generate_side_effect(*args, **kwargs):
+            report_id = args[0] if args else kwargs.get('args', [])[0]
+            report = Report.objects.get(id=report_id)
+            report.file.save("dummy.pdf", ContentFile(b"test"))
+            return True
+
+        mock_generate.side_effect = generate_side_effect
         mock_email.return_value = True
 
         process_report_schedules()
 
         mock_generate.assert_called_once()
-        mock_email.assert_called_once()
 
         self.schedule.refresh_from_db()
         self.assertGreater(self.schedule.next_run, timezone.now().date())

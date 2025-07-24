@@ -26,4 +26,10 @@ urlpatterns = [
     ),
     path("verify-session/", views.verify_session, name="payments.verify_session"),
     path("stripe-webhook/", views.stripe_webhook, name="payments.stripe_webhook"),
+    path(
+        "billing-portal-session/",
+        views.billing_portal_session,
+        name="payments.billing_portal_session",
+    ),
+    path("invoices/", views.invoice_history, name="payments.invoice_history"),
 ]

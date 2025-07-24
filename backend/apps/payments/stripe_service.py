@@ -213,3 +213,26 @@ class StripeService:
             return user
         except User.DoesNotExist:
             raise Exception(f"User not found for subscription: {subscription['id']}")
+
+    @staticmethod
+    def create_billing_portal_session(user):
+        """Create a Stripe billing portal session for the user."""
+        customer = StripeService.get_or_create_customer(user)
+        try:
+            return stripe.billing_portal.Session.create(
+                customer=customer.id,
+                return_url=f"{os.getenv('REACT_APP_URL')}/account/billing",
+            )
+        except stripe.error.StripeError as e:
+            raise Exception(f"Failed to create billing portal session: {str(e)}")
+
+    @staticmethod
+    def list_invoices(user):
+        """List invoices for the user."""
+        if not user.stripe_customer_id:
+            return []
+        try:
+            invoices = stripe.Invoice.list(customer=user.stripe_customer_id, limit=20)
+            return invoices.data
+        except stripe.error.StripeError as e:
+            raise Exception(f"Failed to list invoices: {str(e)}")

@@ -237,3 +237,34 @@ class AddOnListView(APIView):
         serializer = AddOnSerializer(addons, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def billing_portal_session(request):
+    """Create a billing portal session URL for the authenticated user."""
+    try:
+        session = StripeService.create_billing_portal_session(request.user)
+        return Response({"url": session.url})
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def invoice_history(request):
+    """Return a list of invoices for the authenticated user."""
+    try:
+        invoices = StripeService.list_invoices(request.user)
+        data = [
+            {
+                "id": inv.id,
+                "status": inv.status,
+                "amount_paid": inv.amount_paid,
+                "created": inv.created,
+            }
+            for inv in invoices
+        ]
+        return Response({"invoices": data})
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+

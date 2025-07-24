@@ -108,3 +108,21 @@ class PaymentViewsTests(TestCase):
         self.assertEqual(len(response.data), 1)
         self.assertEqual(response.data[0]["code"], "extra")
 
+    @patch("apps.payments.views.StripeService.create_billing_portal_session")
+    def test_billing_portal_session(self, mock_portal):
+        mock_portal.return_value = MagicMock(url="http://portal.test")
+        url = reverse("payments.billing_portal_session")
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["url"], "http://portal.test")
+
+    @patch("apps.payments.views.StripeService.list_invoices")
+    def test_invoice_history(self, mock_list):
+        mock_invoice = MagicMock(id="inv_1", status="paid", amount_paid=1000, created=1)
+        mock_list.return_value = [mock_invoice]
+        url = reverse("payments.invoice_history")
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data["invoices"]), 1)
+        self.assertEqual(response.data["invoices"][0]["id"], "inv_1")
+
