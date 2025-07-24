@@ -8,6 +8,14 @@ class AnalyticsSerializer(serializers.Serializer):
     period_end = serializers.DateField(required=False)
 
 
+class ReportingSerializer(AnalyticsSerializer):
+    """Serializer for analytics reporting with dimensions."""
+
+    dimension = serializers.ChoiceField(
+        choices=["source", "platform"], default="source", required=False
+    )
+
+
 class AnalyticsForecastSerializer(serializers.ModelSerializer):
     class Meta:
         model = AnalyticsForecast

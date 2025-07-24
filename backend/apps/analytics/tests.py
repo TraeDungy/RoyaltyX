@@ -305,3 +305,77 @@ class CalculateTotalsTests(TestCase):
         self.assertEqual(totals["total_sales_count"], 1)
         self.assertEqual(totals["total_royalty_revenue"], 5)
         self.assertEqual(totals["total_impression_revenue"], 0)
+
+
+class ReportingAPITests(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+        User = get_user_model()
+        self.user = User.objects.create_user(
+            email="report@test.com",
+            name="Report User",
+            password="Testaccount1_",
+        )
+        self.project = Project.objects.create(name="Report", description="d")
+        ProjectUser.objects.create(
+            project=self.project,
+            user=self.user,
+            role=ProjectUser.PROJECT_USER_ROLE_OWNER,
+        )
+        self.user.currently_selected_project = self.project
+        self.user.save()
+        self.client.force_authenticate(user=self.user)
+
+        from apps.sources.models import Source
+
+        self.source = Source.objects.create(
+            account_name="Chan",
+            platform=Source.PLATFORM_YOUTUBE,
+            project=self.project,
+        )
+
+        self.product = Product.objects.create(
+            project=self.project,
+            source=self.source,
+            title="Prod",
+            description="d",
+            statement_frequency="Monthly",
+            first_statement_end_date=date.today(),
+            payment_threshold=0,
+            payment_window=30,
+            is_active=True,
+        )
+
+        ProductImpressions.objects.create(
+            product=self.product,
+            impressions=10,
+            ecpm=2,
+            period_start=date.today(),
+            period_end=date.today(),
+        )
+
+        ProductSale.objects.create(
+            product=self.product,
+            type=ProductSale.TYPE_PURCHASE,
+            unit_price=10,
+            unit_price_currency="USD",
+            quantity=1,
+            from_file=None,
+            is_refund=False,
+            royalty_amount=5,
+            royalty_currency="USD",
+            period_start=date.today(),
+            period_end=date.today(),
+        )
+
+        self.reporting_url = reverse("analytics-reporting")
+
+    def test_reporting_by_source(self):
+        response = self.client.get(self.reporting_url, {"dimension": "source"})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIsInstance(response.data, list)
+
+    def test_reporting_by_platform(self):
+        response = self.client.get(self.reporting_url, {"dimension": "platform"})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIsInstance(response.data, list)
