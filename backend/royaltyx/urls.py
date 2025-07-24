@@ -22,6 +22,7 @@ urlpatterns = [
     path("admin-panel/", include("apps.admin_panel.urls")),
     path("payments/", include("apps.payments.urls")),
     path("emails/", include("apps.emails.urls")),
+    path("branding/", include("apps.branding.urls")),
     path("fees/", include("apps.fees.urls")),
     ## OAuth2
     path("oauth/google/", include("apps.oauth.google.urls")),

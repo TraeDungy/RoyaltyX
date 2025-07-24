@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "apps.payments",
     "apps.fees",
     "apps.emails",
+    "apps.branding",
     "apps.oauth.google",
     "rest_framework",
     "rest_framework_simplejwt",

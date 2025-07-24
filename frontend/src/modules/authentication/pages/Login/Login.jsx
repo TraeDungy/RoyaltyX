@@ -8,11 +8,13 @@ import TextField from "@mui/material/TextField";
 import Button from "../../../common/components/Button";
 import { Card, Typography, Divider, Box } from "@mui/material";
 import { GoogleLoginButton } from "../../components";
+import { usePageCustomization } from "../../../admin_panel/page_customization/api/pageCustomization";
 
 export default function Login() {
   const [error, setError] = useState("");
   const { login } = useAuth();
   const [loading, setLoading] = useState(false);
+  const { data: customization } = usePageCustomization("login");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,8 +34,13 @@ export default function Login() {
     setLoading(false);
   };
 
+  const bgColor = customization?.data?.backgroundColor;
+
   return (
-    <div className={styles.loginPageWrapper}>
+    <div
+      className={styles.loginPageWrapper}
+      style={bgColor ? { backgroundColor: bgColor } : {}}
+    >
       {/* Animated background shapes */}
       <div className={styles.backgroundShapes}>
         <div className={`${styles.shape} ${styles.shape1}`}></div>
@@ -43,12 +50,12 @@ export default function Login() {
         <div className={`${styles.shape} ${styles.shape5}`}></div>
       </div>
 
-      <Card 
-        style={{ maxWidth: 520 }} 
-        sx={{ 
-          p: 4, 
+      <Card
+        style={{ maxWidth: 520 }}
+        sx={{
+          p: 4,
           boxShadow: 3,
-          width: "100%", 
+          width: "100%",
           zIndex: 10,
           position: "relative",
         }}
@@ -59,10 +66,13 @@ export default function Login() {
           className="mb-3 mx-auto d-block"
           alt="Brand Icon"
         />
-        <Typography variant="h3" sx={{ mb: 5, textAlign: "center", fontWeight: 600 }}>
-          Sign in to your account
+        <Typography
+          variant="h3"
+          sx={{ mb: 5, textAlign: "center", fontWeight: 600 }}
+        >
+          {customization?.data?.title || "Sign in to your account"}
         </Typography>
-        
+
         {/* Google Login Button */}
         <Box sx={{ mb: 3 }}>
           <GoogleLoginButton disabled={loading} />

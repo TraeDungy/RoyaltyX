@@ -235,6 +235,7 @@ CELERY_BROKER_URL=redis://redis:6379/0
 
 ### 🤝 White-Label Branding
 - Rebrand RoyaltyX with your logo and domain
+- Customize landing, login and signup pages from the admin panel
 - Built-in cost estimator for resale pricing
 - Simple setup—see [WHITE_LABEL_BRANDING.md](WHITE_LABEL_BRANDING.md)
 

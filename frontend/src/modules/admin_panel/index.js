@@ -10,6 +10,7 @@ import Users from "./users/pages/Users";
 import EmailTemplates from "./email_templates/pages/EmailTemplates";
 import CreateEmailTemplate from "./email_templates/pages/CreateEmailTemplate";
 import EditEmailTemplate from "./email_templates/pages/EditEmailTemplate";
+import pageCustomizationRoutes from "./page_customization";
 
 const adminRoutes = [
   {
@@ -60,6 +61,7 @@ const adminRoutes = [
     path: "/admin/documentation/report-generation",
     element: <ReportGeneration />,
   },
+  ...pageCustomizationRoutes,
 ];
 
 export default adminRoutes;

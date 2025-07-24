@@ -4,6 +4,7 @@ import {
   Route,
   Navigate,
   Outlet,
+  useLocation,
 } from "react-router-dom";
 import AppLayout from "./modules/common/layouts/AppLayout";
 import ScrollToTop from "./modules/common/components/ScrollToTop";
@@ -25,6 +26,7 @@ import supportRoutes from "./modules/support/routes";
 import managementRoutes from "./modules/management";
 import productRoutes from "./modules/products";
 import whiteLabelRoutes from "./modules/white_label";
+import landingRoutes from "./modules/landing";
 import { ProjectProvider } from "./modules/common/contexts/ProjectContext";
 import { SettingsProvider } from "./modules/common/contexts/SettingsContext";
 import { MUIThemeWrapper } from "./modules/global/components/MUIThemeWrapper";
@@ -33,12 +35,24 @@ import oauthRoutes from "./modules/oauth";
 
 const PrivateRoutes = () => {
   const { authenticated, loading } = useAuth();
+  const location = useLocation();
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  return authenticated ? <Outlet /> : <Navigate to="/login" />;
+  if (!authenticated) {
+    if (location.pathname === "/") {
+      return <LandingRoutes />;
+    }
+    return <Navigate to="/login" />;
+  }
+
+  return <Outlet />;
+};
+
+const LandingRoutes = () => {
+  return renderRoutes(landingRoutes);
 };
 
 const renderRoutes = (routes) => {
@@ -76,7 +90,7 @@ function App() {
                     path="/"
                     element={
                       <ProjectProvider>
-                          <AppLayout />
+                        <AppLayout />
                       </ProjectProvider>
                     }
                   >

@@ -1,13 +1,21 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Card, Typography, Divider, Box, TextField, MenuItem } from "@mui/material";
+import {
+  Card,
+  Typography,
+  Divider,
+  Box,
+  TextField,
+  MenuItem,
+} from "@mui/material";
 import icon from "../../../common/assets/img/brand/icon-3.png";
 import { register } from "../../api/auth";
 import { GoogleLoginButton } from "../../components";
 import { useAuth } from "../../../common/contexts/AuthContext";
 import Button from "../../../common/components/Button";
 import styles from "./Register.module.css";
+import { usePageCustomization } from "../../../admin_panel/page_customization/api/pageCustomization";
 
 export default function Register() {
   const [error, setError] = useState("");
@@ -15,6 +23,7 @@ export default function Register() {
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
+  const { data: customization } = usePageCustomization("signup");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,30 +39,34 @@ export default function Register() {
       if (response.success && response.access) {
         // Store the access token
         localStorage.setItem("accessToken", response.access);
-        
+
         // Automatically log in the user with the new token
         const loginResult = await login({
           access_token: response.access,
-          auto_login: true
+          auto_login: true,
         });
-        
+
         if (loginResult.success) {
           toast.success("Account created successfully! Welcome to RoyaltyX!");
           // Navigate directly to theme selection for new users
           navigate("/theme-selection");
         } else {
           // Fallback: redirect to login if auto-login fails
-          toast.success("Account created successfully! Please log in to continue.");
+          toast.success(
+            "Account created successfully! Please log in to continue.",
+          );
           navigate("/login");
         }
       } else {
         // Handle field-specific errors
-        if (response.errors && typeof response.errors === 'object') {
+        if (response.errors && typeof response.errors === "object") {
           setFieldErrors(response.errors);
           setError(response.message || "Please fix the errors below");
         } else {
           // Handle general errors
-          setError(response.message || "Registration failed. Please try again.");
+          setError(
+            response.message || "Registration failed. Please try again.",
+          );
         }
       }
     } catch (error) {
@@ -65,8 +78,8 @@ export default function Register() {
 
   const getFieldError = (fieldName) => {
     if (fieldErrors[fieldName]) {
-      return Array.isArray(fieldErrors[fieldName]) 
-        ? fieldErrors[fieldName][0] 
+      return Array.isArray(fieldErrors[fieldName])
+        ? fieldErrors[fieldName][0]
         : fieldErrors[fieldName];
     }
     return "";
@@ -76,8 +89,13 @@ export default function Register() {
     return fieldErrors[fieldName] && fieldErrors[fieldName].length > 0;
   };
 
+  const bgColor = customization?.data?.backgroundColor;
+
   return (
-    <div className={styles.registerPageWrapper}>
+    <div
+      className={styles.registerPageWrapper}
+      style={bgColor ? { backgroundColor: bgColor } : {}}
+    >
       {/* Animated background shapes */}
       <div className={styles.backgroundShapes}>
         <div className={`${styles.shape} ${styles.shape1}`}></div>
@@ -87,12 +105,12 @@ export default function Register() {
         <div className={`${styles.shape} ${styles.shape5}`}></div>
       </div>
 
-      <Card 
-        style={{ maxWidth: 520 }} 
-        sx={{ 
-          p: 4, 
+      <Card
+        style={{ maxWidth: 520 }}
+        sx={{
+          p: 4,
           boxShadow: 3,
-          width: "100%", 
+          width: "100%",
           zIndex: 10,
           position: "relative",
         }}
@@ -103,10 +121,13 @@ export default function Register() {
           className="mb-3 mx-auto d-block"
           alt="Brand Icon"
         />
-        <Typography variant="h3" sx={{ mb: 5, textAlign: "center", fontWeight: 600 }}>
-          Create your account
+        <Typography
+          variant="h3"
+          sx={{ mb: 5, textAlign: "center", fontWeight: 600 }}
+        >
+          {customization?.data?.title || "Create your account"}
         </Typography>
-        
+
         {/* Google Login Button */}
         <Box sx={{ mb: 3 }}>
           <GoogleLoginButton disabled={loading} />
@@ -131,8 +152,8 @@ export default function Register() {
               fullWidth
               margin="normal"
               placeholder="Enter your name"
-              error={hasFieldError('name')}
-              helperText={getFieldError('name')}
+              error={hasFieldError("name")}
+              helperText={getFieldError("name")}
             />
           </div>
           <div className="py-2">
@@ -143,22 +164,22 @@ export default function Register() {
               fullWidth
               margin="normal"
               placeholder="Enter your email"
-              error={hasFieldError('email')}
-              helperText={getFieldError('email')}
+              error={hasFieldError("email")}
+              helperText={getFieldError("email")}
             />
           </div>
           <div className="py-2">
-          <TextField
-            label="Password"
-            name="password"
-            type="password"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            placeholder="••••••••"
-            error={hasFieldError('password')}
-            helperText={getFieldError('password')}
-          />
+            <TextField
+              label="Password"
+              name="password"
+              type="password"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              placeholder="••••••••"
+              error={hasFieldError("password")}
+              helperText={getFieldError("password")}
+            />
           </div>
           <div className="py-2">
             <TextField
@@ -169,8 +190,8 @@ export default function Register() {
               fullWidth
               margin="normal"
               defaultValue="user"
-              error={hasFieldError('role')}
-              helperText={getFieldError('role')}
+              error={hasFieldError("role")}
+              helperText={getFieldError("role")}
             >
               <MenuItem value="user">User</MenuItem>
               <MenuItem value="admin">Admin</MenuItem>
