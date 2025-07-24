@@ -1,5 +1,6 @@
 from unittest.mock import MagicMock, patch
 
+from django.apps import apps
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
@@ -97,3 +98,13 @@ class PaymentViewsTests(TestCase):
         response = self.client.post(url, data="{}", content_type="application/json")
         self.assertEqual(response.status_code, 200)
         mock_handle.assert_called_once()
+
+    def test_list_add_ons(self):
+        AddOn = apps.get_model('payments', 'AddOn')
+        AddOn.objects.create(code="extra", stripe_price_id="price_extra")
+        url = reverse("payments.add_on_list")
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]["code"], "extra")
+
