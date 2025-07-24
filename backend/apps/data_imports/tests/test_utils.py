@@ -1,7 +1,5 @@
 from io import BytesIO
 
-import pytest
-
 from apps.data_imports.utils import report_processing
 
 
@@ -26,3 +24,10 @@ def test_read_csv_with_custom_mapping():
     f = make_file("title,qty\nfoo,3")
     rows = report_processing.read_csv(f, {"title": "Title", "qty": "Quantity"})
     assert rows == [{"Title": "foo", "Quantity": "3"}]
+
+
+def test_parse_month_year_from_filename():
+    assert report_processing.parse_month_year_from_filename("sales_2024-03.csv") == (3, 2024)
+    assert report_processing.parse_month_year_from_filename("03-2024_report.csv") == (3, 2024)
+    assert report_processing.parse_month_year_from_filename("jan2025data.csv") == (1, 2025)
+

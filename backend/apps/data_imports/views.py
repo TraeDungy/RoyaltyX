@@ -88,41 +88,51 @@ class DatasetDetailView(APIView):
     def patch(self, request, pk):
         dataset = get_object_or_404(Dataset, pk=pk)
         mapping = request.data.get("column_mapping")
-        if not isinstance(mapping, dict):
-            return Response(
-                {"error": "column_mapping must be an object"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+        month = request.data.get("month")
+        year = request.data.get("year")
 
-        dataset.column_mapping = mapping
-        dataset.status = "processing"
-        dataset.error_message = ""
+        if mapping is not None:
+            if not isinstance(mapping, dict):
+                return Response(
+                    {"error": "column_mapping must be an object"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            dataset.column_mapping = mapping
+            dataset.status = "processing"
+            dataset.error_message = ""
+
+        if month is not None:
+            dataset.month = int(month)
+        if year is not None:
+            dataset.year = int(year)
+
         dataset.save()
 
-        file_obj = dataset.file.file
-        file_obj.open("rb")
-        try:
-            headers = detect_headers(file_obj)
-            signature = header_signature(headers)
-            template, _ = ImportTemplate.objects.get_or_create(
-                project_id=dataset.file.project_id,
-                header_signature=signature,
-                defaults={"name": dataset.file.name},
-            )
-            template.column_mapping = mapping
-            template.save()
-            dataset.template = template
-            result = process_report(
-                file_obj, dataset.file.project_id, dataset.file.id, mapping
-            )
-        finally:
-            file_obj.close()
+        if mapping is not None:
+            file_obj = dataset.file.file
+            file_obj.open("rb")
+            try:
+                headers = detect_headers(file_obj)
+                signature = header_signature(headers)
+                template, _ = ImportTemplate.objects.get_or_create(
+                    project_id=dataset.file.project_id,
+                    header_signature=signature,
+                    defaults={"name": dataset.file.name},
+                )
+                template.column_mapping = mapping
+                template.save()
+                dataset.template = template
+                result = process_report(
+                    file_obj, dataset.file.project_id, dataset.file.id, mapping
+                )
+            finally:
+                file_obj.close()
 
-        if result["status"] == "success":
-            dataset.status = "completed"
-        else:
-            dataset.status = "error"
-            dataset.error_message = result["message"]
-        dataset.save()
+            if result["status"] == "success":
+                dataset.status = "completed"
+            else:
+                dataset.status = "error"
+                dataset.error_message = result["message"]
+            dataset.save()
 
         return Response(DatasetSerializer(dataset).data, status=status.HTTP_200_OK)

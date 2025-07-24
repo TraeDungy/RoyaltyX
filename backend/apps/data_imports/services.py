@@ -1,12 +1,4 @@
-from datetime import datetime
 import logging
-
-from .utils.report_processing import (
-    process_report,
-    read_report,
-    detect_headers,
-    header_signature,
-)
 
 from django.shortcuts import get_object_or_404
 
@@ -14,7 +6,14 @@ from apps.product.models import ProductImpressions, ProductSale
 
 from .models import Dataset, File, ImportTemplate
 from .serializers import DatasetSerializer, FileSerializer
-
+from .utils.report_processing import (
+    detect_headers,
+    header_signature,
+    parse_date_string,
+    parse_month_year_from_filename,
+    process_report,
+    read_report,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -34,16 +33,22 @@ def create_file(file, data):
     saved_file = serializer.save()
 
     month, year = 1, 1900
+    detected = parse_month_year_from_filename(file_name)
+
     try:
         rows = read_report(file)
         if rows:
             date_str = rows[0].get("Period Start")
             if date_str:
-                parsed = datetime.fromisoformat(str(date_str))
-                month = parsed.month
-                year = parsed.year
+                parsed = parse_date_string(str(date_str))
+                if parsed:
+                    month = parsed.month
+                    year = parsed.year
     except Exception:
         pass
+
+    if detected:
+        month, year = detected
 
     headers = detect_headers(file)
     signature = header_signature(headers)

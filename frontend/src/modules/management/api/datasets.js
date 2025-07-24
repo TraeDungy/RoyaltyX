@@ -14,7 +14,7 @@ export const getDataset = async (id) => {
   return await response.json();
 };
 
-export const updateDataset = async (id, columnMapping) => {
+export const updateDataset = async (id, data) => {
   const token = localStorage.getItem("accessToken");
   const response = await fetch(`${apiUrl}/data_imports/datasets/${id}/`, {
     method: "PATCH",
@@ -22,7 +22,7 @@ export const updateDataset = async (id, columnMapping) => {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token,
     },
-    body: JSON.stringify({ column_mapping: columnMapping }),
+    body: JSON.stringify(data),
   });
   if (!response.ok) {
     throw new Error("Failed to update dataset");
