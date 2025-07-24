@@ -1,5 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
+// Mock CSS module before importing the component
+jest.mock('./Login.module.css', () => ({}));
+
 import Login from './Login';
 
 jest.mock('../../../common/contexts/AuthContext', () => ({
