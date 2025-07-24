@@ -39,6 +39,7 @@ class MyUserManager(BaseUserManager):
         )
         user.is_staff = True
         user.is_superuser = True
+        user.save(using=self._db)
         return user
 
     def generate_avatar_url(self, name):
