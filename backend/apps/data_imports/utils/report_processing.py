@@ -1,7 +1,7 @@
 import csv
+import hashlib
 import io
 import logging
-import hashlib
 import re
 from datetime import datetime
 from decimal import Decimal
@@ -10,7 +10,6 @@ from typing import Any, BinaryIO, Dict, List, Optional, Tuple
 import openpyxl
 
 from apps.product.models import Product, ProductImpressions, ProductSale
-
 
 logger = logging.getLogger(__name__)
 

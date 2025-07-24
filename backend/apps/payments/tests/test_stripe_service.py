@@ -67,8 +67,14 @@ class StripeServiceTests(TestCase):
     @patch("apps.payments.stripe_service.stripe.PaymentMethod.list")
     def test_list_payment_methods(self, mock_list, mock_customer):
         self.user.stripe_customer_id = "cus_1"
-        mock_customer.return_value = {"invoice_settings": {"default_payment_method": "pm_1"}}
-        mock_list.return_value = {"data": [{"id": "pm_1", "card": {"brand": "visa", "last4": "4242"}}]}
+        mock_customer.return_value = {
+            "invoice_settings": {"default_payment_method": "pm_1"}
+        }
+        mock_list.return_value = {
+            "data": [
+                {"id": "pm_1", "card": {"brand": "visa", "last4": "4242"}}
+            ]
+        }
         methods = StripeService.list_payment_methods(self.user)
         self.assertEqual(methods[0]["is_default"], True)
         self.assertEqual(methods, mock_list.return_value["data"])

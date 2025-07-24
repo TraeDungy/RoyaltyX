@@ -100,8 +100,13 @@ class StripeService:
             raise Exception("User has no active subscription")
 
         try:
-            subscription = stripe.Subscription.retrieve(user.stripe_subscription_id)
-            item_id = user.stripe_subscription_item_id or subscription["items"]["data"][0]["id"]
+            subscription = stripe.Subscription.retrieve(
+                user.stripe_subscription_id,
+            )
+            item_id = (
+                user.stripe_subscription_item_id
+                or subscription["items"]["data"][0]["id"]
+            )
 
             items = []
 
@@ -111,7 +116,12 @@ class StripeService:
                     raise Exception(f"No price ID configured for plan: {plan}")
                 items.append({"id": item_id, "price": price_id})
             else:
-                items.append({"id": item_id, "price": subscription["items"]["data"][0]["price"]["id"]})
+                items.append(
+                    {
+                        "id": item_id,
+                        "price": subscription["items"]["data"][0]["price"]["id"],
+                    },
+                )
 
             if add_ons is not None:
                 for addon in add_ons:
@@ -232,7 +242,9 @@ class StripeService:
             return []
         try:
             customer = stripe.Customer.retrieve(user.stripe_customer_id)
-            default_pm = customer.get("invoice_settings", {}).get("default_payment_method")
+            default_pm = customer.get("invoice_settings", {}).get(
+                "default_payment_method",
+            )
             methods = stripe.PaymentMethod.list(
                 customer=user.stripe_customer_id, type="card"
             )

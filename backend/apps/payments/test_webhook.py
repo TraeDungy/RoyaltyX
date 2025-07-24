@@ -7,7 +7,6 @@ from django.views.decorators.http import require_POST
 
 from .stripe_service import StripeService
 
-
 logger = logging.getLogger(__name__)
 
 

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import FeeType, FeeGroup, FeeRule, FeeAdjustment
+from .models import FeeAdjustment, FeeGroup, FeeRule, FeeType
 
 
 class FeeTypeSerializer(serializers.ModelSerializer):

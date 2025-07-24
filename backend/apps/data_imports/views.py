@@ -10,9 +10,9 @@ from .serializers import DatasetSerializer, FileSerializer
 from .services import create_file, delete_file
 from .utils.producer_processing import process_producers
 from .utils.report_processing import (
-    process_report,
     detect_headers,
     header_signature,
+    process_report,
 )
 
 

@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
-from django.urls import reverse
 from django.test import TestCase
+from django.urls import reverse
 from rest_framework.test import APIClient
 
 from apps.notifications.models import Notification
@@ -41,4 +41,7 @@ class NotificationTests(TestCase):
 
         response = self.client.post(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(Notification.objects.filter(user=self.user, is_read=False).count(), 0)
+        self.assertEqual(
+            Notification.objects.filter(user=self.user, is_read=False).count(),
+            0,
+        )

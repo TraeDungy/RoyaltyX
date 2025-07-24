@@ -1,5 +1,5 @@
-from django.db import models
 from django.conf import settings
+from django.db import models
 
 from apps.product.models import Product
 from apps.project.models import Project

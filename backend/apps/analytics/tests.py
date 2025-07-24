@@ -9,9 +9,9 @@ from rest_framework import status
 from rest_framework.test import APIClient
 
 from apps.analytics.models import AnalyticsForecast
+from apps.analytics.utils import _aggregate_platform, calculate_analytics_by_dimension
 from apps.product.models import Product, ProductImpressions, ProductSale
 from apps.project.models import Project, ProjectUser
-from apps.analytics.utils import _aggregate_platform, calculate_analytics_by_dimension
 
 
 class AnalyticsViewTests(TestCase):
@@ -403,10 +403,11 @@ class DashboardPreferenceAPITests(TestCase):
         data = {"dashboardAnalyticsOrder": ["sales", "impressions"]}
         response = self.client.put(self.url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["dashboardAnalyticsOrder"], data["dashboardAnalyticsOrder"])
+        order_key = "dashboardAnalyticsOrder"
+        self.assertEqual(response.data[order_key], data[order_key])
 
         response = self.client.get(self.url)
-        self.assertEqual(response.data["dashboardAnalyticsOrder"], data["dashboardAnalyticsOrder"])
+        self.assertEqual(response.data[order_key], data[order_key])
 
 
 class AggregatePlatformTests(TestCase):

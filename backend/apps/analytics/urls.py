@@ -1,10 +1,10 @@
 from django.urls import path
 
 from apps.analytics.views import (
-    AnalyticsView,
     AnalyticsExportView,
     AnalyticsForecastView,
     AnalyticsReportingView,
+    AnalyticsView,
     DashboardPreferenceView,
 )
 

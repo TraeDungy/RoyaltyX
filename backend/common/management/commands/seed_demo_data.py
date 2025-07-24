@@ -1,5 +1,7 @@
-from django.core.management import BaseCommand, call_command
 from pathlib import Path
+
+from django.core.management import BaseCommand, call_command
+
 
 class Command(BaseCommand):
     help = "Load demo data from initial_data.json"

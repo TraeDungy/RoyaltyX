@@ -39,7 +39,12 @@ class FeeRule(BaseModel):
     )
     name = models.CharField(max_length=100, blank=True, null=True)
     rate = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-    fixed_amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    fixed_amount = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True,
+    )
     is_percent = models.BooleanField(default=True)
     display_on_reports = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)
