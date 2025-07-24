@@ -32,6 +32,8 @@ const ViewSettings = () => {
     setShowRoyaltyPerSaleCard,
     showImpressionsPerProductCard,
     setShowImpressionsPerProductCard,
+    dynamicMetricVisibility,
+    toggleMetricVisibility,
     dashboardAnalyticsOrder,
     setDashboardAnalyticsOrder,
     resetDashboardAnalyticsOrder,
@@ -290,6 +292,20 @@ const ViewSettings = () => {
           Hide/show the average impressions per product card.
         </p>
       </div>
+
+      {Object.keys(dynamicMetricVisibility).map((name) => (
+        <div className="py-4" key={name}>
+          <label className="switch">
+            <input
+              type="checkbox"
+              checked={dynamicMetricVisibility[name]}
+              onChange={() => toggleMetricVisibility(name)}
+            />
+            <span className="slider round"></span>
+          </label>
+          <span style={{ marginLeft: "10px" }}>Show {name.replace(/_/g, " ")}</span>
+        </div>
+      ))}
 
       <div className="py-4">
         <Typography variant="subtitle1" sx={{ fontWeight: 500, mb: 1 }}>

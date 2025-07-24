@@ -25,6 +25,7 @@ import GeneralStatsCard from "../components/GeneralStatsCard";
 import AverageEcpmCard from "../components/AverageEcpmCard";
 import RoyaltyPerSaleCard from "../components/RoyaltyPerSaleCard";
 import ImpressionsPerProductCard from "../components/ImpressionsPerProductCard";
+import DynamicMetricCard from "../components/DynamicMetricCard";
 import { Grid, Typography, Button } from "@mui/material";
 import ForecastInsights from "../components/ForecastInsights";
 
@@ -41,6 +42,8 @@ function Analytics() {
     showAverageEcpmCard,
     showRoyaltyPerSaleCard,
     showImpressionsPerProductCard,
+    dynamicMetricVisibility,
+    registerDynamicMetrics,
   } = useSettings();
   const location = useLocation();
   const params = new URLSearchParams(location.search);
@@ -79,6 +82,7 @@ function Analytics() {
     const fetchAnalytics = async () => {
       try {
         const fetchedAnalytics = await getProjectAnalytics(period_range);
+        registerDynamicMetrics(Object.keys(fetchedAnalytics.extra_metrics || {}));
         setAnalytics(fetchedAnalytics);
         const fetchedForecasts = await getForecasts();
         setForecasts(fetchedForecasts);
@@ -160,6 +164,12 @@ function Analytics() {
           <ImpressionsPerProductCard analytics={analytics} />
         )}
         {youtubeAnalytics && <YoutubeAnalyticsCard data={youtubeAnalytics} />}
+        {analytics?.extra_metrics &&
+          Object.entries(analytics.extra_metrics).map(([k, v]) =>
+            dynamicMetricVisibility[k] !== false ? (
+              <DynamicMetricCard key={k} name={k} value={v} />
+            ) : null,
+          )}
       </Grid>
 
       <SourceAnalytics analytics={analytics} />

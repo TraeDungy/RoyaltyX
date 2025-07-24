@@ -9,7 +9,12 @@ from typing import Any, BinaryIO, Dict, List, Optional, Tuple
 
 import openpyxl
 
-from apps.product.models import Product, ProductImpressions, ProductSale
+from apps.product.models import (
+    Product,
+    ProductImpressions,
+    ProductSale,
+    ProductMetric,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -26,6 +31,22 @@ COLUMN_ALIASES = {
     "Period End": ["Period End", "period_end"],
     "impressions": ["impressions"],
     "ecpm": ["ecpm", "eCPM"],
+}
+
+# Fields we already handle when importing reports
+KNOWN_FIELDS = {
+    "Title",
+    "Unit Price",
+    "Unit Price Currency",
+    "Quantity",
+    "Consumption Type",
+    "Is Refund",
+    "Royalty Amount",
+    "Royalty Currency",
+    "Period Start",
+    "Period End",
+    "impressions",
+    "ecpm",
 }
 
 
@@ -269,6 +290,8 @@ def update_products(
         if row.get("impressions"):
             storeProductImpressions(row, product, file_id)
 
+        storeProductMetrics(row, product, file_id, KNOWN_FIELDS)
+
         updated_count += 1
 
     return {"updated": updated_count}
@@ -331,3 +354,26 @@ def storeProductImpressions(
         )
     except Exception as e:
         logger.error("Failed to store product impressions: %s", e)
+
+
+def storeProductMetrics(
+    row: Dict[str, Any], product: Product, file_id: int, known_fields: set
+) -> None:
+    for key, value in row.items():
+        if key in known_fields:
+            continue
+        try:
+            num = Decimal(str(value))
+        except Exception:
+            continue
+        try:
+            ProductMetric.objects.create(
+                product=product,
+                name=key,
+                value=num,
+                period_start=row.get("Period Start"),
+                period_end=row.get("Period End"),
+                from_file_id=file_id,
+            )
+        except Exception as e:
+            logger.error("Failed to store metric %s: %s", key, e)

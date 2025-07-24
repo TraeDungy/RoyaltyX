@@ -134,6 +134,11 @@ export const SettingsProvider = ({ children }) => {
     return saved !== null ? saved === "true" : true;
   });
 
+  const [dynamicMetricVisibility, setDynamicMetricVisibility] = useState(() => {
+    const saved = localStorage.getItem("dynamicMetricVisibility");
+    return saved ? JSON.parse(saved) : {};
+  });
+
   const [dashboardAnalyticsOrder, setDashboardAnalyticsOrder] = useState(() => {
     const savedOrder = localStorage.getItem("dashboardAnalyticsOrder");
     return savedOrder ? JSON.parse(savedOrder) : defaultAnalyticsOrder;
@@ -143,6 +148,25 @@ export const SettingsProvider = ({ children }) => {
 
   const resetDashboardAnalyticsOrder = () => {
     setDashboardAnalyticsOrder(defaultAnalyticsOrder);
+  };
+
+  const registerDynamicMetrics = (names) => {
+    setDynamicMetricVisibility((prev) => {
+      const updated = { ...prev };
+      names.forEach((n) => {
+        if (!(n in updated)) {
+          updated[n] = true;
+        }
+      });
+      return updated;
+    });
+  };
+
+  const toggleMetricVisibility = (name) => {
+    setDynamicMetricVisibility((prev) => ({
+      ...prev,
+      [name]: !prev[name],
+    }));
   };
 
   useEffect(() => {
@@ -373,6 +397,13 @@ export const SettingsProvider = ({ children }) => {
 
   useEffect(() => {
     localStorage.setItem(
+      "dynamicMetricVisibility",
+      JSON.stringify(dynamicMetricVisibility),
+    );
+  }, [dynamicMetricVisibility]);
+
+  useEffect(() => {
+    localStorage.setItem(
       "impressionsGraphColor",
       impressionsGraphColor,
     );
@@ -515,6 +546,9 @@ export const SettingsProvider = ({ children }) => {
         setShowRoyaltyPerSaleCard,
         showImpressionsPerProductCard,
         setShowImpressionsPerProductCard,
+        dynamicMetricVisibility,
+        registerDynamicMetrics,
+        toggleMetricVisibility,
         impressionsGraphColor,
         setimpressionsGraphColor,
         impressionsGraphType,
