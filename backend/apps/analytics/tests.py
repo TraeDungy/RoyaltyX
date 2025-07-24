@@ -90,6 +90,21 @@ class AnalyticsViewTests(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.data, dict)
 
+    def test_analytics_custom_granularity(self):
+        start_date = date.today() - timedelta(days=30)
+        end_date = date.today()
+
+        response = self.client.get(
+            self.analytics_url,
+            {
+                "period_start": start_date.strftime("%Y-%m-%d"),
+                "period_end": end_date.strftime("%Y-%m-%d"),
+                "granularity": "daily",
+            },
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["granularity"], "daily")
+
     def test_analytics_endpoint_with_only_start_date(self):
         """Test analytics endpoint with only period_start parameter"""
         start_date = date.today() - timedelta(days=30)
@@ -379,3 +394,70 @@ class ReportingAPITests(TestCase):
         response = self.client.get(self.reporting_url, {"dimension": "platform"})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.data, list)
+
+
+class ProductComparisonAPITests(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+        User = get_user_model()
+        self.user = User.objects.create_user(
+            email="compare@test.com",
+            name="Compare User",
+            password="Testaccount1_",
+        )
+        self.project = Project.objects.create(name="Compare", description="d")
+        ProjectUser.objects.create(
+            project=self.project,
+            user=self.user,
+            role=ProjectUser.PROJECT_USER_ROLE_OWNER,
+        )
+        self.user.currently_selected_project = self.project
+        self.user.save()
+        self.product1 = Product.objects.create(
+            project=self.project,
+            title="Prod1",
+            description="d",
+            statement_frequency="Monthly",
+            first_statement_end_date=date.today(),
+            payment_threshold=0,
+            payment_window=30,
+            is_active=True,
+        )
+        self.product2 = Product.objects.create(
+            project=self.project,
+            title="Prod2",
+            description="d",
+            statement_frequency="Monthly",
+            first_statement_end_date=date.today(),
+            payment_threshold=0,
+            payment_window=30,
+            is_active=True,
+        )
+        self.client.force_authenticate(user=self.user)
+        self.url = reverse("product-comparison")
+
+    def test_compare_products_basic(self):
+        response = self.client.get(
+            self.url,
+            {"product_ids": f"{self.product1.id},{self.product2.id}"},
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIsInstance(response.data, dict)
+        self.assertIn("products", response.data)
+        self.assertIn("aggregate", response.data)
+        self.assertEqual(len(response.data["products"]), 2)
+
+    def test_compare_custom_granularity(self):
+        start = date.today() - timedelta(days=1)
+        end = date.today()
+        response = self.client.get(
+            self.url,
+            {
+                "product_ids": f"{self.product1.id},{self.product2.id}",
+                "granularity": "daily",
+                "period_start": start.strftime("%Y-%m-%d"),
+                "period_end": end.strftime("%Y-%m-%d"),
+            },
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["aggregate"]["granularity"], "daily")

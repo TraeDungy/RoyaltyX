@@ -226,6 +226,9 @@ CELERY_BROKER_URL=redis://redis:6379/0
 ### 📈 Analytics & Reporting
 - Revenue tracking and analytics
 - Performance metrics and trends
+- Compare multiple titles side by side with customizable charts
+- Choose hourly, daily, monthly or yearly granularity
+- Aggregate metrics across selected titles for comparison
 - Custom report generation
 - Extensive PDF template customization (see [PDF Template Customizer](documentation/PDF_TEMPLATE_CUSTOMIZER.md))
 - Data export capabilities

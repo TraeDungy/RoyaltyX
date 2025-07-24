@@ -12,11 +12,13 @@ from apps.analytics.serializers import (
     AnalyticsForecastSerializer,
     AnalyticsSerializer,
     ReportingSerializer,
+    ComparisonSerializer,
 )
 from apps.analytics.utils import (
     calculate_analytics,
     calculate_analytics_by_dimension,
 )
+from apps.product.models import Product
 
 
 class AnalyticsView(APIView):
@@ -44,6 +46,7 @@ class AnalyticsView(APIView):
         project_id = request.user.currently_selected_project_id
         period_start = serializer.validated_data.get("period_start", None)
         period_end = serializer.validated_data.get("period_end", None)
+        granularity = serializer.validated_data.get("granularity")
 
         filters = {}
 
@@ -53,7 +56,8 @@ class AnalyticsView(APIView):
             filters["period_start__gte"] = start_date
             filters["period_end__lte"] = end_date
 
-        granularity = self._determine_granularity(period_start, period_end)
+        if not granularity:
+            granularity = self._determine_granularity(period_start, period_end)
 
         data = calculate_analytics(
             project_id, filters, period_start, period_end, product_id, granularity
@@ -74,6 +78,7 @@ class AnalyticsExportView(APIView):
         project_id = request.user.currently_selected_project_id
         period_start = serializer.validated_data.get("period_start", None)
         period_end = serializer.validated_data.get("period_end", None)
+        granularity = serializer.validated_data.get("granularity")
 
         filters = {}
         if period_start and period_end:
@@ -82,7 +87,8 @@ class AnalyticsExportView(APIView):
             filters["period_start__gte"] = start_date
             filters["period_end__lte"] = end_date
 
-        granularity = AnalyticsView()._determine_granularity(period_start, period_end)
+        if not granularity:
+            granularity = AnalyticsView()._determine_granularity(period_start, period_end)
 
         data = calculate_analytics(
             project_id, filters, period_start, period_end, None, granularity
@@ -152,3 +158,60 @@ class AnalyticsReportingView(APIView):
 
         data = calculate_analytics_by_dimension(project_id, filters, dimension)
         return Response(data, status=status.HTTP_200_OK)
+
+
+class ProductComparisonView(APIView):
+    """Return analytics for multiple products."""
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        serializer = ComparisonSerializer(data=request.query_params)
+        serializer.is_valid(raise_exception=True)
+
+        project_id = request.user.currently_selected_project_id
+        period_start = serializer.validated_data.get("period_start")
+        period_end = serializer.validated_data.get("period_end")
+        product_ids = serializer.validated_data["product_ids"]
+        granularity = serializer.validated_data.get("granularity")
+
+        filters = {}
+        if period_start and period_end:
+            start_date = datetime.combine(period_start, time.min)
+            end_date = datetime.combine(period_end, time.max)
+            filters["period_start__gte"] = start_date
+            filters["period_end__lte"] = end_date
+
+        if not granularity:
+            granularity = AnalyticsView()._determine_granularity(period_start, period_end)
+
+        results = []
+        for pid in product_ids:
+            analytics = calculate_analytics(
+                project_id,
+                filters,
+                period_start,
+                period_end,
+                product_id=pid,
+                granularity=granularity,
+            )
+            product = Product.objects.filter(id=pid).first()
+            results.append(
+                {
+                    "product_id": pid,
+                    "product_title": product.title if product else "",
+                    "analytics": analytics,
+                }
+            )
+
+        aggregate_filters = filters.copy()
+        aggregate_filters["product_id__in"] = product_ids
+        aggregate = calculate_analytics(
+            project_id,
+            aggregate_filters,
+            period_start,
+            period_end,
+            None,
+            granularity,
+        )
+        return Response({"products": results, "aggregate": aggregate}, status=status.HTTP_200_OK)

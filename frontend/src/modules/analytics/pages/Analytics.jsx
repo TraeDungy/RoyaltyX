@@ -12,6 +12,7 @@ import YoutubeAnalyticsCard from "../components/YoutubeAnalyticsCard";
 import { useLocation } from "react-router";
 import DateRangeSelector from "../../common/components/DateRangeSelector";
 import CustomDateSelector from "../../common/components/CustomDateSelector";
+import GranularitySelector from "../../common/components/GranularitySelector";
 import ImpressionsOverTime from "../components/ImpressionsOverTime";
 import ImpressionRevenueOverTime from "../components/ImpressionRevenueOverTime";
 import SalesOverTime from "../components/SalesOverTime";
@@ -44,15 +45,18 @@ function Analytics() {
   } = useSettings();
   const location = useLocation();
   const params = new URLSearchParams(location.search);
+  const granularity = params.get("granularity");
 
   const handleExport = async () => {
     const periodStart = params.get("period_start");
     const periodEnd = params.get("period_end");
+    const granularity = params.get("granularity");
 
     try {
       const blob = await exportProjectAnalytics({
         period_start: periodStart,
         period_end: periodEnd,
+        granularity,
       });
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
@@ -74,6 +78,7 @@ function Analytics() {
     const period_range = {
       period_start: periodStart,
       period_end: periodEnd,
+      granularity,
     };
 
     const fetchAnalytics = async () => {
@@ -135,6 +140,7 @@ function Analytics() {
           <Button variant="outlined" onClick={handleExport}>
             Export CSV
           </Button>
+          <GranularitySelector />
           <DateRangeSelector />
           <CustomDateSelector />
         </div>
