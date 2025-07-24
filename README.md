@@ -231,6 +231,7 @@ CELERY_BROKER_URL=redis://redis:6379/0
 - Extensive PDF template customization (see [PDF Template Customizer](documentation/PDF_TEMPLATE_CUSTOMIZER.md))
 - Data export capabilities
 - Real-time dashboard updates
+- Saved dashboard preferences (card order & colors)
 - **Stored data**: individual product sales and impression records
 - **Calculated on demand**: totals, time-series metrics and per-source analytics
 - More details: [Analytics Data Overview](documentation/ANALYTICS_OVERVIEW.md)

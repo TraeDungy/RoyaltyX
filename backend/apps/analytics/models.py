@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 from apps.product.models import Product
 from apps.project.models import Project
@@ -75,3 +76,20 @@ class AnalyticsRecord(BaseModel):
     def __str__(self) -> str:
         product = f"{self.product_id}" if self.product_id else "project"
         return f"{product}:{self.period_start}-{self.period_end}"
+
+
+class DashboardPreference(BaseModel):
+    """Persist analytics dashboard settings for a user."""
+
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="dashboard_preference",
+    )
+    data = models.JSONField(default=dict, blank=True)
+
+    class Meta:
+        db_table = "dashboard_preference"
+
+    def __str__(self) -> str:  # pragma: no cover - simple representation
+        return f"DashboardPreference {self.id} for user {self.user_id}"

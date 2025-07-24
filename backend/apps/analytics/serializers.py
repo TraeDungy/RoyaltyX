@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from apps.analytics.models import AnalyticsForecast
+from apps.analytics.models import AnalyticsForecast, DashboardPreference
 
 
 class AnalyticsSerializer(serializers.Serializer):
@@ -28,3 +28,9 @@ class AnalyticsForecastSerializer(serializers.ModelSerializer):
             "forecast",
         ]
         read_only_fields = ["id", "project"]
+
+
+class DashboardPreferenceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DashboardPreference
+        fields = ["data"]

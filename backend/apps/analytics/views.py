@@ -7,11 +7,12 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from apps.analytics.models import AnalyticsForecast
+from apps.analytics.models import AnalyticsForecast, DashboardPreference
 from apps.analytics.serializers import (
     AnalyticsForecastSerializer,
     AnalyticsSerializer,
     ReportingSerializer,
+    DashboardPreferenceSerializer,
 )
 from apps.analytics.utils import (
     calculate_analytics,
@@ -152,3 +153,21 @@ class AnalyticsReportingView(APIView):
 
         data = calculate_analytics_by_dimension(project_id, filters, dimension)
         return Response(data, status=status.HTTP_200_OK)
+
+
+class DashboardPreferenceView(APIView):
+    """Get or update the current user's dashboard preferences."""
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        pref, _ = DashboardPreference.objects.get_or_create(user=request.user)
+        serializer = DashboardPreferenceSerializer(pref)
+        return Response(serializer.data["data"], status=status.HTTP_200_OK)
+
+    def put(self, request):
+        pref, _ = DashboardPreference.objects.get_or_create(user=request.user)
+        serializer = DashboardPreferenceSerializer(instance=pref, data={"data": request.data})
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data["data"], status=status.HTTP_200_OK)
