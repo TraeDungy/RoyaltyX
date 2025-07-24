@@ -61,6 +61,9 @@ from third-party platforms:
 - **SSL/HTTPS** - Secure communications
 - **RESTful APIs** - Clean, documented endpoints
 
+For a visual overview of these components see
+[Architecture Overview](documentation/ARCHITECTURE_OVERVIEW.md).
+
 ---
 
 ## 🚀 Quick Start
@@ -85,15 +88,21 @@ from third-party platforms:
    cp .env.example .env
    # Edit .env with your configuration
    ```
+   
+   See the [Initial Setup Tutorial](documentation/INITIAL_SETUP_TUTORIAL.md)
+   for a complete walkthrough and video guide.
 
 3. **Start the application**
    ```bash
    # Development environment
    docker-compose -f local.yml up --build
-   
+
    # Production environment
    docker-compose -f production.yml up --build
    ```
+   If you want to run the services directly on your machine without Docker,
+   follow the steps in
+   [Running RoyaltyX Without Docker](documentation/NON_DOCKER_SETUP.md).
 
 4. **Access the application**
    - Frontend: http://localhost:3000
@@ -147,48 +156,68 @@ your way.
 
 ### Environment Variables
 
-Create a `.env` file based on `.env.example`:
+Create a `.env` file based on `.env.example` and fill in the following
+variables:
 
 ```bash
-# Database Configuration
+# Database
 POSTGRES_HOST=postgres
 POSTGRES_DB=royaltyx
 POSTGRES_USER=your_user
 POSTGRES_PASSWORD=your_password
 POSTGRES_PORT=5432
 
-# Django Configuration
+# Django
 DJANGO_SECRET_KEY=your_secret_key_here
-# Set to 'True' for local development. Defaults to 'False' when unset.
 DJANGO_DEBUG=True
-# Comma-separated list of hosts the app can serve
 DJANGO_ALLOWED_HOSTS=*
 
-# Frontend Configuration
+# Development Server
+WDS_SOCKET_HOST=127.0.0.1
+CHOKIDAR_USEPOLLING=true
+WATCHPACK_POLLING=true
+
+# Frontend URLs
 REACT_APP_API_URL=http://localhost:8000
 REACT_APP_URL=http://localhost:3000
 
-# Stripe Payment Configuration
+# Frontend OAuth IDs
+REACT_APP_GOOGLE_CLIENT_ID=
+REACT_APP_TIKTOK_CLIENT_ID=
+REACT_APP_TWITCH_CLIENT_ID=
+
+# Backend OAuth Credentials
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+GOOGLE_REDIRECT_URI=http://localhost:3000/google-oauth-callback
+TIKTOK_CLIENT_ID=
+TIKTOK_CLIENT_SECRET=
+TIKTOK_REDIRECT_URI=https://<ngrok-url>/tiktok-oauth-callback
+TWITCH_CLIENT_ID=
+TWITCH_CLIENT_SECRET=
+TWITCH_REDIRECT_URI=https://<ngrok-url>/twitch-oauth-callback
+
+# Stripe
 STRIPE_PUBLISHABLE_KEY=pk_test_...
 STRIPE_SECRET_KEY=sk_test_...
 STRIPE_WEBHOOK_SECRET=whsec_...
 STRIPE_BASIC_PRICE_ID=price_...
 STRIPE_PREMIUM_PRICE_ID=price_...
 
-# OpenAI Configuration
-# Set this using a secure secret from your Codex settings
+# Email (for notifications)
+EMAIL_HOST=smtp.zoho.eu
+EMAIL_PORT=587
+EMAIL_USE_TLS=True
+EMAIL_USE_SSL=False
+EMAIL_HOST_USER=your-email@gmail.com
+EMAIL_HOST_PASSWORD=your-app-password
+DEFAULT_FROM_EMAIL=your-email@gmail.com
+SERVER_EMAIL=your-email@gmail.com
+
+# Other services
 OPENAI_API_KEY=
-
-# OAuth Configuration (Optional)
-GOOGLE_CLIENT_ID=your_google_client_id
-GOOGLE_CLIENT_SECRET=your_google_client_secret
-TIKTOK_CLIENT_ID=your_tiktok_client_id
-TIKTOK_CLIENT_SECRET=your_tiktok_client_secret
-VIMEO_CLIENT_ID=your_vimeo_client_id
-VIMEO_CLIENT_SECRET=your_vimeo_client_secret
-
-# Redis Configuration
 CELERY_BROKER_URL=redis://redis:6379/0
+LOG_LEVEL=INFO
 ```
 
 ### Stripe Setup (For Payments)
@@ -269,6 +298,10 @@ CELERY_BROKER_URL=redis://redis:6379/0
 ## 🛠️ Development
 
 ### Local Development Setup
+
+The steps below describe how to work on RoyaltyX without Docker. See
+[Running RoyaltyX Without Docker](documentation/NON_DOCKER_SETUP.md) for a
+more thorough walkthrough.
 
 1. **Backend Development**
    ```bash
