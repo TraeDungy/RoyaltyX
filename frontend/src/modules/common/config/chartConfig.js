@@ -105,26 +105,32 @@ export const CHART_CONFIGS = {
 // Helper function to format labels based on granularity
 export const formatChartLabels = (timeStats, granularity) => {
   return timeStats.map((item) => {
+    // API returns a `period` field for all granularities. Older
+    // versions exposed `year` and `month`, so fall back to those if
+    // present for backwards compatibility.
+    const period = item.period ?? item.year ?? item.month;
+
     if (granularity === "yearly") {
-      return item.year; // e.g., "2025"
+      return period;
     } else if (granularity === "monthly") {
-      const [year, month] = item.month.split("-");
+      const [year, month] = period.split("-");
       const date = new Date(year, month - 1); // month is 0-indexed
       return date.toLocaleString("default", { month: "short" }); // e.g., "Jan"
     } else if (granularity === "daily") {
-      const date = new Date(item.period);
+      const date = new Date(period);
       return date.toLocaleDateString("en-US", {
         month: "short",
         day: "numeric",
       }); // e.g., "Jan 1"
     } else if (granularity === "hourly") {
-      const date = new Date(item.period);
+      const date = new Date(period);
       return date.toLocaleTimeString("en-US", {
         hour: "2-digit",
         minute: "2-digit",
       }); // e.g., "12:00"
     }
-    return item.period;
+
+    return period;
   });
 };
 
