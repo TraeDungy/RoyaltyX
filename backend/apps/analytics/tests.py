@@ -499,3 +499,14 @@ class AnalyticsUtilsOutputTests(TestCase):
         )
         self.assertTrue(stats)
         self.assertIn("period", stats[0])
+
+    def test_calculate_analytics_monthly_uses_given_end_date(self):
+        project = Project.objects.create(name="P", description="d")
+        from apps.analytics.utils import calculate_analytics
+
+        start = date(2024, 1, 1)
+        end = date(2024, 3, 31)
+
+        data = calculate_analytics(project.id, {}, start, end, None, "monthly")
+        periods = [entry["period"] for entry in data["time_stats"]]
+        self.assertEqual(periods[-1], "2024-03")

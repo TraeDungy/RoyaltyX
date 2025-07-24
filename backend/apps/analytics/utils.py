@@ -190,16 +190,21 @@ def calculate_monthly_stats(
         months += 1
         single_month_adjustment = True
 
+    if period_end and isinstance(period_end, datetime):
+        end_date = period_end.date()
+    else:
+        end_date = period_end
+
     for i in range(months):
-        if period_end:
+        if end_date:
             month_date = (
-                (period_end.replace(day=1) - timedelta(days=i * 30))
+                (end_date.replace(day=1) - timedelta(days=i * 30))
                 .replace(day=1)
-                .date()
             )
         else:
-            month_date = (now.replace(day=1) - timedelta(days=i * 30)).replace(day=1)
-            month_date = month_date.date().replace(day=1)
+            month_date = (
+                now.date().replace(day=1) - timedelta(days=i * 30)
+            ).replace(day=1)
 
         if single_month_adjustment:
             month_date = (month_date + timedelta(days=31)).replace(day=1)
@@ -644,14 +649,14 @@ def calculate_analytics(
                 + 1
             )
         time_stats = calculate_monthly_stats(
-            impressions_qs, sales_qs, months, filters.get("period_end__lte")
+            impressions_qs, sales_qs, months, period_end
         )
     else:
         years = 5
         if period_start and period_end:
             years = period_end.year - period_start.year + 1
         time_stats = calculate_yearly_stats(
-            impressions_qs, sales_qs, years, filters.get("period_end__lte")
+            impressions_qs, sales_qs, years, period_end
         )
 
     data = calculate_totals(impressions_qs, sales_qs)
