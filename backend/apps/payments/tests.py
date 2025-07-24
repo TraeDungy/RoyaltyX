@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.test import TestCase
+from django.test.utils import override_settings
 from rest_framework.test import APIClient
 from rest_framework import status
 from unittest.mock import patch
@@ -9,6 +10,14 @@ import json
 User = get_user_model()
 
 
+@override_settings(
+    DATABASES={
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": ":memory:",
+        }
+    }
+)
 class PaymentViewTests(TestCase):
     def setUp(self):
         self.client = APIClient()
