@@ -1,4 +1,6 @@
-import Analytics from "./pages/Analytics";
+import { lazy } from "react";
+
+const Analytics = lazy(() => import("./pages/Analytics"));
 
 const analyticsRoutes = [
   {

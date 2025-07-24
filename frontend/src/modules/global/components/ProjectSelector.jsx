@@ -73,6 +73,15 @@ export const ProjectSelector = () => {
             },
           }}
           onClick={handleProjectMenuOpen}
+          tabIndex={0}
+          role="button"
+          aria-label="Select project"
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              handleProjectMenuOpen(e);
+            }
+          }}
         >
           <Box sx={{ 
             display: "flex", 

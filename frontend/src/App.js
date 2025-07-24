@@ -5,6 +5,7 @@ import {
   Navigate,
   Outlet,
 } from "react-router-dom";
+import { Suspense } from "react";
 import AppLayout from "./modules/common/layouts/AppLayout";
 import ScrollToTop from "./modules/common/components/ScrollToTop";
 import PageNotFound from "./modules/common/pages/PageNotFound";
@@ -70,6 +71,7 @@ function App() {
           <ThemeProvider>
             <MUIThemeWrapper>
               <ScrollToTop />
+              <Suspense fallback={<div>Loading...</div>}>
               <Routes>
                 <Route path="/" element={<PrivateRoutes />}>
                   <Route
@@ -110,6 +112,7 @@ function App() {
 
                 <Route path="*" element={<PageNotFound />} />
               </Routes>
+              </Suspense>
             </MUIThemeWrapper>
           </ThemeProvider>
         </AuthProvider>
