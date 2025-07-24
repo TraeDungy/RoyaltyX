@@ -1,4 +1,5 @@
 import logging
+
 import requests
 from django.contrib.auth import get_user_model
 from rest_framework import status
@@ -6,8 +7,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.emails.utils import send_welcome_email
-from .views import MyTokenObtainPairSerializer
 
+from .views import MyTokenObtainPairSerializer
 
 logger = logging.getLogger(__name__)
 

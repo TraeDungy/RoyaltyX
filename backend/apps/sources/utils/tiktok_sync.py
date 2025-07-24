@@ -7,7 +7,6 @@ from apps.product.models import Product, ProductImpressions
 from apps.sources.models import Source
 from apps.sources.utils.tiktok_service import TikTokService
 
-
 logger = logging.getLogger(__name__)
 
 

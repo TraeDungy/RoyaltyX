@@ -8,7 +8,6 @@ from django.utils import timezone
 from apps.product.models import Product, ProductImpressions
 from apps.sources.models import Source
 
-
 logger = logging.getLogger(__name__)
 
 

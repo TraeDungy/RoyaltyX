@@ -64,12 +64,21 @@ class ImportTemplateTests(TestCase):
         self.project = Project.objects.create(name="P", description="d")
 
     def _make_csv_file(self, name="sales.csv"):
-        content = (
-            "Title,Unit Price,Unit Price Currency,Quantity,Royalty Amount,Royalty Currency,"
-            "Period Start,Period End\n"
-            "Movie,10,USD,1,5,USD,2024-01-01,2024-01-31\n"
+        content = "\n".join(
+            [
+                (
+                    "Title,Unit Price,Unit Price Currency,Quantity,"
+                    "Royalty Amount,Royalty Currency,"
+                ),
+                "Period Start,Period End",
+                "Movie,10,USD,1,5,USD,2024-01-01,2024-01-31",
+            ]
+        ) + "\n"
+        return SimpleUploadedFile(
+            name,
+            content.encode("utf-8"),
+            content_type="text/csv",
         )
-        return SimpleUploadedFile(name, content.encode("utf-8"), content_type="text/csv")
 
     def test_template_autodetection(self):
         file1 = self._make_csv_file("sales1.csv")
@@ -99,7 +108,11 @@ class FilenameDateDetectionTests(TestCase):
 
     def _make_csv_file(self, name="report_2024-04.csv"):
         content = "Title\nMovie\n"
-        return SimpleUploadedFile(name, content.encode("utf-8"), content_type="text/csv")
+        return SimpleUploadedFile(
+            name,
+            content.encode("utf-8"),
+            content_type="text/csv",
+        )
 
     def test_create_file_uses_filename_date(self):
         file1 = self._make_csv_file()

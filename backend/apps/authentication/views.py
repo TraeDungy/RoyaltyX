@@ -1,4 +1,5 @@
 import logging
+
 from django.contrib.auth.hashers import check_password
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
@@ -8,7 +9,6 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from apps.authentication.serializer import UserRegistrationSerializer
 from apps.emails.utils import send_welcome_email
-
 
 logger = logging.getLogger(__name__)
 

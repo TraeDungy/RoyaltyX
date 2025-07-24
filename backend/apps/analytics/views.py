@@ -11,8 +11,8 @@ from apps.analytics.models import AnalyticsForecast, DashboardPreference
 from apps.analytics.serializers import (
     AnalyticsForecastSerializer,
     AnalyticsSerializer,
-    ReportingSerializer,
     DashboardPreferenceSerializer,
+    ReportingSerializer,
 )
 from apps.analytics.utils import (
     calculate_analytics,
@@ -167,7 +167,10 @@ class DashboardPreferenceView(APIView):
 
     def put(self, request):
         pref, _ = DashboardPreference.objects.get_or_create(user=request.user)
-        serializer = DashboardPreferenceSerializer(instance=pref, data={"data": request.data})
+        serializer = DashboardPreferenceSerializer(
+            instance=pref,
+            data={"data": request.data},
+        )
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data["data"], status=status.HTTP_200_OK)

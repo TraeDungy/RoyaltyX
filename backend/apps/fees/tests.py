@@ -4,8 +4,8 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 
+from apps.fees.models import FeeAdjustment, FeeRule, FeeType
 from apps.project.models import Project, ProjectUser
-from apps.fees.models import FeeType, FeeGroup, FeeRule, FeeAdjustment
 
 
 class FeeAPITests(TestCase):

@@ -27,9 +27,15 @@ def test_read_csv_with_custom_mapping():
 
 
 def test_parse_month_year_from_filename():
-    assert report_processing.parse_month_year_from_filename("sales_2024-03.csv") == (3, 2024)
-    assert report_processing.parse_month_year_from_filename("03-2024_report.csv") == (3, 2024)
-    assert report_processing.parse_month_year_from_filename("jan2025data.csv") == (1, 2025)
+    assert report_processing.parse_month_year_from_filename(
+        "sales_2024-03.csv",
+    ) == (3, 2024)
+    assert report_processing.parse_month_year_from_filename(
+        "03-2024_report.csv",
+    ) == (3, 2024)
+    assert report_processing.parse_month_year_from_filename(
+        "jan2025data.csv",
+    ) == (1, 2025)
 
 
 def test_parse_date_string_various_formats():

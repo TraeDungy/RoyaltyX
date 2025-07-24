@@ -4,8 +4,9 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
-from .views import ChangePasswordView, RegisterView, MyTokenObtainPairSerializer
 from .google_auth import GoogleAuthView
+from .views import ChangePasswordView, MyTokenObtainPairSerializer, RegisterView
+
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer

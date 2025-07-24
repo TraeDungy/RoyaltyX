@@ -265,7 +265,10 @@ def payment_methods(request):
 def add_payment_method(request):
     payment_method_id = request.data.get("payment_method_id")
     if not payment_method_id:
-        return Response({"error": "Payment method ID is required"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(
+            {"error": "Payment method ID is required"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
     try:
         StripeService.attach_payment_method(request.user, payment_method_id)
         return Response({"message": "Payment method added"})
@@ -278,7 +281,10 @@ def add_payment_method(request):
 def remove_payment_method(request):
     payment_method_id = request.data.get("payment_method_id")
     if not payment_method_id:
-        return Response({"error": "Payment method ID is required"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(
+            {"error": "Payment method ID is required"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
     try:
         StripeService.detach_payment_method(request.user, payment_method_id)
         return Response({"message": "Payment method removed"})
@@ -291,7 +297,10 @@ def remove_payment_method(request):
 def set_default_payment_method(request):
     payment_method_id = request.data.get("payment_method_id")
     if not payment_method_id:
-        return Response({"error": "Payment method ID is required"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(
+            {"error": "Payment method ID is required"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
     try:
         StripeService.set_default_payment_method(request.user, payment_method_id)
         return Response({"message": "Default payment method updated"})

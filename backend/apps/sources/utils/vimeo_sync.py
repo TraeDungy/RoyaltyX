@@ -7,7 +7,6 @@ from apps.product.models import Product, ProductImpressions
 from apps.sources.models import Source
 from apps.sources.utils.vimeo_service import VimeoService
 
-
 logger = logging.getLogger(__name__)
 
 

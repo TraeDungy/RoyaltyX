@@ -1,12 +1,13 @@
 import logging
+
 import requests
 from django.conf import settings
-from apps.oauth.twitch.serializers import TwitchOAuthCodeSerializer
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from apps.oauth.twitch.serializers import TwitchOAuthCodeSerializer
 
 logger = logging.getLogger(__name__)
 

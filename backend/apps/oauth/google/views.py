@@ -1,4 +1,5 @@
 import logging
+
 import requests
 from django.conf import settings
 from drf_spectacular.utils import extend_schema
@@ -6,10 +7,9 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from .serializers import GoogleOAuthCodeSerializer
 
 logger = logging.getLogger(__name__)
-
-from .serializers import GoogleOAuthCodeSerializer
 
 
 class GoogleTokenExchange(APIView):
