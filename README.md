@@ -262,6 +262,7 @@ LOG_LEVEL=INFO
 - Data export capabilities
 - Real-time dashboard updates
 - Saved dashboard preferences (card order & colors)
+- Dynamic metric cards added from new data sources with per-card visibility settings
 - **Stored data**: individual product sales and impression records
 - **Calculated on demand**: totals, time-series metrics and per-source analytics
 - More details: [Analytics Data Overview](documentation/ANALYTICS_OVERVIEW.md)
