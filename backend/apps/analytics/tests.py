@@ -1,6 +1,6 @@
 import random
 import string
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
@@ -477,3 +477,25 @@ class CalculateAnalyticsByDimensionTests(TestCase):
         project = Project.objects.create(name="P", description="d")
         with self.assertRaises(ValueError):
             calculate_analytics_by_dimension(project.id, {}, "unknown")
+class AnalyticsUtilsOutputTests(TestCase):
+    def test_monthly_stats_use_period_key(self):
+        from apps.analytics.utils import calculate_monthly_stats
+        stats = calculate_monthly_stats(
+            ProductImpressions.objects.none(),
+            ProductSale.objects.none(),
+            1,
+            datetime.now(),
+        )
+        self.assertTrue(stats)
+        self.assertIn("period", stats[0])
+
+    def test_yearly_stats_use_period_key(self):
+        from apps.analytics.utils import calculate_yearly_stats
+        stats = calculate_yearly_stats(
+            ProductImpressions.objects.none(),
+            ProductSale.objects.none(),
+            1,
+            datetime.now(),
+        )
+        self.assertTrue(stats)
+        self.assertIn("period", stats[0])
