@@ -2,7 +2,7 @@
 
 ### Discovery
 
-Price: Free Trial (30 Days), then **$19/mo** $199/yr
+Price: Free Trial (30 Days), then **$19/mo** or **$199/yr**
 
 ---
 
@@ -13,7 +13,7 @@ Benefits:
 
 ### Professional
 
-Price: **$49/mo**  $499/yr
+Price: **$49/mo** or **$499/yr**
 
 ---
 
