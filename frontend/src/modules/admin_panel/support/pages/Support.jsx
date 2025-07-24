@@ -176,7 +176,7 @@ function Support() {
 
       {/* Stats Cards */}
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+        <Grid item xs={12} sm={6} md={3}>
           <Card>
             <CardContent sx={{ display: "flex", alignItems: "center", p: 2 }}>
               <Box sx={{ flexGrow: 1 }}>
@@ -191,7 +191,7 @@ function Support() {
             </CardContent>
           </Card>
         </Grid>
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+        <Grid item xs={12} sm={6} md={3}>
           <Card>
             <CardContent sx={{ display: "flex", alignItems: "center", p: 2 }}>
               <Box sx={{ flexGrow: 1 }}>
@@ -206,7 +206,7 @@ function Support() {
             </CardContent>
           </Card>
         </Grid>
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+        <Grid item xs={12} sm={6} md={3}>
           <Card>
             <CardContent sx={{ display: "flex", alignItems: "center", p: 2 }}>
               <Box sx={{ flexGrow: 1 }}>
@@ -221,7 +221,7 @@ function Support() {
             </CardContent>
           </Card>
         </Grid>
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+        <Grid item xs={12} sm={6} md={3}>
           <Card>
             <CardContent sx={{ display: "flex", alignItems: "center", p: 2 }}>
               <Box sx={{ flexGrow: 1 }}>
@@ -242,7 +242,7 @@ function Support() {
       <Card sx={{ mb: 3 }}>
         <CardContent>
           <Grid container spacing={2} alignItems="center">
-            <Grid size={{ xs: 12, md: 3 }}>
+            <Grid item xs={12} md={3}>
               <TextField
                 fullWidth
                 placeholder="Search tickets..."
@@ -260,7 +260,7 @@ function Support() {
                 size="small"
               />
             </Grid>
-            <Grid size={{ xs: 12, sm: 4, md: 2 }}>
+            <Grid item xs={12} sm={4} md={2}>
               <TextField
                 select
                 fullWidth
@@ -278,7 +278,7 @@ function Support() {
                 <MenuItem value="closed">Closed</MenuItem>
               </TextField>
             </Grid>
-            <Grid size={{ xs: 12, sm: 4, md: 2 }}>
+            <Grid item xs={12} sm={4} md={2}>
               <TextField
                 select
                 fullWidth
@@ -296,7 +296,7 @@ function Support() {
                 <MenuItem value="low">Low</MenuItem>
               </TextField>
             </Grid>
-            <Grid size={{ xs: 12, sm: 4, md: 2 }}>
+            <Grid item xs={12} sm={4} md={2}>
               <TextField
                 select
                 fullWidth
@@ -312,7 +312,7 @@ function Support() {
                 <MenuItem value="my_tickets">My Tickets</MenuItem>
               </TextField>
             </Grid>
-            <Grid size={{ xs: 12, md: 3 }}>
+            <Grid item xs={12} md={3}>
               <Button
                 variant="outlined"
                 fullWidth

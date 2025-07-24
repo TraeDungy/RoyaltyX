@@ -65,7 +65,7 @@ export const Source = () => {
           {source.account_name}
         </Typography>
         <Grid container spacing={2} sx={{ mb: 4 }}>
-          <Grid size={{ xs: 12, md: 6 }}>
+          <Grid item xs={12} md={6}>
             <Card variant="outlined">
               <CardContent>
                 <Typography
@@ -113,7 +113,7 @@ export const Source = () => {
             </Card>
           </Grid>
 
-          <Grid size={{ xs: 12, md: 6 }}>
+          <Grid item xs={12} md={6}>
             <Card variant="outlined">
               <CardContent>
                 <Typography

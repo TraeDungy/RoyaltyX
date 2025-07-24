@@ -3,7 +3,7 @@ import { ReactComponent as FolderSVG } from "../../common/assets/img/vectors/fol
 
 function ProjectCard({ project, handleSwitchProject }) {
   return (
-    <Grid size={{ xs: 12, md: 4 }}>
+    <Grid item xs={12} md={4}>
       <Card
         className="h-100"
         onClick={() => {

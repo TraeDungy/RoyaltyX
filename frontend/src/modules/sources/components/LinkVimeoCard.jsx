@@ -50,7 +50,7 @@ export const LinkVimeoCard = ({ createSource }) => {
   }, []);
 
   return (
-    <Grid size={{ xs: 12, md: 4 }}>
+    <Grid item xs={12} md={4}>
       <Card sx={{ p: 3, borderRadius: 2, boxShadow: 2, height: "100%", mt: 1 }}>
         <Box
           sx={{

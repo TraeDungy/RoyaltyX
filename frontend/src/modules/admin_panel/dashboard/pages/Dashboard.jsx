@@ -89,7 +89,7 @@ function Dashboard() {
         </Typography>
         <Grid container spacing={3}>
           {[1, 2, 3, 4].map((item) => (
-            <Grid key={item} size={{ xs: 12, sm: 6, md: 3 }}>
+            <Grid key={item} item xs={12} sm={6} md={3}>
               <Card>
                 <CardContent>
                   <Skeleton variant="text" width="60%" height={24} />
@@ -112,7 +112,7 @@ function Dashboard() {
 
       {/* Main Stats Cards */}
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+        <Grid item xs={12} sm={6} md={3}>
           <StatCard
             title="Total Users"
             value={stats?.total_users}
@@ -121,7 +121,7 @@ function Dashboard() {
             trend={stats?.recent_activity?.new_users_last_30_days}
           />
         </Grid>
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+        <Grid item xs={12} sm={6} md={3}>
           <StatCard
             title="Total Projects"
             value={stats?.total_projects}
@@ -130,7 +130,7 @@ function Dashboard() {
             trend={stats?.recent_activity?.new_projects_last_30_days}
           />
         </Grid>
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+        <Grid item xs={12} sm={6} md={3}>
           <StatCard
             title="Total Sources"
             value={stats?.total_sources}
@@ -139,7 +139,7 @@ function Dashboard() {
             trend={stats?.recent_activity?.new_sources_last_30_days}
           />
         </Grid>
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+        <Grid item xs={12} sm={6} md={3}>
           <StatCard
             title="New Users (30d)"
             value={stats?.recent_activity?.new_users_last_30_days}
@@ -152,7 +152,7 @@ function Dashboard() {
 
       {/* Charts Section */}
       <Grid container spacing={3}>
-        <Grid size={{ xs: 12, lg: 8 }}>
+        <Grid item xs={12} lg={8}>
           <Paper sx={{ p: 3, height: 400 }}>
             <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
               User Growth Over Time
@@ -177,7 +177,7 @@ function Dashboard() {
           </Paper>
         </Grid>
 
-        <Grid size={{ xs: 12, lg: 4 }}>
+        <Grid item xs={12} lg={4}>
           <Paper sx={{ p: 3, height: 400 }}>
             <Typography variant="h6" sx={{ mb: 3, fontWeight: 600 }}>
               Recent Activity
@@ -241,7 +241,7 @@ function Dashboard() {
           Quick Actions
         </Typography>
         <Grid container spacing={2}>
-          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+          <Grid item xs={12} sm={6} md={3}>
             <Card
               sx={{ cursor: "pointer", "&:hover": { boxShadow: 4 } }}
               onClick={() => navigate("/admin/users")}
@@ -255,7 +255,7 @@ function Dashboard() {
               </CardContent>
             </Card>
           </Grid>
-          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+          <Grid item xs={12} sm={6} md={3}>
             <Card sx={{ cursor: "pointer", "&:hover": { boxShadow: 4 } }}>
               <CardContent sx={{ textAlign: "center", py: 3 }}>
                 <FolderOpen
@@ -270,7 +270,7 @@ function Dashboard() {
               </CardContent>
             </Card>
           </Grid>
-          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+          <Grid item xs={12} sm={6} md={3}>
             <Card sx={{ cursor: "pointer", "&:hover": { boxShadow: 4 } }}>
               <CardContent sx={{ textAlign: "center", py: 3 }}>
                 <Database
@@ -285,7 +285,7 @@ function Dashboard() {
               </CardContent>
             </Card>
           </Grid>
-          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+          <Grid item xs={12} sm={6} md={3}>
             <Card sx={{ cursor: "pointer", "&:hover": { boxShadow: 4 } }}>
               <CardContent sx={{ textAlign: "center", py: 3 }}>
                 <Activity

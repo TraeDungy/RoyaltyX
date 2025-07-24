@@ -55,7 +55,7 @@ export const SalesCard = ({
         ref={innerRef}
         {...draggableProps}
         {...dragHandleProps}
-        size={{ md: 4, xs: 12 }}
+        item md={4} xs={12}
       >
         <Card
           variant="outlined"

@@ -61,7 +61,7 @@ const SalesOverTime = ({ analytics }) => {
 
   return (
     <>
-      <Grid size={{ xs: 12, md: 6 }} sx={{ mt: 3 }}>
+      <Grid item xs={12} md={6} sx={{ mt: 3 }}>
         <Card variant="outlined">
           <CardContent>
             <Box sx={{ width: "100%", maxWidth: "1200px", margin: "auto" }}>

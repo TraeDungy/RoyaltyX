@@ -177,7 +177,7 @@ function CustomerSupport() {
 
       {/* Stats Cards */}
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+        <Grid item xs={12} sm={6} md={3}>
           <Card>
             <CardContent sx={{ textAlign: "center", p: 2 }}>
               <Typography
@@ -192,7 +192,7 @@ function CustomerSupport() {
             </CardContent>
           </Card>
         </Grid>
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+        <Grid item xs={12} sm={6} md={3}>
           <Card>
             <CardContent sx={{ textAlign: "center", p: 2 }}>
               <Typography
@@ -207,7 +207,7 @@ function CustomerSupport() {
             </CardContent>
           </Card>
         </Grid>
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+        <Grid item xs={12} sm={6} md={3}>
           <Card>
             <CardContent sx={{ textAlign: "center", p: 2 }}>
               <Typography
@@ -222,7 +222,7 @@ function CustomerSupport() {
             </CardContent>
           </Card>
         </Grid>
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+        <Grid item xs={12} sm={6} md={3}>
           <Card>
             <CardContent sx={{ textAlign: "center", p: 2 }}>
               <Typography
