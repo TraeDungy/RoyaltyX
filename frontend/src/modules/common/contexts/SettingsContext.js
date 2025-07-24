@@ -445,13 +445,6 @@ export const SettingsProvider = ({ children }) => {
 
   useEffect(() => {
     localStorage.setItem(
-      "impressionsOverTimeGraphColor",
-      impressionsOverTimeGraphColor,
-    );
-  }, [impressionsOverTimeGraphColor]);
-
-  useEffect(() => {
-    localStorage.setItem(
       "impressionRevenueOverTimeGraphColor",
       impressionRevenueOverTimeGraphColor,
     );
