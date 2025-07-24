@@ -130,6 +130,8 @@ def process_report_schedules(base_url=None):
         )
 
         generate_report_pdf.apply(args=[report.id, base_url])
+        # refresh instance so newly generated file is available
+        report.refresh_from_db()
 
         attachments = []
         if report.file:

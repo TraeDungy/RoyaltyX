@@ -1,5 +1,6 @@
 from datetime import date, datetime
 from unittest.mock import Mock, patch
+from django.core.files.base import ContentFile
 from urllib.parse import urlencode
 
 from django.contrib.auth import get_user_model
@@ -438,3 +439,22 @@ class TestProcessReportSchedules(TestCase):
 
         self.schedule.refresh_from_db()
         self.assertGreater(self.schedule.next_run, timezone.now().date())
+
+    @patch("apps.report.tasks.task_send_db_template_email.apply")
+    def test_scheduled_report_email_has_attachment(self, mock_email):
+        def fake_generate(*args, **kwargs):
+            report_id = kwargs.get("args")[0]
+            report = Report.objects.get(id=report_id)
+            report.file.save("generated.pdf", ContentFile(b"data"))
+            return True
+
+        with patch(
+            "apps.report.tasks.generate_report_pdf.apply", side_effect=fake_generate
+        ) as mock_generate:
+            process_report_schedules()
+            mock_generate.assert_called_once()
+
+        mock_email.assert_called_once()
+        attachments = mock_email.call_args.kwargs["kwargs"]["attachments"]
+        self.assertEqual(len(attachments), 1)
+        self.assertEqual(attachments[0][2], "application/pdf")
