@@ -29,3 +29,9 @@ This document lists the primary REST endpoints exposed by RoyaltyX. The complete
 - `PUT  /sources/{id}/` – Update a source
 - `DELETE /sources/{id}/` – Remove a source
 - `GET  /sources/{id}/youtube-analytics/` – Fetch YouTube stats for a source
+
+## Email Templates
+- `GET  /emails/templates/` – List email templates
+- `POST /emails/templates/` – Create a new template
+- `GET  /emails/templates/{id}/` – Retrieve, update or delete a template
+- `POST /emails/templates/generate/` – Generate a template with OpenAI

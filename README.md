@@ -287,6 +287,7 @@ LOG_LEVEL=INFO
 - Dark/light theme support
 - Comprehensive settings management
 - **AI-Powered Help Chat**: Get instant answers from the documentation using OpenAI
+- **AI Email Template Generator**: Quickly create professional email templates with OpenAI
 
 ### 🤝 White-Label Branding
 - Rebrand RoyaltyX with your logo and domain
