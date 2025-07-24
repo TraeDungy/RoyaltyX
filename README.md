@@ -426,7 +426,7 @@ RoyaltyX/
 
 4. **Enable Celery beat tasks**
    The `celery-beat` service must run to schedule background jobs. This includes
-   a daily task that downgrades users with overdue payments to the free plan.
+   a daily task that downgrades users with overdue payments to the discovery plan.
 
 ### Environment-Specific Configurations
 

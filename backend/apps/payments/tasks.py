@@ -17,7 +17,7 @@ def downgrade_past_due_users():
     )
     count = 0
     for user in users:
-        user.subscription_plan = "free"
+        user.subscription_plan = "discovery"
         user.subscription_status = "canceled"
         user.stripe_subscription_id = None
         user.subscription_current_period_end = None
