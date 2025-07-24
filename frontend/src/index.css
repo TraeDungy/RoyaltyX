@@ -88,6 +88,12 @@ body.theme-transition img.theme-invertible {
   filter: brightness(0) invert(1);
 }
 
+body.theme-transition,
+body.theme-transition * {
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
+}
+
 .page-content-wrapper {
   display: flex;
   position: relative;
@@ -542,11 +548,13 @@ table.table.dataTable > :not(caption) > * > * {
 
 .submenu .nav-link {
   font-size: 0.9rem;
-  color: #6c757d;
+  color: var(--color-text-lighter);
+  transition: color 0.3s ease;
 }
 
 .submenu .nav-link:hover {
-  color: #000;
+  color: var(--color-text);
+  transition: color 0.3s ease;
 }
 
 .menu-active,

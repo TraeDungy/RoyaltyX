@@ -20,6 +20,11 @@ export const ThemeProvider = ({ children }) => {
       body.classList.remove("theme-transition");
     }, 300);
 
+    document.body.classList.add("theme-transition");
+    const timeout = setTimeout(() => {
+      document.body.classList.remove("theme-transition");
+    }, 300);
+
     if (theme === "dark") {
       body.classList.add("dark-mode");
     } else {
