@@ -309,6 +309,9 @@ more thorough walkthrough.
    python -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    pip install -r requirements.txt
+   # WeasyPrint relies on cairo and other system packages
+   # If you see "ModuleNotFoundError: weasyprint" install its dependencies:
+   # sudo apt-get install libpango-1.0-0 libpangocairo-1.0-0 libgdk-pixbuf2.0-0 libcairo2
    python manage.py runserver
    ```
 
