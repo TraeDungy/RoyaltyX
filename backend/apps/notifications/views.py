@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 
 from .models import Notification
 from .serializers import NotificationSerializer
+from .tasks import send_sms_task
 
 
 class UserNotificationView(APIView):
@@ -37,3 +38,38 @@ class UserNotificationView(APIView):
             is_read=True
         )
         return Response(status=status.HTTP_200_OK)
+
+
+class SendSMSUpdateView(APIView):
+    """Send a text message update to the authenticated user."""
+
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        user = request.user
+        if user.subscription_plan != "premium":
+            return Response(
+                {
+                    "detail": (
+                        "SMS updates are included in the premium plan or can be "
+                        "added to other plans for $10/month"
+                    ),
+                    "requires_payment": True,
+                },
+                status=status.HTTP_402_PAYMENT_REQUIRED,
+            )
+
+        if not user.phone_number:
+            return Response(
+                {"error": "No phone number on file"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        message = request.data.get("message")
+        if not message:
+            return Response(
+                {"error": "Message is required"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        send_sms_task.delay(message, user.phone_number)
+        return Response({"message": "SMS queued"}, status=status.HTTP_200_OK)
