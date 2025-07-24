@@ -18,6 +18,12 @@ const ViewSettings = () => {
     setShowTotalSalesCard,
     showTotalRevenueCard,
     setShowTotalRevenueCard,
+    showClockCard,
+    setShowClockCard,
+    countdownValue,
+    setCountdownValue,
+    countdownUnit,
+    setCountdownUnit,
     showProductImageCard,
     setShowProductImageCard,
     dashboardAnalyticsOrder,
@@ -48,6 +54,9 @@ const ViewSettings = () => {
   };
   const toggleShowTotalRevenueCard = () => {
     setShowTotalRevenueCard(!showTotalRevenueCard);
+  };
+  const toggleShowClockCard = () => {
+    setShowClockCard(!showClockCard);
   };
   const toggleShowProductImageCard = () => {
     setShowProductImageCard(!showProductImageCard);
@@ -165,6 +174,46 @@ const ViewSettings = () => {
         <span style={{ marginLeft: "10px" }}>Show Total Revenue Card</span>
         <p className="txt-lighter small mt-1">
           Hide/show the total revenue card in the analytics page.
+        </p>
+      </div>
+      <div className="py-4">
+        <label className="switch">
+          <input
+            type="checkbox"
+            checked={showClockCard}
+            onChange={toggleShowClockCard}
+          />
+          <span className="slider round"></span>
+        </label>
+        <span style={{ marginLeft: "10px" }}>Show Clock Card</span>
+        <p className="txt-lighter small mt-1">
+          Hide/show the clock card in the dashboard.
+        </p>
+      </div>
+      <div className="py-4">
+        <Typography variant="subtitle2" sx={{ fontWeight: 500, mb: 1 }}>
+          Countdown Timer
+        </Typography>
+        <input
+          type="number"
+          min="1"
+          value={countdownValue}
+          onChange={(e) => setCountdownValue(Number(e.target.value))}
+          style={{ width: "80px", marginRight: "10px" }}
+        />
+        <select
+          value={countdownUnit}
+          onChange={(e) => setCountdownUnit(e.target.value)}
+          style={{ padding: "4px" }}
+        >
+          <option value="hours">Hours</option>
+          <option value="days">Days</option>
+          <option value="weeks">Weeks</option>
+          <option value="months">Months</option>
+          <option value="years">Years</option>
+        </select>
+        <p className="txt-lighter small mt-1">
+          Duration for the countdown timer.
         </p>
       </div>
       <div className="py-4">
