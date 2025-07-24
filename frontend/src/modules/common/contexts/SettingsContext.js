@@ -134,6 +134,11 @@ export const SettingsProvider = ({ children }) => {
     return saved !== null ? saved === "true" : true;
   });
 
+  const [dynamicCardVisibility, setDynamicCardVisibility] = useState(() => {
+    const saved = localStorage.getItem("dynamicCardVisibility");
+    return saved ? JSON.parse(saved) : {};
+  });
+
   const [dashboardAnalyticsOrder, setDashboardAnalyticsOrder] = useState(() => {
     const savedOrder = localStorage.getItem("dashboardAnalyticsOrder");
     return savedOrder ? JSON.parse(savedOrder) : defaultAnalyticsOrder;
@@ -143,6 +148,28 @@ export const SettingsProvider = ({ children }) => {
 
   const resetDashboardAnalyticsOrder = () => {
     setDashboardAnalyticsOrder(defaultAnalyticsOrder);
+  };
+
+  const registerDynamicMetrics = (metrics) => {
+    if (!metrics || metrics.length === 0) return;
+    setDynamicCardVisibility((prev) => {
+      const updated = { ...prev };
+      metrics.forEach((m) => {
+        if (!(m in updated)) {
+          updated[m] = true;
+        }
+      });
+      return updated;
+    });
+    setDashboardAnalyticsOrder((prev) => {
+      const order = [...prev];
+      metrics.forEach((m) => {
+        if (!order.includes(m)) {
+          order.push(m);
+        }
+      });
+      return order;
+    });
   };
 
   useEffect(() => {
@@ -373,6 +400,13 @@ export const SettingsProvider = ({ children }) => {
 
   useEffect(() => {
     localStorage.setItem(
+      "dynamicCardVisibility",
+      JSON.stringify(dynamicCardVisibility),
+    );
+  }, [dynamicCardVisibility]);
+
+  useEffect(() => {
+    localStorage.setItem(
       "impressionsGraphColor",
       impressionsGraphColor,
     );
@@ -544,6 +578,13 @@ export const SettingsProvider = ({ children }) => {
         dashboardAnalyticsOrder,
         setDashboardAnalyticsOrder,
         resetDashboardAnalyticsOrder,
+        dynamicCardVisibility,
+        registerDynamicMetrics,
+        toggleDynamicCard: (metric) =>
+          setDynamicCardVisibility((prev) => ({
+            ...prev,
+            [metric]: !prev[metric],
+          })),
       }}
     >
       {children}

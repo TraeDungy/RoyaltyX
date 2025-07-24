@@ -13,6 +13,8 @@ import RentalsOverTime from "../../analytics/components/RentalsOverTime";
 import ImpressionsOverTime from "../../analytics/components/ImpressionsOverTime";
 import ImpressionRevenueOverTime from "../../analytics/components/ImpressionRevenueOverTime";
 import { useSettings } from "../../common/contexts/SettingsContext";
+import { DynamicMetricCard } from "../../analytics/components/DynamicMetricCard";
+import { formatMetricTitle } from "../../common/utils/format_utils";
 import SalesStatsCard from "../../analytics/components/SalesStatsCard";
 import GeneralStatsCard from "../../analytics/components/GeneralStatsCard";
 import ProductImageCard from "../components/ProductImageCard";
@@ -30,6 +32,9 @@ function Analytics() {
     showTotalSalesCard,
     showTotalRevenueCard,
     showProductImageCard,
+    dynamicCardVisibility,
+    registerDynamicMetrics,
+    toggleDynamicCard,
   } = useSettings();
 
   const [analytics, setAnalytics] = useState(null);
@@ -49,6 +54,24 @@ function Analytics() {
       try {
         const fetchedAnalytics = await getProductAnalytics(id, period_range);
         setAnalytics(fetchedAnalytics);
+        const known = [
+          "total_impressions",
+          "total_sales_count",
+          "total_royalty_revenue",
+          "total_impression_revenue",
+          "rentals_count",
+          "rentals_revenue",
+          "purchases_count",
+          "purchases_revenue",
+          "time_stats",
+          "granularity",
+          "source_analytics",
+          "product_count",
+        ];
+        const metrics = Object.keys(fetchedAnalytics).filter(
+          (k) => !known.includes(k) && typeof fetchedAnalytics[k] !== "object",
+        );
+        registerDynamicMetrics(metrics);
       } catch (error) {
         toast.error(error.message || "Failed to fetch analytics");
       }
@@ -96,6 +119,15 @@ function Analytics() {
       <Grid container spacing={3}>
         <SalesStatsCard analytics={analytics} />
         <GeneralStatsCard analytics={analytics} showProductCount={false} />
+        {Object.entries(dynamicCardVisibility).map(([metric, visible]) =>
+          analytics && metric in analytics && visible ? (
+            <DynamicMetricCard
+              key={metric}
+              metric={formatMetricTitle(metric)}
+              value={analytics[metric]}
+            />
+          ) : null,
+        )}
       </Grid>
 
       <h4 className="bold mt-4 mb-4">Sales</h4>

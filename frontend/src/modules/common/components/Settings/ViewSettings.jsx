@@ -1,6 +1,7 @@
 import { Button, Typography, Box, IconButton } from "@mui/material";
 import { ArrowUp, ArrowDown, RotateCcw } from "lucide-react";
 import { useSettings } from "../../contexts/SettingsContext";
+import { formatMetricTitle } from "../../utils/format_utils";
 
 const ViewSettings = () => {
   const {
@@ -35,6 +36,8 @@ const ViewSettings = () => {
     dashboardAnalyticsOrder,
     setDashboardAnalyticsOrder,
     resetDashboardAnalyticsOrder,
+    dynamicCardVisibility,
+    toggleDynamicCard,
   } = useSettings();
 
   const toggleShowSalesOverTime = () => {
@@ -290,6 +293,20 @@ const ViewSettings = () => {
           Hide/show the average impressions per product card.
         </p>
       </div>
+
+      {Object.entries(dynamicCardVisibility).map(([metric, visible]) => (
+        <div className="py-4" key={metric}>
+          <label className="switch">
+            <input
+              type="checkbox"
+              checked={visible}
+              onChange={() => toggleDynamicCard(metric)}
+            />
+            <span className="slider round"></span>
+          </label>
+          <span style={{ marginLeft: "10px" }}>Show {formatMetricTitle(metric)} Card</span>
+        </div>
+      ))}
 
       <div className="py-4">
         <Typography variant="subtitle1" sx={{ fontWeight: 500, mb: 1 }}>

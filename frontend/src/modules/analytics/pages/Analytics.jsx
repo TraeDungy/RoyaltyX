@@ -17,6 +17,8 @@ import ImpressionRevenueOverTime from "../components/ImpressionRevenueOverTime";
 import SalesOverTime from "../components/SalesOverTime";
 import RentalsOverTime from "../components/RentalsOverTime";
 import { useSettings } from "../../common/contexts/SettingsContext";
+import { DynamicMetricCard } from "../components/DynamicMetricCard";
+import { formatMetricTitle } from "../../common/utils/format_utils";
 import { TopPerfomingContentByImpressions } from "../components/TopPerfomingContentByImpressions";
 import { TopPerfomingContentBySales } from "../components/TopPerfomingContentBySales";
 import { SourceAnalytics } from "../components/SourceAnalytics";
@@ -41,6 +43,9 @@ function Analytics() {
     showAverageEcpmCard,
     showRoyaltyPerSaleCard,
     showImpressionsPerProductCard,
+    dynamicCardVisibility,
+    registerDynamicMetrics,
+    toggleDynamicCard,
   } = useSettings();
   const location = useLocation();
   const params = new URLSearchParams(location.search);
@@ -80,6 +85,24 @@ function Analytics() {
       try {
         const fetchedAnalytics = await getProjectAnalytics(period_range);
         setAnalytics(fetchedAnalytics);
+        const known = [
+          "total_impressions",
+          "total_sales_count",
+          "total_royalty_revenue",
+          "total_impression_revenue",
+          "rentals_count",
+          "rentals_revenue",
+          "purchases_count",
+          "purchases_revenue",
+          "time_stats",
+          "granularity",
+          "source_analytics",
+          "product_count",
+        ];
+        const metrics = Object.keys(fetchedAnalytics).filter(
+          (k) => !known.includes(k) && typeof fetchedAnalytics[k] !== "object",
+        );
+        registerDynamicMetrics(metrics);
         const fetchedForecasts = await getForecasts();
         setForecasts(fetchedForecasts);
       } catch (error) {
@@ -158,6 +181,15 @@ function Analytics() {
         {showRoyaltyPerSaleCard && <RoyaltyPerSaleCard analytics={analytics} />}
         {showImpressionsPerProductCard && (
           <ImpressionsPerProductCard analytics={analytics} />
+        )}
+        {Object.entries(dynamicCardVisibility).map(([metric, visible]) =>
+          analytics && metric in analytics && visible ? (
+            <DynamicMetricCard
+              key={metric}
+              metric={formatMetricTitle(metric)}
+              value={analytics[metric]}
+            />
+          ) : null,
         )}
         {youtubeAnalytics && <YoutubeAnalyticsCard data={youtubeAnalytics} />}
       </Grid>
