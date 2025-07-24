@@ -1,3 +1,4 @@
+// Expandable analytics card component
 import { useState } from "react";
 import {
   Card,
