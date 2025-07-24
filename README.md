@@ -443,9 +443,12 @@ We welcome contributions to RoyaltyX! Please follow these steps:
 
 - Follow PEP 8 for Python code
 - Use ESLint and Prettier for JavaScript code
+- Keep a trailing newline at the end of every file
 - Write tests for new features
 - Update documentation as needed
 - Ensure all tests pass before submitting
+- See [AGENTS.md](AGENTS.md) for detailed contributor instructions
+- Additional tips can be found in [documentation/DEVELOPER_GUIDE.md](documentation/DEVELOPER_GUIDE.md)
 
 ---
 
