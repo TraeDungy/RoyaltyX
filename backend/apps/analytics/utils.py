@@ -7,8 +7,8 @@ from django.db.models.functions import TruncDate, TruncHour, TruncMonth, TruncYe
 from apps.product.models import (
     Product,
     ProductImpressions,
-    ProductSale,
     ProductMetric,
+    ProductSale,
 )
 from apps.sources.models import Source
 

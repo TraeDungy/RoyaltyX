@@ -12,8 +12,8 @@ import openpyxl
 from apps.product.models import (
     Product,
     ProductImpressions,
-    ProductSale,
     ProductMetric,
+    ProductSale,
 )
 
 logger = logging.getLogger(__name__)
