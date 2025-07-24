@@ -69,6 +69,8 @@ function Sidebar() {
 
   const SidebarContent = () => (
     <Box
+      role="navigation"
+      aria-label="Admin sidebar navigation"
       sx={{
         width: SIDEBAR_WIDTH,
         height: "100%",
@@ -188,6 +190,7 @@ function Sidebar() {
         variant="temporary"
         open={sidebarOpen}
         onClose={toggleSidebar}
+        onKeyDown={(e) => e.key === "Escape" && toggleSidebar()}
         ModalProps={{
           keepMounted: true,
         }}
@@ -209,6 +212,7 @@ function Sidebar() {
       variant="persistent"
       anchor="left"
       open={sidebarOpen}
+      onKeyDown={(e) => e.key === "Escape" && toggleSidebar()}
       sx={{
         width: sidebarOpen ? SIDEBAR_WIDTH : 0,
         flexShrink: 0,

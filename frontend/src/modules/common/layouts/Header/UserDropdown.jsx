@@ -33,7 +33,12 @@ function UserDropdown() {
     <Box sx={{ position: "relative" }}>
       <ClickAwayListener onClickAway={handleClose}>
         <Box>
-          <IconButton onClick={handleToggle} size="small" sx={{ p: 0 }}>
+          <IconButton
+            onClick={handleToggle}
+            size="small"
+            aria-label="account menu"
+            sx={{ p: 0 }}
+          >
             <Avatar
               src={avatar}
               alt="Profile"

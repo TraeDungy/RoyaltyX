@@ -77,6 +77,7 @@ function Header() {
             <IconButton
               onClick={() => setShowSettingsModal(true)}
               size="small"
+              aria-label="open settings"
               sx={{
                 color: "text.secondary",
                 "&:hover": {
