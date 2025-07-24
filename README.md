@@ -475,7 +475,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - Built with Django and React
 - Payment processing by Stripe
-- Premium plan includes SMS updates via Twilio at no extra cost, with other plans able to add SMS for $10/month
+- Premium plan includes SMS updates via Twilio at no extra cost. Other plans can enable SMS as a Stripe add-on for $15/month
 - UI components by Material-UI
 - Containerization with Docker
 - Analytics powered by custom algorithms

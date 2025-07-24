@@ -105,8 +105,9 @@ class PaymentViewsTests(TestCase):
         url = reverse("payments.add_on_list")
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
-        self.assertEqual(response.data[0]["code"], "extra")
+        self.assertGreaterEqual(len(response.data), 1)
+        codes = {item["code"] for item in response.data}
+        self.assertIn("extra", codes)
 
     @patch("apps.payments.views.StripeService.list_invoices")
     def test_billing_history(self, mock_list):

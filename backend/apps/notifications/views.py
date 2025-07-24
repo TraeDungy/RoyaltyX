@@ -47,12 +47,13 @@ class SendSMSUpdateView(APIView):
 
     def post(self, request):
         user = request.user
-        if user.subscription_plan != "premium":
+        has_sms_addon = user.add_ons.filter(code="sms").exists()
+        if user.subscription_plan != "premium" and not has_sms_addon:
             return Response(
                 {
                     "detail": (
                         "SMS updates are included in the premium plan or can be "
-                        "added to other plans for $10/month"
+                        "added to other plans for $15/month"
                     ),
                     "requires_payment": True,
                 },
