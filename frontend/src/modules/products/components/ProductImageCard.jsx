@@ -4,7 +4,7 @@ import { ReactComponent as ProductThumbnailPlaceholder } from "../../common/asse
 
 const ProductImageCard = ({ product }) => {
   return (
-    <Grid size={{ md: 4, xs: 12 }}>
+    <Grid item md={4} xs={12}>
       <Card variant="outlined" sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
         <CardContent sx={{ flexGrow: 1 }}>
           <Typography

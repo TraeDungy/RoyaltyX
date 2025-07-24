@@ -26,7 +26,7 @@ const ImpressionsPerProductCard = ({ analytics }) => {
   };
 
   return (
-    <Grid size={{ md: 4, xs: 12 }}>
+    <Grid item md={4} xs={12}>
       <Card variant="outlined" sx={{ mb: 3, mt: 4 }}>
         <CardContent>
           <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>

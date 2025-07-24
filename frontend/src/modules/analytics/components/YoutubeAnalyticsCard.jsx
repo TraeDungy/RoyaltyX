@@ -11,7 +11,7 @@ const YoutubeAnalyticsCard = ({ data }) => {
   };
 
   return (
-    <Grid size={{ md: 6, xs: 12 }}>
+    <Grid item md={6} xs={12}>
       <Card sx={{ mb: 3, borderRadius: 2, boxShadow: 2, mt: 4 }}>
         <CardContent sx={{ p: 3 }}>
           <Typography variant="h5" sx={{ mb: 4, fontWeight: 600 }}>

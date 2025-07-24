@@ -8,7 +8,7 @@ import { Plus } from "lucide-react";
 
 function CreateNewProjectCard() {
   return (
-    <Grid size={{ xs: 12, md: 4 }}>
+    <Grid item xs={12} md={4}>
       <Card>
         <CardActionArea
           component={RouterLink}

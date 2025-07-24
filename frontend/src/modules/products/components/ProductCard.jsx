@@ -15,7 +15,7 @@ export const ProductCard = ({ product }) => {
   const navigate = useNavigate();
 
   return (
-    <Grid size={{ xs: 12, md: 4 }}>
+    <Grid item xs={12} md={4}>
       <Card
         sx={{ backgroundColor: "transparent" }}
         onClick={() => navigate("/products/" + product.id)}

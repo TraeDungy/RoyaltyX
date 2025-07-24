@@ -146,7 +146,7 @@ export const AddSourceModal = ({ open, onClose, createSource }) => {
     }
 
     return (
-      <Grid size={{ xs: 12, md: 4 }} key={source.name}>
+      <Grid item xs={12} md={4} key={source.name}>
         <Card
           sx={{
             p: 3,

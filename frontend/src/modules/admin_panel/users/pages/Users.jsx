@@ -143,7 +143,7 @@ function Users() {
 
       {/* Stats Cards */}
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+        <Grid item xs={12} sm={6} md={3}>
           <Card>
             <CardContent sx={{ textAlign: "center" }}>
               <UsersIcon
@@ -160,7 +160,7 @@ function Users() {
             </CardContent>
           </Card>
         </Grid>
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+        <Grid item xs={12} sm={6} md={3}>
           <Card>
             <CardContent sx={{ textAlign: "center" }}>
               <UserCheck
@@ -177,7 +177,7 @@ function Users() {
             </CardContent>
           </Card>
         </Grid>
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+        <Grid item xs={12} sm={6} md={3}>
           <Card>
             <CardContent sx={{ textAlign: "center" }}>
               <Mail size={32} color="#ed6c02" style={{ marginBottom: 8 }} />
@@ -190,7 +190,7 @@ function Users() {
             </CardContent>
           </Card>
         </Grid>
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+        <Grid item xs={12} sm={6} md={3}>
           <Card>
             <CardContent sx={{ textAlign: "center" }}>
               <UserX size={32} color="#d32f2f" style={{ marginBottom: 8 }} />

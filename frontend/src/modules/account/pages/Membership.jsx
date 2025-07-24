@@ -228,7 +228,7 @@ function MembershipPage() {
         </Typography>
         <Grid container spacing={3}>
           {plans.map((plan) => (
-            <Grid size={{ xs: 12, md: 4 }} key={plan.name}>
+            <Grid item xs={12} md={4} key={plan.name}>
               <Card
                 sx={{
                   height: "100%",

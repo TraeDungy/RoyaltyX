@@ -78,7 +78,7 @@ function Overview() {
 
       <Grid container spacing={3}>
         {/* Profile Card */}
-        <Grid size={{ xs: 12, md: 4 }}>
+        <Grid item xs={12} md={4}>
           <Card sx={{ height: "100%" }}>
             <CardContent sx={{ textAlign: "center", p: 3 }}>
               <Avatar
@@ -113,14 +113,14 @@ function Overview() {
         </Grid>
 
         {/* Account Details */}
-        <Grid size={{ xs: 12, md: 8 }}>
+        <Grid item xs={12} md={8}>
           <Card sx={{ height: "100%" }}>
             <CardContent sx={{ p: 3 }}>
               <Typography variant="h6" sx={{ mb: 3, fontWeight: 500 }}>
                 Account Information
               </Typography>
               <Grid container spacing={2}>
-                <Grid size={{ xs: 12, sm: 6 }}>
+                <Grid item xs={12} sm={6}>
                   <Paper
                     sx={{
                       p: 2,
@@ -144,7 +144,7 @@ function Overview() {
                     </Typography>
                   </Paper>
                 </Grid>
-                <Grid size={{ xs: 12, sm: 6 }}>
+                <Grid item xs={12} sm={6}>
                   <Paper
                     sx={{
                       p: 2,
@@ -168,7 +168,7 @@ function Overview() {
                     </Typography>
                   </Paper>
                 </Grid>
-                <Grid size={{ xs: 12, sm: 6 }}>
+                <Grid item xs={12} sm={6}>
                   <Paper
                     sx={{
                       p: 2,
@@ -192,7 +192,7 @@ function Overview() {
                     </Typography>
                   </Paper>
                 </Grid>
-                <Grid size={{ xs: 12, sm: 6 }}>
+                <Grid item xs={12} sm={6}>
                   <Paper
                     sx={{
                       p: 2,
@@ -219,7 +219,7 @@ function Overview() {
                     />
                   </Paper>
                 </Grid>
-                <Grid size={{ xs: 12, sm: 6 }}>
+                <Grid item xs={12} sm={6}>
                   <Paper
                     sx={{
                       p: 2,
@@ -263,7 +263,7 @@ function Overview() {
         </Grid>
 
         {/* Quick Actions */}
-        <Grid size={{ xs: 12 }}>
+        <Grid item xs={12}>
           <Card>
             <CardContent sx={{ p: 3 }}>
               <Typography variant="h6" sx={{ mb: 3, fontWeight: 500 }}>
