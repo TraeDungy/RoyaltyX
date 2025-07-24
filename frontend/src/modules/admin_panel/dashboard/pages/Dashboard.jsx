@@ -285,21 +285,32 @@ function Dashboard() {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Card sx={{ cursor: "pointer", "&:hover": { boxShadow: 4 } }}>
-              <CardContent sx={{ textAlign: "center", py: 3 }}>
-                <Activity
-                  size={32}
-                  color="#9c27b0"
-                  style={{ marginBottom: 8 }}
-                />
-                <Typography variant="h6">Analytics</Typography>
-                <Typography variant="body2" color="text.secondary">
-                  View detailed analytics
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <Card sx={{ cursor: "pointer", "&:hover": { boxShadow: 4 } }}>
+            <CardContent sx={{ textAlign: "center", py: 3 }}>
+              <Activity
+                size={32}
+                color="#9c27b0"
+                style={{ marginBottom: 8 }}
+              />
+              <Typography variant="h6">Analytics</Typography>
+              <Typography variant="body2" color="text.secondary">
+                View detailed analytics
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <Card sx={{ cursor: "pointer", "&:hover": { boxShadow: 4 } }} onClick={() => navigate("/admin/banner")}> 
+            <CardContent sx={{ textAlign: "center", py: 3 }}>
+              <Activity size={32} color="#1976d2" style={{ marginBottom: 8 }} />
+              <Typography variant="h6">Banner</Typography>
+              <Typography variant="body2" color="text.secondary">
+                Manage dashboard banner
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
         </Grid>
       </Box>
     </Container>

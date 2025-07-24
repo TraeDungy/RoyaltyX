@@ -18,3 +18,20 @@ class Notification(BaseModel):
 
     class Meta:
         db_table = "notification"
+
+
+class Banner(BaseModel):
+    """Announcement banner shown on dashboards."""
+
+    title = models.CharField(max_length=255)
+    message = models.TextField(blank=True)
+    image_url = models.URLField(blank=True)
+    video_url = models.URLField(blank=True)
+    links = models.JSONField(default=list, blank=True)
+    is_active = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = "banner"
+
+    def __str__(self):  # pragma: no cover - simple representation
+        return self.title

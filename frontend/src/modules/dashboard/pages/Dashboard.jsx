@@ -9,6 +9,8 @@ import { SalesCard } from "../../analytics/components/SalesCard";
 import { ImpressionsCard } from "../../analytics/components/ImpressionsCard";
 import { RevenueCard } from "../../analytics/components/RevenueCard";
 import { ClockCard } from "../../analytics/components/ClockCard";
+import BannerCard from "../components/BannerCard";
+import { fetchActiveBanner } from "../../admin_panel/api/banners";
 import { useSettings } from "../../common/contexts/SettingsContext";
 import { useLocation, useNavigate } from "react-router";
 import { Grid } from "@mui/material";
@@ -22,11 +24,13 @@ function Dashboard() {
   const { products, loading } = useProducts();
   const { sources } = useSources();
   const [analytics, setAnalytics] = useState(null);
+  const [banner, setBanner] = useState(null);
   const {
     showTotalImpressionsCard,
     showTotalSalesCard,
     showTotalRevenueCard,
     showClockCard,
+    showBanner,
     dashboardAnalyticsOrder,
     setDashboardAnalyticsOrder,
   } = useSettings();
@@ -76,7 +80,17 @@ function Dashboard() {
       }
     };
 
+    const loadBanner = async () => {
+      try {
+        const b = await fetchActiveBanner();
+        setBanner(b);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
     fetchAnalytics();
+    loadBanner();
   }, [location.search]);
 
   const cardComponents = {
@@ -98,6 +112,7 @@ function Dashboard() {
 
   return (
     <>
+      {showBanner && <BannerCard banner={banner} />}
       {analytics && (
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="cards" direction="horizontal">

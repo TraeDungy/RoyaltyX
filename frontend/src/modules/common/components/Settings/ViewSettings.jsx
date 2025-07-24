@@ -20,6 +20,8 @@ const ViewSettings = () => {
     setShowTotalRevenueCard,
     showClockCard,
     setShowClockCard,
+    showBanner,
+    setShowBanner,
     countdownValue,
     setCountdownValue,
     countdownUnit,
@@ -63,6 +65,9 @@ const ViewSettings = () => {
   };
   const toggleShowClockCard = () => {
     setShowClockCard(!showClockCard);
+  };
+  const toggleShowBanner = () => {
+    setShowBanner(!showBanner);
   };
   const toggleShowProductImageCard = () => {
     setShowProductImageCard(!showProductImageCard);
@@ -207,6 +212,14 @@ const ViewSettings = () => {
         <p className="txt-lighter small mt-1">
           Hide/show the clock card in the dashboard.
         </p>
+      </div>
+      <div className="py-4">
+        <label className="switch">
+          <input type="checkbox" checked={showBanner} onChange={toggleShowBanner} />
+          <span className="slider round"></span>
+        </label>
+        <span style={{ marginLeft: "10px" }}>Show Banner</span>
+        <p className="txt-lighter small mt-1">Hide/show the dashboard banner.</p>
       </div>
       <div className="py-4">
         <Typography variant="subtitle2" sx={{ fontWeight: 500, mb: 1 }}>

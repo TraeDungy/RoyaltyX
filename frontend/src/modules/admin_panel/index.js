@@ -10,6 +10,7 @@ import Users from "./users/pages/Users";
 import EmailTemplates from "./email_templates/pages/EmailTemplates";
 import CreateEmailTemplate from "./email_templates/pages/CreateEmailTemplate";
 import EditEmailTemplate from "./email_templates/pages/EditEmailTemplate";
+import BannerForm from "./banner/pages/BannerForm";
 
 const adminRoutes = [
   {
@@ -31,6 +32,10 @@ const adminRoutes = [
   {
     path: "/admin/email-templates/:id/edit",
     element: <EditEmailTemplate />,
+  },
+  {
+    path: "/admin/banner",
+    element: <BannerForm />,
   },
   {
     path: "/admin/support",
