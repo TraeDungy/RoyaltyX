@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import UserNotificationView, BannerView, BannerAdminView
+from .views import BannerAdminView, BannerView, UserNotificationView
 
 urlpatterns = [
     path(

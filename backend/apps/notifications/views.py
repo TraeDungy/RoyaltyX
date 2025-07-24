@@ -4,8 +4,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.admin_panel.views import has_admin_access
-from .models import Notification, Banner
-from .serializers import NotificationSerializer, BannerSerializer
+
+from .models import Banner, Notification
+from .serializers import BannerSerializer, NotificationSerializer
 
 
 class UserNotificationView(APIView):

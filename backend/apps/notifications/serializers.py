@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Notification, Banner
+from .models import Banner, Notification
 
 
 class NotificationSerializer(serializers.ModelSerializer):
