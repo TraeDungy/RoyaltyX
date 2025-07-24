@@ -55,9 +55,39 @@ class PaymentViewsTests(TestCase):
         self.assertEqual(self.user.subscription_plan, "free")
         mock_cancel.assert_called_once_with("sub_1")
 
+    def test_subscription_status(self):
+        url = reverse("payments.subscription_status")
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIn("subscription_plan", response.data)
+
+    @patch("apps.payments.views.stripe.checkout.Session.retrieve")
+    def test_verify_session_success(self, mock_retrieve):
+        mock_retrieve.return_value = MagicMock(
+            payment_status="paid", metadata={"plan": "basic"}
+        )
+        url = reverse("payments.verify_session") + "?session_id=sess_1"
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["status"], "success")
+
+    def test_verify_session_missing_id(self):
+        url = reverse("payments.verify_session")
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    @patch("apps.payments.views.StripeService.update_subscription")
+    def test_update_subscription(self, mock_update):
+        self.user.stripe_subscription_id = "sub_1"
+        self.user.save()
+        url = reverse("payments.update_subscription")
+        response = self.client.post(url, {"plan": "premium", "add_ons": []})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        mock_update.assert_called_once()
+
     @patch("apps.payments.views.StripeService.handle_successful_payment")
     @patch("apps.payments.views.stripe.Webhook.construct_event")
-    def test_webhook_checkout_completed(self, mock_construct_event, mock_handle):
+    def test_stripe_webhook_checkout_completed(self, mock_construct_event, mock_handle):
         event = {
             "type": "checkout.session.completed",
             "data": {"object": {"id": "sess_1"}},
@@ -67,4 +97,30 @@ class PaymentViewsTests(TestCase):
         response = self.client.post(url, data="{}", content_type="application/json")
         self.assertEqual(response.status_code, 200)
         mock_handle.assert_called_once()
+
+    @patch("apps.payments.views.StripeService.handle_payment_failed")
+    @patch("apps.payments.views.stripe.Webhook.construct_event")
+    def test_stripe_webhook_payment_failed(self, mock_construct_event, mock_handle):
+        event = {
+            "type": "invoice.payment_failed",
+            "data": {"object": {"id": "inv_1"}},
+        }
+        mock_construct_event.return_value = event
+        url = reverse("payments.stripe_webhook")
+        response = self.client.post(url, data="{}", content_type="application/json")
+        self.assertEqual(response.status_code, 200)
+        mock_handle.assert_called_once_with(event["data"]["object"])
+
+    @patch("apps.payments.views.StripeService.handle_subscription_deleted")
+    @patch("apps.payments.views.stripe.Webhook.construct_event")
+    def test_stripe_webhook_subscription_deleted(self, mock_construct_event, mock_handle):
+        event = {
+            "type": "customer.subscription.deleted",
+            "data": {"object": {"id": "sub_1"}},
+        }
+        mock_construct_event.return_value = event
+        url = reverse("payments.stripe_webhook")
+        response = self.client.post(url, data="{}", content_type="application/json")
+        self.assertEqual(response.status_code, 200)
+        mock_handle.assert_called_once_with(event["data"]["object"])
 
