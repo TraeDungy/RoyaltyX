@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { useProduct } from "../api/product";
 import { toast } from "react-toastify";
 import { Container, Spinner } from "react-bootstrap";
@@ -34,7 +34,27 @@ function Analytics() {
 
   const [analytics, setAnalytics] = useState(null);
   const location = useLocation();
+  const navigate = useNavigate();
   const params = new URLSearchParams(location.search);
+
+  useEffect(() => {
+    const start = params.get("period_start");
+    const end = params.get("period_end");
+    if (!start || !end) {
+      let latest = null;
+      if (product?.source?.last_fetched_at) {
+        latest = new Date(product.source.last_fetched_at);
+      }
+      const endDate = latest || new Date();
+      const startDate = new Date(endDate);
+      startDate.setMonth(endDate.getMonth() - 1);
+      const newParams = new URLSearchParams(location.search);
+      newParams.set("period_start", startDate.toLocaleDateString("en-CA"));
+      newParams.set("period_end", endDate.toLocaleDateString("en-CA"));
+      navigate(`${location.pathname}?${newParams.toString()}`, { replace: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [product]);
 
   useEffect(() => {
     const periodStart = params.get("period_start");
