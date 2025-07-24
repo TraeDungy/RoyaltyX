@@ -1,7 +1,10 @@
 import { createTheme } from "@mui/material/styles";
 import { colors } from "./constants";
 
-export const getMuiTheme = (themeName, primaryColor = colors[themeName].primary) => {
+export const getMuiTheme = (
+  themeName,
+  primaryColor = colors[themeName].primary,
+) => {
   const themeColors = colors[themeName];
   const mode = themeColors.mode || themeName;
   return createTheme({
