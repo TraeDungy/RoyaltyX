@@ -26,7 +26,6 @@ import {
 } from "lucide-react";
 import { useProject } from "../../contexts/ProjectContext";
 import { useAuth } from "../../contexts/AuthContext";
-import { UpgradePlanButton } from "../../components/UpgradePlanButton";
 import { ProjectSelector } from "../../../global/components/ProjectSelector";
 
 const SIDEBAR_WIDTH = 242;
@@ -379,9 +378,6 @@ function Sidebar() {
             </ListItemButton>
           </ListItem>
 
-          <ListItem disablePadding>
-            <UpgradePlanButton />
-          </ListItem>
         </List>
       </Box>
     </Box>
