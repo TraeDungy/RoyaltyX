@@ -98,11 +98,11 @@ def calculate_yearly_stats(
             )
 
         if single_year_adjustment:
-            year_date = (year_date + timedelta(days=365)).replace(month=1, day=1).date()
+            year_date = (year_date + timedelta(days=365)).replace(month=1, day=1)
 
         yearly_stats.append(
             {
-                "year": year_date.strftime("%Y"),
+                "period": year_date.strftime("%Y"),
                 "impressions": impressions_map.get(year_date, 0),
                 "sales": sales_map.get(year_date, 0),
                 "rentals": rentals_map.get(year_date, 0),
@@ -206,7 +206,7 @@ def calculate_monthly_stats(
 
         monthly_stats.append(
             {
-                "month": month_date.strftime("%Y-%m"),
+                "period": month_date.strftime("%Y-%m"),
                 "impressions": impressions_map.get(month_date, 0),
                 "sales": sales_map.get(month_date, 0),
                 "rentals": rentals_map.get(month_date, 0),

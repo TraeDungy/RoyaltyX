@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { ClockCard } from '../ClockCard';
 import { SettingsProvider } from '../../../common/contexts/SettingsContext';
-import React from 'react';
 
 const renderWithProvider = () =>
   render(
