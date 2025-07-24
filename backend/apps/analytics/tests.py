@@ -11,6 +11,7 @@ from rest_framework.test import APIClient
 from apps.analytics.models import AnalyticsForecast
 from apps.product.models import Product, ProductImpressions, ProductSale
 from apps.project.models import Project, ProjectUser
+from apps.analytics.utils import _aggregate_platform, calculate_analytics_by_dimension
 
 
 class AnalyticsViewTests(TestCase):
@@ -406,3 +407,72 @@ class DashboardPreferenceAPITests(TestCase):
 
         response = self.client.get(self.url)
         self.assertEqual(response.data["dashboardAnalyticsOrder"], data["dashboardAnalyticsOrder"])
+
+
+class AggregatePlatformTests(TestCase):
+    def test_aggregate_platform_combines_sources(self):
+        data = [
+            {
+                "platform": "yt",
+                "platform_display": "YouTube",
+                "analytics": {
+                    "total_impressions": 10,
+                    "total_impression_revenue": 1.5,
+                    "total_sales_count": 2,
+                    "total_royalty_revenue": 5,
+                    "rentals_count": 1,
+                    "rentals_revenue": 2,
+                    "purchases_count": 1,
+                    "purchases_revenue": 3,
+                    "product_count": 1,
+                },
+            },
+            {
+                "platform": "yt",
+                "platform_display": "YouTube",
+                "analytics": {
+                    "total_impressions": 5,
+                    "total_impression_revenue": 0.5,
+                    "total_sales_count": 1,
+                    "total_royalty_revenue": 2,
+                    "rentals_count": 0,
+                    "rentals_revenue": 0,
+                    "purchases_count": 1,
+                    "purchases_revenue": 2,
+                    "product_count": 1,
+                },
+            },
+            {
+                "platform": "tt",
+                "platform_display": "TikTok",
+                "analytics": {
+                    "total_impressions": 2,
+                    "total_impression_revenue": 0.2,
+                    "total_sales_count": 1,
+                    "total_royalty_revenue": 1,
+                    "rentals_count": 0,
+                    "rentals_revenue": 0,
+                    "purchases_count": 1,
+                    "purchases_revenue": 1,
+                    "product_count": 1,
+                },
+            },
+        ]
+
+        result = _aggregate_platform(data)
+        by_platform = {entry["platform"]: entry for entry in result}
+
+        yt = by_platform["yt"]
+        self.assertEqual(yt["analytics"]["total_impressions"], 15)
+        self.assertEqual(yt["analytics"]["total_sales_count"], 3)
+        self.assertEqual(yt["analytics"]["purchases_revenue"], 5)
+
+        tt = by_platform["tt"]
+        self.assertEqual(tt["analytics"]["total_impressions"], 2)
+
+
+class CalculateAnalyticsByDimensionTests(TestCase):
+    def test_unknown_dimension_raises(self):
+        project = Project.objects.create(name="P", description="d")
+        with self.assertRaises(ValueError):
+            calculate_analytics_by_dimension(project.id, {}, "unknown")
