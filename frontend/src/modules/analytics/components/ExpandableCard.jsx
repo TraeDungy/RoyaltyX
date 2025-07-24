@@ -71,7 +71,7 @@ export const ExpandableCard = ({ title, children, defaultSize = "single" }) => {
                 {title}
               </Typography>
             )}
-            <IconButton onClick={handleMenuOpen} size="sm">
+            <IconButton onClick={handleMenuOpen} size="small">
               <EllipsisVertical size={16} color="var(--color-text)" />
             </IconButton>
             <Menu
