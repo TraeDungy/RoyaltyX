@@ -108,7 +108,14 @@ export const formatChartLabels = (timeStats, granularity) => {
     // API returns a `period` field for all granularities. Older
     // versions exposed `year` and `month`, so fall back to those if
     // present for backwards compatibility.
-    const period = item.period ?? item.year ?? item.month;
+    let period = item.period;
+    if (!period && item.year && item.month) {
+      const year = String(item.year);
+      const month = String(item.month).padStart(2, "0");
+      period = `${year}-${month}`;
+    } else if (!period) {
+      period = item.year ?? item.month;
+    }
 
     if (granularity === "yearly") {
       return period;
