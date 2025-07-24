@@ -214,11 +214,11 @@ STRIPE_PREMIUM_PRICE_ID=price_...
 
 ### Phase 1 Improvements
 - Email notifications for payment events
-- Payment method management
-- Billing history page
 
 ### Implemented Enhancements
 - Prorated billing for plan changes with the `update-subscription` endpoint
+- Payment method management
+- Billing history page
 
 ### Phase 2 Features
 - Annual billing discounts
@@ -227,7 +227,7 @@ STRIPE_PREMIUM_PRICE_ID=price_...
 - Custom enterprise plans
 
 ### Phase 3 Advanced
-- Multiple payment methods
+- Multiple payment methods (implemented)
 - International payment support
 - Tax calculation integration
 - Advanced analytics

@@ -213,3 +213,65 @@ class StripeService:
             return user
         except User.DoesNotExist:
             raise Exception(f"User not found for subscription: {subscription['id']}")
+
+    @staticmethod
+    def list_invoices(user):
+        """Return a list of invoices for the user's customer."""
+        if not user.stripe_customer_id:
+            return []
+        try:
+            invoices = stripe.Invoice.list(customer=user.stripe_customer_id)
+            return invoices.get("data", [])
+        except stripe.error.StripeError as e:
+            raise Exception(f"Failed to list invoices: {str(e)}")
+
+    @staticmethod
+    def list_payment_methods(user):
+        """List payment methods attached to the customer."""
+        if not user.stripe_customer_id:
+            return []
+        try:
+            customer = stripe.Customer.retrieve(user.stripe_customer_id)
+            default_pm = customer.get("invoice_settings", {}).get("default_payment_method")
+            methods = stripe.PaymentMethod.list(
+                customer=user.stripe_customer_id, type="card"
+            )
+            data = methods.get("data", [])
+            for m in data:
+                m["is_default"] = m.get("id") == default_pm
+            return data
+        except stripe.error.StripeError as e:
+            raise Exception(f"Failed to list payment methods: {str(e)}")
+
+    @staticmethod
+    def attach_payment_method(user, payment_method_id):
+        """Attach a payment method to the customer."""
+        if not user.stripe_customer_id:
+            StripeService.create_customer(user)
+        try:
+            stripe.PaymentMethod.attach(
+                payment_method_id, customer=user.stripe_customer_id
+            )
+        except stripe.error.StripeError as e:
+            raise Exception(f"Failed to add payment method: {str(e)}")
+
+    @staticmethod
+    def detach_payment_method(user, payment_method_id):
+        """Detach a payment method from the customer."""
+        try:
+            stripe.PaymentMethod.detach(payment_method_id)
+        except stripe.error.StripeError as e:
+            raise Exception(f"Failed to remove payment method: {str(e)}")
+
+    @staticmethod
+    def set_default_payment_method(user, payment_method_id):
+        """Set the default payment method for the customer."""
+        if not user.stripe_customer_id:
+            StripeService.create_customer(user)
+        try:
+            stripe.Customer.modify(
+                user.stripe_customer_id,
+                invoice_settings={"default_payment_method": payment_method_id},
+            )
+        except stripe.error.StripeError as e:
+            raise Exception(f"Failed to update default payment method: {str(e)}")

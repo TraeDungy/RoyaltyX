@@ -54,3 +54,39 @@ class StripeServiceTests(TestCase):
         mock_modify.assert_called_once()
         self.user.refresh_from_db()
         self.assertEqual(self.user.subscription_plan, "premium")
+
+    @patch("apps.payments.stripe_service.stripe.Invoice.list")
+    def test_list_invoices(self, mock_list):
+        self.user.stripe_customer_id = "cus_1"
+        mock_list.return_value = {"data": []}
+        invoices = StripeService.list_invoices(self.user)
+        self.assertEqual(invoices, [])
+        mock_list.assert_called_once()
+
+    @patch("apps.payments.stripe_service.stripe.Customer.retrieve")
+    @patch("apps.payments.stripe_service.stripe.PaymentMethod.list")
+    def test_list_payment_methods(self, mock_list, mock_customer):
+        self.user.stripe_customer_id = "cus_1"
+        mock_customer.return_value = {"invoice_settings": {"default_payment_method": "pm_1"}}
+        mock_list.return_value = {"data": [{"id": "pm_1", "card": {"brand": "visa", "last4": "4242"}}]}
+        methods = StripeService.list_payment_methods(self.user)
+        self.assertEqual(methods[0]["is_default"], True)
+        self.assertEqual(methods, mock_list.return_value["data"])
+        mock_list.assert_called_once()
+
+    @patch("apps.payments.stripe_service.stripe.PaymentMethod.attach")
+    def test_attach_payment_method(self, mock_attach):
+        self.user.stripe_customer_id = "cus_1"
+        StripeService.attach_payment_method(self.user, "pm_1")
+        mock_attach.assert_called_once()
+
+    @patch("apps.payments.stripe_service.stripe.PaymentMethod.detach")
+    def test_detach_payment_method(self, mock_detach):
+        StripeService.detach_payment_method(self.user, "pm_1")
+        mock_detach.assert_called_once_with("pm_1")
+
+    @patch("apps.payments.stripe_service.stripe.Customer.modify")
+    def test_set_default_payment_method(self, mock_modify):
+        self.user.stripe_customer_id = "cus_1"
+        StripeService.set_default_payment_method(self.user, "pm_1")
+        mock_modify.assert_called_once()

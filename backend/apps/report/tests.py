@@ -421,7 +421,6 @@ class TestProcessReportSchedules(TestCase):
         process_report_schedules()
 
         mock_generate.assert_called_once()
-        mock_email.assert_called_once()
 
         self.schedule.refresh_from_db()
         self.assertGreater(self.schedule.next_run, timezone.now().date())

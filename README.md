@@ -223,6 +223,7 @@ CELERY_BROKER_URL=redis://redis:6379/0
 - Automatic billing and subscription management
 - Prorated plan changes and add-on billing
 - Grace period handling for failed payments
+- Billing history page and payment method management
 
 ### 📈 Analytics & Reporting
 - Revenue tracking and analytics
