@@ -28,14 +28,16 @@ import whiteLabelRoutes from "./modules/white_label";
 import { ProjectProvider } from "./modules/common/contexts/ProjectContext";
 import { SettingsProvider } from "./modules/common/contexts/SettingsContext";
 import { MUIThemeWrapper } from "./modules/global/components/MUIThemeWrapper";
+import { useTranslation } from "react-i18next";
 import sourceRoutes from "./modules/sources";
 import oauthRoutes from "./modules/oauth";
 
 const PrivateRoutes = () => {
   const { authenticated, loading } = useAuth();
+  const { t } = useTranslation();
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>{t('loading')}</div>;
   }
 
   return authenticated ? <Outlet /> : <Navigate to="/login" />;
