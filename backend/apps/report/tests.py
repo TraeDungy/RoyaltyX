@@ -6,12 +6,13 @@ from django.contrib.auth import get_user_model
 from django.template.loader import render_to_string
 from django.test import TestCase
 from django.urls import reverse
+from django.utils import timezone
 from rest_framework import status
 from rest_framework.test import APIClient
 
 from apps.project.models import Project, ProjectUser
-from apps.report.models import Report, ReportTemplates
-from apps.report.tasks import generate_report_pdf
+from apps.report.models import Report, ReportSchedule, ReportTemplates
+from apps.report.tasks import generate_report_pdf, process_report_schedules
 
 User = get_user_model()
 
@@ -361,3 +362,38 @@ class TestGenerateReportTask(TestCase):
         self.assertIsNotNone(report.file)
         mock_create_notification.assert_called_once()
         mock_html.assert_called_once()
+
+
+class TestProcessReportSchedules(TestCase):
+    """Tests for the process_report_schedules task."""
+
+    def setUp(self):
+        self.user = User.objects.create_user(
+            email="sched@example.com", name="Sched User", password="pass"
+        )
+        self.project = Project.objects.create(name="Sched Project")
+        self.template = ReportTemplates.objects.create(
+            template_name="Sched Template", project=self.project, created_by=self.user
+        )
+        self.schedule = ReportSchedule.objects.create(
+            project=self.project,
+            template=self.template,
+            created_by=self.user,
+            recipients=["to@example.com"],
+            interval=ReportSchedule.INTERVAL_WEEKLY,
+            next_run=timezone.now().date(),
+        )
+
+    @patch("apps.report.tasks.task_send_db_template_email.apply")
+    @patch("apps.report.tasks.generate_report_pdf.apply")
+    def test_process_report_schedules(self, mock_generate, mock_email):
+        mock_generate.return_value = True
+        mock_email.return_value = True
+
+        process_report_schedules()
+
+        mock_generate.assert_called_once()
+        mock_email.assert_called_once()
+
+        self.schedule.refresh_from_db()
+        self.assertGreater(self.schedule.next_run, timezone.now().date())

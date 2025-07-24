@@ -1,8 +1,9 @@
-from django.test import TestCase
 from unittest.mock import patch
 
-from apps.emails.utils import send_welcome_email
+from django.test import TestCase
+
 from apps.emails.tasks import task_send_db_template_email
+from apps.emails.utils import send_welcome_email
 
 
 class EmailTaskTests(TestCase):
@@ -25,6 +26,7 @@ class EmailTaskTests(TestCase):
                 'recipient_list': ['user@example.com'],
                 'from_email': None,
                 'fail_silently': False,
+                'attachments': None,
             })
             self.assertTrue(result.result)
             mock_send.assert_called_once_with(
@@ -33,4 +35,5 @@ class EmailTaskTests(TestCase):
                 ['user@example.com'],
                 None,
                 False,
+                None,
             )
