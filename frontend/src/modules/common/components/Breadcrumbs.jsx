@@ -9,7 +9,7 @@ const Breadcrumbs = () => {
     name.replace(/[-_]/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
 
   return (
-    <Breadcrumb>
+    <Breadcrumb aria-label="breadcrumb">
       <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/" }}>
         Dashboard
       </Breadcrumb.Item>
