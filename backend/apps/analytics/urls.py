@@ -5,6 +5,7 @@ from apps.analytics.views import (
     AnalyticsExportView,
     AnalyticsForecastView,
     AnalyticsReportingView,
+    DashboardPreferenceView,
 )
 
 urlpatterns = [
@@ -15,6 +16,11 @@ urlpatterns = [
         "reporting/",
         AnalyticsReportingView.as_view(),
         name="analytics-reporting",
+    ),
+    path(
+        "dashboard-preferences/",
+        DashboardPreferenceView.as_view(),
+        name="dashboard-preferences",
     ),
     path("<int:product_id>/", AnalyticsView.as_view(), name="product-analytics"),
 ]

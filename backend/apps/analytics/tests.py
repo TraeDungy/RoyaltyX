@@ -379,3 +379,30 @@ class ReportingAPITests(TestCase):
         response = self.client.get(self.reporting_url, {"dimension": "platform"})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.data, list)
+
+
+class DashboardPreferenceAPITests(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+        User = get_user_model()
+        self.user = User.objects.create_user(
+            email="prefs@test.com",
+            name="Prefs",
+            password="Testaccount1_",
+        )
+        self.client.force_authenticate(user=self.user)
+        self.url = reverse("dashboard-preferences")
+
+    def test_get_default_preferences(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIsInstance(response.data, dict)
+
+    def test_update_preferences(self):
+        data = {"dashboardAnalyticsOrder": ["sales", "impressions"]}
+        response = self.client.put(self.url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["dashboardAnalyticsOrder"], data["dashboardAnalyticsOrder"])
+
+        response = self.client.get(self.url)
+        self.assertEqual(response.data["dashboardAnalyticsOrder"], data["dashboardAnalyticsOrder"])

@@ -1,4 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import {
+  getDashboardPreferences,
+  saveDashboardPreferences,
+} from "../../analytics/api/dashboardPreferences";
 
 const defaultAnalyticsOrder = ["impressions", "sales", "revenue", "clock"];
 
@@ -135,9 +139,39 @@ export const SettingsProvider = ({ children }) => {
     return savedOrder ? JSON.parse(savedOrder) : defaultAnalyticsOrder;
   });
 
+  const [preferencesLoaded, setPreferencesLoaded] = useState(false);
+
   const resetDashboardAnalyticsOrder = () => {
     setDashboardAnalyticsOrder(defaultAnalyticsOrder);
   };
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const data = await getDashboardPreferences();
+        if (data.dashboardAnalyticsOrder) {
+          setDashboardAnalyticsOrder(data.dashboardAnalyticsOrder);
+        }
+        if (data.colorSettings) {
+          const colors = data.colorSettings;
+          if (colors.impressionsGraphColor) setimpressionsGraphColor(colors.impressionsGraphColor);
+          if (colors.salesGraphColor) setsalesGraphColor(colors.salesGraphColor);
+          if (colors.revenueGraphColor) setrevenueGraphColor(colors.revenueGraphColor);
+          if (colors.impressionsOverTimeGraphColor)
+            setImpressionsOverTimeGraphColor(colors.impressionsOverTimeGraphColor);
+          if (colors.salesOverTimeGraphColor) setSalesOverTimeGraphColor(colors.salesOverTimeGraphColor);
+          if (colors.rentalsOverTimeGraphColor) setRentalsOverTimeGraphColor(colors.rentalsOverTimeGraphColor);
+          if (colors.impressionRevenueOverTimeGraphColor)
+            setImpressionRevenueOverTimeGraphColor(colors.impressionRevenueOverTimeGraphColor);
+        }
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setPreferencesLoaded(true);
+      }
+    };
+    load();
+  }, []);
 
   const [
     impressionsGraphColor,
@@ -420,6 +454,33 @@ export const SettingsProvider = ({ children }) => {
       JSON.stringify(dashboardAnalyticsOrder),
     );
   }, [dashboardAnalyticsOrder]);
+
+  useEffect(() => {
+    if (!preferencesLoaded) return;
+    const payload = {
+      dashboardAnalyticsOrder,
+      colorSettings: {
+        impressionsGraphColor,
+        salesGraphColor,
+        revenueGraphColor,
+        impressionsOverTimeGraphColor,
+        salesOverTimeGraphColor,
+        rentalsOverTimeGraphColor,
+        impressionRevenueOverTimeGraphColor,
+      },
+    };
+    saveDashboardPreferences(payload).catch(() => {});
+  }, [
+    preferencesLoaded,
+    dashboardAnalyticsOrder,
+    impressionsGraphColor,
+    salesGraphColor,
+    revenueGraphColor,
+    impressionsOverTimeGraphColor,
+    salesOverTimeGraphColor,
+    rentalsOverTimeGraphColor,
+    impressionRevenueOverTimeGraphColor,
+  ]);
 
   return (
     <SettingsContext.Provider
