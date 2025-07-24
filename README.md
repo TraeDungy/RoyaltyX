@@ -245,11 +245,12 @@ LOG_LEVEL=INFO
 - User profile management
 - Role-based access control
 
--### 💳 Subscription Management
-- **Discovery** (30-day free trial, then $19/mo or $199/yr): Core features for newcomers
-- **Professional** ($49/mo or $499/yr): Advanced features for growing creators
-- **Premium** ($99/mo or $999/yr): Full feature set for professionals
-- **Enterprise** (contact for pricing): Custom solutions for large teams
+### 💳 Subscription Management
+See [PAID_PLANS.md](PAID_PLANS.md) for a full breakdown of pricing and perks.
+- **Discovery** (30-day free trial, then $19/mo or $199/yr)
+- **Professional** ($49/mo or $499/yr)
+- **Premium** ($99/mo or $999/yr)
+- **Enterprise** (contact for pricing)
 - Stripe-powered payment processing
 - Automatic billing and subscription management
 - Prorated plan changes and add-on billing
