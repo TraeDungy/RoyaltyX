@@ -5,3 +5,4 @@ target-version = "py38"
 [tool.ruff.lint]
 select = ["E", "F", "I"]  # Enable specific rules (E: errors, F: flakes, I: isort)
 exclude = ["*/migrations/*"]
+extend-select = ["W292"]
