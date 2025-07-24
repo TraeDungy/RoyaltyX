@@ -6,11 +6,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.emails.utils import send_welcome_email
+from .views import MyTokenObtainPairSerializer
 
 
 logger = logging.getLogger(__name__)
-
-from .views import MyTokenObtainPairSerializer
 
 User = get_user_model()
 

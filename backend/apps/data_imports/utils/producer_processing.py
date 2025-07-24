@@ -4,10 +4,10 @@ import logging
 from typing import BinaryIO, Dict, List
 
 from apps.product.models import Product, ProductUser
+from apps.user.models import User
 
 
 logger = logging.getLogger(__name__)
-from apps.user.models import User
 
 
 def validate_csv(file: BinaryIO) -> bool:
