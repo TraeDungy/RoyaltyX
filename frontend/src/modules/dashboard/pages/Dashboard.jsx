@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { LinkedAccountsSection } from "../components/LinkedAccountsSection";
 import { useProducts } from "../../products/api/products";
@@ -12,6 +12,11 @@ import { ClockCard } from "../../analytics/components/ClockCard";
 import { useSettings } from "../../common/contexts/SettingsContext";
 import { useLocation } from "react-router";
 import { Grid } from "@mui/material";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+} from "react-beautiful-dnd";
 
 function Dashboard() {
   const { products, loading } = useProducts();
@@ -23,6 +28,7 @@ function Dashboard() {
     showTotalRevenueCard,
     showClockCard,
     dashboardAnalyticsOrder,
+    setDashboardAnalyticsOrder,
   } = useSettings();
   const location = useLocation();
 
@@ -57,14 +63,47 @@ function Dashboard() {
     clock: showClockCard ? <ClockCard /> : null,
   };
 
+  const onDragEnd = (result) => {
+    if (!result.destination) return;
+    const newOrder = Array.from(dashboardAnalyticsOrder);
+    const [removed] = newOrder.splice(result.source.index, 1);
+    newOrder.splice(result.destination.index, 0, removed);
+    setDashboardAnalyticsOrder(newOrder);
+  };
+
   return (
     <>
       {analytics && (
-        <Grid container spacing={3} className="mb-4">
-          {dashboardAnalyticsOrder
-            .map((key) => cardComponents[key])
-            .filter(Boolean)}
-        </Grid>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="cards" direction="horizontal">
+            {(provided) => (
+              <Grid
+                container
+                spacing={3}
+                className="mb-4"
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+              >
+                {dashboardAnalyticsOrder.map((key, index) => {
+                  const CardComponent = cardComponents[key];
+                  if (!CardComponent) return null;
+                  return (
+                    <Draggable key={key} draggableId={key} index={index}>
+                      {(providedDraggable) =>
+                        React.cloneElement(CardComponent, {
+                          innerRef: providedDraggable.innerRef,
+                          draggableProps: providedDraggable.draggableProps,
+                          dragHandleProps: providedDraggable.dragHandleProps,
+                        })
+                      }
+                    </Draggable>
+                  );
+                })}
+                {provided.placeholder}
+              </Grid>
+            )}
+          </Droppable>
+        </DragDropContext>
       )}
       
       <LinkedAccountsSection sources={sources} loading={loading} />

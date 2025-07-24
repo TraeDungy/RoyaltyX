@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, Typography, Grid } from "@mui/material";
 import { useSettings } from "../../common/contexts/SettingsContext";
 
-export const ClockCard = () => {
+export const ClockCard = ({
+  innerRef,
+  draggableProps = {},
+  dragHandleProps = {},
+}) => {
   const { countdownTargetTime } = useSettings();
   const [time, setTime] = useState(new Date());
   const [remaining, setRemaining] = useState("");
@@ -40,7 +44,12 @@ export const ClockCard = () => {
   }, [countdownTargetTime]);
 
   return (
-    <Grid size={{ md: 4, xs: 12 }}>
+    <Grid
+      ref={innerRef}
+      {...draggableProps}
+      {...dragHandleProps}
+      size={{ md: 4, xs: 12 }}
+    >
       <Card
         variant="outlined"
         sx={{ height: "100%", display: "flex", flexDirection: "column" }}
