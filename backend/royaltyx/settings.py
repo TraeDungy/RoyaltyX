@@ -3,12 +3,23 @@ import sys
 from datetime import timedelta
 from pathlib import Path
 
+import sentry_sdk
 from dotenv import load_dotenv
+from sentry_sdk.integrations.celery import CeleryIntegration
+from sentry_sdk.integrations.django import DjangoIntegration
 
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.append(str(BASE_DIR / "apps"))
+
+if os.getenv("SENTRY_DSN"):
+    sentry_sdk.init(
+        dsn=os.getenv("SENTRY_DSN"),
+        integrations=[DjangoIntegration(), CeleryIntegration()],
+        environment=os.getenv("SENTRY_ENVIRONMENT", "development"),
+        traces_sample_rate=float(os.getenv("SENTRY_TRACES_SAMPLE_RATE", 0)),
+    )
 
 # Logging configuration
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
