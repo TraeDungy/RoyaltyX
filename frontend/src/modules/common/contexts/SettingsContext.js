@@ -74,6 +74,21 @@ export const SettingsProvider = ({ children }) => {
     return saved !== null ? saved === "true" : true;
   });
 
+  const [showAverageEcpmCard, setShowAverageEcpmCard] = useState(() => {
+    const saved = localStorage.getItem("showAverageEcpmCard");
+    return saved !== null ? saved === "true" : true;
+  });
+
+  const [showRoyaltyPerSaleCard, setShowRoyaltyPerSaleCard] = useState(() => {
+    const saved = localStorage.getItem("showRoyaltyPerSaleCard");
+    return saved !== null ? saved === "true" : true;
+  });
+
+  const [showImpressionsPerProductCard, setShowImpressionsPerProductCard] = useState(() => {
+    const saved = localStorage.getItem("showImpressionsPerProductCard");
+    return saved !== null ? saved === "true" : true;
+  });
+
   const [impressionsCardLabel, setImpressionsCardLabel] = useState(() => {
     const saved = localStorage.getItem("impressionsCardLabel");
     return saved || "Impressions";
@@ -250,6 +265,27 @@ export const SettingsProvider = ({ children }) => {
   }, [showProductImageCard]);
 
   useEffect(() => {
+    localStorage.setItem(
+      "showAverageEcpmCard",
+      showAverageEcpmCard.toString(),
+    );
+  }, [showAverageEcpmCard]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "showRoyaltyPerSaleCard",
+      showRoyaltyPerSaleCard.toString(),
+    );
+  }, [showRoyaltyPerSaleCard]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "showImpressionsPerProductCard",
+      showImpressionsPerProductCard.toString(),
+    );
+  }, [showImpressionsPerProductCard]);
+
+  useEffect(() => {
     localStorage.setItem("impressionsCardLabel", impressionsCardLabel);
   }, [impressionsCardLabel]);
 
@@ -364,6 +400,12 @@ export const SettingsProvider = ({ children }) => {
         setShowTotalRevenueCard,
         showProductImageCard,
         setShowProductImageCard,
+        showAverageEcpmCard,
+        setShowAverageEcpmCard,
+        showRoyaltyPerSaleCard,
+        setShowRoyaltyPerSaleCard,
+        showImpressionsPerProductCard,
+        setShowImpressionsPerProductCard,
         impressionsCardLabel,
         setImpressionsCardLabel,
         salesCardLabel,

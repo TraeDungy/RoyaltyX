@@ -26,6 +26,12 @@ const ViewSettings = () => {
     setSalesCardLabel,
     revenueCardLabel,
     setRevenueCardLabel,
+    showAverageEcpmCard,
+    setShowAverageEcpmCard,
+    showRoyaltyPerSaleCard,
+    setShowRoyaltyPerSaleCard,
+    showImpressionsPerProductCard,
+    setShowImpressionsPerProductCard,
     dashboardAnalyticsOrder,
     setDashboardAnalyticsOrder,
     resetDashboardAnalyticsOrder,
@@ -57,6 +63,18 @@ const ViewSettings = () => {
   };
   const toggleShowProductImageCard = () => {
     setShowProductImageCard(!showProductImageCard);
+  };
+
+  const toggleShowAverageEcpmCard = () => {
+    setShowAverageEcpmCard(!showAverageEcpmCard);
+  };
+
+  const toggleShowRoyaltyPerSaleCard = () => {
+    setShowRoyaltyPerSaleCard(!showRoyaltyPerSaleCard);
+  };
+
+  const toggleShowImpressionsPerProductCard = () => {
+    setShowImpressionsPerProductCard(!showImpressionsPerProductCard);
   };
 
   const moveCard = (index, direction) => {
@@ -185,6 +203,48 @@ const ViewSettings = () => {
         <span style={{ marginLeft: "10px" }}>Show Product Image</span>
         <p className="txt-lighter small mt-1">
           Hide/show the product image card in the analytics page.
+        </p>
+      </div>
+      <div className="py-4">
+        <label className="switch">
+          <input
+            type="checkbox"
+            checked={showAverageEcpmCard}
+            onChange={toggleShowAverageEcpmCard}
+          />
+          <span className="slider round"></span>
+        </label>
+        <span style={{ marginLeft: "10px" }}>Show Average eCPM Card</span>
+        <p className="txt-lighter small mt-1">
+          Hide/show the average eCPM card in the analytics page.
+        </p>
+      </div>
+      <div className="py-4">
+        <label className="switch">
+          <input
+            type="checkbox"
+            checked={showRoyaltyPerSaleCard}
+            onChange={toggleShowRoyaltyPerSaleCard}
+          />
+          <span className="slider round"></span>
+        </label>
+        <span style={{ marginLeft: "10px" }}>Show Avg Royalty Per Sale Card</span>
+        <p className="txt-lighter small mt-1">
+          Hide/show the average royalty per sale card in the analytics page.
+        </p>
+      </div>
+      <div className="py-4">
+        <label className="switch">
+          <input
+            type="checkbox"
+            checked={showImpressionsPerProductCard}
+            onChange={toggleShowImpressionsPerProductCard}
+          />
+          <span className="slider round"></span>
+        </label>
+        <span style={{ marginLeft: "10px" }}>Show Avg Impressions Per Product</span>
+        <p className="txt-lighter small mt-1">
+          Hide/show the average impressions per product card.
         </p>
       </div>
 
