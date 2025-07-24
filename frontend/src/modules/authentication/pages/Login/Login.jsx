@@ -8,11 +8,13 @@ import TextField from "@mui/material/TextField";
 import Button from "../../../common/components/Button";
 import { Card, Typography, Divider, Box } from "@mui/material";
 import { GoogleLoginButton } from "../../components";
+import { useTranslation } from "react-i18next";
 
 export default function Login() {
   const [error, setError] = useState("");
   const { login } = useAuth();
   const [loading, setLoading] = useState(false);
+  const { t } = useTranslation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,7 +62,7 @@ export default function Login() {
           alt="Brand Icon"
         />
         <Typography variant="h3" sx={{ mb: 5, textAlign: "center", fontWeight: 600 }}>
-          Sign in to your account
+          {t('sign_in_to_your_account')}
         </Typography>
         
         {/* Google Login Button */}
@@ -72,7 +74,7 @@ export default function Login() {
         <Box sx={{ display: "flex", alignItems: "center", my: 3 }}>
           <Divider sx={{ flex: 1 }} />
           <Typography variant="body2" sx={{ px: 2, color: "text.secondary" }}>
-            or
+            {t('or')}
           </Typography>
           <Divider sx={{ flex: 1 }} />
         </Box>
@@ -81,17 +83,17 @@ export default function Login() {
         <form onSubmit={handleSubmit}>
           <div className="py-2">
             <TextField
-              label="Email"
+              label={t('email')}
               name="email"
               variant="outlined"
               fullWidth
               margin="normal"
-              placeholder="Enter your email"
+              placeholder={t('enter_email')}
             />
           </div>
           <div className="py-2">
             <TextField
-              label="Password"
+              label={t('password')}
               name="password"
               type="password"
               variant="outlined"
@@ -103,7 +105,7 @@ export default function Login() {
 
           <div className="py-2 mt-3">
             <Button variant="primary" size="lg" type="submit" loading={loading}>
-              Log In
+              {t('log_in')}
             </Button>
           </div>
         </form>
@@ -111,11 +113,11 @@ export default function Login() {
         {/* Sign up link */}
         <div className="d-flex justify-content-center align-items-center py-4">
           <Typography variant="body1" className="px-1 txt-lighter">
-            Don't have an account?
+            {t('dont_have_account')}
           </Typography>
           <Link to="/register" className="px-1 fw-500 text-decoration-none">
             <Typography variant="body1" color="primary">
-              Sign Up
+              {t('sign_up')}
             </Typography>
           </Link>
         </div>

@@ -3,6 +3,7 @@ import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/react";
 import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./i18n";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Bounce, ToastContainer } from "react-toastify";
