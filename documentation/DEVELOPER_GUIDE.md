@@ -23,3 +23,14 @@ cd backend && python manage.py test
 cd frontend && npm test -- --watchAll=false
 ```
 
+## Helpful Scripts
+
+The `scripts/` directory contains small utilities used during deployment.
+`update-domain.sh` rewrites Nginx configs and `.env` values when you move the
+application to a custom domain:
+
+```bash
+./scripts/update-domain.sh yourdomain.com
+```
+
+

@@ -23,7 +23,8 @@ RoyaltyX/
 
 ### Backend Apps
 
-The `backend/apps` folder contains Django apps for different domains:
+The `backend/apps` folder contains Django apps for different domains. See
+[Backend App Reference](documentation/BACKEND_APPS.md) for a complete list.
 
 - **authentication** – JWT auth endpoints and OAuth logic
 - **user** – user profiles and subscription plans
@@ -32,8 +33,11 @@ The `backend/apps` folder contains Django apps for different domains:
 - **sources** – management of revenue sources such as YouTube
 - **report** – PDF report generation and scheduling
 - **emails** – templated email sending via Celery
+- **support** – in‑app help desk and FAQ system
+- **fees** – flexible fee rules applied to revenue events
 
-Each app has its own models, serializers, views and tests. Celery tasks live alongside the apps to keep the logic close to the models they act on.
+Each app has its own models, serializers, views and tests. Celery tasks live
+alongside the apps to keep the business logic near the models it acts on.
 
 ### Frontend
 
@@ -49,4 +53,7 @@ Backend tests run with Django's test runner. Frontend tests run via `react-scrip
 
 ## Related Documentation
 
-Additional guides live in the `documentation/` directory and as Markdown files in the repository root. See [README.md](README.md) for setup instructions, payment integration details and more.
+Additional guides live in the `documentation/` directory and as Markdown files
+in the repository root. See [README.md](README.md) for setup instructions,
+payment integration details and more. A detailed listing of Django apps is
+available in [documentation/BACKEND_APPS.md](documentation/BACKEND_APPS.md).
