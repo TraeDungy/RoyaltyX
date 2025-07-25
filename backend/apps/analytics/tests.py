@@ -500,6 +500,17 @@ class AnalyticsUtilsOutputTests(TestCase):
         self.assertTrue(stats)
         self.assertIn("period", stats[0])
 
+    def test_single_year_range_returns_single_entry(self):
+        from apps.analytics.utils import calculate_yearly_stats
+        stats = calculate_yearly_stats(
+            ProductImpressions.objects.none(),
+            ProductSale.objects.none(),
+            1,
+            date(2024, 12, 31),
+        )
+        self.assertEqual(len(stats), 1)
+        self.assertEqual(stats[0]["period"], "2024")
+
     def test_calculate_analytics_monthly_uses_given_end_date(self):
         project = Project.objects.create(name="P", description="d")
         from apps.analytics.utils import calculate_analytics

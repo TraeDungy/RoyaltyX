@@ -78,27 +78,24 @@ def calculate_yearly_stats(
     rentals_map = {entry["year"]: entry["count"] for entry in yearly_rentals}
 
     yearly_stats = []
-    single_year_adjustment = False
-    if years == 1:
-        years += 1
-        single_year_adjustment = True
+
+    if period_end and isinstance(period_end, datetime):
+        end_date = period_end.date()
+    else:
+        end_date = period_end
 
     for i in range(years):
-        if period_end:
+        if end_date:
             year_date = (
-                (period_end.replace(month=1, day=1) - timedelta(days=i * 365))
+                (end_date.replace(month=1, day=1) - timedelta(days=i * 365))
                 .replace(month=1, day=1)
-                .date()
             )
         else:
             year_date = (
                 (now.replace(month=1, day=1) - timedelta(days=i * 365))
                 .replace(month=1, day=1)
-                .date()
-            )
+            ).date()
 
-        if single_year_adjustment:
-            year_date = (year_date + timedelta(days=365)).replace(month=1, day=1)
 
         yearly_stats.append(
             {
@@ -185,10 +182,6 @@ def calculate_monthly_stats(
     rentals_map = {entry["month"]: entry["count"] for entry in monthly_rentals}
 
     monthly_stats = []
-    single_month_adjustment = False
-    if months == 1:
-        months += 1
-        single_month_adjustment = True
 
     if period_end and isinstance(period_end, datetime):
         end_date = period_end.date()
@@ -206,8 +199,6 @@ def calculate_monthly_stats(
                 now.date().replace(day=1) - timedelta(days=i * 30)
             ).replace(day=1)
 
-        if single_month_adjustment:
-            month_date = (month_date + timedelta(days=31)).replace(day=1)
 
         monthly_stats.append(
             {
