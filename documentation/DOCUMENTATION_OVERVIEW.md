@@ -22,6 +22,7 @@ The repository root also contains additional guides and references.
 | ---- | ----------- |
 | **AGENTS.md** | Contributor workflow guidelines and testing instructions. |
 | **CODEBASE_ANALYSIS.md** | Detailed walkthrough of backend apps, frontend modules and infrastructure. |
+| **CODEBASE_DETAILED_ANALYSIS.md** | In-depth breakdown of every major component. |
 | **CODEBASE_OVERVIEW.md** | Summarizes the repository layout and architecture. |
 | **PAID_PLANS.md** | Breakdown of subscription tiers and pricing. |
 | **PAYMENT_INTEGRATION_SUMMARY.md** | Summary of how Stripe is integrated for payments. |
@@ -30,5 +31,4 @@ The repository root also contains additional guides and references.
 | **STRIPE_SETUP_COMPLETE_GUIDE.md** | End-to-end steps for a full Stripe setup. |
 | **WEBHOOK_SETUP_INSTRUCTIONS.md** | How to configure Stripe webhooks. |
 | **WHITE_LABEL_BRANDING.md** | Steps for custom branding and reseller mode. |
-
-
+| **backend/SUBSCRIPTION_PLANS.md** | API details for subscription plan endpoints. |
