@@ -64,7 +64,7 @@ cancel_url: "http://localhost:3000/account/membership?status=cancelled"
 If webhooks fail, process payments manually:
 
 ```bash
-docker-compose -f local.yml exec backend python manage.py shell -c "
+docker compose -f local.yml exec backend python manage.py shell -c "
 import stripe
 from django.contrib.auth import get_user_model
 from apps.payments.stripe_service import StripeService

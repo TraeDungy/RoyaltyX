@@ -37,7 +37,7 @@ Stripe webhooks are not reaching your local development server, so successful pa
 If webhooks fail, use this command to process payments manually:
 
 ```bash
-docker-compose -f local.yml exec backend python manage.py shell -c "
+docker compose -f local.yml exec backend python manage.py shell -c "
 import stripe
 from django.contrib.auth import get_user_model
 from apps.payments.stripe_service import StripeService

@@ -100,10 +100,10 @@ For a visual overview of these components see
 3. **Start the application**
    ```bash
    # Development environment
-   docker-compose -f local.yml up --build
+   docker compose -f local.yml up --build
 
    # Production environment
-   docker-compose -f production.yml up --build
+   docker compose -f production.yml up --build
    ```
    If you want to run the services directly on your machine without Docker,
    follow the steps in
@@ -118,17 +118,17 @@ For a visual overview of these components see
 
 1. **Create a superuser**
    ```bash
-   docker-compose -f local.yml exec backend python manage.py createsuperuser
+   docker compose -f local.yml exec backend python manage.py createsuperuser
    ```
 
 2. **Run database migrations**
    ```bash
-   docker-compose -f local.yml exec backend python manage.py migrate
+   docker compose -f local.yml exec backend python manage.py migrate
    ```
 
 3. **Load initial data (optional)**
    ```bash
-   docker-compose -f local.yml exec backend python manage.py loaddata initial_data.json
+   docker compose -f local.yml exec backend python manage.py loaddata initial_data.json
    ```
 
 ### Loading Initial Data
@@ -138,14 +138,14 @@ user and example records. Loading this data is helpful when exploring the
 platform locally. Run the following command from the repository root:
 
 ```bash
-docker-compose -f local.yml exec backend python manage.py loaddata initial_data.json
+docker compose -f local.yml exec backend python manage.py loaddata initial_data.json
 ```
 
 If you prefer, a custom management command `seed_demo_data` provides the same
 functionality and can be extended for larger datasets:
 
 ```bash
-docker-compose -f local.yml exec backend python manage.py seed_demo_data
+docker compose -f local.yml exec backend python manage.py seed_demo_data
 ```
 
 ### Using the Help Tab
@@ -335,10 +335,10 @@ more thorough walkthrough.
 
 ```bash
 # Backend tests
-docker-compose -f local.yml exec backend python manage.py test
+docker compose -f local.yml exec backend python manage.py test
 
 # Frontend tests
-docker-compose -f local.yml exec frontend npm test
+docker compose -f local.yml exec frontend npm test
 
 # To run frontend tests without Docker:
 cd frontend && npm test -- --watchAll=false
@@ -351,7 +351,7 @@ that your `.env` configuration points to it. When using Docker Compose
 the test commands, e.g.:
 
 ```bash
-docker-compose -f local.yml up -d postgres
+docker compose -f local.yml up -d postgres
 ```
 
 ### Local Testing Environment Setup
@@ -426,13 +426,13 @@ RoyaltyX/
 
 2. **Deploy with Docker**
    ```bash
-   docker-compose -f production.yml up -d --build
+   docker compose -f production.yml up -d --build
    ```
 
 3. **Set up SSL certificate**
    ```bash
    # Using Let's Encrypt
-   docker-compose -f production.yml exec nginx certbot --nginx
+   docker compose -f production.yml exec nginx certbot --nginx
    ```
 
 4. **Enable Celery beat tasks**
