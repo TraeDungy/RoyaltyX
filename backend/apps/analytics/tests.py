@@ -536,3 +536,32 @@ class AnalyticsUtilsOutputTests(TestCase):
         data = calculate_analytics(project.id, {}, start, end, None, "monthly")
         periods = [entry["period"] for entry in data["time_stats"]]
         self.assertEqual(periods[-1], "2024-03")
+
+
+class ProductProjectMismatchTests(TestCase):
+    def test_product_must_belong_to_project(self):
+        project1 = Project.objects.create(name="P1", description="d")
+        project2 = Project.objects.create(name="P2", description="d")
+
+        product = Product.objects.create(
+            project=project1,
+            title="Prod",
+            description="d",
+            statement_frequency="Monthly",
+            first_statement_end_date=date.today(),
+            payment_threshold=0,
+            payment_window=30,
+            is_active=True,
+        )
+
+        from apps.analytics.utils import calculate_analytics
+
+        with self.assertRaises(ValueError):
+            calculate_analytics(
+                project2.id,
+                {},
+                date.today(),
+                date.today(),
+                product.id,
+                "monthly",
+            )

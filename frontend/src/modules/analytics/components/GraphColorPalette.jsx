@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -7,6 +8,8 @@ import {
   Box,
   Grid,
   useTheme,
+  TextField,
+  Button,
 } from "@mui/material";
 import { X } from "lucide-react";
 
@@ -16,6 +19,7 @@ export const GraphColorPalette = ({
   onSelectColor,
 }) => {
   const theme = useTheme();
+  const [customColor, setCustomColor] = useState("#009efd");
   const baseColors = [
     "#6CC3E0",
     "#009efd",
@@ -115,6 +119,30 @@ export const GraphColorPalette = ({
             </Grid>
           ))}
         </Grid>
+        <Box sx={{ display: "flex", alignItems: "center", mt: 2, gap: 2 }}>
+          <TextField
+            type="color"
+            value={customColor}
+            onChange={(e) => setCustomColor(e.target.value)}
+            sx={{ width: 60, p: 0 }}
+          />
+          <TextField
+            label="Hex"
+            value={customColor}
+            onChange={(e) => setCustomColor(e.target.value)}
+            sx={{ width: 100 }}
+          />
+          <Button
+            variant="contained"
+            size="small"
+            onClick={() => {
+              onSelectColor(customColor);
+              setShowGraphColorPalette(false);
+            }}
+          >
+            Apply
+          </Button>
+        </Box>
       </DialogContent>
     </Dialog>
   );

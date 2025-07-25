@@ -1,8 +1,12 @@
 # RoyaltyX - Content & Royalty Management Platform
+See [documentation/DOCUMENTATION_OVERVIEW.md](documentation/DOCUMENTATION_OVERVIEW.md) for a full index of guides.
+
 
 ## 🎯 What is RoyaltyX?
 
 RoyaltyX is a comprehensive content and royalty management platform designed to empower content creators, artists, and digital entrepreneurs. Our platform helps you track, manage, and optimize your revenue streams across multiple channels while providing powerful analytics and insights to grow your business.
+
+All available documentation is listed in [Documentation Overview](documentation/DOCUMENTATION_OVERVIEW.md).
 
 ### 🚀 Why RoyaltyX?
 
@@ -83,14 +87,15 @@ For a visual overview of these components see
    cd RoyaltyX
    ```
 
-2. **Set up environment variables**
+2. **Initialize the local environment**
    ```bash
-   cp .env.example .env
-   # Edit .env with your configuration
+   ./scripts/setup-local.sh
    ```
-   
-   See the [Initial Setup Tutorial](documentation/INITIAL_SETUP_TUTORIAL.md)
-   for a complete walkthrough and video guide.
+
+   This script copies `.env.example` to `.env` if needed and installs backend
+   and frontend dependencies. See the
+   [Initial Setup Tutorial](documentation/INITIAL_SETUP_TUTORIAL.md) for a full
+   walkthrough and video guide.
 
 3. **Start the application**
    ```bash
@@ -377,7 +382,12 @@ docker-compose -f local.yml up -d postgres
 ## 📁 Project Structure
 
 For a high level walkthrough of the repository layout see
-[CODEBASE_OVERVIEW.md](CODEBASE_OVERVIEW.md).
+[CODEBASE_OVERVIEW.md](CODEBASE_OVERVIEW.md). A summary of where the
+major features live is available in
+[CODEBASE_ANALYSIS.md](CODEBASE_ANALYSIS.md). For an even deeper dive into each
+component read [CODEBASE_DETAILED_ANALYSIS.md](CODEBASE_DETAILED_ANALYSIS.md).
+For details on individual Django apps check
+[documentation/BACKEND_APPS.md](documentation/BACKEND_APPS.md).
 
 ```
 RoyaltyX/
@@ -467,7 +477,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- **Documentation**: Check our comprehensive docs
+- **Documentation**: See [Documentation Overview](documentation/DOCUMENTATION_OVERVIEW.md) for a list of all guides
 - **AI Help Chat**: Use the built-in chat at `/admin/documentation/chat` for quick tips
 - **Issues**: Report bugs on GitHub Issues
 - **Email**: support@royaltyx.com

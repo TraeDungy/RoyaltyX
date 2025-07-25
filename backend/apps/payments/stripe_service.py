@@ -5,6 +5,16 @@ from datetime import datetime, timezone
 import stripe
 from django.contrib.auth import get_user_model
 
+from .exceptions import (
+    CheckoutSessionCreationError,
+    CustomerCreationError,
+    InvoiceRetrievalError,
+    PaymentHandlingError,
+    PaymentMethodError,
+    SubscriptionCancellationError,
+    SubscriptionUpdateError,
+    UserNotFoundError,
+)
 from .tasks import (
     send_payment_failed_email,
     send_subscription_canceled_email,
@@ -30,7 +40,7 @@ class StripeService:
             user.save()
             return customer
         except stripe.error.StripeError as e:
-            raise Exception(f"Failed to create Stripe customer: {str(e)}")
+            raise CustomerCreationError(str(e))
 
     @staticmethod
     def get_or_create_customer(user):
@@ -53,7 +63,9 @@ class StripeService:
             # Get price ID based on plan
             price_id = StripeService.get_price_id_for_plan(plan)
             if not price_id:
-                raise Exception(f"No price ID configured for plan: {plan}")
+                raise CheckoutSessionCreationError(
+                    f"No price ID configured for plan: {plan}"
+                )
 
             line_items = [
                 {
@@ -77,7 +89,7 @@ class StripeService:
             )
             return session
         except stripe.error.StripeError as e:
-            raise Exception(f"Failed to create checkout session: {str(e)}")
+            raise CheckoutSessionCreationError(str(e))
 
     @staticmethod
     def get_price_id_for_plan(plan):
@@ -95,13 +107,13 @@ class StripeService:
         try:
             return stripe.Subscription.delete(subscription_id)
         except stripe.error.StripeError as e:
-            raise Exception(f"Failed to cancel subscription: {str(e)}")
+            raise SubscriptionCancellationError(str(e))
 
     @staticmethod
     def update_subscription(user, plan=None, add_ons=None):
         """Update an existing Stripe subscription with proration."""
         if not user.stripe_subscription_id:
-            raise Exception("User has no active subscription")
+            raise SubscriptionUpdateError("User has no active subscription")
 
         try:
             subscription = stripe.Subscription.retrieve(
@@ -117,7 +129,9 @@ class StripeService:
             if plan:
                 price_id = StripeService.get_price_id_for_plan(plan)
                 if not price_id:
-                    raise Exception(f"No price ID configured for plan: {plan}")
+                    raise SubscriptionUpdateError(
+                        f"No price ID configured for plan: {plan}"
+                    )
                 items.append({"id": item_id, "price": price_id})
             else:
                 items.append(
@@ -150,7 +164,7 @@ class StripeService:
             user.save()
             return subscription
         except stripe.error.StripeError as e:
-            raise Exception(f"Failed to update subscription: {str(e)}")
+            raise SubscriptionUpdateError(str(e))
 
     @staticmethod
     def handle_successful_payment(session):
@@ -192,7 +206,7 @@ class StripeService:
 
             return user
         except Exception as e:
-            raise Exception(f"Failed to handle successful payment: {str(e)}")
+            raise PaymentHandlingError(str(e))
 
     @staticmethod
     def handle_payment_failed(invoice):
@@ -210,7 +224,9 @@ class StripeService:
 
             return user
         except User.DoesNotExist:
-            raise Exception(f"User not found for subscription: {subscription_id}")
+            raise UserNotFoundError(
+                f"User not found for subscription: {subscription_id}"
+            )
 
     @staticmethod
     def handle_subscription_deleted(subscription):
@@ -231,7 +247,9 @@ class StripeService:
 
             return user
         except User.DoesNotExist:
-            raise Exception(f"User not found for subscription: {subscription['id']}")
+            raise UserNotFoundError(
+                f"User not found for subscription: {subscription['id']}"
+            )
 
     @staticmethod
     def list_invoices(user):
@@ -242,7 +260,7 @@ class StripeService:
             invoices = stripe.Invoice.list(customer=user.stripe_customer_id)
             return invoices.get("data", [])
         except stripe.error.StripeError as e:
-            raise Exception(f"Failed to list invoices: {str(e)}")
+            raise InvoiceRetrievalError(str(e))
 
     @staticmethod
     def list_payment_methods(user):
@@ -262,7 +280,7 @@ class StripeService:
                 m["is_default"] = m.get("id") == default_pm
             return data
         except stripe.error.StripeError as e:
-            raise Exception(f"Failed to list payment methods: {str(e)}")
+            raise PaymentMethodError(str(e))
 
     @staticmethod
     def attach_payment_method(user, payment_method_id):
@@ -274,7 +292,7 @@ class StripeService:
                 payment_method_id, customer=user.stripe_customer_id
             )
         except stripe.error.StripeError as e:
-            raise Exception(f"Failed to add payment method: {str(e)}")
+            raise PaymentMethodError(str(e))
 
     @staticmethod
     def detach_payment_method(user, payment_method_id):
@@ -282,7 +300,7 @@ class StripeService:
         try:
             stripe.PaymentMethod.detach(payment_method_id)
         except stripe.error.StripeError as e:
-            raise Exception(f"Failed to remove payment method: {str(e)}")
+            raise PaymentMethodError(str(e))
 
     @staticmethod
     def set_default_payment_method(user, payment_method_id):
@@ -295,4 +313,4 @@ class StripeService:
                 invoice_settings={"default_payment_method": payment_method_id},
             )
         except stripe.error.StripeError as e:
-            raise Exception(f"Failed to update default payment method: {str(e)}")
+            raise PaymentMethodError(str(e))

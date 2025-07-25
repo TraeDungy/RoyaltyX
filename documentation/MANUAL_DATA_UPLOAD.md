@@ -1,4 +1,6 @@
 # Manual Data Upload Workflow
+See [Documentation Overview](DOCUMENTATION_OVERVIEW.md) for a list of all guides.
+
 
 This guide explains how to import sales and impression data into RoyaltyX using the manual uploader. Use this process when you receive monthly reports from platforms that aren't integrated through an API.
 
@@ -37,4 +39,7 @@ If processing fails due to missing columns, you can supply a JSON mapping to cor
 
 ## Analytics and Reports
 Successful uploads create `ProductSale` and `ProductImpressions` records. Analytics pages and PDF reports aggregate these records on demand, so new data becomes visible as soon as processing completes.
+For an overview of how fees are applied to revenue see
+[FEE_SYSTEM.md](FEE_SYSTEM.md).
+
 

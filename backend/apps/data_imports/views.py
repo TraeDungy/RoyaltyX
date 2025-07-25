@@ -55,10 +55,25 @@ class FileDetailView(APIView):
 
     def get(self, request, pk):
         file = get_object_or_404(File, pk=pk)
+
+        if file.project_id != request.user.currently_selected_project_id:
+            return Response(
+                {"detail": "Permission denied."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
         serializer = FileSerializer(file)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def delete(self, request, pk):
+        file = get_object_or_404(File, pk=pk)
+
+        if file.project_id != request.user.currently_selected_project_id:
+            return Response(
+                {"detail": "Permission denied."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
         response_data = delete_file(pk)
         return Response(response_data, status=status.HTTP_204_NO_CONTENT)
 
@@ -82,11 +97,25 @@ class DatasetDetailView(APIView):
 
     def get(self, request, pk):
         dataset = get_object_or_404(Dataset, pk=pk)
+
+        if dataset.file.project_id != request.user.currently_selected_project_id:
+            return Response(
+                {"detail": "Permission denied."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
         serializer = DatasetSerializer(dataset)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def patch(self, request, pk):
         dataset = get_object_or_404(Dataset, pk=pk)
+
+        if dataset.file.project_id != request.user.currently_selected_project_id:
+            return Response(
+                {"detail": "Permission denied."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
         mapping = request.data.get("column_mapping")
         month = request.data.get("month")
         year = request.data.get("year")

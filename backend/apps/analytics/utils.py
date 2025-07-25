@@ -596,8 +596,16 @@ def calculate_analytics(
     granularity: str = "monthly",
 ) -> Dict[str, Any]:
     if product_id:
-        impressions_qs = ProductImpressions.objects.filter(product_id=product_id)
-        sales_qs = ProductSale.objects.filter(product_id=product_id)
+        try:
+            product = Product.objects.get(id=product_id)
+        except Product.DoesNotExist:
+            impressions_qs = ProductImpressions.objects.none()
+            sales_qs = ProductSale.objects.none()
+        else:
+            if product.project_id != project_id:
+                raise ValueError("Product does not belong to project")
+            impressions_qs = ProductImpressions.objects.filter(product_id=product_id)
+            sales_qs = ProductSale.objects.filter(product_id=product_id)
     else:
         impressions_qs = ProductImpressions.objects.filter(
             product__project_id=project_id

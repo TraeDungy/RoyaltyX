@@ -1,4 +1,4 @@
-import { Line, Bar } from "react-chartjs-2";
+import { Line, Bar, Pie } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -18,6 +18,7 @@ import {
   getBaseLineDataset,
   getSharpLineDataset,
   getBaseBarDataset,
+  getBasePieDataset,
   formatChartLabels,
   getChartTitle
 } from "../../common/config/chartConfig";
@@ -50,6 +51,9 @@ export const ImpressionsChart = ({ analytics }) => {
       ? getSharpLineDataset
       : impressionsGraphType === "bar"
       ? getBaseBarDataset
+      : impressionsGraphType === "pie"
+      ? (label, data) =>
+          getBasePieDataset(label, data, data.map(() => impressionsGraphColor))
       : getBaseLineDataset;
 
   const data = {
@@ -59,7 +63,12 @@ export const ImpressionsChart = ({ analytics }) => {
 
   const options = getBaseLineChartOptions(CHART_CONFIGS.standard);
 
-  const ChartComponent = impressionsGraphType === "bar" ? Bar : Line;
+  const ChartComponent =
+    impressionsGraphType === "bar"
+      ? Bar
+      : impressionsGraphType === "pie"
+      ? Pie
+      : Line;
 
   return (
     <div style={{ width: "100%", maxWidth: "700px", margin: "auto" }}>

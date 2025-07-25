@@ -149,6 +149,40 @@ class DatasetPatchTests(TestCase):
         self.assertEqual(self.dataset.year, 2025)
 
 
+class FileDatasetPermissionTests(TestCase):
+    def setUp(self):
+        User = get_user_model()
+        self.user = User.objects.create_user(
+            email="perm@example.com", name="Perm", password="pass1234"
+        )
+        self.project = Project.objects.create(name="ProjA", description="d")
+        self.other_project = Project.objects.create(name="ProjB", description="d")
+        self.user.currently_selected_project = self.project
+        self.user.save()
+        self.client = APIClient()
+        self.client.force_authenticate(user=self.user)
+
+        self.other_file = File.objects.create(project=self.other_project, name="o.csv")
+        self.other_dataset = Dataset.objects.create(
+            file=self.other_file, month=1, year=2024, status="completed"
+        )
+
+    def test_file_detail_requires_current_project(self):
+        url = reverse("file-detail", kwargs={"pk": self.other_file.id})
+        res = self.client.get(url)
+        self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_dataset_detail_requires_current_project(self):
+        url = reverse("dataset-detail", kwargs={"pk": self.other_dataset.id})
+        res = self.client.get(url)
+        self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_dataset_patch_requires_current_project(self):
+        url = reverse("dataset-detail", kwargs={"pk": self.other_dataset.id})
+        res = self.client.patch(url, {"month": 12}, format="json")
+        self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
+
+
 
 
 

@@ -16,7 +16,7 @@ import {
   MenuItem,
   Button,
 } from "@mui/material";
-import { EllipsisVertical, ArrowRight, BarChart2, Type } from "lucide-react";
+import { EllipsisVertical, ArrowRight, BarChart2, Type, List } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export const RevenueCard = ({
@@ -29,6 +29,7 @@ export const RevenueCard = ({
   const { setShowTotalRevenueCard } = useSettings();
   const [showGraphColorPalette, setShowGraphColorPalette] = useState(false);
   const [showGraphTypeSelector, setShowGraphTypeSelector] = useState(false);
+  const [showChart, setShowChart] = useState(true);
   const {
     setrevenueGraphColor,
     setRevenueGraphType,
@@ -138,6 +139,16 @@ export const RevenueCard = ({
                   </MenuItem>
                   <MenuItem
                     onClick={() => {
+                      setShowChart(!showChart);
+                      handleMenuClose();
+                    }}
+                    sx={{ py: 1 }}
+                  >
+                    <List style={{ marginRight: 8 }} />
+                    {showChart ? "Numeric only" : "Show chart"}
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
                       setRevenueValueFormat(
                         revenueValueFormat === "currency" ? "number" : "currency"
                       );
@@ -159,7 +170,7 @@ export const RevenueCard = ({
               </Typography>
             </Box>
 
-            <RevenueChart analytics={analytics} />
+            {showChart && <RevenueChart analytics={analytics} />}
 
             <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
               <Button

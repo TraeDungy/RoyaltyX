@@ -1,4 +1,6 @@
 # Developer Guide
+See [Documentation Overview](DOCUMENTATION_OVERVIEW.md) for a list of all guides.
+
 
 This guide complements the existing [AGENTS.md](../AGENTS.md) instructions.
 It highlights common tasks and the tooling used in this repository.
@@ -22,4 +24,15 @@ cd backend && python manage.py test
 # Frontend
 cd frontend && npm test -- --watchAll=false
 ```
+
+## Helpful Scripts
+
+The `scripts/` directory contains small utilities used during deployment.
+`update-domain.sh` rewrites Nginx configs and `.env` values when you move the
+application to a custom domain:
+
+```bash
+./scripts/update-domain.sh yourdomain.com
+```
+
 

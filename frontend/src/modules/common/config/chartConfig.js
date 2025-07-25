@@ -5,6 +5,7 @@ import {
   PointElement,
   LineElement,
   BarElement,
+  ArcElement,
   Title,
   Tooltip,
   Legend,
@@ -18,6 +19,7 @@ ChartJS.register(
   PointElement,
   LineElement,
   BarElement,
+  ArcElement,
   Title,
   Tooltip,
   Legend,
@@ -84,6 +86,17 @@ export const getBaseBarDataset = (label, data, color, customConfig = {}) => {
     data,
     backgroundColor: color,
     borderColor: color,
+    borderWidth: 1,
+    ...customConfig,
+  };
+};
+
+export const getBasePieDataset = (label, data, color, customConfig = {}) => {
+  return {
+    label,
+    data,
+    backgroundColor: Array.isArray(color) ? color : [color],
+    borderColor: Array.isArray(color) ? color : [color],
     borderWidth: 1,
     ...customConfig,
   };

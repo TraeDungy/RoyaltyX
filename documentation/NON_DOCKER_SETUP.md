@@ -1,6 +1,9 @@
 # Running RoyaltyX Without Docker
+See [Documentation Overview](DOCUMENTATION_OVERVIEW.md) for a list of all guides.
+
 
 This guide explains how to run the backend and frontend directly on your machine without Docker.
+See [DEVELOPER_GUIDE.md](DEVELOPER_GUIDE.md) for tips on linting and running tests.
 
 ## Prerequisites
 
@@ -80,4 +83,5 @@ celery -A royaltyx worker -B --loglevel=info
 ```
 
 You're now running RoyaltyX without Docker.
+
 

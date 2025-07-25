@@ -1,4 +1,6 @@
 # Analytics Data Overview
+See [Documentation Overview](DOCUMENTATION_OVERVIEW.md) for a list of all guides.
+
 
 RoyaltyX stores raw sales and impression data and calculates aggregated metrics when needed.
 
@@ -14,3 +16,7 @@ RoyaltyX stores raw sales and impression data and calculates aggregated metrics 
 - Per-source analytics created by `calculate_analytics_per_source`.
 
 These values are computed at request time to keep the database lightweight and ensure the dashboard always reflects the latest data.
+
+For a deep dive into how data is imported see
+[MANUAL_DATA_UPLOAD.md](MANUAL_DATA_UPLOAD.md).
+
