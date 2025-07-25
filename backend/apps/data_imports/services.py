@@ -44,8 +44,8 @@ def create_file(file, data):
                 if parsed:
                     month = parsed.month
                     year = parsed.year
-    except Exception:
-        pass
+    except Exception as e:  # pragma: no cover - log parsing failures
+        logger.warning("Failed to derive date from report: %s", e)
 
     if detected:
         month, year = detected

@@ -149,6 +149,24 @@ class DatasetPatchTests(TestCase):
         self.assertEqual(self.dataset.year, 2025)
 
 
+class MissingColumnsTests(TestCase):
+    def setUp(self):
+        self.project = Project.objects.create(name="M", description="d")
+
+    def test_create_file_with_missing_columns(self):
+        content = "Title\nOnlyTitle\n"
+        file_obj = SimpleUploadedFile(
+            "m.csv",
+            content.encode("utf-8"),
+            content_type="text/csv",
+        )
+        data = {"file": file_obj, "project": self.project.id, "name": "m.csv"}
+        response = create_file(file_obj, data)
+        dataset = Dataset.objects.get(id=response["dataset"]["id"])
+        self.assertEqual(dataset.status, "error")
+        self.assertIn("Missing columns", dataset.error_message)
+
+
 
 
 

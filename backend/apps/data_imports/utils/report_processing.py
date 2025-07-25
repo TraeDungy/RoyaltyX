@@ -45,14 +45,47 @@ MONTH_NAMES = {
     "dec": 12,
 }
 
+# Required canonical column names
+REQUIRED_BASE_COLUMNS = {"Title", "Period Start", "Period End"}
+REQUIRED_SALES_COLUMNS = {
+    "Unit Price",
+    "Unit Price Currency",
+    "Quantity",
+    "Royalty Amount",
+    "Royalty Currency",
+}
+
+
+def check_required_columns(headers: List[str]) -> List[str]:
+    """Return a list of missing required columns."""
+    header_set = set(headers)
+    missing = [c for c in REQUIRED_BASE_COLUMNS if c not in header_set]
+
+    has_sales = REQUIRED_SALES_COLUMNS.issubset(header_set)
+    has_impressions = "impressions" in header_set
+
+    if not has_sales and not has_impressions:
+        missing.extend(REQUIRED_SALES_COLUMNS - header_set)
+        if "impressions" not in header_set:
+            missing.append("impressions")
+
+    # remove duplicates while preserving order
+    seen = set()
+    result = []
+    for col in missing:
+        if col not in seen:
+            seen.add(col)
+            result.append(col)
+    return result
+
 
 def parse_date_string(text: str) -> Optional[datetime]:
     """Attempt to parse a date from a string."""
     text = str(text).strip()
     try:
         return datetime.fromisoformat(text)
-    except Exception:
-        pass
+    except Exception as e:  # pragma: no cover - log parsing failures
+        logger.debug("ISO date parse failed for '%s': %s", text, e)
 
     for fmt in (
         "%Y-%m-%d",
@@ -66,7 +99,13 @@ def parse_date_string(text: str) -> Optional[datetime]:
     ):
         try:
             return datetime.strptime(text, fmt)
-        except Exception:
+        except Exception as e:  # pragma: no cover - log parsing failures
+            logger.debug(
+                "Date parse failed for '%s' using format '%s': %s",
+                text,
+                fmt,
+                e,
+            )
             continue
     return None
 
@@ -289,6 +328,18 @@ def process_report(
         else:
             if not validate_csv(file):
                 return {"status": "error", "message": "Invalid CSV file"}
+
+        headers = detect_headers(file)
+        mapped_headers = (
+            [column_mapping.get(h, h) for h in headers]
+            if column_mapping
+            else headers
+        )
+        missing = check_required_columns(mapped_headers)
+        if missing:
+            logger.warning("Missing required columns: %s", missing)
+            message = "Missing columns: " + ", ".join(missing)
+            return {"status": "error", "message": message}
 
         data = read_report(file, custom_mapping=column_mapping)
         result = update_products(data, project_id, file_id)
