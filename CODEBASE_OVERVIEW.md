@@ -32,6 +32,7 @@ The `backend/apps` folder contains Django apps for different domains:
 - **sources** – management of revenue sources such as YouTube
 - **report** – PDF report generation and scheduling
 - **emails** – templated email sending via Celery
+- **support** – ticketing system and AI help chat
 
 Each app has its own models, serializers, views and tests. Celery tasks live alongside the apps to keep the logic close to the models they act on.
 

@@ -468,6 +468,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Support
 
 - **Documentation**: Check our comprehensive docs
+- **Support System**: See [Support System Overview](documentation/SUPPORT_OVERVIEW.md) for ticket and help chat endpoints
 - **AI Help Chat**: Use the built-in chat at `/admin/documentation/chat` for quick tips
 - **Issues**: Report bugs on GitHub Issues
 - **Email**: support@royaltyx.com

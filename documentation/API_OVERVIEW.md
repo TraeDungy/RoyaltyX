@@ -35,3 +35,12 @@ This document lists the primary REST endpoints exposed by RoyaltyX. The complete
 - `POST /emails/templates/` – Create a new template
 - `GET  /emails/templates/{id}/` – Retrieve, update or delete a template
 - `POST /emails/templates/generate/` – Generate a template with OpenAI
+
+## Support
+- `GET  /support/tickets/` – List the current user's tickets
+- `POST /support/tickets/` – Create a new ticket
+- `GET  /support/tickets/{id}/` – Retrieve or update a ticket
+- `POST /support/tickets/{id}/messages/` – Add a message to a ticket
+- `GET  /support/stats/` – Ticket stats for the current user
+- `GET  /support/help/chat/` – AI-powered help chat
+
