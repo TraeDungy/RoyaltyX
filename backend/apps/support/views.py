@@ -63,8 +63,9 @@ class AdminSupportTicketListView(generics.ListAPIView):
     serializer_class = SupportTicketListSerializer
 
     def get_queryset(self):
-        # For now, let's remove the admin check and see if the basic functionality works
-        # We'll add it back once we understand the authentication issue
+        if not hasattr(self.request.user, "role") or self.request.user.role != "admin":
+            raise PermissionDenied("You do not have permission to perform this action.")
+
         queryset = SupportTicket.objects.all().prefetch_related(
             "customer", "assigned_admin", "messages__sender"
         )
