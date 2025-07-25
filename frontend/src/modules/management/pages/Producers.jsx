@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import PageHeader from "../../common/components/PageHeader";
 import { removeProducer, updateProducer } from "../api/producers";
 import ProducerUploadInput from "../components/ProducerUploadInput";
+import AddProducerForm from "../components/AddProducerForm";
 import { PersonXFill, Wrench } from "react-bootstrap-icons";
 import ModifyFeeModal from "../components/ModifyFeeModal";
 import { useProducts } from "../../products/api/products";
@@ -54,6 +55,7 @@ const Producers = () => {
       />
 
       <ProducerUploadInput />
+      <AddProducerForm />
 
       {products?.length > 0 && (
         <div className="mt-5">
