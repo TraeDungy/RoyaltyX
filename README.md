@@ -87,14 +87,15 @@ For a visual overview of these components see
    cd RoyaltyX
    ```
 
-2. **Set up environment variables**
+2. **Initialize the local environment**
    ```bash
-   cp .env.example .env
-   # Edit .env with your configuration
+   ./scripts/setup-local.sh
    ```
-   
-   See the [Initial Setup Tutorial](documentation/INITIAL_SETUP_TUTORIAL.md)
-   for a complete walkthrough and video guide.
+
+   This script copies `.env.example` to `.env` if needed and installs backend
+   and frontend dependencies. See the
+   [Initial Setup Tutorial](documentation/INITIAL_SETUP_TUTORIAL.md) for a full
+   walkthrough and video guide.
 
 3. **Start the application**
    ```bash
