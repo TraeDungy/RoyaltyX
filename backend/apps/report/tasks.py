@@ -1,12 +1,12 @@
 import uuid
 from datetime import datetime, time, timedelta
 
+import pdfkit
 from celery import shared_task
 from django.core.files.base import ContentFile
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.timezone import now
-import pdfkit
 
 from apps.analytics.utils import calculate_analytics
 from apps.emails.tasks import task_send_db_template_email

@@ -1,5 +1,5 @@
 from datetime import date, datetime
-from unittest.mock import Mock, patch
+from unittest.mock import patch
 from urllib.parse import urlencode
 
 from django.contrib.auth import get_user_model
