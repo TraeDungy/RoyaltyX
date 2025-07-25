@@ -78,7 +78,10 @@ def product_detail(request, product_id):
         )
 
     if product.project_id != request.user.currently_selected_project_id:
-        return Response({"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
+        return Response(
+            {"error": "Product not found"},
+            status=status.HTTP_404_NOT_FOUND,
+        )
 
     if request.method == "GET":
         serializer = ProductSerializer(product)
