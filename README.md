@@ -377,7 +377,7 @@ docker-compose -f local.yml up -d postgres
 ## 📁 Project Structure
 
 For a high level walkthrough of the repository layout see
-[CODEBASE_OVERVIEW.md](CODEBASE_OVERVIEW.md).
+[CODEBASE_OVERVIEW.md](CODEBASE_OVERVIEW.md). For details on individual Django apps check [documentation/BACKEND_APPS.md](documentation/BACKEND_APPS.md).
 
 ```
 RoyaltyX/
