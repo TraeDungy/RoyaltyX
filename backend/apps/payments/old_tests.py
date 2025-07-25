@@ -36,7 +36,11 @@ class PaymentRegressionTests(TestCase):
             "os.environ",
             {"STRIPE_PROFESSIONAL_PRICE_ID": "price_prof", "REACT_APP_URL": "http://x"},
         ):
-            session = StripeService.create_checkout_session(self.user, "professional", [addon])
+            session = StripeService.create_checkout_session(
+                self.user,
+                "professional",
+                [addon],
+            )
 
         self.assertEqual(session.id, "sess_1")
         mock_create.assert_called_once()
