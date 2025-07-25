@@ -1,4 +1,6 @@
 # API Overview
+See [Documentation Overview](DOCUMENTATION_OVERVIEW.md) for a list of all guides.
+
 
 This document lists the primary REST endpoints exposed by RoyaltyX. The complete OpenAPI specification is stored in [../backend/schema.yml](../backend/schema.yml) and is served live at `/docs/` when the application is running.
 

@@ -1,4 +1,6 @@
 # Paid Plans
+See [documentation/DOCUMENTATION_OVERVIEW.md](documentation/DOCUMENTATION_OVERVIEW.md) for a full index of guides.
+
 
 ### Discovery
 

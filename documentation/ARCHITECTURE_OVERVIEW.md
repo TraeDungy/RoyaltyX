@@ -1,4 +1,6 @@
 # Architecture Overview
+See [Documentation Overview](DOCUMENTATION_OVERVIEW.md) for a list of all guides.
+
 
 This diagram shows how the main services communicate when running RoyaltyX with Docker.
 

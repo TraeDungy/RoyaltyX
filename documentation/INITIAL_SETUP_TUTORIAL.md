@@ -1,4 +1,6 @@
 # Initial Setup Tutorial
+See [Documentation Overview](DOCUMENTATION_OVERVIEW.md) for a list of all guides.
+
 
 This guide walks you through setting up RoyaltyX for local development. A short video walkthrough is available at [YouTube](https://youtu.be/dQw4w9WgXcQ).
 
