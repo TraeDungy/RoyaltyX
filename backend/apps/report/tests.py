@@ -386,8 +386,8 @@ class TestGenerateReportTask(TestCase):
         )
 
     @patch("apps.report.tasks.create_notification")
-    @patch("apps.report.tasks.HTML")
-    def test_generate_report_pdf(self, mock_html, mock_create_notification):
+    @patch("apps.report.tasks.pdfkit.from_string")
+    def test_generate_report_pdf(self, mock_from_string, mock_create_notification):
         report = Report.objects.create(
             filename="task.pdf",
             project=self.project,
@@ -395,16 +395,14 @@ class TestGenerateReportTask(TestCase):
             created_by=self.user,
         )
 
-        mock_html_instance = Mock()
-        mock_html_instance.write_pdf.return_value = b"pdf"
-        mock_html.return_value = mock_html_instance
+        mock_from_string.return_value = b"pdf"
 
         generate_report_pdf(report.id, "http://testserver/")
 
         report.refresh_from_db()
         self.assertIsNotNone(report.file)
         mock_create_notification.assert_called_once()
-        mock_html.assert_called_once()
+        mock_from_string.assert_called_once()
 
 
 class TestProcessReportSchedules(TestCase):

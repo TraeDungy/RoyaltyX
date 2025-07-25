@@ -6,7 +6,7 @@ from django.core.files.base import ContentFile
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.timezone import now
-from weasyprint import HTML
+import pdfkit
 
 from apps.analytics.utils import calculate_analytics
 from apps.emails.tasks import task_send_db_template_email
@@ -84,7 +84,7 @@ def generate_report_pdf(report_id, base_url=None):
     }
 
     html_content = render_to_string("report_template.html", context)
-    pdf_file = HTML(string=html_content).write_pdf()
+    pdf_file = pdfkit.from_string(html_content, False)
 
     filename = report.filename or f"rx_report_{uuid.uuid4().hex}.pdf"
     report.file.save(filename, ContentFile(pdf_file))
