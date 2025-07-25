@@ -23,6 +23,7 @@ urlpatterns = [
     path("payments/", include("apps.payments.urls")),
     path("emails/", include("apps.emails.urls")),
     path("fees/", include("apps.fees.urls")),
+    path("", include("common.urls")),
     ## OAuth2
     path("oauth/google/", include("apps.oauth.google.urls")),
     path("oauth/tiktok/", include("apps.oauth.tiktok.urls")),
