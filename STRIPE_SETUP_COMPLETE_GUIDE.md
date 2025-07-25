@@ -1,4 +1,6 @@
 # Complete Stripe Integration Setup Guide
+See [documentation/DOCUMENTATION_OVERVIEW.md](documentation/DOCUMENTATION_OVERVIEW.md) for a full index of guides.
+
 
 ## Current Issue
 - Payments succeed in Stripe ✅

@@ -1,8 +1,12 @@
 # RoyaltyX - Content & Royalty Management Platform
+See [documentation/DOCUMENTATION_OVERVIEW.md](documentation/DOCUMENTATION_OVERVIEW.md) for a full index of guides.
+
 
 ## 🎯 What is RoyaltyX?
 
 RoyaltyX is a comprehensive content and royalty management platform designed to empower content creators, artists, and digital entrepreneurs. Our platform helps you track, manage, and optimize your revenue streams across multiple channels while providing powerful analytics and insights to grow your business.
+
+All available documentation is listed in [Documentation Overview](documentation/DOCUMENTATION_OVERVIEW.md).
 
 ### 🚀 Why RoyaltyX?
 
@@ -377,7 +381,9 @@ docker-compose -f local.yml up -d postgres
 ## 📁 Project Structure
 
 For a high level walkthrough of the repository layout see
-[CODEBASE_OVERVIEW.md](CODEBASE_OVERVIEW.md). For details on individual Django
+[CODEBASE_OVERVIEW.md](CODEBASE_OVERVIEW.md). Detailed analysis of where the
+major features live is available in
+[CODEBASE_ANALYSIS.md](CODEBASE_ANALYSIS.md). For details on individual Django
 apps check [documentation/BACKEND_APPS.md](documentation/BACKEND_APPS.md).
 
 ```
@@ -468,7 +474,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- **Documentation**: Check our comprehensive docs
+- **Documentation**: See [Documentation Overview](documentation/DOCUMENTATION_OVERVIEW.md) for a list of all guides
 - **AI Help Chat**: Use the built-in chat at `/admin/documentation/chat` for quick tips
 - **Issues**: Report bugs on GitHub Issues
 - **Email**: support@royaltyx.com
