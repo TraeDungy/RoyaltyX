@@ -313,7 +313,7 @@ more thorough walkthrough.
    python -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    pip install -r requirements.txt
-   # wkhtmltopdf is required for PDF generation
+   # wkhtmltopdf is required for PDF generation via pdfkit
    # If it's missing, install the binary (Debian/Ubuntu):
    # sudo apt-get install wkhtmltopdf
    python manage.py runserver
