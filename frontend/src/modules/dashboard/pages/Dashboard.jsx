@@ -18,7 +18,7 @@ import {
   DragDropContext,
   Droppable,
   Draggable,
-} from "react-beautiful-dnd";
+} from "@hello-pangea/dnd";
 
 function Dashboard() {
   const { products, loading } = useProducts();
