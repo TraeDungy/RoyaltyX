@@ -1,6 +1,8 @@
 from datetime import date, datetime, timedelta
 from typing import Any, Dict, List, Optional, Union
 
+from dateutil.relativedelta import relativedelta
+
 from django.db.models import Count, DecimalField, ExpressionWrapper, F, QuerySet, Sum
 from django.db.models.functions import TruncDate, TruncHour, TruncMonth, TruncYear
 
@@ -82,16 +84,12 @@ def calculate_yearly_stats(
     for i in range(years):
         if period_end:
             year_date = (
-                (period_end.replace(month=1, day=1) - timedelta(days=i * 365))
-                .replace(month=1, day=1)
-                .date()
-            )
+                period_end.replace(month=1, day=1) - relativedelta(years=i)
+            ).replace(month=1, day=1).date()
         else:
             year_date = (
-                (now.replace(month=1, day=1) - timedelta(days=i * 365))
-                .replace(month=1, day=1)
-                .date()
-            )
+                now.replace(month=1, day=1) - relativedelta(years=i)
+            ).replace(month=1, day=1).date()
 
 
         yearly_stats.append(
@@ -187,14 +185,9 @@ def calculate_monthly_stats(
 
     for i in range(months):
         if end_date:
-            month_date = (
-                (end_date.replace(day=1) - timedelta(days=i * 30))
-                .replace(day=1)
-            )
+            month_date = end_date.replace(day=1) - relativedelta(months=i)
         else:
-            month_date = (
-                now.date().replace(day=1) - timedelta(days=i * 30)
-            ).replace(day=1)
+            month_date = now.date().replace(day=1) - relativedelta(months=i)
 
 
         monthly_stats.append(
