@@ -22,9 +22,8 @@ const CreateNewReport = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
-  const params = new URLSearchParams(location.search);
-
   useEffect(() => {
+    const params = new URLSearchParams(location.search);
     setPeriodStart(params.get("period_start") || "");
     setPeriodEnd(params.get("period_end") || "");
   }, [location.search]);
