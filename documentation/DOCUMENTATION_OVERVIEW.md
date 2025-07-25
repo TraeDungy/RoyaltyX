@@ -14,4 +14,18 @@ This page lists all of the available guides in the `documentation/` directory wi
 | **NON_DOCKER_SETUP.md** | Instructions for running the services directly on your machine without Docker. |
 | **PDF_TEMPLATE_CUSTOMIZER.md** | Documentation for the PDF report template customizer and its options. |
 
+## Additional Root Documentation
+
+The repository root contains several other guides:
+
+- [CODEBASE_OVERVIEW.md](../CODEBASE_OVERVIEW.md) – folder layout and general architecture.
+- [CODEBASE_ANALYSIS.md](../CODEBASE_ANALYSIS.md) – summary of key features and where they live.
+- [CODEBASE_DETAILED_ANALYSIS.md](../CODEBASE_DETAILED_ANALYSIS.md) – in‑depth breakdown of every major component.
+- [PAID_PLANS.md](../PAID_PLANS.md) – overview of subscription tiers and add‑ons.
+- [PAYMENT_INTEGRATION_SUMMARY.md](../PAYMENT_INTEGRATION_SUMMARY.md) – recap of the Stripe integration work.
+- [STRIPE_PAYMENT_INTEGRATION.md](../STRIPE_PAYMENT_INTEGRATION.md) – complete payment flow documentation.
+- [STRIPE_SETUP_COMPLETE_GUIDE.md](../STRIPE_SETUP_COMPLETE_GUIDE.md) – tips for configuring Stripe webhooks.
+- [WEBHOOK_SETUP_INSTRUCTIONS.md](../WEBHOOK_SETUP_INSTRUCTIONS.md) – how to forward Stripe webhooks during development.
+- [WHITE_LABEL_BRANDING.md](../WHITE_LABEL_BRANDING.md) – steps for rebranding the platform.
+- [backend/SUBSCRIPTION_PLANS.md](../backend/SUBSCRIPTION_PLANS.md) – API details for subscription plan endpoints.
 

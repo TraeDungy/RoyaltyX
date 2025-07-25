@@ -58,5 +58,6 @@ Backend tests run with Django's test runner. Frontend tests run via `react-scrip
 Additional guides live in the `documentation/` directory and as Markdown files
 in the repository root. See [README.md](README.md) for setup instructions,
 payment integration details and more. [Documentation/DOCUMENTATION_OVERVIEW.md](documentation/DOCUMENTATION_OVERVIEW.md) lists every guide at a glance. A detailed listing of Django apps is
-available in [documentation/BACKEND_APPS.md](documentation/BACKEND_APPS.md).
+available in [documentation/BACKEND_APPS.md](documentation/BACKEND_APPS.md). For a component-by-component walk-through see
+[CODEBASE_DETAILED_ANALYSIS.md](CODEBASE_DETAILED_ANALYSIS.md).
 
