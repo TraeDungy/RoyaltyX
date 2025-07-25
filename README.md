@@ -78,6 +78,7 @@ For a visual overview of these components see
 - Git
 - Node.js 16+ (for local development)
 - Python 3.11+ (for local development)
+- Memcached 1.6+ (for caching)
 
 ### Installation
 
@@ -105,6 +106,9 @@ For a visual overview of these components see
    # Production environment
    docker-compose -f production.yml up --build
    ```
+   A running Memcached instance is required. Add a `memcached` service to your
+   Docker Compose file or install Memcached locally and set `CACHE_LOCATION` in
+   your `.env`.
    If you want to run the services directly on your machine without Docker,
    follow the steps in
    [Running RoyaltyX Without Docker](documentation/NON_DOCKER_SETUP.md).
@@ -223,6 +227,9 @@ SERVER_EMAIL=your-email@gmail.com
 # Other services
 OPENAI_API_KEY=
 CELERY_BROKER_URL=redis://redis:6379/0
+# Caching
+USE_MEMCACHED=True
+CACHE_LOCATION=127.0.0.1:11211
 LOG_LEVEL=INFO
 ```
 
@@ -428,6 +435,8 @@ RoyaltyX/
    ```bash
    docker-compose -f production.yml up -d --build
    ```
+   Ensure a `memcached` service is running or accessible and that
+   `CACHE_LOCATION` in `.env.production` points to it.
 
 3. **Set up SSL certificate**
    ```bash

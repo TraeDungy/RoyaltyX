@@ -86,12 +86,20 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.memcached.PyMemcacheCache",
-        "LOCATION": "127.0.0.1:11211",
+USE_MEMCACHED = os.getenv("USE_MEMCACHED", "True") == "True"
+CACHE_LOCATION = os.getenv("CACHE_LOCATION", "127.0.0.1:11211")
+
+if USE_MEMCACHED:
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.memcached.PyMemcacheCache",
+            "LOCATION": CACHE_LOCATION,
+        }
     }
-}
+else:
+    CACHES = {
+        "default": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache"}
+    }
 
 ROOT_URLCONF = "royaltyx.urls"
 
