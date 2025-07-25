@@ -11,7 +11,7 @@ This page lists all of the available guides in the `documentation/` directory wi
 | **FEE_SYSTEM.md** | Details the configurable fee rules applied to revenue events. |
 | **INITIAL_SETUP_TUTORIAL.md** | Step‑by‑step walkthrough for getting a local environment running. |
 | **MANUAL_DATA_UPLOAD.md** | Guide to importing sales and impression data from CSV or Excel files. |
-| **MULTI_PRODUCT_ANALYTICS.md** | How to compare analytics across multiple products in one dashboard. |
+| **MULTI_PRODUCT_ANALYTICS.md** | Building a dashboard for comparing analytics across products, with API and UI tips. |
 | **NON_DOCKER_SETUP.md** | Instructions for running the services directly on your machine without Docker. |
 | **PDF_TEMPLATE_CUSTOMIZER.md** | Documentation for the PDF report template customizer and its options. |
 
