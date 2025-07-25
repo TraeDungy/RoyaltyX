@@ -9,6 +9,7 @@ This page lists all of the available guides in the `documentation/` directory wi
 | **API_OVERVIEW.md** | Summary of the main REST endpoints exposed by the backend. |
 | **BACKEND_APPS.md** | Table of Django apps in `backend/apps` with a description of what each one does. |
 | **FEE_SYSTEM.md** | Details the configurable fee rules applied to revenue events. |
+| **HELP_CHAT.md** | How to configure and use the AI-powered help chat feature. |
 | **INITIAL_SETUP_TUTORIAL.md** | Step‑by‑step walkthrough for getting a local environment running. |
 | **MANUAL_DATA_UPLOAD.md** | Guide to importing sales and impression data from CSV or Excel files. |
 | **MULTI_PRODUCT_ANALYTICS.md** | How to compare analytics across multiple products in one dashboard. |
