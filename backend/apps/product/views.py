@@ -77,6 +77,9 @@ def product_detail(request, product_id):
             {"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND
         )
 
+    if product.project_id != request.user.currently_selected_project_id:
+        return Response({"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
+
     if request.method == "GET":
         serializer = ProductSerializer(product)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -140,16 +143,19 @@ def product_user_list_create(request, product_id):
 
 @permission_classes([IsAuthenticated, IsProjectMember])
 class ProductUserDetail(APIView):
-    def get_object(self, product_id, user_id):
+    def get_object(self, request, product_id, user_id):
         try:
-            product = Product.objects.get(id=product_id)
-            product_user = ProductUser.objects.get(product=product, user_id=user_id)
+            product_user = ProductUser.objects.get(
+                product_id=product_id,
+                user_id=user_id,
+                product__project_id=request.user.currently_selected_project_id,
+            )
             return product_user
         except ProductUser.DoesNotExist:
             return None
 
     def get(self, request, product_id, user_id):
-        product_user = self.get_object(product_id, user_id)
+        product_user = self.get_object(request, product_id, user_id)
         if product_user is not None:
             serializer = ProductUserSerializer(product_user)
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -158,7 +164,7 @@ class ProductUserDetail(APIView):
         )
 
     def put(self, request, product_id, user_id):
-        product_user = self.get_object(product_id, user_id)
+        product_user = self.get_object(request, product_id, user_id)
         if product_user is not None:
             if (
                 getattr(request, "project_user_role", None)
@@ -178,7 +184,7 @@ class ProductUserDetail(APIView):
         )
 
     def delete(self, request, product_id, user_id):
-        product_user = self.get_object(product_id, user_id)
+        product_user = self.get_object(request, product_id, user_id)
         if product_user is not None:
             if (
                 getattr(request, "project_user_role", None)
@@ -245,12 +251,20 @@ class ProductImageDetailView(APIView):
     parser_classes = [MultiPartParser, FormParser]
 
     def get(self, request, pk):
-        image = get_object_or_404(ProductImage, pk=pk)
+        image = get_object_or_404(
+            ProductImage,
+            pk=pk,
+            project_id=request.user.currently_selected_project_id,
+        )
         serializer = ProductImageSerializer(image)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def patch(self, request, pk):
-        image = get_object_or_404(ProductImage, pk=pk)
+        image = get_object_or_404(
+            ProductImage,
+            pk=pk,
+            project_id=request.user.currently_selected_project_id,
+        )
         serializer = ProductImageSerializer(image, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -258,6 +272,10 @@ class ProductImageDetailView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
-        image = get_object_or_404(ProductImage, pk=pk)
+        image = get_object_or_404(
+            ProductImage,
+            pk=pk,
+            project_id=request.user.currently_selected_project_id,
+        )
         image.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
