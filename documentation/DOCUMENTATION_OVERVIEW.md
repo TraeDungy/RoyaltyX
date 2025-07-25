@@ -14,4 +14,21 @@ This page lists all of the available guides in the `documentation/` directory wi
 | **NON_DOCKER_SETUP.md** | Instructions for running the services directly on your machine without Docker. |
 | **PDF_TEMPLATE_CUSTOMIZER.md** | Documentation for the PDF report template customizer and its options. |
 
+## Root-Level Guides
+
+The repository root also contains additional guides and references.
+
+| File | Description |
+| ---- | ----------- |
+| **AGENTS.md** | Contributor workflow guidelines and testing instructions. |
+| **CODEBASE_ANALYSIS.md** | Detailed walkthrough of backend apps, frontend modules and infrastructure. |
+| **CODEBASE_OVERVIEW.md** | Summarizes the repository layout and architecture. |
+| **PAID_PLANS.md** | Breakdown of subscription tiers and pricing. |
+| **PAYMENT_INTEGRATION_SUMMARY.md** | Summary of how Stripe is integrated for payments. |
+| **README.md** | Project introduction, setup instructions and FAQ. |
+| **STRIPE_PAYMENT_INTEGRATION.md** | Detailed instructions for connecting to Stripe. |
+| **STRIPE_SETUP_COMPLETE_GUIDE.md** | End-to-end steps for a full Stripe setup. |
+| **WEBHOOK_SETUP_INSTRUCTIONS.md** | How to configure Stripe webhooks. |
+| **WHITE_LABEL_BRANDING.md** | Steps for custom branding and reseller mode. |
+
 
