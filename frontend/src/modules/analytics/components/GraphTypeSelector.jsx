@@ -5,6 +5,7 @@ const GRAPH_TYPES = [
   { id: "line", label: "Line" },
   { id: "bar", label: "Bar" },
   { id: "sharp", label: "Sharp line" },
+  { id: "pie", label: "Pie" },
 ];
 
 export const GraphTypeSelector = ({ open, onClose, onSelectType }) => {

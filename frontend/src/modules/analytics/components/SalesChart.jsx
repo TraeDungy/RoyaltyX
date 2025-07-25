@@ -1,4 +1,4 @@
-import { Line, Bar } from "react-chartjs-2";
+import { Line, Bar, Pie } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -18,6 +18,7 @@ import {
   getBaseLineDataset,
   getSharpLineDataset,
   getBaseBarDataset,
+  getBasePieDataset,
   formatChartLabels,
   getChartTitle,
 } from "../../common/config/chartConfig";
@@ -51,6 +52,9 @@ export const SalesChart = ({ analytics }) => {
       ? getSharpLineDataset
       : salesGraphType === "bar"
       ? getBaseBarDataset
+      : salesGraphType === "pie"
+      ? (label, data) =>
+          getBasePieDataset(label, data, data.map(() => salesGraphColor))
       : getBaseLineDataset;
 
   const data = {
@@ -59,7 +63,12 @@ export const SalesChart = ({ analytics }) => {
   };
 
   const options = getBaseLineChartOptions(CHART_CONFIGS.standard);
-  const ChartComponent = salesGraphType === "bar" ? Bar : Line;
+  const ChartComponent =
+    salesGraphType === "bar"
+      ? Bar
+      : salesGraphType === "pie"
+      ? Pie
+      : Line;
 
   return (
     <div style={{ width: "100%", maxWidth: "700px", margin: "auto" }}>

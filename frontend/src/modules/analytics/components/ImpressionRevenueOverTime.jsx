@@ -1,4 +1,4 @@
-import { Line } from "react-chartjs-2";
+import { Line, Bar } from "react-chartjs-2";
 import { useState } from "react";
 import { EyeSlash, Palette } from "react-bootstrap-icons";
 import { useSettings } from "../../common/contexts/SettingsContext";
@@ -13,10 +13,13 @@ import {
   Card,
   CardContent,
 } from "@mui/material";
-import { EllipsisVertical } from "lucide-react";
+import { EllipsisVertical, BarChart2 } from "lucide-react";
+import GraphTypeSelector from "./GraphTypeSelector";
 import {
   getBaseLineChartOptions,
   getBaseLineDataset,
+  getSharpLineDataset,
+  getBaseBarDataset,
   formatChartLabels,
   getChartTitle,
   CHART_CONFIGS,
@@ -26,6 +29,8 @@ const ImpressionRevenueOverTime = ({ analytics }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const { setShowImpressionRevenueOverTime } = useSettings();
   const [showGraphColorPalette, setShowGraphColorPalette] = useState(false);
+  const [showGraphTypeSelector, setShowGraphTypeSelector] = useState(false);
+  const [graphType, setGraphType] = useState("line");
   const {
     setImpressionRevenueOverTimeGraphColor,
     impressionRevenueOverTimeGraphColor,
@@ -54,19 +59,22 @@ const ImpressionRevenueOverTime = ({ analytics }) => {
     (item) => item.impression_revenue
   );
   const chartTitle = getChartTitle("impression_revenue", granularity);
+  const datasetFn =
+    graphType === "sharp"
+      ? getSharpLineDataset
+      : graphType === "bar"
+      ? getBaseBarDataset
+      : getBaseLineDataset;
 
   const data = {
     labels,
     datasets: [
-      getBaseLineDataset(
-        chartTitle,
-        dataValues,
-        impressionRevenueOverTimeGraphColor
-      ),
+      datasetFn(chartTitle, dataValues, impressionRevenueOverTimeGraphColor),
     ],
   };
 
   const options = getBaseLineChartOptions(CHART_CONFIGS.currency);
+  const ChartComponent = graphType === "bar" ? Bar : Line;
 
   return (
     <>
@@ -121,15 +129,25 @@ const ImpressionRevenueOverTime = ({ analytics }) => {
                       Hide
                     </MenuItem>
                     <MenuItem
-                      onClick={() => {
-                        setShowGraphColorPalette(true);
-                        handleMenuClose();
-                      }}
-                      sx={{ py: 1 }}
-                    >
-                      <Palette style={{ marginRight: 8 }} />
-                      Customize color
-                    </MenuItem>
+                    onClick={() => {
+                      setShowGraphColorPalette(true);
+                      handleMenuClose();
+                    }}
+                    sx={{ py: 1 }}
+                  >
+                    <Palette style={{ marginRight: 8 }} />
+                    Customize color
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      setShowGraphTypeSelector(true);
+                      handleMenuClose();
+                    }}
+                    sx={{ py: 1 }}
+                  >
+                    <BarChart2 style={{ marginRight: 8 }} />
+                    Graph type
+                  </MenuItem>
                   </Menu>
                 </Box>
               </Box>
@@ -148,7 +166,7 @@ const ImpressionRevenueOverTime = ({ analytics }) => {
                 </Typography>
               </Box>
               
-              <Line data={data} options={options} />
+              <ChartComponent data={data} options={options} />
             </Box>
           </CardContent>
         </Card>
@@ -158,6 +176,14 @@ const ImpressionRevenueOverTime = ({ analytics }) => {
         showGraphColorPalette={showGraphColorPalette}
         setShowGraphColorPalette={setShowGraphColorPalette}
         onSelectColor={onSelectColor}
+      />
+      <GraphTypeSelector
+        open={showGraphTypeSelector}
+        onClose={() => setShowGraphTypeSelector(false)}
+        onSelectType={(type) => {
+          setGraphType(type);
+          setShowGraphTypeSelector(false);
+        }}
       />
     </>
   );
