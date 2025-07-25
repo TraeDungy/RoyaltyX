@@ -1,0 +1,74 @@
+[
+  {
+    "name": "discovery",
+    "displayName": "Discovery",
+    "price": "$19",
+    "period": "per month after 30-day trial",
+    "description": "Perfect for getting started",
+    "features": [
+      "Up to 3 projects",
+      "5GB storage",
+      "Basic analytics",
+      "Email support",
+      "Standard templates"
+    ],
+    "limitations": [
+      "Limited integrations",
+      "Basic reporting",
+      "Community support only"
+    ],
+    "popular": false
+  },
+  {
+    "name": "professional",
+    "displayName": "Professional",
+    "price": "$49",
+    "period": "per month",
+    "description": "Best for growing businesses",
+    "features": [
+      "Up to 15 projects",
+      "50GB storage",
+      "Advanced analytics",
+      "Priority support",
+      "Custom templates",
+      "API access",
+      "Team collaboration"
+    ],
+    "limitations": [],
+    "popular": true
+  },
+  {
+    "name": "premium",
+    "displayName": "Premium",
+    "price": "$99",
+    "period": "per month",
+    "description": "For large organizations",
+    "features": [
+      "Unlimited projects",
+      "500GB storage",
+      "Enterprise analytics",
+      "24/7 phone support",
+      "Custom integrations",
+      "White-label options",
+      "Advanced security",
+      "Dedicated account manager"
+    ],
+    "limitations": [],
+    "popular": false
+  },
+  {
+    "name": "enterprise",
+    "displayName": "Enterprise",
+    "price": "Contact",
+    "period": "",
+    "description": "Custom solutions for large teams",
+    "features": [
+      "Unlimited projects",
+      "All integrations",
+      "Dedicated support",
+      "Custom pricing tools"
+    ],
+    "limitations": [],
+    "popular": false
+  }
+]
