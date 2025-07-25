@@ -59,4 +59,6 @@ Additional guides live in the `documentation/` directory and as Markdown files
 in the repository root. See [README.md](README.md) for setup instructions,
 payment integration details and more. [Documentation/DOCUMENTATION_OVERVIEW.md](documentation/DOCUMENTATION_OVERVIEW.md) lists every guide at a glance. A detailed listing of Django apps is
 available in [documentation/BACKEND_APPS.md](documentation/BACKEND_APPS.md).
+For a more thorough walkthrough of each backend app and frontend module see
+[documentation/DEEP_CODE_ANALYSIS.md](documentation/DEEP_CODE_ANALYSIS.md).
 

@@ -13,5 +13,11 @@ This page lists all of the available guides in the `documentation/` directory wi
 | **MANUAL_DATA_UPLOAD.md** | Guide to importing sales and impression data from CSV or Excel files. |
 | **NON_DOCKER_SETUP.md** | Instructions for running the services directly on your machine without Docker. |
 | **PDF_TEMPLATE_CUSTOMIZER.md** | Documentation for the PDF report template customizer and its options. |
+| **DEEP_CODE_ANALYSIS.md** | In‑depth look at each backend app and frontend module. |
 
+Additional high level documents live in the repository root:
+
+- [README.md](../README.md) – Project introduction and setup instructions.
+- [CODEBASE_OVERVIEW.md](../CODEBASE_OVERVIEW.md) – High level folder structure.
+- [CODEBASE_ANALYSIS.md](../CODEBASE_ANALYSIS.md) – Short summary of major features.
 

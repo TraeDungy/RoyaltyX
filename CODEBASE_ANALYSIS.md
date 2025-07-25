@@ -40,4 +40,7 @@ Docker compose files (`local.yml` and `production.yml`) orchestrate PostgreSQL, 
 
 For a more general description of folders see [CODEBASE_OVERVIEW.md](CODEBASE_OVERVIEW.md). The [Documentation Overview](documentation/DOCUMENTATION_OVERVIEW.md) lists every guide available under the `documentation/` directory.
 
+For an expanded walkthrough of every backend app and frontend module see
+[documentation/DEEP_CODE_ANALYSIS.md](documentation/DEEP_CODE_ANALYSIS.md).
+
 
