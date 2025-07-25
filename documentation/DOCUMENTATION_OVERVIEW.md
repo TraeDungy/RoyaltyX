@@ -16,7 +16,7 @@ This page lists all of the available guides in the `documentation/` directory wi
 
 ## Root-Level Guides
 
-The repository root also contains additional guides and references.
+The repository root also contains additional guides and references. Use the table below to quickly navigate them.
 
 | File | Description |
 | ---- | ----------- |
