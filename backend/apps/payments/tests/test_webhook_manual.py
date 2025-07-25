@@ -5,14 +5,14 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
-from .stripe_service import StripeService
+from ..stripe_service import StripeService
 
 logger = logging.getLogger(__name__)
 
 
 @csrf_exempt
 @require_POST
-def test_webhook(request):
+def webhook_test_endpoint(request):
     """Test webhook endpoint that bypasses signature verification"""
     try:
         payload = json.loads(request.body)
