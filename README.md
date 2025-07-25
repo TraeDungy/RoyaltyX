@@ -201,7 +201,8 @@ TWITCH_REDIRECT_URI=https://<ngrok-url>/twitch-oauth-callback
 STRIPE_PUBLISHABLE_KEY=pk_test_...
 STRIPE_SECRET_KEY=sk_test_...
 STRIPE_WEBHOOK_SECRET=whsec_...
-STRIPE_BASIC_PRICE_ID=price_...
+STRIPE_DISCOVERY_PRICE_ID=price_...
+STRIPE_PROFESSIONAL_PRICE_ID=price_...
 STRIPE_PREMIUM_PRICE_ID=price_...
 
 # Email (for notifications)
@@ -223,7 +224,7 @@ LOG_LEVEL=INFO
 ### Stripe Setup (For Payments)
 
 1. Create a Stripe account at https://stripe.com
-2. Create products for Basic ($19.99/month) and Premium ($49.99/month) plans
+2. Create products for Discovery ($19/month after 30-day trial), Professional ($49/month) and Premium ($99/month) plans
 3. Copy the price IDs to your environment variables
 4. Set up webhook endpoint: `https://yourdomain.com/payments/stripe-webhook/`
 5. Subscribe to these webhook events:
@@ -245,9 +246,11 @@ LOG_LEVEL=INFO
 - Role-based access control
 
 ### 💳 Subscription Management
-- **Free Plan**: Basic features for getting started
-- **Basic Plan** ($19.99/month): Advanced features for growing creators
-- **Premium Plan** ($49.99/month): Full feature set for professionals
+See [PAID_PLANS.md](PAID_PLANS.md) for a full breakdown of pricing and perks.
+- **Discovery** (30-day free trial, then $19/mo or $199/yr)
+- **Professional** ($49/mo or $499/yr)
+- **Premium** ($99/mo or $999/yr)
+- **Enterprise** (contact for pricing)
 - Stripe-powered payment processing
 - Automatic billing and subscription management
 - Prorated plan changes and add-on billing
@@ -424,7 +427,7 @@ RoyaltyX/
 
 4. **Enable Celery beat tasks**
    The `celery-beat` service must run to schedule background jobs. This includes
-   a daily task that downgrades users with overdue payments to the free plan.
+   a daily task that downgrades users with overdue payments to the discovery plan.
 
 ### Environment-Specific Configurations
 

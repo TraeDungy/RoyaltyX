@@ -16,11 +16,11 @@ import { useAuth } from "../../contexts/AuthContext";
 
 function SubscriptionSettings() {
   const { subscriptionPlan } = useAuth();
-  const currentPlan = subscriptionPlan || "free";
+  const currentPlan = subscriptionPlan || "discovery";
 
   const planDetails = {
-    free: {
-      name: "Free",
+    discovery: {
+      name: "Discovery",
       description: "Perfect for getting started",
       color: "default",
       features: [
@@ -30,8 +30,8 @@ function SubscriptionSettings() {
         "Email support",
       ],
     },
-    basic: {
-      name: "Basic",
+    professional: {
+      name: "Professional",
       description: "Best for growing businesses",
       color: "secondary",
       features: [
@@ -57,7 +57,7 @@ function SubscriptionSettings() {
     },
   };
 
-  const currentPlanDetails = planDetails[currentPlan] || planDetails.free;
+  const currentPlanDetails = planDetails[currentPlan] || planDetails.discovery;
 
   const handleManagePlans = () => {
     window.location.href = "/account/membership";

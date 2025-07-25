@@ -23,7 +23,7 @@ export const UpgradePlanButton = () => {
         onClick={handleUpgradeClick}
       >
         <Flame size={18} style={{ marginRight: 6 }} />
-        {subscriptionPlan === "free" ? "Upgrade Plan" : "Change Plan"}
+        {subscriptionPlan === "discovery" ? "Upgrade Plan" : "Change Plan"}
       </Button>
     </Box>
   );

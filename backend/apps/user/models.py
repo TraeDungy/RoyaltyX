@@ -55,9 +55,10 @@ class User(AbstractBaseUser):
     ]
 
     SUBSCRIPTION_PLAN_CHOICES = [
-        ("free", "Free"),
-        ("basic", "Basic"),
+        ("discovery", "Discovery"),
+        ("professional", "Professional"),
         ("premium", "Premium"),
+        ("enterprise", "Enterprise"),
     ]
 
     SUBSCRIPTION_STATUS_CHOICES = [
@@ -83,7 +84,7 @@ class User(AbstractBaseUser):
     verification_code = models.CharField(max_length=30, null=True)
     avatar = models.CharField(null=True, max_length=300)
     subscription_plan = models.CharField(
-        max_length=10, choices=SUBSCRIPTION_PLAN_CHOICES, default="free"
+        max_length=15, choices=SUBSCRIPTION_PLAN_CHOICES, default="discovery"
     )
     # Stripe-related fields
     stripe_customer_id = models.CharField(max_length=255, null=True, blank=True)

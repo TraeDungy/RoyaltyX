@@ -3,7 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import MembershipPage from './Membership';
 
 jest.mock('../../common/contexts/AuthContext', () => ({
-  useAuth: () => ({ subscriptionPlan: 'free', setSubscriptionPlan: jest.fn() })
+  useAuth: () => ({ subscriptionPlan: 'discovery', setSubscriptionPlan: jest.fn() })
 }));
 
 jest.mock('../api/subscription', () => ({
@@ -23,8 +23,8 @@ describe('MembershipPage', () => {
       </BrowserRouter>
     );
     expect(screen.getByText(/Available Plans/i)).toBeInTheDocument();
-    expect(screen.getAllByText(/Free/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/Basic/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Discovery/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Professional/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/Premium/i).length).toBeGreaterThan(0);
   });
 });

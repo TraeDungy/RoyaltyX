@@ -35,7 +35,7 @@ class PaymentViewsTests(TestCase):
         mock_session = MagicMock(id="sess_1", url="http://stripe.test")
         mock_create.return_value = mock_session
         url = reverse("payments.create_checkout_session")
-        response = self.client.post(url, {"plan": "basic"})
+        response = self.client.post(url, {"plan": "professional"})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["checkout_url"], "http://stripe.test")
 
@@ -47,13 +47,13 @@ class PaymentViewsTests(TestCase):
     @patch("apps.payments.views.StripeService.cancel_subscription")
     def test_cancel_subscription_success(self, mock_cancel):
         self.user.stripe_subscription_id = "sub_1"
-        self.user.subscription_plan = "basic"
+        self.user.subscription_plan = "professional"
         self.user.save()
         url = reverse("payments.cancel_subscription")
         response = self.client.post(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.user.refresh_from_db()
-        self.assertEqual(self.user.subscription_plan, "free")
+        self.assertEqual(self.user.subscription_plan, "discovery")
         mock_cancel.assert_called_once_with("sub_1")
 
     def test_subscription_status(self):
@@ -65,7 +65,7 @@ class PaymentViewsTests(TestCase):
     @patch("apps.payments.views.stripe.checkout.Session.retrieve")
     def test_verify_session_success(self, mock_retrieve):
         mock_retrieve.return_value = MagicMock(
-            payment_status="paid", metadata={"plan": "basic"}
+            payment_status="paid", metadata={"plan": "professional"}
         )
         url = reverse("payments.verify_session") + "?session_id=sess_1"
         response = self.client.get(url)

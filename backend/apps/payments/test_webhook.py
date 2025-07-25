@@ -58,7 +58,7 @@ def test_webhook(request):
 
             try:
                 user = StripeService.handle_subscription_deleted(subscription)
-                logger.info("Downgraded user %s to free plan", user.email)
+                logger.info("Downgraded user %s to discovery plan", user.email)
             except Exception as e:
                 logger.error("Error handling subscription deletion: %s", e)
 

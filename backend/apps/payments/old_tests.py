@@ -34,9 +34,9 @@ class PaymentRegressionTests(TestCase):
 
         with patch.dict(
             "os.environ",
-            {"STRIPE_BASIC_PRICE_ID": "price_basic", "REACT_APP_URL": "http://x"},
+            {"STRIPE_PROFESSIONAL_PRICE_ID": "price_prof", "REACT_APP_URL": "http://x"},
         ):
-            session = StripeService.create_checkout_session(self.user, "basic", [addon])
+            session = StripeService.create_checkout_session(self.user, "professional", [addon])
 
         self.assertEqual(session.id, "sess_1")
         mock_create.assert_called_once()
@@ -45,7 +45,7 @@ class PaymentRegressionTests(TestCase):
         self.assertEqual(
             kwargs["line_items"],
             [
-                {"price": "price_basic", "quantity": 1},
+                {"price": "price_prof", "quantity": 1},
                 {"price": "price_add", "quantity": 1},
             ],
         )

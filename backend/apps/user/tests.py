@@ -35,8 +35,8 @@ class SubscriptionPlanTests(TestCase):
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.access_token}')
 
     def test_user_default_subscription_plan(self):
-        """Test that new users have 'free' as default subscription plan"""
-        self.assertEqual(self.user.subscription_plan, "free")
+        """Test that new users have 'discovery' as default subscription plan"""
+        self.assertEqual(self.user.subscription_plan, "discovery")
 
     def test_get_subscription_plan(self):
         """Test getting current user's subscription plan"""
@@ -44,7 +44,7 @@ class SubscriptionPlanTests(TestCase):
         response = self.client.get(url)
         
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["subscription_plan"], "free")
+        self.assertEqual(response.data["subscription_plan"], "discovery")
 
     def test_get_available_plans(self):
         """Test getting all available subscription plans"""
@@ -55,16 +55,17 @@ class SubscriptionPlanTests(TestCase):
         self.assertIn("plans", response.data)
         
         expected_plans = [
-            {"value": "free", "label": "Free"},
-            {"value": "basic", "label": "Basic"},
-            {"value": "premium", "label": "Premium"}
+            {"value": "discovery", "label": "Discovery"},
+            {"value": "professional", "label": "Professional"},
+            {"value": "premium", "label": "Premium"},
+            {"value": "enterprise", "label": "Enterprise"}
         ]
         self.assertEqual(response.data["plans"], expected_plans)
 
-    def test_change_subscription_plan_to_basic(self):
-        """Test changing subscription plan to basic"""
+    def test_change_subscription_plan_to_professional(self):
+        """Test changing subscription plan to professional"""
         url = reverse("user.change_subscription_plan")
-        data = {"subscription_plan": "basic"}
+        data = {"subscription_plan": "professional"}
         response = self.client.post(url, data, format="json")
 
         self.assertEqual(response.status_code, status.HTTP_402_PAYMENT_REQUIRED)
@@ -72,7 +73,7 @@ class SubscriptionPlanTests(TestCase):
 
         # Verify the plan was not changed in the database
         self.user.refresh_from_db()
-        self.assertEqual(self.user.subscription_plan, "free")
+        self.assertEqual(self.user.subscription_plan, "discovery")
 
     def test_change_subscription_plan_to_premium(self):
         """Test changing subscription plan to premium"""
@@ -84,7 +85,7 @@ class SubscriptionPlanTests(TestCase):
         self.assertTrue(response.data.get("requires_payment"))
 
         self.user.refresh_from_db()
-        self.assertEqual(self.user.subscription_plan, "free")
+        self.assertEqual(self.user.subscription_plan, "discovery")
 
     def test_change_subscription_plan_invalid_plan(self):
         """Test changing subscription plan with invalid plan name"""
@@ -105,7 +106,7 @@ class SubscriptionPlanTests(TestCase):
         self.client.credentials()
         
         url = reverse("user.change_subscription_plan")
-        data = {"subscription_plan": "basic"}
+        data = {"subscription_plan": "professional"}
         response = self.client.post(url, data, format="json")
         
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
@@ -127,4 +128,4 @@ class SubscriptionPlanTests(TestCase):
         
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("subscription_plan", response.data)
-        self.assertEqual(response.data["subscription_plan"], "free")
+        self.assertEqual(response.data["subscription_plan"], "discovery")

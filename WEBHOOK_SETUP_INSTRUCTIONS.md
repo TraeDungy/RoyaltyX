@@ -51,11 +51,11 @@ if session.payment_status == 'paid':
     
     # Determine plan
     if price_id == 'price_1RjnbVC53oE1RMOr3mg8xoAn':
-        plan = 'basic'
+        plan = 'professional'
     elif price_id == 'price_1Rk6gAC53oE1RMOrQ14oT7w4':
         plan = 'premium'
     else:
-        plan = 'basic'
+        plan = 'discovery'
     
     mock_session = {
         'id': session.id,

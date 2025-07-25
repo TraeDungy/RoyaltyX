@@ -32,7 +32,7 @@ POST /payments/stripe-webhook/           # Handle Stripe webhooks
 
 ### 4. Updated User Endpoints
 - `POST /users/subscription-plan/change/` now handles payment flow:
-  - **Free plan**: Direct downgrade (cancels Stripe subscription)
+  - **Discovery plan**: Direct downgrade (cancels Stripe subscription)
   - **Paid plans**: Returns payment required response with checkout URL
 
 ## ✅ Frontend Integration
@@ -54,7 +54,7 @@ POST /payments/stripe-webhook/           # Handle Stripe webhooks
 
 ## 🔄 Payment Flow
 
-### Upgrade Flow (Free → Paid)
+### Upgrade Flow (Trial → Paid)
 1. User clicks "Upgrade" → Confirmation dialog
 2. User confirms → API creates Stripe checkout session
 3. User redirected to Stripe checkout page
@@ -62,17 +62,17 @@ POST /payments/stripe-webhook/           # Handle Stripe webhooks
 5. Backend processes webhook → Updates user subscription
 6. User redirected back → Frontend verifies and shows success
 
-### Downgrade Flow (Paid → Free)
+### Downgrade Flow (Paid → Discovery)
 1. User clicks "Downgrade" → Confirmation dialog
 2. User confirms → API cancels Stripe subscription
-3. Backend updates user to free plan
+3. Backend updates user to discovery plan
 4. Frontend shows success message
 
 ### Payment Failure Handling
 1. Stripe payment fails → Webhook fired
 2. Backend updates status to `past_due`
 3. User enters grace period (7 days)
-4. If not resolved → Automatic downgrade to free
+4. If not resolved → Automatic downgrade to discovery
 
 ## 🔧 Configuration Required
 
@@ -82,12 +82,13 @@ POST /payments/stripe-webhook/           # Handle Stripe webhooks
 STRIPE_PUBLISHABLE_KEY=pk_test_...
 STRIPE_SECRET_KEY=sk_test_...
 STRIPE_WEBHOOK_SECRET=whsec_...
-STRIPE_BASIC_PRICE_ID=price_...
+STRIPE_DISCOVERY_PRICE_ID=price_...
+STRIPE_PROFESSIONAL_PRICE_ID=price_...
 STRIPE_PREMIUM_PRICE_ID=price_...
 ```
 
 ### Stripe Dashboard Setup
-1. **Create Products**: Basic ($19.99/month) and Premium ($49.99/month)
+1. **Create Products**: Discovery ($19/month after 30-day trial), Professional ($49/month) and Premium ($99/month)
 2. **Get Price IDs**: Copy the price IDs for environment variables
 3. **Setup Webhook**: Point to `https://yourdomain.com/payments/stripe-webhook/`
 4. **Configure Events**: Subscribe to payment and subscription events
@@ -97,7 +98,7 @@ STRIPE_PREMIUM_PRICE_ID=price_...
 ### Backend Tests ✅
 - **API endpoints**: All working correctly
 - **Payment flow**: Properly redirects to Stripe for paid plans
-- **Downgrade flow**: Successfully downgrades to free
+- **Downgrade flow**: Successfully downgrades to discovery
 - **Webhook handling**: Ready for Stripe events
 - **Database integration**: All fields working properly
 
@@ -112,7 +113,7 @@ STRIPE_PREMIUM_PRICE_ID=price_...
 
 ### What Works Now
 - **Complete payment infrastructure** in place
-- **Downgrade to free** works immediately
+- **Downgrade to discovery** works immediately
 - **API endpoints** ready for Stripe integration
 - **Frontend** ready for payment processing
 - **Webhook handling** configured for automatic processing
@@ -126,7 +127,7 @@ STRIPE_PREMIUM_PRICE_ID=price_...
 
 ### 1. Stripe Account Setup
 - Create Stripe account (if not already done)
-- Create Basic and Premium products
+- Create Discovery, Professional and Premium products
 - Get API keys and price IDs
 - Add environment variables
 
