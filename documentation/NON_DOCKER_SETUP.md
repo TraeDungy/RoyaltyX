@@ -45,7 +45,7 @@ python -m venv venv
 source venv/bin/activate  # On Windows use `venv\Scripts\activate`
 pip install -r requirements.txt
 
-# wkhtmltopdf is required for PDF generation.
+# wkhtmltopdf is required for PDF generation via pdfkit.
 # If it's missing, install the binary. On Debian/Ubuntu:
 # sudo apt-get install wkhtmltopdf
 ```
