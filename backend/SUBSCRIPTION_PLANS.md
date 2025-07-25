@@ -148,7 +148,7 @@ Comprehensive tests have been implemented in `apps/user/tests.py` covering:
 
 Run tests with:
 ```bash
-docker-compose -f local.yml exec backend python manage.py test apps.user.tests.SubscriptionPlanTests
+docker compose -f local.yml exec backend python manage.py test apps.user.tests.SubscriptionPlanTests
 ```
 
 ## Migration
