@@ -25,6 +25,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      memcached:
+        condition: service_started
     env_file:
       - .env
 
@@ -74,6 +76,11 @@ services:
     image: redis:7
     ports:
       - "6379:6379"
+
+  memcached:
+    image: memcached:1.6
+    ports:
+      - "11211:11211"
 
   flower:
     build:
