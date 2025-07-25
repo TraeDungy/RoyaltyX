@@ -381,10 +381,12 @@ docker-compose -f local.yml up -d postgres
 ## 📁 Project Structure
 
 For a high level walkthrough of the repository layout see
-[CODEBASE_OVERVIEW.md](CODEBASE_OVERVIEW.md). Detailed analysis of where the
+[CODEBASE_OVERVIEW.md](CODEBASE_OVERVIEW.md). A summary of where the
 major features live is available in
-[CODEBASE_ANALYSIS.md](CODEBASE_ANALYSIS.md). For details on individual Django
-apps check [documentation/BACKEND_APPS.md](documentation/BACKEND_APPS.md).
+[CODEBASE_ANALYSIS.md](CODEBASE_ANALYSIS.md). For an even deeper dive into each
+component read [CODEBASE_DETAILED_ANALYSIS.md](CODEBASE_DETAILED_ANALYSIS.md).
+For details on individual Django apps check
+[documentation/BACKEND_APPS.md](documentation/BACKEND_APPS.md).
 
 ```
 RoyaltyX/
