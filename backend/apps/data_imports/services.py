@@ -7,6 +7,7 @@ from apps.product.models import ProductImpressions, ProductSale
 from .models import Dataset, File, ImportTemplate
 from .serializers import DatasetSerializer, FileSerializer
 from .utils.report_processing import (
+    COLUMN_ALIASES,
     detect_headers,
     header_signature,
     parse_date_string,
@@ -44,13 +45,16 @@ def create_file(file, data):
                 if parsed:
                     month = parsed.month
                     year = parsed.year
-    except Exception:
-        pass
+    except Exception as e:  # pragma: no cover - log parsing failures
+        logger.warning("Failed to derive date from report: %s", e)
 
     if detected:
         month, year = detected
 
     headers = detect_headers(file)
+    unknown = [h for h in headers if h not in COLUMN_ALIASES]
+    if unknown:
+        logger.info("Unknown headers on file upload: %s", unknown)
     signature = header_signature(headers)
     template = None
     if headers:

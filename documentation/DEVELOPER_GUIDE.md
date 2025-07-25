@@ -35,4 +35,14 @@ application to a custom domain:
 ./scripts/update-domain.sh yourdomain.com
 ```
 
+## Debugging Data Imports
+
+During development you may want verbose logs from the data import tasks.
+Set `DJANGO_LOG_LEVEL=DEBUG` before running the backend to capture detailed
+messages, especially when parsing report files. See
+[Data Import Debugging](DATA_IMPORT_DEBUGGING.md) for troubleshooting advice.
+The importer logs unknown headers so you can update the column mapping during
+development.
+
+
 

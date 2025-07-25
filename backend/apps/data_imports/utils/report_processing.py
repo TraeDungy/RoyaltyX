@@ -51,8 +51,8 @@ def parse_date_string(text: str) -> Optional[datetime]:
     text = str(text).strip()
     try:
         return datetime.fromisoformat(text)
-    except Exception:
-        pass
+    except Exception as e:  # pragma: no cover - log parsing failures
+        logger.debug("ISO date parse failed for '%s': %s", text, e)
 
     for fmt in (
         "%Y-%m-%d",
@@ -66,7 +66,13 @@ def parse_date_string(text: str) -> Optional[datetime]:
     ):
         try:
             return datetime.strptime(text, fmt)
-        except Exception:
+        except Exception as e:  # pragma: no cover - log parsing failures
+            logger.debug(
+                "Date parse failed for '%s' using format '%s': %s",
+                text,
+                fmt,
+                e,
+            )
             continue
     return None
 
@@ -195,6 +201,14 @@ def read_csv(
     if custom_mapping:
         headers_map.update(custom_mapping)
 
+    unknown = [
+        h
+        for h in reader.fieldnames
+        if map_header(h) == h and h not in COLUMN_ALIASES
+    ]
+    if unknown:
+        logger.info("Unknown headers found in CSV: %s", unknown)
+
     data = []
     for row in reader:
         normalized = {headers_map.get(k, k): v for k, v in row.items()}
@@ -209,7 +223,7 @@ def validate_excel(file: BinaryIO) -> bool:
         file.seek(0)
         return True
     except Exception as e:  # pragma: no cover - log the error for debugging
-        print(f"Excel validation error: {e}")
+        logger.error("Excel validation error: %s", e)
         return False
 
 
@@ -228,6 +242,14 @@ def read_excel(
     headers = [map_header(str(h)) for h in rows[0]]
     if custom_mapping:
         headers = [custom_mapping.get(h, h) for h in headers]
+
+    unknown = [
+        orig
+        for orig, mapped in zip(rows[0], headers)
+        if map_header(str(orig)) == mapped and mapped not in COLUMN_ALIASES
+    ]
+    if unknown:
+        logger.info("Unknown headers found in Excel: %s", unknown)
 
     data: List[Dict[str, Any]] = []
     for row in rows[1:]:
@@ -298,23 +320,30 @@ def process_report(
             "message": f"Updated {result['updated']} products",
         }
     except Exception as e:
+        logger.exception("Error processing report")
         return {"status": "error", "message": str(e)}
 
 
 def storeProductSales(row: Dict[str, Any], product: Product, file_id: int) -> None:
-    ProductSale.objects.create(
-        product=product,
-        type=(row.get("Consumption Type") or "").lower(),
-        unit_price=Decimal(row.get("Unit Price")),
-        unit_price_currency=row.get("Unit Price Currency"),
-        quantity=Decimal(row.get("Quantity")),
-        is_refund=row.get("Is Refund") == "Yes",
-        royalty_amount=Decimal(row.get("Royalty Amount")),
-        royalty_currency=row.get("Royalty Currency"),
-        period_start=row.get("Period Start"),
-        period_end=row.get("Period End"),
-        from_file_id=file_id,
-    )
+    if not row.get("Period Start") or not row.get("Period End"):
+        logger.warning("Skipping sale row due to missing dates: %s", row)
+        return
+    try:
+        ProductSale.objects.create(
+            product=product,
+            type=(row.get("Consumption Type") or "").lower(),
+            unit_price=Decimal(row.get("Unit Price")),
+            unit_price_currency=row.get("Unit Price Currency"),
+            quantity=Decimal(row.get("Quantity")),
+            is_refund=row.get("Is Refund") == "Yes",
+            royalty_amount=Decimal(row.get("Royalty Amount")),
+            royalty_currency=row.get("Royalty Currency"),
+            period_start=row.get("Period Start"),
+            period_end=row.get("Period End"),
+            from_file_id=file_id,
+        )
+    except Exception as e:
+        logger.error("Failed to store product sale: %s", e)
 
 
 def storeProductImpressions(

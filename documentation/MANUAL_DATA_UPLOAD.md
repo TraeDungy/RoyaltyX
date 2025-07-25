@@ -42,4 +42,11 @@ Successful uploads create `ProductSale` and `ProductImpressions` records. Analyt
 For an overview of how fees are applied to revenue see
 [FEE_SYSTEM.md](FEE_SYSTEM.md).
 
+## Troubleshooting Imports
+
+If an upload fails or a dataset remains in the `error` state, consult the
+backend logs. The import utilities log detailed messages when they encounter
+problems parsing dates, mapping columns, or processing rows. See
+[Data Import Debugging](DATA_IMPORT_DEBUGGING.md) for examples and tips.
+
 
