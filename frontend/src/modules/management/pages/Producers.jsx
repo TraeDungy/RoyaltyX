@@ -7,9 +7,11 @@ import AddProducerForm from "../components/AddProducerForm";
 import { PersonXFill, Wrench } from "react-bootstrap-icons";
 import ModifyFeeModal from "../components/ModifyFeeModal";
 import { useProducts } from "../../products/api/products";
+import { useProducerMap } from "../../projects/api/project";
 
 const Producers = () => {
   const { products } = useProducts();
+  const { producerMap } = useProducerMap();
   const [showModifyFeeModal, setShowModifyFeeModal] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState();
   const [selectedProductId, setSelectedProductId] = useState();
@@ -57,56 +59,57 @@ const Producers = () => {
       <ProducerUploadInput />
       <AddProducerForm />
 
-      {products?.length > 0 && (
+      {producerMap?.length > 0 && (
         <div className="mt-5">
           <h5 className="mb-3">Producer assignments</h5>
           <table className="table table-bordered">
             <thead>
               <tr>
                 <th>Producer</th>
+                <th>Project</th>
                 <th>Product</th>
                 <th>Producer Fee</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {products
-                .filter((product) => product.users?.length > 0)
-                .map((product) => (
-                  <tr key={product.id}>
-                    <td>{product?.users?.[0]?.user_details?.email}</td>
-                    <td>{product.title}</td>
-                    <td>{product?.users?.[0]?.producer_fee}%</td>
-                    <td className="d-flex align-items-center">
-                      <div className="px-1">
-                        <button
-                          onClick={() =>
-                            handleOpenModifyFeeModal(
-                              product.id,
-                              product?.users?.[0].user_details.id,
-                            )
-                          }
-                          className="btn btn-basic"
-                        >
-                          <Wrench className="me-2" /> Modify fee
-                        </button>
-                      </div>
-                      <div className="px-1">
-                        <button
-                          onClick={() =>
-                            handleUnassignProducer(
-                              product.id,
-                              product?.users?.[0].user_details.id,
-                            )
-                          }
-                          className="btn btn-basic"
-                        >
-                          <PersonXFill className="text-danger me-2" /> Unassign
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+              {producerMap.flatMap((project) =>
+                project.products.flatMap((product) =>
+                  product.producers.map((producer) => (
+                    <tr key={`${project.id}-${product.id}-${producer.id}`}>
+                      <td>{producer.email}</td>
+                      <td>{project.name}</td>
+                      <td>{product.title}</td>
+                      <td>{producer.producer_fee}%</td>
+                      <td className="d-flex align-items-center">
+                        {product.id && (
+                          <>
+                            <div className="px-1">
+                              <button
+                                onClick={() =>
+                                  handleOpenModifyFeeModal(product.id, producer.id)
+                                }
+                                className="btn btn-basic"
+                              >
+                                <Wrench className="me-2" /> Modify fee
+                              </button>
+                            </div>
+                            <div className="px-1">
+                              <button
+                                onClick={() =>
+                                  handleUnassignProducer(product.id, producer.id)
+                                }
+                                className="btn btn-basic"
+                              >
+                                <PersonXFill className="text-danger me-2" /> Unassign
+                              </button>
+                            </div>
+                          </>
+                        )}
+                      </td>
+                    </tr>
+                  )),
+                )).filter(Boolean)}
             </tbody>
           </table>
         </div>

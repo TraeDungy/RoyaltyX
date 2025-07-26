@@ -7,6 +7,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from apps.product.models import Product, ProductUser
+
 from .models import Project, ProjectUser
 from .permissions import IsProjectMember, IsProjectOwner
 from .serializers import ProjectSerializer, ProjectUserSerializer
@@ -176,3 +178,49 @@ def deleteProject(request):
     return Response(
         {"message": "Project deleted successfully"}, status=status.HTTP_204_NO_CONTENT
     )
+
+
+class ProducerMapView(APIView):
+    """Return mapping of projects, products and their producers for owners."""
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        projects = (
+            Project.objects.filter(
+                project_users__user=user,
+                project_users__role=ProjectUser.PROJECT_USER_ROLE_OWNER,
+            )
+            .prefetch_related("product_set__productuser_set__user")
+            .distinct()
+        )
+
+        data = []
+        for project in projects:
+            project_info = {
+                "id": project.id,
+                "name": project.name,
+                "products": [],
+            }
+            for product in project.product_set.all():
+                producers = [
+                    {
+                        "id": pu.user.id,
+                        "email": pu.user.email,
+                        "producer_fee": pu.producer_fee,
+                    }
+                    for pu in product.productuser_set.all()
+                ]
+                if producers:
+                    project_info["products"].append(
+                        {
+                            "id": product.id,
+                            "title": product.title,
+                            "producers": producers,
+                        }
+                    )
+            if project_info["products"]:
+                data.append(project_info)
+
+        return Response(data, status=status.HTTP_200_OK)
