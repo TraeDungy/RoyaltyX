@@ -8,6 +8,7 @@ from rest_framework import status
 from rest_framework.test import APIClient
 
 from apps.project.models import Project, ProjectUser
+from apps.product.models import Product, ProductUser
 
 User = get_user_model()
 
@@ -201,3 +202,84 @@ class ProjectUserViewDeleteTests(TestCase):
         response = self.client.delete(delete_url)
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+class ProducerMapViewTests(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+        self.User = get_user_model()
+
+        random_number = "".join(random.choices(string.digits, k=4))
+        self.owner = self.User.objects.create_user(
+            email=f"owner_{random_number}@test.com",
+            name="Owner",
+            password="pass1234",
+        )
+
+        self.other_owner = self.User.objects.create_user(
+            email=f"other_{random_number}@test.com",
+            name="Other Owner",
+            password="pass1234",
+        )
+
+        # projects
+        self.project1 = Project.objects.create(name="Project Map 1")
+        self.project2 = Project.objects.create(name="Project Map 2")
+        self.project_other = Project.objects.create(name="Project Other")
+
+        ProjectUser.objects.create(
+            project=self.project1,
+            user=self.owner,
+            role=ProjectUser.PROJECT_USER_ROLE_OWNER,
+        )
+        ProjectUser.objects.create(
+            project=self.project2,
+            user=self.owner,
+            role=ProjectUser.PROJECT_USER_ROLE_OWNER,
+        )
+        ProjectUser.objects.create(
+            project=self.project_other,
+            user=self.other_owner,
+            role=ProjectUser.PROJECT_USER_ROLE_OWNER,
+        )
+
+        self.owner.currently_selected_project = self.project1
+        self.owner.save()
+
+        # producers and products
+        self.producer1 = self.User.objects.create_user(
+            email=f"producer1_{random_number}@test.com",
+            name="Producer1",
+            password="pass1234",
+        )
+        self.producer2 = self.User.objects.create_user(
+            email=f"producer2_{random_number}@test.com",
+            name="Producer2",
+            password="pass1234",
+        )
+
+        self.product1 = Product.objects.create(project=self.project1, title="Prod A")
+        self.product2 = Product.objects.create(project=self.project2, title="Prod B")
+        self.product_other = Product.objects.create(project=self.project_other, title="Prod C")
+
+        ProductUser.objects.create(product=self.product1, user=self.producer1, producer_fee=10)
+        ProductUser.objects.create(product=self.product2, user=self.producer2, producer_fee=20)
+        ProductUser.objects.create(product=self.product_other, user=self.producer1, producer_fee=30)
+
+        self.client.force_authenticate(user=self.owner)
+        self.url = reverse("producer-map")
+
+    def test_producer_map_returns_owned_projects(self):
+        res = self.client.get(self.url)
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        project_ids = {p["id"] for p in res.data}
+        self.assertIn(self.project1.id, project_ids)
+        self.assertIn(self.project2.id, project_ids)
+        self.assertNotIn(self.project_other.id, project_ids)
+
+    def test_producer_map_structure(self):
+        res = self.client.get(self.url)
+        first_project = next(p for p in res.data if p["id"] == self.project1.id)
+        self.assertEqual(first_project["products"][0]["title"], "Prod A")
+        producer_email = first_project["products"][0]["producers"][0]["email"]
+        self.assertEqual(producer_email, self.producer1.email)
+

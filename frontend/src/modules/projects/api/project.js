@@ -1,4 +1,5 @@
 import { apiUrl } from "../../common/api/config";
+import useFetch from "../../global/hooks/useFetch";
 
 export const getMyProjects = async () => {
   try {
@@ -186,4 +187,15 @@ export const deleteProject = async () => {
   } catch (error) {
     return error;
   }
+};
+
+export const useProducerMap = () => {
+  const { data, loading, error, refetch } = useFetch("/projects/producer-map/");
+
+  return {
+    producerMap: data,
+    loading,
+    error,
+    refetch,
+  };
 };
